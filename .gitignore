@@ -39,4 +39,5 @@ nosetests.xml
 *.xcuserdatad
 *.xcscheme
 xcuserdata/*
-
+*.xccheckout
+xcuserdata
