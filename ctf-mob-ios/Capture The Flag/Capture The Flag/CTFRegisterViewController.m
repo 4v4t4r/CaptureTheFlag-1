@@ -48,7 +48,10 @@
     if ([_passwordTF.text isEqualToString:_rePasswordTF.text])
         passwordResult = [CTFCredentialValidator validCredential:_passwordTF.text withType:CredentialTypePassword];
     else
+    {
         _statusLabel.text = NSLocalizedString(@"view.register.label.status.different_password", nil);
+        return;
+    }
     
     if (emailResult == ValidationOK &&
         usernameResult == ValidationOK &&

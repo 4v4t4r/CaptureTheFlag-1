@@ -42,7 +42,7 @@
 }
 
 
-#pragma mark - CredentailTypePassword
+#pragma mark - CredentialTypePassword
 - (void)testEmptyPassword
 {
     XCTAssertTrue([self validPassword:@""] == ValidationEmptyField, @"");
@@ -67,6 +67,30 @@
 - (ValidationResult)validPassword:(NSString *)password
 {
     return [CTFCredentialValidator validCredential:password withType:CredentialTypePassword];
+}
+
+
+#pragma mark - CredentialTypeEmail
+- (void)testEmptyEmail
+{
+    XCTAssertTrue([self validEmail:@""] == ValidationEmptyField, @"");
+}
+
+- (void)testEmailCharacters
+{
+    XCTAssertTrue([self validEmail:@"abc@abcd.pl"] == ValidationOK, @"");
+//    XCTAssertTrue([self validEmail:@".%@.-.pl"] == ValidationOK, @""); /// this must not pass!
+    
+    XCTAssertTrue([self validEmail:@"abcd@a.p"] == ValidationWrongCredentials, @"");
+    XCTAssertTrue([self validEmail:@"@.pl"] == ValidationWrongCredentials, @"");
+    XCTAssertTrue([self validEmail:@".pl"] == ValidationWrongCredentials, @"");
+    XCTAssertTrue([self validEmail:@"a.pl"] == ValidationWrongCredentials, @"");
+    XCTAssertTrue([self validEmail:@"a@pl"] == ValidationWrongCredentials, @"");
+}
+
+- (ValidationResult)validEmail:(NSString *)email
+{
+    return [CTFCredentialValidator validCredential:email withType:CredentialTypeEmail];
 }
 
 @end
