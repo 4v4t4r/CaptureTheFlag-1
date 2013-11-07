@@ -7,6 +7,7 @@
 //
 
 #import "CTFRegisterViewController.h"
+#import "CTFCredentialValidator.h"
 
 @implementation CTFRegisterViewController
 
@@ -40,7 +41,34 @@
 
 - (IBAction)registerPressed
 {
-    /// Not implemented yet.
+    ValidationResult emailResult = [CTFCredentialValidator validCredential:_emailTF.text withType:CredentialTypeEmail];
+    ValidationResult usernameResult = [CTFCredentialValidator validCredential:_usernameTF.text withType:CredentialTypeUsername];
+    
+    ValidationResult passwordResult = ValidationWrongCredentials;
+    if ([_passwordTF.text isEqualToString:_rePasswordTF.text])
+        passwordResult = [CTFCredentialValidator validCredential:_passwordTF.text withType:CredentialTypePassword];
+    else
+        _statusLabel.text = NSLocalizedString(@"view.register.label.status.different_password", nil);
+    
+    if (emailResult == ValidationOK &&
+        usernameResult == ValidationOK &&
+        passwordResult == ValidationOK)
+    {
+        _statusLabel.text = NSLocalizedString(@"view.register.label.status.registered", nil);
+        [self.view endEditing:YES];
+    }
+    else if (emailResult == ValidationEmptyField ||
+             usernameResult == ValidationEmptyField ||
+             passwordResult == ValidationEmptyField)
+    {
+        _statusLabel.text = NSLocalizedString(@"view.register.label.status.empty_field", nil);
+    }
+    else if (emailResult == ValidationWrongCredentials ||
+             usernameResult == ValidationWrongCredentials ||
+             passwordResult == ValidationWrongCredentials)
+    {
+        _statusLabel.text = NSLocalizedString(@"view.register.label.status.wrong_credentials", nil);
+    }
 }
 
 #pragma mark - UITextFieldDelegate

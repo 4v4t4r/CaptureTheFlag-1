@@ -11,11 +11,12 @@
 @interface CTFRegisterViewController : UIViewController
 
 #pragma mark - Outlets
-@property (weak) IBOutlet UITextField *emailTF;
-@property (weak) IBOutlet UITextField *usernameTF;
-@property (weak) IBOutlet UITextField *passwordTF;
-@property (weak) IBOutlet UITextField *rePasswordTF;
-@property (weak) IBOutlet UIButton *registerBtn;
+@property (weak, nonatomic) IBOutlet UITextField *emailTF;
+@property (weak, nonatomic) IBOutlet UITextField *usernameTF;
+@property (weak, nonatomic) IBOutlet UITextField *passwordTF;
+@property (weak, nonatomic) IBOutlet UITextField *rePasswordTF;
+@property (weak, nonatomic) IBOutlet UIButton *registerBtn;
+@property (weak, nonatomic) IBOutlet UILabel *statusLabel;
 
 - (IBAction)registerPressed;
 

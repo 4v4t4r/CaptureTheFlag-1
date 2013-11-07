@@ -11,7 +11,8 @@
 typedef enum
 {
     CredentialTypeUsername,
-    CredentialTypePassword
+    CredentialTypePassword,
+    CredentialTypeEmail
 } CredentialType;
 
 typedef enum

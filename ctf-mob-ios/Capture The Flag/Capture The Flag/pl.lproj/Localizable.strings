@@ -44,3 +44,15 @@
 
 /* Register button */
 "view.register.button.register.title" = "Register";
+
+/* Different passwords */
+"view.register.label.status.different_password" = "Password aren't the same";
+
+/* Wrong credentials */
+"view.register.label.status.wrong_credentials" = "Wrong credentials. Try again";
+
+/* Empty fields */
+"view.register.label.status.empty_field" = "One of fields is empty";
+
+/* Success, registered */
+"view.register.label.status.registered" = "Success!";

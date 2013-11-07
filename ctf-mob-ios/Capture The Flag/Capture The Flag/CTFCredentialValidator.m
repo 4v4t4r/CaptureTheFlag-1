@@ -46,6 +46,10 @@
         case CredentialTypePassword:
             pattern = @"\\S{6,20}";
             break;
+            
+        case CredentialTypeEmail:
+            pattern = @"";
+            break;
     }
     return pattern;
 }
