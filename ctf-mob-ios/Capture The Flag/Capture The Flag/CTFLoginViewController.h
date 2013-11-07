@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CTFLoginViewController : UIViewController
+@interface CTFLoginViewController : UIViewController <UITextFieldDelegate>
 
 #pragma mark - Outlets
 @property (weak) IBOutlet UITextField *usernameTF;

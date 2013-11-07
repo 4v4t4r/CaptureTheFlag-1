@@ -167,8 +167,8 @@
 		6DFD1950182ACF0D00542227 /* Capture The FlagTests */ = {
 			isa = PBXGroup;
 			children = (
-				6DFD1951182ACF0D00542227 /* Supporting Files */,
 				6DE0FCCC182C030700800C09 /* CTFCredentialValidatorTests.m */,
+				6DFD1951182ACF0D00542227 /* Supporting Files */,
 			);
 			path = "Capture The FlagTests";
 			sourceTree = "<group>";

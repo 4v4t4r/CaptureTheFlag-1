@@ -14,6 +14,7 @@
 {
     [super viewDidLoad];
     [self localizeUI];
+    [self configureTapBackground];
 }
 
 - (void)localizeUI
@@ -24,6 +25,29 @@
     _passwordTF.placeholder = NSLocalizedString(@"view.register.textField.password.placeholder", nil);
     _rePasswordTF.placeholder = NSLocalizedString(@"view.register.textField.re-password.placeholder", nil);
     [_registerBtn setTitle:NSLocalizedString(@"view.register.button.register.title", nil) forState:UIControlStateNormal];
+}
+
+- (void)configureTapBackground
+{
+    UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backgroundTapped)];
+    [self.view addGestureRecognizer:gesture];
+}
+
+- (void)backgroundTapped
+{
+    [self.view endEditing:YES];
+}
+
+- (IBAction)registerPressed
+{
+    /// Not implemented yet.
+}
+
+#pragma mark - UITextFieldDelegate
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
 }
 
 @end

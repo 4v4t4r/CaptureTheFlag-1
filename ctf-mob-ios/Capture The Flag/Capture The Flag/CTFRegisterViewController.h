@@ -17,4 +17,6 @@
 @property (weak) IBOutlet UITextField *rePasswordTF;
 @property (weak) IBOutlet UIButton *registerBtn;
 
+- (IBAction)registerPressed;
+
 @end

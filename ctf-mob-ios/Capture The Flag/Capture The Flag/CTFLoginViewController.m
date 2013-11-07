@@ -19,7 +19,19 @@
 {
     [super viewDidLoad];
     [self localizeUI];
-	// Do any additional setup after loading the view, typically from a nib.
+
+    [self configureTapBackground];
+}
+
+- (void)configureTapBackground
+{
+    UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backgroundTapped)];
+    [self.view addGestureRecognizer:gesture];
+}
+
+- (void)backgroundTapped
+{
+    [self.view endEditing:YES];
 }
 
 - (void)localizeUI
@@ -39,6 +51,7 @@
     if (loginResult == ValidationOK && passwordResult == ValidationOK)
     {
         _statusLabel.text = NSLocalizedString(@"view.login.label.status.logged", nil);
+        [self.view endEditing:YES];
     }
     else if (loginResult == ValidationEmptyField || passwordResult == ValidationEmptyField)
     {
@@ -48,6 +61,13 @@
     {
         _statusLabel.text = NSLocalizedString(@"view.login.label.status.wrong_credentials", nil);
     }
+}
+
+#pragma mark - UITextFieldDelegate
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
 }
 
 @end
