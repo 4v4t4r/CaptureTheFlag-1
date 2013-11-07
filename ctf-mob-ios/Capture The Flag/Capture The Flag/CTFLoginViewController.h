@@ -10,4 +10,10 @@
 
 @interface CTFLoginViewController : UIViewController
 
+#pragma mark - Outlets
+@property (weak) IBOutlet UITextField *usernameTF;
+@property (weak) IBOutlet UITextField *passwordTF;
+@property (weak) IBOutlet UIButton *loginBtn;
+@property (weak) IBOutlet UIButton *registerBtn;
+
 @end

@@ -7,13 +7,14 @@
 //
 
 #import "CTFAppDelegate.h"
+#import "CTFLoginViewController.h"
 
 @implementation CTFAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"LoginAndRegister" bundle:nil];
-    UINavigationController *nav = [storyboard instantiateViewControllerWithIdentifier:@"UINavigationController"];
+    UINavigationController *nav = [storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([UINavigationController class])];
     
     if (!self.window)
         self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];

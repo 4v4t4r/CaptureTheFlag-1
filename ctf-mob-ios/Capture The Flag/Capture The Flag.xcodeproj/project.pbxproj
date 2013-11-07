@@ -102,6 +102,13 @@
 			name = "Login And Register";
 			sourceTree = "<group>";
 		};
+		6DE0FCC2182BF23700800C09 /* Base Classes */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Base Classes";
+			sourceTree = "<group>";
+		};
 		6DFD191F182ACF0C00542227 = {
 			isa = PBXGroup;
 			children = (
@@ -139,6 +146,7 @@
 			children = (
 				6DFD193A182ACF0C00542227 /* CTFAppDelegate.h */,
 				6DFD193B182ACF0C00542227 /* CTFAppDelegate.m */,
+				6DE0FCC2182BF23700800C09 /* Base Classes */,
 				6D6DF20A182B8901004A4D58 /* Login And Register */,
 				6DFD1943182ACF0C00542227 /* Images.xcassets */,
 				6DFD1932182ACF0C00542227 /* Supporting Files */,

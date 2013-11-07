@@ -1,0 +1,37 @@
+/* General - It's place for general words */
+
+/* Login */
+/* Title of navigation bar */
+"view.login.navigation.title" = "Witaj w Capture The Flag";
+
+/* Username placeholder */
+"view.login.textField.username.placeholder" = "Nazwa użytkownika";
+
+/* Password placeholder */
+"view.login.textField.password.placeholder" = "Hasło";
+
+/* Log in button */
+"view.login.button.login.title" = "Zaloguj się";
+
+/* Register button */
+"view.login.button.register.title" = "Nowy w CTF? Zarejestruj się";
+
+
+/* Register */
+/* Title of navigation bar */
+"view.register.navigation.title" = "Create Account";
+
+/* email address placeholder */
+"view.register.textField.email.placeholder" = "Email Address";
+
+/* Username placeholder */
+"view.register.textField.username.placeholder" = "Username";
+
+/* Password placeholder */
+"view.register.textField.password.placeholder" = "Password";
+
+/* Re-Password placeholder */
+"view.register.textField.re-password.placeholder" = "Re-password";
+
+/* Register button */
+"view.register.button.register.title" = "Register";

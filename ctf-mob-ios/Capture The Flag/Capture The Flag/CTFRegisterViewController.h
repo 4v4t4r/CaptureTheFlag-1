@@ -10,4 +10,11 @@
 
 @interface CTFRegisterViewController : UIViewController
 
+#pragma mark - Outlets
+@property (weak) IBOutlet UITextField *emailTF;
+@property (weak) IBOutlet UITextField *usernameTF;
+@property (weak) IBOutlet UITextField *passwordTF;
+@property (weak) IBOutlet UITextField *rePasswordTF;
+@property (weak) IBOutlet UIButton *registerBtn;
+
 @end
