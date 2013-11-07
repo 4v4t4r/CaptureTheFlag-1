@@ -10,6 +10,9 @@
 		6D6DF209182B88F9004A4D58 /* CTFRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6DF208182B88F9004A4D58 /* CTFRegisterViewController.m */; };
 		6D6DF20F182B8B59004A4D58 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D6DF20D182B8B59004A4D58 /* Localizable.strings */; };
 		6D6DF211182B8B76004A4D58 /* Capture The Flag-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6DFD1933182ACF0C00542227 /* Capture The Flag-Info.plist */; };
+		6DE0FCCB182BFC6F00800C09 /* CTFCredentialValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE0FCCA182BFC6F00800C09 /* CTFCredentialValidator.m */; };
+		6DE0FCCD182C030700800C09 /* CTFCredentialValidatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE0FCCC182C030700800C09 /* CTFCredentialValidatorTests.m */; };
+		6DE0FCCE182C030B00800C09 /* CTFCredentialValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE0FCCA182BFC6F00800C09 /* CTFCredentialValidator.m */; };
 		6DFD192C182ACF0C00542227 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DFD192B182ACF0C00542227 /* Foundation.framework */; };
 		6DFD192E182ACF0C00542227 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DFD192D182ACF0C00542227 /* CoreGraphics.framework */; };
 		6DFD1930182ACF0C00542227 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DFD192F182ACF0C00542227 /* UIKit.framework */; };
@@ -23,7 +26,6 @@
 		6DFD194C182ACF0D00542227 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DFD192B182ACF0C00542227 /* Foundation.framework */; };
 		6DFD194D182ACF0D00542227 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DFD192F182ACF0C00542227 /* UIKit.framework */; };
 		6DFD1955182ACF0D00542227 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6DFD1953182ACF0D00542227 /* InfoPlist.strings */; };
-		6DFD1957182ACF0D00542227 /* Capture_The_FlagTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DFD1956182ACF0D00542227 /* Capture_The_FlagTests.m */; };
 		C940519EC47F463DBC20D9FB /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9825F57F59AB43ED892D2396 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -43,6 +45,9 @@
 		6D6DF208182B88F9004A4D58 /* CTFRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFRegisterViewController.m; sourceTree = "<group>"; };
 		6D6DF20E182B8B59004A4D58 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6D6DF210182B8B76004A4D58 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6DE0FCC9182BFC6F00800C09 /* CTFCredentialValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFCredentialValidator.h; sourceTree = "<group>"; };
+		6DE0FCCA182BFC6F00800C09 /* CTFCredentialValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFCredentialValidator.m; sourceTree = "<group>"; };
+		6DE0FCCC182C030700800C09 /* CTFCredentialValidatorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFCredentialValidatorTests.m; sourceTree = "<group>"; };
 		6DFD1928182ACF0C00542227 /* Capture The Flag.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Capture The Flag.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DFD192B182ACF0C00542227 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6DFD192D182ACF0C00542227 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -61,7 +66,6 @@
 		6DFD194A182ACF0D00542227 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		6DFD1952182ACF0D00542227 /* Capture The FlagTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Capture The FlagTests-Info.plist"; sourceTree = "<group>"; };
 		6DFD1954182ACF0D00542227 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		6DFD1956182ACF0D00542227 /* Capture_The_FlagTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Capture_The_FlagTests.m; sourceTree = "<group>"; };
 		9825F57F59AB43ED892D2396 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -98,15 +102,10 @@
 				6DFD1941182ACF0C00542227 /* CTFLoginViewController.m */,
 				6D6DF207182B88F9004A4D58 /* CTFRegisterViewController.h */,
 				6D6DF208182B88F9004A4D58 /* CTFRegisterViewController.m */,
+				6DE0FCC9182BFC6F00800C09 /* CTFCredentialValidator.h */,
+				6DE0FCCA182BFC6F00800C09 /* CTFCredentialValidator.m */,
 			);
 			name = "Login And Register";
-			sourceTree = "<group>";
-		};
-		6DE0FCC2182BF23700800C09 /* Base Classes */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Base Classes";
 			sourceTree = "<group>";
 		};
 		6DFD191F182ACF0C00542227 = {
@@ -146,7 +145,6 @@
 			children = (
 				6DFD193A182ACF0C00542227 /* CTFAppDelegate.h */,
 				6DFD193B182ACF0C00542227 /* CTFAppDelegate.m */,
-				6DE0FCC2182BF23700800C09 /* Base Classes */,
 				6D6DF20A182B8901004A4D58 /* Login And Register */,
 				6DFD1943182ACF0C00542227 /* Images.xcassets */,
 				6DFD1932182ACF0C00542227 /* Supporting Files */,
@@ -169,8 +167,8 @@
 		6DFD1950182ACF0D00542227 /* Capture The FlagTests */ = {
 			isa = PBXGroup;
 			children = (
-				6DFD1956182ACF0D00542227 /* Capture_The_FlagTests.m */,
 				6DFD1951182ACF0D00542227 /* Supporting Files */,
+				6DE0FCCC182C030700800C09 /* CTFCredentialValidatorTests.m */,
 			);
 			path = "Capture The FlagTests";
 			sourceTree = "<group>";
@@ -323,6 +321,7 @@
 				6DFD193C182ACF0C00542227 /* CTFAppDelegate.m in Sources */,
 				6DFD1942182ACF0C00542227 /* CTFLoginViewController.m in Sources */,
 				6DFD1938182ACF0C00542227 /* main.m in Sources */,
+				6DE0FCCB182BFC6F00800C09 /* CTFCredentialValidator.m in Sources */,
 				6D6DF209182B88F9004A4D58 /* CTFRegisterViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -331,7 +330,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6DFD1957182ACF0D00542227 /* Capture_The_FlagTests.m in Sources */,
+				6DE0FCCD182C030700800C09 /* CTFCredentialValidatorTests.m in Sources */,
+				6DE0FCCE182C030B00800C09 /* CTFCredentialValidator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

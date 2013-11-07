@@ -7,6 +7,7 @@
 //
 
 #import "CTFLoginViewController.h"
+#import "CTFCredentialValidator.h"
 
 @interface CTFLoginViewController ()
 
@@ -28,6 +29,27 @@
     _passwordTF.placeholder = NSLocalizedString(@"view.login.textField.password.placeholder", nil);
     [_loginBtn setTitle:NSLocalizedString(@"view.login.button.login.title", nil) forState:UIControlStateNormal];
     [_registerBtn setTitle:NSLocalizedString(@"view.login.button.register.title", nil) forState:UIControlStateNormal];
+}
+
+- (IBAction)loginPressed
+{
+    BOOL areFieldsValid = [self validateLoginCredentials:_usernameTF.text password:_passwordTF.text];
+    if (areFieldsValid)
+    {
+        NSLog(@"Logged!");
+    }
+    else
+    {
+        NSLog(@"Wrong credentials");
+    }
+}
+
+- (BOOL)validateLoginCredentials:(NSString *)username password:(NSString *)password
+{
+    BOOL validUsername = [CTFCredentialValidator validUsername:username];
+    BOOL validPassword = [CTFCredentialValidator validPassword:password];
+
+    return (validUsername && validPassword);
 }
 
 @end

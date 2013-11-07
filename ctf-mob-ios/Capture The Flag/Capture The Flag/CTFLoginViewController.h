@@ -16,4 +16,6 @@
 @property (weak) IBOutlet UIButton *loginBtn;
 @property (weak) IBOutlet UIButton *registerBtn;
 
+-(IBAction)loginPressed;
+
 @end
