@@ -22,6 +22,9 @@
 /* Wrong credentials */
 "view.login.label.status.wrong_credentials" = "Wrong credentials. Try again";
 
+/* Empty fields */
+"view.login.label.status.empty_field" = "One of fields is empty";
+
 
 /* Register */
 /* Title of navigation bar */

@@ -33,24 +33,21 @@
 
 - (IBAction)loginPressed
 {
-    BOOL areFieldsValid = [self validateLoginCredentials:_usernameTF.text password:_passwordTF.text];
-    if (areFieldsValid)
+    ValidationResult loginResult = [CTFCredentialValidator validCredential:_usernameTF.text withType:CredentialTypeUsername];
+    ValidationResult passwordResult = [CTFCredentialValidator validCredential:_passwordTF.text withType:CredentialTypePassword];
+    
+    if (loginResult == ValidationOK && passwordResult == ValidationOK)
     {
-        NSLog(@"Logged!");
         _statusLabel.text = NSLocalizedString(@"view.login.label.status.logged", nil);
+    }
+    else if (loginResult == ValidationEmptyField || passwordResult == ValidationEmptyField)
+    {
+        _statusLabel.text = NSLocalizedString(@"view.login.label.status.empty_field", nil);
     }
     else
     {
         _statusLabel.text = NSLocalizedString(@"view.login.label.status.wrong_credentials", nil);
     }
-}
-
-- (BOOL)validateLoginCredentials:(NSString *)username password:(NSString *)password
-{
-    BOOL validUsername = [CTFCredentialValidator validCredential:username withType:CredentialTypeUsername];
-    BOOL validPassword = [CTFCredentialValidator validCredential:password withType:CredentialTypePassword];
-
-    return (validUsername && validPassword);
 }
 
 @end

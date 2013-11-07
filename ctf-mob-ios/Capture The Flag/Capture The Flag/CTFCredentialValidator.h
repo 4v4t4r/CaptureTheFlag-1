@@ -14,8 +14,15 @@ typedef enum
     CredentialTypePassword
 } CredentialType;
 
+typedef enum
+{
+    ValidationOK,
+    ValidationWrongCredentials,
+    ValidationEmptyField
+} ValidationResult;
+
 @interface CTFCredentialValidator : NSObject
 
-+ (BOOL)validCredential:(NSString *)credential withType:(CredentialType)type;
++ (ValidationResult)validCredential:(NSString *)credential withType:(CredentialType)type;
 
 @end

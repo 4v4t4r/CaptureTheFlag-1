@@ -10,23 +10,29 @@
 
 @implementation CTFCredentialValidator
 
-+ (BOOL)validCredential:(NSString *)credential withType:(CredentialType)type
++ (ValidationResult)validCredential:(NSString *)credential withType:(CredentialType)type
 {
-    BOOL valid = NO;
+    ValidationResult result = ValidationEmptyField;
+    if (!credential || credential.length == 0)
+        return result;
+    
     NSString *pattern = [CTFCredentialValidator patternForType:type];
     
     NSError *error = nil;
-    NSRegularExpression *regex = [[NSRegularExpression alloc] initWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:&error];
+    NSRegularExpression *regex = [[NSRegularExpression alloc]
+                                  initWithPattern:pattern
+                                  options:NSRegularExpressionCaseInsensitive
+                                  error:&error];
+    
     NSRange credentialRange = NSMakeRange(0, credential.length);
     NSRange matchRange = [regex rangeOfFirstMatchInString:credential options:0 range:credentialRange];
     
-    if (error)
-        NSLog(@"%s, %@", __PRETTY_FUNCTION__, [error localizedDescription]);
-    
     if (NSEqualRanges(matchRange, credentialRange))
-        valid = YES;
+        result = ValidationOK;
+    else
+        result = ValidationWrongCredentials;
     
-    return valid;
+    return result;
 }
 
 + (NSString *)patternForType:(CredentialType)type
