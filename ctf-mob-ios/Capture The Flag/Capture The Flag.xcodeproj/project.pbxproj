@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		6D6DF209182B88F9004A4D58 /* CTFRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6DF208182B88F9004A4D58 /* CTFRegisterViewController.m */; };
+		6D6DF20F182B8B59004A4D58 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D6DF20D182B8B59004A4D58 /* Localizable.strings */; };
+		6D6DF211182B8B76004A4D58 /* Capture The Flag-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6DFD1933182ACF0C00542227 /* Capture The Flag-Info.plist */; };
 		6DFD192C182ACF0C00542227 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DFD192B182ACF0C00542227 /* Foundation.framework */; };
 		6DFD192E182ACF0C00542227 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DFD192D182ACF0C00542227 /* CoreGraphics.framework */; };
 		6DFD1930182ACF0C00542227 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DFD192F182ACF0C00542227 /* UIKit.framework */; };
@@ -39,11 +41,13 @@
 		0575C0B261A543468AFC452D /* Pods/Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 		6D6DF207182B88F9004A4D58 /* CTFRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFRegisterViewController.h; sourceTree = "<group>"; };
 		6D6DF208182B88F9004A4D58 /* CTFRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFRegisterViewController.m; sourceTree = "<group>"; };
+		6D6DF20E182B8B59004A4D58 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6D6DF210182B8B76004A4D58 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6DFD1928182ACF0C00542227 /* Capture The Flag.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Capture The Flag.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DFD192B182ACF0C00542227 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6DFD192D182ACF0C00542227 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		6DFD192F182ACF0C00542227 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		6DFD1933182ACF0C00542227 /* Capture The Flag-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Capture The Flag-Info.plist"; sourceTree = "<group>"; };
+		6DFD1933182ACF0C00542227 /* Capture The Flag-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Capture The Flag-Info.plist"; sourceTree = "<group>"; };
 		6DFD1935182ACF0C00542227 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6DFD1937182ACF0C00542227 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6DFD1939182ACF0C00542227 /* Capture The Flag-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Capture The Flag-Prefix.pch"; sourceTree = "<group>"; };
@@ -145,6 +149,7 @@
 		6DFD1932182ACF0C00542227 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				6D6DF20D182B8B59004A4D58 /* Localizable.strings */,
 				6DFD1933182ACF0C00542227 /* Capture The Flag-Info.plist */,
 				6DFD1934182ACF0C00542227 /* InfoPlist.strings */,
 				6DFD1937182ACF0C00542227 /* main.m */,
@@ -233,6 +238,7 @@
 			knownRegions = (
 				en,
 				Base,
+				pl,
 			);
 			mainGroup = 6DFD191F182ACF0C00542227;
 			productRefGroup = 6DFD1929182ACF0C00542227 /* Products */;
@@ -251,7 +257,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				6DFD1944182ACF0C00542227 /* Images.xcassets in Resources */,
+				6D6DF20F182B8B59004A4D58 /* Localizable.strings in Resources */,
 				6DFD1936182ACF0C00542227 /* InfoPlist.strings in Resources */,
+				6D6DF211182B8B76004A4D58 /* Capture The Flag-Info.plist in Resources */,
 				6DFD193F182ACF0C00542227 /* LoginAndRegister.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -330,6 +338,15 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		6D6DF20D182B8B59004A4D58 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6D6DF20E182B8B59004A4D58 /* en */,
+				6D6DF210182B8B76004A4D58 /* pl */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		6DFD1934182ACF0C00542227 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
