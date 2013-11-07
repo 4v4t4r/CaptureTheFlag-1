@@ -13,6 +13,10 @@
 		6DE0FCCB182BFC6F00800C09 /* CTFCredentialValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE0FCCA182BFC6F00800C09 /* CTFCredentialValidator.m */; };
 		6DE0FCCD182C030700800C09 /* CTFCredentialValidatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE0FCCC182C030700800C09 /* CTFCredentialValidatorTests.m */; };
 		6DE0FCCE182C030B00800C09 /* CTFCredentialValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE0FCCA182BFC6F00800C09 /* CTFCredentialValidator.m */; };
+		6DE0FCD0182C582300800C09 /* CTFLoginViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE0FCCF182C582200800C09 /* CTFLoginViewControllerTests.m */; };
+		6DE0FCD1182C582B00800C09 /* LoginAndRegister.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6DFD193D182ACF0C00542227 /* LoginAndRegister.storyboard */; };
+		6DE0FCD2182C582F00800C09 /* CTFLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DFD1941182ACF0C00542227 /* CTFLoginViewController.m */; };
+		6DE0FCD4182C5ABD00800C09 /* CTFRegisterViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE0FCD3182C5ABD00800C09 /* CTFRegisterViewControllerTests.m */; };
 		6DFD192C182ACF0C00542227 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DFD192B182ACF0C00542227 /* Foundation.framework */; };
 		6DFD192E182ACF0C00542227 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DFD192D182ACF0C00542227 /* CoreGraphics.framework */; };
 		6DFD1930182ACF0C00542227 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DFD192F182ACF0C00542227 /* UIKit.framework */; };
@@ -48,6 +52,8 @@
 		6DE0FCC9182BFC6F00800C09 /* CTFCredentialValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFCredentialValidator.h; sourceTree = "<group>"; };
 		6DE0FCCA182BFC6F00800C09 /* CTFCredentialValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFCredentialValidator.m; sourceTree = "<group>"; };
 		6DE0FCCC182C030700800C09 /* CTFCredentialValidatorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFCredentialValidatorTests.m; sourceTree = "<group>"; };
+		6DE0FCCF182C582200800C09 /* CTFLoginViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFLoginViewControllerTests.m; sourceTree = "<group>"; };
+		6DE0FCD3182C5ABD00800C09 /* CTFRegisterViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFRegisterViewControllerTests.m; sourceTree = "<group>"; };
 		6DFD1928182ACF0C00542227 /* Capture The Flag.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Capture The Flag.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DFD192B182ACF0C00542227 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6DFD192D182ACF0C00542227 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -168,6 +174,8 @@
 			isa = PBXGroup;
 			children = (
 				6DE0FCCC182C030700800C09 /* CTFCredentialValidatorTests.m */,
+				6DE0FCCF182C582200800C09 /* CTFLoginViewControllerTests.m */,
+				6DE0FCD3182C5ABD00800C09 /* CTFRegisterViewControllerTests.m */,
 				6DFD1951182ACF0D00542227 /* Supporting Files */,
 			);
 			path = "Capture The FlagTests";
@@ -275,6 +283,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6DFD1955182ACF0D00542227 /* InfoPlist.strings in Resources */,
+				6DE0FCD1182C582B00800C09 /* LoginAndRegister.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -330,8 +339,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6DE0FCD2182C582F00800C09 /* CTFLoginViewController.m in Sources */,
 				6DE0FCCD182C030700800C09 /* CTFCredentialValidatorTests.m in Sources */,
 				6DE0FCCE182C030B00800C09 /* CTFCredentialValidator.m in Sources */,
+				6DE0FCD0182C582300800C09 /* CTFLoginViewControllerTests.m in Sources */,
+				6DE0FCD4182C5ABD00800C09 /* CTFRegisterViewControllerTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
