@@ -1,5 +1,5 @@
 //
-//  CTFViewController.h
+//  CTFLoginViewController.h
 //  Capture The Flag
 //
 //  Created by Tomasz Szulc on 06.11.2013.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CTFViewController : UIViewController
+@interface CTFLoginViewController : UIViewController
 
 @end

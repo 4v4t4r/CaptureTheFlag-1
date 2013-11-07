@@ -12,7 +12,16 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"LoginAndRegister" bundle:nil];
+    UINavigationController *nav = [storyboard instantiateViewControllerWithIdentifier:@"UINavigationController"];
+    
+    if (!self.window)
+        self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+
+    self.window.rootViewController = nav;
+
+    [self.window makeKeyAndVisible];
+    
     return YES;
 }
 							

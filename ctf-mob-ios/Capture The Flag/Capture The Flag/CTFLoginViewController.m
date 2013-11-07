@@ -1,29 +1,23 @@
 //
-//  CTFViewController.m
+//  CTFLoginViewController.m
 //  Capture The Flag
 //
 //  Created by Tomasz Szulc on 06.11.2013.
 //  Copyright (c) 2013 Tomasz Szulc. All rights reserved.
 //
 
-#import "CTFViewController.h"
+#import "CTFLoginViewController.h"
 
-@interface CTFViewController ()
+@interface CTFLoginViewController ()
 
 @end
 
-@implementation CTFViewController
+@implementation CTFLoginViewController
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end
