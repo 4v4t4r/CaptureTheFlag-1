@@ -39,7 +39,7 @@
             break;
             
         case CredentialTypePassword:
-            pattern = @"";
+            pattern = @"\\S{6,20}";
             break;
     }
     return pattern;

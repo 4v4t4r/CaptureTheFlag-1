@@ -14,14 +14,15 @@
 
 @implementation CTFCredentialValidatorTests
 
-- (void)testLoginLength
+#pragma mark - CredentailTypeUsername
+- (void)testUsernameLength
 {
     XCTAssertFalse([self validUsername:@"login"], @"");
     XCTAssertTrue([self validUsername:@"loginn"], @"");
     XCTAssertFalse([self validUsername:@"thisisverylonglogin"], @"");
 }
 
-- (void)testLoginCharacters
+- (void)testUsernameCharacters
 {
     XCTAssertTrue([self validUsername:@"login1"], @"");
     XCTAssertTrue([self validUsername:@"123456"], @"");
@@ -33,6 +34,29 @@
 - (BOOL)validUsername:(NSString *)username
 {
     return [CTFCredentialValidator validCredential:username withType:CredentialTypeUsername];
+}
+
+
+#pragma mark - CredentailTypePassword
+- (void)testPasswordLength
+{
+    XCTAssertFalse([self validPassword:@"abc"], @"");
+    XCTAssertTrue([self validPassword:@"ancdefgv"], @"");
+    XCTAssertFalse([self validPassword:@"123asd!@#%^|dggg66654"]);
+}
+
+- (void)testPasswordCharacters
+{
+    XCTAssertTrue([self validPassword:@"goodPass123!@#avc:)"], @"");
+    XCTAssertTrue([self validPassword:@"goodPassButWeak"], @"");
+    XCTAssertTrue([self validPassword:@"§1234567890-="], @"");
+    XCTAssertTrue([self validPassword:@"!@#$$%%^&*())"], @"");
+    XCTAssertFalse([self validPassword:@"this is not a password"], @"");
+}
+
+- (BOOL)validPassword:(NSString *)password
+{
+    return [CTFCredentialValidator validCredential:password withType:CredentialTypePassword];
 }
 
 @end
