@@ -23,7 +23,6 @@
     if (error)
         NSLog(@"%s, %@", __PRETTY_FUNCTION__, [error localizedDescription]);
     
-    NSLog(@"credential = %@ | range = %d/%d",credential, matchRange.location, matchRange.length);
     if (NSEqualRanges(matchRange, credentialRange))
         valid = YES;
     

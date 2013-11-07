@@ -48,6 +48,13 @@
                                     <segue destination="fgQ-rb-h6r" kind="push" id="Qey-az-Xmu"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZVL-xP-k0u">
+                                <rect key="frame" x="20" y="286" width="280" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -56,12 +63,13 @@
                         <outlet property="loginBtn" destination="Xvb-iS-pHe" id="BTH-N0-Cby"/>
                         <outlet property="passwordTF" destination="QwA-VG-tYr" id="3tf-Vz-ecc"/>
                         <outlet property="registerBtn" destination="a1s-h3-w1J" id="8qb-5P-eQO"/>
+                        <outlet property="statusLabel" destination="ZVL-xP-k0u" id="PQE-5W-8HM"/>
                         <outlet property="usernameTF" destination="vHX-J7-Ash" id="9be-oa-3Lk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="852" y="108"/>
+            <point key="canvasLocation" x="816" y="108"/>
         </scene>
         <!--Register View Controller - Register-->
         <scene sceneID="pcB-W7-rx7">

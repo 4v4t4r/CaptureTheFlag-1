@@ -37,10 +37,11 @@
     if (areFieldsValid)
     {
         NSLog(@"Logged!");
+        _statusLabel.text = NSLocalizedString(@"view.login.label.status.logged", nil);
     }
     else
     {
-        NSLog(@"Wrong credentials");
+        _statusLabel.text = NSLocalizedString(@"view.login.label.status.wrong_credentials", nil);
     }
 }
 

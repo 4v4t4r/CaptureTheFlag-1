@@ -16,6 +16,12 @@
 /* Register button */
 "view.login.button.register.title" = "New in CTF? Create account";
 
+/* Logged successfuly */
+"view.login.label.status.logged" = "Success!";
+
+/* Wrong credentials */
+"view.login.label.status.wrong_credentials" = "Wrong credentials. Try again";
+
 
 /* Register */
 /* Title of navigation bar */

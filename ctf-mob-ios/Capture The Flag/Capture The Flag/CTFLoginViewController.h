@@ -15,6 +15,7 @@
 @property (weak) IBOutlet UITextField *passwordTF;
 @property (weak) IBOutlet UIButton *loginBtn;
 @property (weak) IBOutlet UIButton *registerBtn;
+@property (weak) IBOutlet UILabel *statusLabel;
 
 -(IBAction)loginPressed;
 
