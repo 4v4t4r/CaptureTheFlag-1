@@ -8,9 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+typedef enum
+{
+    CredentialTypeUsername,
+    CredentialTypePassword
+} CredentialType;
+
 @interface CTFCredentialValidator : NSObject
 
-+ (BOOL)validUsername:(NSString *)username;
-+ (BOOL)validPassword:(NSString *)password;
++ (BOOL)validCredential:(NSString *)credential withType:(CredentialType)type;
 
 @end

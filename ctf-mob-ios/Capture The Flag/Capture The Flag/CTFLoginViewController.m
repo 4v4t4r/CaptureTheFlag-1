@@ -46,8 +46,8 @@
 
 - (BOOL)validateLoginCredentials:(NSString *)username password:(NSString *)password
 {
-    BOOL validUsername = [CTFCredentialValidator validUsername:username];
-    BOOL validPassword = [CTFCredentialValidator validPassword:password];
+    BOOL validUsername = [CTFCredentialValidator validCredential:username withType:CredentialTypeUsername];
+    BOOL validPassword = [CTFCredentialValidator validCredential:password withType:CredentialTypePassword];
 
     return (validUsername && validPassword);
 }
