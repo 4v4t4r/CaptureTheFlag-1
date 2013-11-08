@@ -21,6 +21,16 @@
     [self localizeUI];
 
     [self configureTapBackground];
+    [self configureTextFields];
+}
+
+- (void)localizeUI
+{
+    self.navigationItem.title = NSLocalizedString(@"view.login.navigation.title", nil);
+    _usernameTF.placeholder = NSLocalizedString(@"view.login.textField.username.placeholder", nil);
+    _passwordTF.placeholder = NSLocalizedString(@"view.login.textField.password.placeholder", nil);
+    [_loginBtn setTitle:NSLocalizedString(@"view.login.button.login.title", nil) forState:UIControlStateNormal];
+    [_registerBtn setTitle:NSLocalizedString(@"view.login.button.register.title", nil) forState:UIControlStateNormal];
 }
 
 - (void)configureTapBackground
@@ -32,15 +42,6 @@
 - (void)backgroundTapped
 {
     [self.view endEditing:YES];
-}
-
-- (void)localizeUI
-{
-    self.navigationItem.title = NSLocalizedString(@"view.login.navigation.title", nil);
-    _usernameTF.placeholder = NSLocalizedString(@"view.login.textField.username.placeholder", nil);
-    _passwordTF.placeholder = NSLocalizedString(@"view.login.textField.password.placeholder", nil);
-    [_loginBtn setTitle:NSLocalizedString(@"view.login.button.login.title", nil) forState:UIControlStateNormal];
-    [_registerBtn setTitle:NSLocalizedString(@"view.login.button.register.title", nil) forState:UIControlStateNormal];
 }
 
 - (IBAction)loginPressed
@@ -62,6 +63,19 @@
         _statusLabel.text = NSLocalizedString(@"view.login.label.status.wrong_credentials", nil);
     }
 }
+
+- (void)configureTextFields
+{
+    [_usernameTF addTarget:self action:@selector(textFieldDidChange) forControlEvents:UIControlEventEditingChanged];
+    [_passwordTF addTarget:self action:@selector(textFieldDidChange) forControlEvents:UIControlEventEditingChanged];
+}
+
+- (void)textFieldDidChange
+{
+    BOOL enabled = _usernameTF.text.length > 0 && _passwordTF.text.length > 0;
+    [_loginBtn setEnabled:enabled];
+}
+
 
 #pragma mark - UITextFieldDelegate
 - (BOOL)textFieldShouldReturn:(UITextField *)textField

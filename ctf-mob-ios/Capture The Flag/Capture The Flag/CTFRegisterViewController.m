@@ -16,6 +16,7 @@
     [super viewDidLoad];
     [self localizeUI];
     [self configureTapBackground];
+    [self configureTextFields];
 }
 
 - (void)localizeUI
@@ -72,6 +73,21 @@
     {
         _statusLabel.text = NSLocalizedString(@"view.register.label.status.wrong_credentials", nil);
     }
+}
+
+- (void)configureTextFields
+{
+    [_emailTF addTarget:self action:@selector(textFieldDidChange) forControlEvents:UIControlEventEditingChanged];
+    [_usernameTF addTarget:self action:@selector(textFieldDidChange) forControlEvents:UIControlEventEditingChanged];
+    [_passwordTF addTarget:self action:@selector(textFieldDidChange) forControlEvents:UIControlEventEditingChanged];
+    [_rePasswordTF addTarget:self action:@selector(textFieldDidChange) forControlEvents:UIControlEventEditingChanged];
+}
+
+- (void)textFieldDidChange
+{
+    BOOL enabled = (_emailTF.text.length > 0 && _usernameTF.text.length > 0 &&
+                    _passwordTF.text.length > 0 && _rePasswordTF.text.length > 0);
+    [_registerBtn setEnabled:enabled];
 }
 
 #pragma mark - UITextFieldDelegate
