@@ -7,7 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "CTFCredentialValidator.h"
+#import "CTFCredentialsValidator.h"
 
 @interface CTFCredentialValidatorTests : XCTestCase
 @end
@@ -15,11 +15,6 @@
 @implementation CTFCredentialValidatorTests
 
 #pragma mark - CredentailTypeUsername
-- (void)testEmptyUsername
-{
-    XCTAssert([self validUsername:@""] == ValidationEmptyField, @"");
-}
-
 - (void)testUsernameLength
 {
     XCTAssert([self validUsername:@"login"] == ValidationWrongCredentials, @"");
@@ -38,16 +33,11 @@
 
 - (ValidationResult)validUsername:(NSString *)username
 {
-    return [CTFCredentialValidator validCredential:username withType:CredentialTypeUsername];
+    return [CTFCredentialsValidator validCredential:username withType:CredentialTypeUsername];
 }
 
 
 #pragma mark - CredentialTypePassword
-- (void)testEmptyPassword
-{
-    XCTAssert([self validPassword:@""] == ValidationEmptyField, @"");
-}
-
 - (void)testPasswordLength
 {
     XCTAssert([self validPassword:@"abc"] == ValidationWrongCredentials, @"");
@@ -66,16 +56,11 @@
 
 - (ValidationResult)validPassword:(NSString *)password
 {
-    return [CTFCredentialValidator validCredential:password withType:CredentialTypePassword];
+    return [CTFCredentialsValidator validCredential:password withType:CredentialTypePassword];
 }
 
 
 #pragma mark - CredentialTypeEmail
-- (void)testEmptyEmail
-{
-    XCTAssert([self validEmail:@""] == ValidationEmptyField, @"");
-}
-
 - (void)testEmailCharacters
 {
     XCTAssert([self validEmail:@"abc@abcd.pl"] == ValidationOK, @"");
@@ -90,7 +75,7 @@
 
 - (ValidationResult)validEmail:(NSString *)email
 {
-    return [CTFCredentialValidator validCredential:email withType:CredentialTypeEmail];
+    return [CTFCredentialsValidator validCredential:email withType:CredentialTypeEmail];
 }
 
 @end

@@ -7,7 +7,7 @@
 //
 
 #import "CTFLoginViewController.h"
-#import "CTFCredentialValidator.h"
+#import "CTFCredentialsValidator.h"
 
 @interface CTFLoginViewController ()
 
@@ -46,17 +46,13 @@
 
 - (IBAction)loginPressed
 {
-    ValidationResult loginResult = [CTFCredentialValidator validCredential:_usernameTF.text withType:CredentialTypeUsername];
-    ValidationResult passwordResult = [CTFCredentialValidator validCredential:_passwordTF.text withType:CredentialTypePassword];
+    ValidationResult loginResult = [CTFCredentialsValidator validCredential:_usernameTF.text withType:CredentialTypeUsername];
+    ValidationResult passwordResult = [CTFCredentialsValidator validCredential:_passwordTF.text withType:CredentialTypePassword];
     
     if (loginResult == ValidationOK && passwordResult == ValidationOK)
     {
         _statusLabel.text = NSLocalizedString(@"view.login.label.status.logged", nil);
         [self.view endEditing:YES];
-    }
-    else if (loginResult == ValidationEmptyField || passwordResult == ValidationEmptyField)
-    {
-        _statusLabel.text = NSLocalizedString(@"view.login.label.status.empty_field", nil);
     }
     else
     {
@@ -72,8 +68,14 @@
 
 - (void)textFieldDidChange
 {
-    BOOL enabled = _usernameTF.text.length > 0 && _passwordTF.text.length > 0;
-    [_loginBtn setEnabled:enabled];
+    ValidationResult usernameResult = [CTFCredentialsValidator validCredential:_usernameTF.text withType:CredentialTypeUsername];
+    ValidationResult passwordResult = [CTFCredentialsValidator validCredential:_passwordTF.text withType:CredentialTypePassword];
+    
+    BOOL loginEnabled = NO;
+    if (usernameResult == ValidationOK && passwordResult == ValidationOK)
+        loginEnabled = YES;
+    
+    [_loginBtn setEnabled:loginEnabled];
 }
 
 

@@ -22,9 +22,6 @@
 /* Wrong credentials */
 "view.login.label.status.wrong_credentials" = "Wrong credentials. Try again";
 
-/* Empty fields */
-"view.login.label.status.empty_field" = "One of fields is empty";
-
 
 /* Register */
 /* Title of navigation bar */
@@ -34,10 +31,10 @@
 "view.register.textField.email.placeholder" = "Email Address";
 
 /* Username placeholder */
-"view.register.textField.username.placeholder" = "Username";
+"view.register.textField.username.placeholder" = "Username (min. 6 characters long)";
 
 /* Password placeholder */
-"view.register.textField.password.placeholder" = "Password";
+"view.register.textField.password.placeholder" = "Password (min. 6 characters long)";
 
 /* Re-Password placeholder */
 "view.register.textField.re-password.placeholder" = "Re-password";
@@ -50,9 +47,6 @@
 
 /* Wrong credentials */
 "view.register.label.status.wrong_credentials" = "Wrong credentials. Try again";
-
-/* Empty fields */
-"view.register.label.status.empty_field" = "One of fields is empty";
 
 /* Success, registered */
 "view.register.label.status.registered" = "Success!";

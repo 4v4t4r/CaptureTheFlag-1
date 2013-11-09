@@ -10,9 +10,9 @@
 		6D6DF209182B88F9004A4D58 /* CTFRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6DF208182B88F9004A4D58 /* CTFRegisterViewController.m */; };
 		6D6DF20F182B8B59004A4D58 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D6DF20D182B8B59004A4D58 /* Localizable.strings */; };
 		6D6DF211182B8B76004A4D58 /* Capture The Flag-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6DFD1933182ACF0C00542227 /* Capture The Flag-Info.plist */; };
-		6DE0FCCB182BFC6F00800C09 /* CTFCredentialValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE0FCCA182BFC6F00800C09 /* CTFCredentialValidator.m */; };
+		6DE0FCCB182BFC6F00800C09 /* CTFCredentialsValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE0FCCA182BFC6F00800C09 /* CTFCredentialsValidator.m */; };
 		6DE0FCCD182C030700800C09 /* CTFCredentialValidatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE0FCCC182C030700800C09 /* CTFCredentialValidatorTests.m */; };
-		6DE0FCCE182C030B00800C09 /* CTFCredentialValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE0FCCA182BFC6F00800C09 /* CTFCredentialValidator.m */; };
+		6DE0FCCE182C030B00800C09 /* CTFCredentialsValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE0FCCA182BFC6F00800C09 /* CTFCredentialsValidator.m */; };
 		6DE0FCD0182C582300800C09 /* CTFLoginViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE0FCCF182C582200800C09 /* CTFLoginViewControllerTests.m */; };
 		6DE0FCD1182C582B00800C09 /* LoginAndRegister.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6DFD193D182ACF0C00542227 /* LoginAndRegister.storyboard */; };
 		6DE0FCD2182C582F00800C09 /* CTFLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DFD1941182ACF0C00542227 /* CTFLoginViewController.m */; };
@@ -49,8 +49,8 @@
 		6D6DF208182B88F9004A4D58 /* CTFRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFRegisterViewController.m; sourceTree = "<group>"; };
 		6D6DF20E182B8B59004A4D58 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6D6DF210182B8B76004A4D58 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
-		6DE0FCC9182BFC6F00800C09 /* CTFCredentialValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFCredentialValidator.h; sourceTree = "<group>"; };
-		6DE0FCCA182BFC6F00800C09 /* CTFCredentialValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFCredentialValidator.m; sourceTree = "<group>"; };
+		6DE0FCC9182BFC6F00800C09 /* CTFCredentialsValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFCredentialsValidator.h; sourceTree = "<group>"; };
+		6DE0FCCA182BFC6F00800C09 /* CTFCredentialsValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFCredentialsValidator.m; sourceTree = "<group>"; };
 		6DE0FCCC182C030700800C09 /* CTFCredentialValidatorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFCredentialValidatorTests.m; sourceTree = "<group>"; };
 		6DE0FCCF182C582200800C09 /* CTFLoginViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFLoginViewControllerTests.m; sourceTree = "<group>"; };
 		6DE0FCD3182C5ABD00800C09 /* CTFRegisterViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFRegisterViewControllerTests.m; sourceTree = "<group>"; };
@@ -108,8 +108,8 @@
 				6DFD1941182ACF0C00542227 /* CTFLoginViewController.m */,
 				6D6DF207182B88F9004A4D58 /* CTFRegisterViewController.h */,
 				6D6DF208182B88F9004A4D58 /* CTFRegisterViewController.m */,
-				6DE0FCC9182BFC6F00800C09 /* CTFCredentialValidator.h */,
-				6DE0FCCA182BFC6F00800C09 /* CTFCredentialValidator.m */,
+				6DE0FCC9182BFC6F00800C09 /* CTFCredentialsValidator.h */,
+				6DE0FCCA182BFC6F00800C09 /* CTFCredentialsValidator.m */,
 			);
 			name = "Login And Register";
 			sourceTree = "<group>";
@@ -330,7 +330,7 @@
 				6DFD193C182ACF0C00542227 /* CTFAppDelegate.m in Sources */,
 				6DFD1942182ACF0C00542227 /* CTFLoginViewController.m in Sources */,
 				6DFD1938182ACF0C00542227 /* main.m in Sources */,
-				6DE0FCCB182BFC6F00800C09 /* CTFCredentialValidator.m in Sources */,
+				6DE0FCCB182BFC6F00800C09 /* CTFCredentialsValidator.m in Sources */,
 				6D6DF209182B88F9004A4D58 /* CTFRegisterViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -341,7 +341,7 @@
 			files = (
 				6DE0FCD2182C582F00800C09 /* CTFLoginViewController.m in Sources */,
 				6DE0FCCD182C030700800C09 /* CTFCredentialValidatorTests.m in Sources */,
-				6DE0FCCE182C030B00800C09 /* CTFCredentialValidator.m in Sources */,
+				6DE0FCCE182C030B00800C09 /* CTFCredentialsValidator.m in Sources */,
 				6DE0FCD0182C582300800C09 /* CTFLoginViewControllerTests.m in Sources */,
 				6DE0FCD4182C5ABD00800C09 /* CTFRegisterViewControllerTests.m in Sources */,
 			);

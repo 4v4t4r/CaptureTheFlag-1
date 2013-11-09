@@ -1,22 +1,22 @@
 //
-//  CTFCredentialValidator.m
+//  CTFCredentialsValidator.m
 //  Capture The Flag
 //
 //  Created by Tomasz Szulc on 07.11.2013.
 //  Copyright (c) 2013 Tomasz Szulc. All rights reserved.
 //
 
-#import "CTFCredentialValidator.h"
+#import "CTFCredentialsValidator.h"
 
-@implementation CTFCredentialValidator
+@implementation CTFCredentialsValidator
 
 + (ValidationResult)validCredential:(NSString *)credential withType:(CredentialType)type
 {
-    ValidationResult result = ValidationEmptyField;
+    ValidationResult result = ValidationUndefined;
     if (!credential || credential.length == 0)
         return result;
     
-    NSString *pattern = [CTFCredentialValidator patternForType:type];
+    NSString *pattern = [CTFCredentialsValidator patternForType:type];
     
     NSError *error = nil;
     NSRegularExpression *regex = [[NSRegularExpression alloc]
@@ -37,6 +37,7 @@
 
 + (NSString *)patternForType:(CredentialType)type
 {
+#warning There are placeholders. Need to think about it more and decide how patterns should look like.
     NSString *pattern = nil;
     switch (type) {
         case CredentialTypeUsername:

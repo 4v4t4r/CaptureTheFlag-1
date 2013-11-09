@@ -1,5 +1,5 @@
 //
-//  CTFCredentialValidator.h
+//  CTFCredentialsValidator.h
 //  Capture The Flag
 //
 //  Created by Tomasz Szulc on 07.11.2013.
@@ -17,12 +17,12 @@ typedef enum
 
 typedef enum
 {
-    ValidationOK,
-    ValidationWrongCredentials,
-    ValidationEmptyField
+    ValidationUndefined         = -1,
+    ValidationOK                = 0,
+    ValidationWrongCredentials
 } ValidationResult;
 
-@interface CTFCredentialValidator : NSObject
+@interface CTFCredentialsValidator : NSObject
 
 + (ValidationResult)validCredential:(NSString *)credential withType:(CredentialType)type;
 
