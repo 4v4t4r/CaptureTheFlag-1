@@ -8,9 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		6D54EBA8182EB055002A6357 /* RKLoginTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D54EBA7182EB055002A6357 /* RKLoginTests.m */; };
-		6D54EBB4182EB29C002A6357 /* login.json in Resources */ = {isa = PBXBuildFile; fileRef = 6D54EBB3182EB29C002A6357 /* login.json */; };
-		6D54EBBA182EB675002A6357 /* RKLogin.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D54EBB9182EB675002A6357 /* RKLogin.m */; };
-		6D54EBBB182EB6A5002A6357 /* RKLogin.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D54EBB9182EB675002A6357 /* RKLogin.m */; };
+		6D54EBB4182EB29C002A6357 /* login-response.json in Resources */ = {isa = PBXBuildFile; fileRef = 6D54EBB3182EB29C002A6357 /* login-response.json */; };
+		6D54EBBA182EB675002A6357 /* RKLoginResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D54EBB9182EB675002A6357 /* RKLoginResponse.m */; };
+		6D54EBBB182EB6A5002A6357 /* RKLoginResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D54EBB9182EB675002A6357 /* RKLoginResponse.m */; };
 		6D6DF209182B88F9004A4D58 /* CTFRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6DF208182B88F9004A4D58 /* CTFRegisterViewController.m */; };
 		6D6DF20F182B8B59004A4D58 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D6DF20D182B8B59004A4D58 /* Localizable.strings */; };
 		6D6DF211182B8B76004A4D58 /* Capture The Flag-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6DFD1933182ACF0C00542227 /* Capture The Flag-Info.plist */; };
@@ -51,9 +51,9 @@
 /* Begin PBXFileReference section */
 		0575C0B261A543468AFC452D /* Pods/Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 		6D54EBA7182EB055002A6357 /* RKLoginTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKLoginTests.m; sourceTree = "<group>"; };
-		6D54EBB3182EB29C002A6357 /* login.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = login.json; sourceTree = "<group>"; };
-		6D54EBB8182EB675002A6357 /* RKLogin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKLogin.h; sourceTree = "<group>"; };
-		6D54EBB9182EB675002A6357 /* RKLogin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKLogin.m; sourceTree = "<group>"; };
+		6D54EBB3182EB29C002A6357 /* login-response.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "login-response.json"; sourceTree = "<group>"; };
+		6D54EBB8182EB675002A6357 /* RKLoginResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKLoginResponse.h; sourceTree = "<group>"; };
+		6D54EBB9182EB675002A6357 /* RKLoginResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKLoginResponse.m; sourceTree = "<group>"; };
 		6D6DF207182B88F9004A4D58 /* CTFRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFRegisterViewController.h; sourceTree = "<group>"; };
 		6D6DF208182B88F9004A4D58 /* CTFRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFRegisterViewController.m; sourceTree = "<group>"; };
 		6D6DF20E182B8B59004A4D58 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -131,7 +131,7 @@
 		6D54EBB2182EB26B002A6357 /* Fixtures */ = {
 			isa = PBXGroup;
 			children = (
-				6D54EBB3182EB29C002A6357 /* login.json */,
+				6D54EBB3182EB29C002A6357 /* login-response.json */,
 			);
 			name = Fixtures;
 			sourceTree = "<group>";
@@ -139,8 +139,8 @@
 		6D54EBB7182EB657002A6357 /* Rest Kit Mappings */ = {
 			isa = PBXGroup;
 			children = (
-				6D54EBB8182EB675002A6357 /* RKLogin.h */,
-				6D54EBB9182EB675002A6357 /* RKLogin.m */,
+				6D54EBB8182EB675002A6357 /* RKLoginResponse.h */,
+				6D54EBB9182EB675002A6357 /* RKLoginResponse.m */,
 			);
 			name = "Rest Kit Mappings";
 			sourceTree = "<group>";
@@ -332,7 +332,7 @@
 			files = (
 				6DFD1955182ACF0D00542227 /* InfoPlist.strings in Resources */,
 				6DE0FCD1182C582B00800C09 /* LoginAndRegister.storyboard in Resources */,
-				6D54EBB4182EB29C002A6357 /* login.json in Resources */,
+				6D54EBB4182EB29C002A6357 /* login-response.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -408,7 +408,7 @@
 			files = (
 				6DFD193C182ACF0C00542227 /* CTFAppDelegate.m in Sources */,
 				6DFD1942182ACF0C00542227 /* CTFLoginViewController.m in Sources */,
-				6D54EBBA182EB675002A6357 /* RKLogin.m in Sources */,
+				6D54EBBA182EB675002A6357 /* RKLoginResponse.m in Sources */,
 				6DFD1938182ACF0C00542227 /* main.m in Sources */,
 				6DE0FCCB182BFC6F00800C09 /* CTFCredentialsValidator.m in Sources */,
 				6D6DF209182B88F9004A4D58 /* CTFRegisterViewController.m in Sources */,
@@ -425,7 +425,7 @@
 				6DE0FCD0182C582300800C09 /* CTFLoginViewControllerTests.m in Sources */,
 				6D54EBA8182EB055002A6357 /* RKLoginTests.m in Sources */,
 				6DE0FCD4182C5ABD00800C09 /* CTFRegisterViewControllerTests.m in Sources */,
-				6D54EBBB182EB6A5002A6357 /* RKLogin.m in Sources */,
+				6D54EBBB182EB6A5002A6357 /* RKLoginResponse.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

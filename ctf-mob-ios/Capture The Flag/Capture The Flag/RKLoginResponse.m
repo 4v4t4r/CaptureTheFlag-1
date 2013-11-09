@@ -1,16 +1,16 @@
 //
-//  RKLogin.m
+//  RKLoginResponse.m
 //  Capture The Flag
 //
 //  Created by Tomasz Szulc on 09.11.2013.
 //  Copyright (c) 2013 Tomasz Szulc. All rights reserved.
 //
 
-#import "RKLogin.h"
+#import "RKLoginResponse.h"
 
-@implementation RKLogin
+@implementation RKLoginResponse
 
-+ (RKObjectMapping *)loginMapping
++ (RKObjectMapping *)loginResponseMapping
 {
     RKObjectMapping *mapping = [RKObjectMapping mappingForClass:[self class]];
     NSDictionary *dict = @{@"login.success" : @"success",

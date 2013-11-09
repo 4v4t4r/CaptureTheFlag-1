@@ -9,7 +9,7 @@
 #import <XCTest/XCTest.h>
 #import <RestKit/RestKit.h>
 #import <RestKit/Testing.h>
-#import "RKLogin.h"
+#import "RKLoginResponse.h"
 
 @interface RKLoginTests : XCTestCase
 
@@ -26,8 +26,8 @@
 
 - (RKMappingTest *)mappingTest
 {
-    id parsedJSON = [RKTestFixture parsedObjectWithContentsOfFixture:@"login.json"];
-    RKMappingTest *test = [RKMappingTest testForMapping:[RKLogin loginMapping] sourceObject:parsedJSON destinationObject:nil];
+    id parsedJSON = [RKTestFixture parsedObjectWithContentsOfFixture:@"login-response.json"];
+    RKMappingTest *test = [RKMappingTest testForMapping:[RKLoginResponse loginResponseMapping] sourceObject:parsedJSON destinationObject:nil];
     return test;
 }
 
