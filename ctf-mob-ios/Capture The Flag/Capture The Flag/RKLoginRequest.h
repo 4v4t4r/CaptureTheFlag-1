@@ -1,5 +1,5 @@
 //
-//  RKLoginResponse.h
+//  RKLoginRequest.h
 //  Capture The Flag
 //
 //  Created by Tomasz Szulc on 09.11.2013.
@@ -8,11 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@interface RKLoginResponse : NSObject
+@interface RKLoginRequest : NSObject
 
-@property (nonatomic) BOOL success;
-@property (nonatomic) NSString *token;
-@property (nonatomic) NSString *message;
+@property (nonatomic) NSString *login;
+@property (nonatomic) NSString *password;
 
 + (RKObjectMapping *)objectMapping;
 

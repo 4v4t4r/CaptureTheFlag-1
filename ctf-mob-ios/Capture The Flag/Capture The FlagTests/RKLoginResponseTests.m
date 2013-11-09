@@ -1,5 +1,5 @@
 //
-//  RKLoginTests.m
+//  RKLoginResponseTests.m
 //  Capture The Flag
 //
 //  Created by Tomasz Szulc on 09.11.2013.
@@ -11,11 +11,11 @@
 #import <RestKit/Testing.h>
 #import "RKLoginResponse.h"
 
-@interface RKLoginTests : XCTestCase
+@interface RKLoginResponseTests : XCTestCase
 
 @end
 
-@implementation RKLoginTests
+@implementation RKLoginResponseTests
 
 - (void)setUp
 {
@@ -27,7 +27,7 @@
 - (RKMappingTest *)mappingTest
 {
     id parsedJSON = [RKTestFixture parsedObjectWithContentsOfFixture:@"login-response.json"];
-    RKMappingTest *test = [RKMappingTest testForMapping:[RKLoginResponse loginResponseMapping] sourceObject:parsedJSON destinationObject:nil];
+    RKMappingTest *test = [RKMappingTest testForMapping:[RKLoginResponse objectMapping] sourceObject:parsedJSON destinationObject:nil];
     return test;
 }
 

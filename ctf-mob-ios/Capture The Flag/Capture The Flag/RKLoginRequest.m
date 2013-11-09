@@ -1,21 +1,20 @@
 //
-//  RKLoginResponse.m
+//  RKLoginRequest.m
 //  Capture The Flag
 //
 //  Created by Tomasz Szulc on 09.11.2013.
 //  Copyright (c) 2013 Tomasz Szulc. All rights reserved.
 //
 
-#import "RKLoginResponse.h"
+#import "RKLoginRequest.h"
 
-@implementation RKLoginResponse
+@implementation RKLoginRequest
 
 + (RKObjectMapping *)objectMapping
 {
     RKObjectMapping *mapping = [RKObjectMapping mappingForClass:[self class]];
-    NSDictionary *dict = @{@"login.success" : @"success",
-                           @"login.token" : @"token",
-                           @"login.message" : @"message"};
+    NSDictionary *dict = @{@"login.login" : @"login",
+                           @"login.password" : @"password"};
     [mapping addAttributeMappingsFromDictionary:dict];
     
     return mapping;
