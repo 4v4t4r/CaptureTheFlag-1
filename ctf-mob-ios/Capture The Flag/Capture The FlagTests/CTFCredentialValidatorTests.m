@@ -64,13 +64,12 @@
 - (void)testEmailCharacters
 {
     XCTAssert([self validEmail:@"abc@abcd.pl"] == ValidationOK, @"");
-//    XCTAssertTrue([self validEmail:@".%@.-.pl"] == ValidationOK, @""); /// this must not pass!
+    XCTAssert([self validEmail:@"abc.abcd@abc.abcd.pl"] == ValidationOK, @"");
     
-    XCTAssert([self validEmail:@"abcd@a.p"] == ValidationWrongCredentials, @"");
+    XCTAssert([self validEmail:@".%@.-.pl"] == ValidationWrongCredentials, @"");
     XCTAssert([self validEmail:@"@.pl"] == ValidationWrongCredentials, @"");
     XCTAssert([self validEmail:@".pl"] == ValidationWrongCredentials, @"");
     XCTAssert([self validEmail:@"a.pl"] == ValidationWrongCredentials, @"");
-    XCTAssert([self validEmail:@"a@pl"] == ValidationWrongCredentials, @"");
 }
 
 - (ValidationResult)validEmail:(NSString *)email

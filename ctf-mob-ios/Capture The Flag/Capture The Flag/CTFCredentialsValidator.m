@@ -37,7 +37,6 @@
 
 + (NSString *)patternForType:(CredentialType)type
 {
-#warning There are placeholders. Need to think about it more and decide how patterns should look like.
     NSString *pattern = nil;
     switch (type) {
         case CredentialTypeUsername:
@@ -49,8 +48,7 @@
             break;
             
         case CredentialTypeEmail:
-#warning It's placeholder for simple addresses. We should think about it because it can valid following email address. "._%@a.pl"
-            pattern = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9]+\\.[A-Za-z]{2,4}";
+            pattern = @"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
             break;
     }
     return pattern;
