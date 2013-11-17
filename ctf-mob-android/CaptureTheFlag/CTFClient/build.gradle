@@ -1,0 +1,64 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.6.+'
+    }
+}
+apply plugin: 'android'
+
+repositories {
+    mavenCentral()
+}
+
+android {
+
+    compileSdkVersion 19
+    buildToolsVersion "19.0.0"
+
+    defaultConfig {
+        minSdkVersion 10
+        targetSdkVersion 19
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    buildTypes {
+        release {
+            runProguard true
+            proguardFile getDefaultProguardFile('proguard-android-optimize.txt')
+        }
+    }
+    productFlavors {
+        defaultFlavor {
+            proguardFile 'proguard-rules.txt'
+        }
+    }
+
+    signingConfigs {
+        release {
+            // release key configuration for signing release version of app
+            // custom android debug.keystore and key is used
+            storeFile file(release_keyStore)
+            storePassword release_keyStorePassword
+            keyAlias release_keyAlias
+            keyPassword release_keyAliasPassword
+        }
+
+        debug {
+            // custom android debug.keystore and key is used
+            storeFile file(debug_keyStore)
+        }
+    }
+}
+
+dependencies {
+    compile 'com.android.support:appcompat-v7:18.0.0'
+    compile 'com.android.support:gridlayout-v7:18.0.0'
+    compile 'com.android.support:support-v4:18.0.0'
+    compile fileTree(dir: 'libs', include: '*.jar')
+}
