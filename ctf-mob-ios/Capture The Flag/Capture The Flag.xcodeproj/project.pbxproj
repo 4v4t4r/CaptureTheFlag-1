@@ -25,6 +25,7 @@
 		6DE0FCD1182C582B00800C09 /* LoginAndRegister.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6DFD193D182ACF0C00542227 /* LoginAndRegister.storyboard */; };
 		6DE0FCD2182C582F00800C09 /* CTFLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DFD1941182ACF0C00542227 /* CTFLoginViewController.m */; };
 		6DE0FCD4182C5ABD00800C09 /* CTFRegisterViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE0FCD3182C5ABD00800C09 /* CTFRegisterViewControllerTests.m */; };
+		6DE9912A183A99F7005F3DB1 /* CTFUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE99129183A99F7005F3DB1 /* CTFUser.m */; };
 		6DFD192C182ACF0C00542227 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DFD192B182ACF0C00542227 /* Foundation.framework */; };
 		6DFD192E182ACF0C00542227 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DFD192D182ACF0C00542227 /* CoreGraphics.framework */; };
 		6DFD1930182ACF0C00542227 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DFD192F182ACF0C00542227 /* UIKit.framework */; };
@@ -71,6 +72,8 @@
 		6DE0FCCC182C030700800C09 /* CTFCredentialValidatorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFCredentialValidatorTests.m; sourceTree = "<group>"; };
 		6DE0FCCF182C582200800C09 /* CTFLoginViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFLoginViewControllerTests.m; sourceTree = "<group>"; };
 		6DE0FCD3182C5ABD00800C09 /* CTFRegisterViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFRegisterViewControllerTests.m; sourceTree = "<group>"; };
+		6DE99128183A99F7005F3DB1 /* CTFUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFUser.h; sourceTree = "<group>"; };
+		6DE99129183A99F7005F3DB1 /* CTFUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFUser.m; sourceTree = "<group>"; };
 		6DFD1928182ACF0C00542227 /* Capture The Flag.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Capture The Flag.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DFD192B182ACF0C00542227 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6DFD192D182ACF0C00542227 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -171,6 +174,15 @@
 			name = "Login And Register";
 			sourceTree = "<group>";
 		};
+		6DE99127183A99D5005F3DB1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				6DE99128183A99F7005F3DB1 /* CTFUser.h */,
+				6DE99129183A99F7005F3DB1 /* CTFUser.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		6DFD191F182ACF0C00542227 = {
 			isa = PBXGroup;
 			children = (
@@ -210,6 +222,7 @@
 				6DFD193B182ACF0C00542227 /* CTFAppDelegate.m */,
 				6D6DF20A182B8901004A4D58 /* Login And Register */,
 				6DFD1943182ACF0C00542227 /* Images.xcassets */,
+				6DE99127183A99D5005F3DB1 /* Model */,
 				6D54EBB7182EB657002A6357 /* Rest Kit Mappings */,
 				6DFD1932182ACF0C00542227 /* Supporting Files */,
 			);
@@ -419,6 +432,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6DE9912A183A99F7005F3DB1 /* CTFUser.m in Sources */,
 				6DFD193C182ACF0C00542227 /* CTFAppDelegate.m in Sources */,
 				6DFD1942182ACF0C00542227 /* CTFLoginViewController.m in Sources */,
 				6D54EBBA182EB675002A6357 /* RKLoginResponse.m in Sources */,
