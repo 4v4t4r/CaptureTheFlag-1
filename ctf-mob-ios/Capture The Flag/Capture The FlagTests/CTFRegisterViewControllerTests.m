@@ -14,25 +14,74 @@
 @end
 
 @implementation CTFRegisterViewControllerTests
-
-- (void)testOutletsAndActions
 {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"LoginAndRegister" bundle:nil];
-    CTFRegisterViewController *registerVC = [storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([CTFRegisterViewController class])];
-    [registerVC view]; /// call this to force call viewDidLoad.
-    
-    /// Outlets
-    XCTAssertNotNil(registerVC.emailTF, @"");
-    XCTAssertNotNil(registerVC.usernameTF, @"");
-    XCTAssertNotNil(registerVC.passwordTF, @"");
-    XCTAssertNotNil(registerVC.rePasswordTF, @"");
-    XCTAssertNotNil(registerVC.registerBtn, @"");
-    
-    /// Delegates
-    XCTAssertEqualObjects(registerVC.emailTF.delegate, registerVC, @"");
-    XCTAssertEqualObjects(registerVC.usernameTF.delegate, registerVC, @"");
-    XCTAssertEqualObjects(registerVC.passwordTF.delegate, registerVC, @"");
-    XCTAssertEqualObjects(registerVC.rePasswordTF.delegate, registerVC, @"");
+    UIStoryboard *storyboard;
+    CTFRegisterViewController *vc;
+}
+
+- (void)setUp
+{
+    [super setUp];
+    storyboard = [UIStoryboard storyboardWithName:@"LoginAndRegister" bundle:nil];
+    vc = [storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([CTFRegisterViewController class])];
+    [vc view];
+}
+
+- (void)tearDown
+{
+    vc = nil;
+    storyboard = nil;
+    [super tearDown];
+}
+
+- (void)testStoryboardShouldExists
+{
+    XCTAssertNotNil(storyboard, @"");
+}
+
+- (void)testViewControllerShouldExists
+{
+    XCTAssertNotNil(vc, @"");
+}
+
+
+#pragma mark - Outlets
+- (void)testEmailTextFieldShouldExists
+{
+    XCTAssertNotNil(vc.emailTF, @"");
+}
+
+- (void)testUsernameTextFieldShouldExists
+{
+    XCTAssertNotNil(vc.usernameTF, @"");
+}
+
+- (void)testPasswordTextFieldShouldExists
+{
+    XCTAssertNotNil(vc.passwordTF, @"");
+}
+
+- (void)testRePasswordTextFieldShouldExists
+{
+    XCTAssertNotNil(vc.rePasswordTF, @"");
+}
+
+- (void)testRegisterButtonShouldExists
+{
+    XCTAssertNotNil(vc.registerBtn, @"");
+}
+
+- (void)testSatusLabelShouldExists
+{
+    XCTAssertNotNil(vc.statusLabel, @"");
+}
+
+
+#pragma mark - Actions
+- (void)testRegisterButtonAction
+{
+    NSString *action = [vc.registerBtn actionsForTarget:vc forControlEvent:UIControlEventTouchUpInside][0];
+    XCTAssertEqualObjects(action, @"registerPressed", @"");
 }
 
 @end
