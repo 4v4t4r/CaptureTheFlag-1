@@ -14,22 +14,75 @@
 @end
 
 @implementation CTFLoginViewControllerTests
-
-- (void)testOutletsAndActions
 {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"LoginAndRegister" bundle:nil];
-    CTFLoginViewController *loginVC = [storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([CTFLoginViewController class])];
-    [loginVC view]; /// call this to force call viewDidLoad.
-    
-    /// Outlets
-    XCTAssertNotNil(loginVC.usernameTF, @"");
-    XCTAssertNotNil(loginVC.passwordTF, @"");
-    XCTAssertNotNil(loginVC.loginBtn, @"");
-    XCTAssertNotNil(loginVC.registerBtn, @"");
-    
-    /// Delegates
-    XCTAssertEqualObjects(loginVC.usernameTF.delegate, loginVC, @"");
-    XCTAssertEqualObjects(loginVC.passwordTF.delegate, loginVC, @"");
+    UIStoryboard *storyboard;
+    CTFLoginViewController *vc;
+}
+
+- (void)setUp
+{
+    [super setUp];
+    storyboard = [UIStoryboard storyboardWithName:@"LoginAndRegister" bundle:nil];
+    vc = [storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([CTFLoginViewController class])];
+    [vc view];
+}
+
+- (void)tearDown
+{
+    vc = nil;
+    storyboard = nil;
+    [super tearDown];
+}
+
+- (void)testStoryboardShouldExists
+{
+    XCTAssertNotNil(storyboard, @"Storyboard should exists");
+}
+
+- (void)testCTFLoginVCShouldExists
+{
+    XCTAssertNotNil(vc, @"Controller with this identifier should exists");
+}
+
+#pragma mark - Outlets
+- (void)testUserNameTextFieldShouldExists
+{
+    XCTAssertNotNil(vc.usernameTF, @"");
+}
+
+- (void)testPasswordTextFieldShouldExists
+{
+    XCTAssertNotNil(vc.passwordTF, @"");
+}
+
+- (void)testLoginButtonShouldExists
+{
+    XCTAssertNotNil(vc.loginBtn, @"");
+}
+
+- (void)testRegisterButtonShouldExists
+{
+    XCTAssertNotNil(vc.registerBtn, @"");
+}
+
+- (void)testStatusLabelShouldExists
+{
+    XCTAssertNotNil(vc.statusLabel, @"");
+}
+
+
+#pragma mark - Actions
+- (void)testLoginButtonAction
+{
+    NSString *action = [vc.loginBtn actionsForTarget:vc forControlEvent:UIControlEventTouchUpInside][0];
+    XCTAssertEqualObjects(action, @"loginPressed", @"action should be loginPressed");
+}
+
+
+#pragma mark - Segues
+- (void)testToRegisterSegue
+{
+    XCTAssertTrue([vc shouldPerformSegueWithIdentifier:@"ToRegisterSegue" sender:vc], @"");
 }
 
 @end

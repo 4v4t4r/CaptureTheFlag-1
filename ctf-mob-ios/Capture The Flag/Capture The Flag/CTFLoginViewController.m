@@ -105,4 +105,13 @@
     return YES;
 }
 
+
+#pragma mark - Segues
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
+{
+    if ([identifier isEqualToString:@"ToRegisterSegue"])
+        return YES;
+    return NO;
+}
+
 @end
