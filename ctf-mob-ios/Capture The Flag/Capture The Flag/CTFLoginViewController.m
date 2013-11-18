@@ -7,7 +7,9 @@
 //
 
 #import "CTFLoginViewController.h"
+#import "CTFMainViewController.h"
 #import "CTFCredentialsValidator.h"
+#import "CTFUser.h"
 
 @interface CTFLoginViewController ()
 
@@ -53,6 +55,20 @@
     {
         _statusLabel.text = NSLocalizedString(@"view.login.label.status.logged", nil);
         [self.view endEditing:YES];
+        
+        /// Here will be post request.
+        
+        if (1) /// If successfuly logged to the server token will be provide in response
+        {
+            CTFUser *user = [CTFUser new];
+            user.login = _usernameTF.text;
+            user.token = @"token_from_server";
+            
+            /// Create new view and pass user to it.
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            CTFMainViewController *mainVC = [storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([CTFMainViewController class])];
+            [self.navigationController pushViewController:mainVC animated:YES];
+        }
     }
     else
     {
