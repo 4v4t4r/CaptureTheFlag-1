@@ -66,7 +66,11 @@
             /// Create new view and show
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
             UINavigationController *mainNavigationController = [storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([UINavigationController class])];
-            [self presentViewController:mainNavigationController animated:YES completion:nil];
+            [self presentViewController:mainNavigationController animated:YES completion:^{
+                _usernameTF.text = @"";
+                _passwordTF.text = @"";
+                _statusLabel.text = @"";
+            }];
         }
     }
     else

@@ -32,5 +32,10 @@
     }
 }
 
+- (IBAction)onLogout:(id)sender
+{
+    [[CTFUser instance] logout];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 @end

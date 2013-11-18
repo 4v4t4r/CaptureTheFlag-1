@@ -25,4 +25,9 @@
         return nil;
 }
 
+- (void)logout
+{
+    [self.managedObjectContext deleteObject:self];
+}
+
 @end

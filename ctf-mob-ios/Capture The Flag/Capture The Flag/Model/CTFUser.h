@@ -16,4 +16,7 @@
 /** Return instance of CTFUser class from CoreData when exists, otherwise nil. */
 + (instancetype)instance;
 
+/** Logout user */
+- (void)logout;
+
 @end
