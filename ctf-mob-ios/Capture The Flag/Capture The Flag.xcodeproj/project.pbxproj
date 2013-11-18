@@ -17,12 +17,10 @@
 		6D54EBC3182EC688002A6357 /* RKLoginRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D54EBBD182EC2D2002A6357 /* RKLoginRequest.m */; };
 		6D6DF209182B88F9004A4D58 /* CTFRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6DF208182B88F9004A4D58 /* CTFRegisterViewController.m */; };
 		6D6DF20F182B8B59004A4D58 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D6DF20D182B8B59004A4D58 /* Localizable.strings */; };
-		6D6DF211182B8B76004A4D58 /* Capture The Flag-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6DFD1933182ACF0C00542227 /* Capture The Flag-Info.plist */; };
 		6DE0FCCB182BFC6F00800C09 /* CTFCredentialsValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE0FCCA182BFC6F00800C09 /* CTFCredentialsValidator.m */; };
 		6DE0FCCD182C030700800C09 /* CTFCredentialValidatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE0FCCC182C030700800C09 /* CTFCredentialValidatorTests.m */; };
 		6DE0FCCE182C030B00800C09 /* CTFCredentialsValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE0FCCA182BFC6F00800C09 /* CTFCredentialsValidator.m */; };
 		6DE0FCD0182C582300800C09 /* CTFLoginViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE0FCCF182C582200800C09 /* CTFLoginViewControllerTests.m */; };
-		6DE0FCD1182C582B00800C09 /* LoginAndRegister.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6DFD193D182ACF0C00542227 /* LoginAndRegister.storyboard */; };
 		6DE0FCD2182C582F00800C09 /* CTFLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DFD1941182ACF0C00542227 /* CTFLoginViewController.m */; };
 		6DE0FCD4182C5ABD00800C09 /* CTFRegisterViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE0FCD3182C5ABD00800C09 /* CTFRegisterViewControllerTests.m */; };
 		6DE9912A183A99F7005F3DB1 /* CTFUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE99129183A99F7005F3DB1 /* CTFUser.m */; };
@@ -34,16 +32,13 @@
 		6DFD192C182ACF0C00542227 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DFD192B182ACF0C00542227 /* Foundation.framework */; };
 		6DFD192E182ACF0C00542227 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DFD192D182ACF0C00542227 /* CoreGraphics.framework */; };
 		6DFD1930182ACF0C00542227 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DFD192F182ACF0C00542227 /* UIKit.framework */; };
-		6DFD1936182ACF0C00542227 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6DFD1934182ACF0C00542227 /* InfoPlist.strings */; };
 		6DFD1938182ACF0C00542227 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DFD1937182ACF0C00542227 /* main.m */; };
 		6DFD193C182ACF0C00542227 /* CTFAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DFD193B182ACF0C00542227 /* CTFAppDelegate.m */; };
-		6DFD193F182ACF0C00542227 /* LoginAndRegister.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6DFD193D182ACF0C00542227 /* LoginAndRegister.storyboard */; };
 		6DFD1942182ACF0C00542227 /* CTFLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DFD1941182ACF0C00542227 /* CTFLoginViewController.m */; };
 		6DFD1944182ACF0C00542227 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6DFD1943182ACF0C00542227 /* Images.xcassets */; };
 		6DFD194B182ACF0D00542227 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DFD194A182ACF0D00542227 /* XCTest.framework */; };
 		6DFD194C182ACF0D00542227 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DFD192B182ACF0C00542227 /* Foundation.framework */; };
 		6DFD194D182ACF0D00542227 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DFD192F182ACF0C00542227 /* UIKit.framework */; };
-		6DFD1955182ACF0D00542227 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6DFD1953182ACF0D00542227 /* InfoPlist.strings */; };
 		A613A6866B7049208079ACBE /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9825F57F59AB43ED892D2396 /* libPods.a */; };
 		C940519EC47F463DBC20D9FB /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9825F57F59AB43ED892D2396 /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -374,10 +369,7 @@
 			files = (
 				6DFD1944182ACF0C00542227 /* Images.xcassets in Resources */,
 				6D6DF20F182B8B59004A4D58 /* Localizable.strings in Resources */,
-				6DFD1936182ACF0C00542227 /* InfoPlist.strings in Resources */,
 				6DE99130183A9B89005F3DB1 /* Main.storyboard in Resources */,
-				6D6DF211182B8B76004A4D58 /* Capture The Flag-Info.plist in Resources */,
-				6DFD193F182ACF0C00542227 /* LoginAndRegister.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -385,9 +377,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6DFD1955182ACF0D00542227 /* InfoPlist.strings in Resources */,
 				6D54EBC0182EC47D002A6357 /* login-request.json in Resources */,
-				6DE0FCD1182C582B00800C09 /* LoginAndRegister.storyboard in Resources */,
 				6D54EBB4182EB29C002A6357 /* login-response.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
