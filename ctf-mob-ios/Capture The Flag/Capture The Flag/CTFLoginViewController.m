@@ -7,7 +7,6 @@
 //
 
 #import "CTFLoginViewController.h"
-#import "CTFMainViewController.h"
 #import "CTFCredentialsValidator.h"
 #import "CTFUser.h"
 
@@ -60,14 +59,14 @@
         
         if (1) /// If successfuly logged to the server token will be provide in response
         {
-            CTFUser *user = [CTFUser new];
+            CTFUser *user = [CTFUser createObject];
             user.login = _usernameTF.text;
             user.token = @"token_from_server";
             
-            /// Create new view and pass user to it.
+            /// Create new view and show
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            CTFMainViewController *mainVC = [storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([CTFMainViewController class])];
-            [self.navigationController pushViewController:mainVC animated:YES];
+            UINavigationController *mainNavigationController = [storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([UINavigationController class])];
+            [self presentViewController:mainNavigationController animated:YES completion:nil];
         }
     }
     else

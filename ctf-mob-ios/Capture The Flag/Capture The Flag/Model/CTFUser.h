@@ -6,11 +6,14 @@
 //  Copyright (c) 2013 Tomasz Szulc. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "CustomManagedObject.h"
 
-@interface CTFUser : NSObject
+@interface CTFUser : CustomManagedObject
 
 @property (nonatomic) NSString *login;
 @property (nonatomic) NSString *token;
+
+/** Return instance of CTFUser class from CoreData when exists, otherwise nil. */
++ (instancetype)instance;
 
 @end

@@ -28,6 +28,9 @@
 		6DE9912A183A99F7005F3DB1 /* CTFUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE99129183A99F7005F3DB1 /* CTFUser.m */; };
 		6DE9912D183A9B6D005F3DB1 /* CTFMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE9912C183A9B6D005F3DB1 /* CTFMainViewController.m */; };
 		6DE99130183A9B89005F3DB1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6DE9912F183A9B89005F3DB1 /* Main.storyboard */; };
+		6DE99139183A9F9E005F3DB1 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6DE99137183A9F9E005F3DB1 /* Model.xcdatamodeld */; };
+		6DE9913C183AA00E005F3DB1 /* CoreDataService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE9913B183AA00E005F3DB1 /* CoreDataService.m */; };
+		6DE99141183AA128005F3DB1 /* CustomManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE99140183AA128005F3DB1 /* CustomManagedObject.m */; };
 		6DFD192C182ACF0C00542227 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DFD192B182ACF0C00542227 /* Foundation.framework */; };
 		6DFD192E182ACF0C00542227 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DFD192D182ACF0C00542227 /* CoreGraphics.framework */; };
 		6DFD1930182ACF0C00542227 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DFD192F182ACF0C00542227 /* UIKit.framework */; };
@@ -79,6 +82,11 @@
 		6DE9912B183A9B6D005F3DB1 /* CTFMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFMainViewController.h; sourceTree = "<group>"; };
 		6DE9912C183A9B6D005F3DB1 /* CTFMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFMainViewController.m; sourceTree = "<group>"; };
 		6DE9912F183A9B89005F3DB1 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		6DE99138183A9F9E005F3DB1 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		6DE9913A183AA00E005F3DB1 /* CoreDataService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataService.h; sourceTree = "<group>"; };
+		6DE9913B183AA00E005F3DB1 /* CoreDataService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataService.m; sourceTree = "<group>"; };
+		6DE9913F183AA128005F3DB1 /* CustomManagedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomManagedObject.h; sourceTree = "<group>"; };
+		6DE99140183AA128005F3DB1 /* CustomManagedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomManagedObject.m; sourceTree = "<group>"; };
 		6DFD1928182ACF0C00542227 /* Capture The Flag.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Capture The Flag.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DFD192B182ACF0C00542227 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6DFD192D182ACF0C00542227 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -182,10 +190,15 @@
 		6DE99127183A99D5005F3DB1 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				6DE99137183A9F9E005F3DB1 /* Model.xcdatamodeld */,
+				6DE9913A183AA00E005F3DB1 /* CoreDataService.h */,
+				6DE9913B183AA00E005F3DB1 /* CoreDataService.m */,
+				6DE9913F183AA128005F3DB1 /* CustomManagedObject.h */,
+				6DE99140183AA128005F3DB1 /* CustomManagedObject.m */,
 				6DE99128183A99F7005F3DB1 /* CTFUser.h */,
 				6DE99129183A99F7005F3DB1 /* CTFUser.m */,
 			);
-			name = Model;
+			path = Model;
 			sourceTree = "<group>";
 		};
 		6DE9912E183A9B72005F3DB1 /* Main */ = {
@@ -451,12 +464,15 @@
 			files = (
 				6DE9912A183A99F7005F3DB1 /* CTFUser.m in Sources */,
 				6DE9912D183A9B6D005F3DB1 /* CTFMainViewController.m in Sources */,
+				6DE9913C183AA00E005F3DB1 /* CoreDataService.m in Sources */,
+				6DE99141183AA128005F3DB1 /* CustomManagedObject.m in Sources */,
 				6DFD193C182ACF0C00542227 /* CTFAppDelegate.m in Sources */,
 				6DFD1942182ACF0C00542227 /* CTFLoginViewController.m in Sources */,
 				6D54EBBA182EB675002A6357 /* RKLoginResponse.m in Sources */,
 				6DFD1938182ACF0C00542227 /* main.m in Sources */,
 				6D54EBBE182EC2D2002A6357 /* RKLoginRequest.m in Sources */,
 				6DE0FCCB182BFC6F00800C09 /* CTFCredentialsValidator.m in Sources */,
+				6DE99139183A9F9E005F3DB1 /* Model.xcdatamodeld in Sources */,
 				6D6DF209182B88F9004A4D58 /* CTFRegisterViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -708,6 +724,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		6DE99137183A9F9E005F3DB1 /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				6DE99138183A9F9E005F3DB1 /* Model.xcdatamodel */,
+			);
+			currentVersion = 6DE99138183A9F9E005F3DB1 /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 6DFD1920182ACF0C00542227 /* Project object */;
 }
