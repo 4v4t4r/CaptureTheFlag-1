@@ -2,7 +2,7 @@
 //  CoreDataService.h
 //  Capture The Flag
 //
-//  Created by Tomasz Szulc on 17.08.2013.
+//  Created by Tomasz Szulc on 18.11.2013.
 //  Copyright (c) 2013 Tomasz Szulc. All rights reserved.
 //
 
@@ -11,13 +11,19 @@
 
 @interface CoreDataService : NSObject
 
-@property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
-@property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
-@property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+@property (readonly, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (readonly, nonatomic) NSManagedObjectModel *managedObjectModel;
+@property (readonly, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
-+ (CoreDataService *)sharedService;
++ (CoreDataService *)sharedInstance;
+
+/** Use it to set sharedInstance of CoreDataService.
+ Used to avoid singleton in Unit Testing
+ */
++ (void)setSharedInstance:(CoreDataService *)instance;
+
+- (instancetype)initForUnitTesting;
 
 - (void)saveContext;
-- (NSURL *)applicationDocumentsDirectory;
 
 @end

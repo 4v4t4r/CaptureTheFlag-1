@@ -7,12 +7,18 @@
 //
 
 #import "CTFAppDelegate.h"
+#import "CoreDataService.h"
 #import "CTFLoginViewController.h"
 
 @implementation CTFAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    /// Configure Core Data
+
+    CoreDataService *sharedInstance = [CoreDataService new];
+    [CoreDataService setSharedInstance:sharedInstance];
+
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"LoginAndRegister" bundle:nil];
     UINavigationController *nav = [storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([UINavigationController class])];
     

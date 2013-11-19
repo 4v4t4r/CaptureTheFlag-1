@@ -30,7 +30,7 @@
 
 + (NSManagedObjectContext *)moc
 {
-    return [CoreDataService sharedService].managedObjectContext;
+    return [CoreDataService sharedInstance].managedObjectContext;
 }
 
 @end
