@@ -156,9 +156,9 @@
 		6D54EBB1182EB264002A6357 /* RestKit Tests */ = {
 			isa = PBXGroup;
 			children = (
-				6D54EBB2182EB26B002A6357 /* Fixtures */,
 				6D54EBA7182EB055002A6357 /* RKLoginResponseTests.m */,
 				6D54EBC1182EC5E7002A6357 /* RKLoginRequestTests.m */,
+				6D54EBB2182EB26B002A6357 /* Fixtures */,
 			);
 			name = "RestKit Tests";
 			sourceTree = "<group>";
@@ -283,9 +283,9 @@
 		6DFD1950182ACF0D00542227 /* Capture The FlagTests */ = {
 			isa = PBXGroup;
 			children = (
+				6DE0FCCC182C030700800C09 /* CTFCredentialValidatorTests.m */,
 				6D163E5F183BF62100BC4F84 /* Core Data Tests */,
 				6D54EBA9182EB05E002A6357 /* UI Tests */,
-				6DE0FCCC182C030700800C09 /* CTFCredentialValidatorTests.m */,
 				6D54EBB1182EB264002A6357 /* RestKit Tests */,
 				6DFD1951182ACF0D00542227 /* Supporting Files */,
 			);
