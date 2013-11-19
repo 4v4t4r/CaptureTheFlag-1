@@ -12,10 +12,13 @@
 
 @dynamic login;
 @dynamic token;
+@dynamic logged;
 
-+ (instancetype)instance
++ (instancetype)loggedUser
 {
-    NSFetchRequest *request = [self fetchRequestWithPredicate:nil];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"logged == %@", @(YES)];
+    
+    NSFetchRequest *request = [self fetchRequestWithPredicate:predicate];
     request.fetchLimit = 1;
     NSArray *results = [[self moc] executeFetchRequest:request error:nil];
     
@@ -25,8 +28,33 @@
         return nil;
 }
 
-- (void)logout
+- (BOOL)isLogged
 {
+    return [self.logged boolValue];
+}
+
+- (BOOL)loginUser
+{
+    CTFUser *loggedUser = [CTFUser loggedUser];
+    
+    BOOL hasBeenLogged = NO;
+    if (loggedUser)
+    {
+        if ([self isEqual:loggedUser])
+            hasBeenLogged = YES;
+    }
+    else
+    {
+        self.logged = @(YES);
+        hasBeenLogged = YES;
+    }
+    
+    return hasBeenLogged;
+}
+
+- (void)logoutUser
+{
+    self.logged = @(NO);
     [self.managedObjectContext deleteObject:self];
 }
 

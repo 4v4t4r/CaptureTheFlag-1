@@ -12,11 +12,14 @@
 
 @property (nonatomic) NSString *login;
 @property (nonatomic) NSString *token;
+@property (nonatomic) NSNumber *logged;
+
+@property (readonly) BOOL isLogged;
 
 /** Return instance of CTFUser class from CoreData when exists, otherwise nil. */
-+ (instancetype)instance;
++ (instancetype)loggedUser;
 
-/** Logout user */
-- (void)logout;
+- (BOOL)loginUser;
+- (void)logoutUser;
 
 @end

@@ -62,15 +62,23 @@
             CTFUser *user = [CTFUser createObject];
             user.login = _usernameTF.text;
             user.token = @"token_from_server";
-            
-            /// Create new view and show
-            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            UINavigationController *mainNavigationController = [storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([UINavigationController class])];
-            [self presentViewController:mainNavigationController animated:YES completion:^{
-                _usernameTF.text = @"";
-                _passwordTF.text = @"";
-                _statusLabel.text = @"";
-            }];
+            BOOL result = [user loginUser];
+            if (result)
+            {
+                /// Create new view and show
+                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                UINavigationController *mainNavigationController = [storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([UINavigationController class])];
+                [self presentViewController:mainNavigationController animated:YES completion:^{
+                    _usernameTF.text = @"";
+                    _passwordTF.text = @"";
+                    _statusLabel.text = @"";
+                }];
+            }
+            else
+            {
+                /// We have check if this situation is possible in the future
+                NSLog(@"Something really goes wrong. User is still logged in");
+            }
         }
     }
     else

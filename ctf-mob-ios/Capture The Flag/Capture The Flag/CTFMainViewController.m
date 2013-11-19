@@ -25,7 +25,7 @@
 {
     [super viewWillAppear:animated];
     
-    CTFUser *user = [CTFUser instance];
+    CTFUser *user = [CTFUser loggedUser];
     if (user)
     {
         self.navigationItem.title = [NSString stringWithFormat:@"@%@", user.login];
@@ -34,7 +34,7 @@
 
 - (IBAction)onLogout:(id)sender
 {
-    [[CTFUser instance] logout];
+    [[CTFUser loggedUser] logoutUser];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
