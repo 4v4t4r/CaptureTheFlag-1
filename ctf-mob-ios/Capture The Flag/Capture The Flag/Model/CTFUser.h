@@ -10,10 +10,18 @@
 
 @interface CTFUser : CustomManagedObject
 
-@property (nonatomic) NSString *login;
-@property (nonatomic) NSString *token;
-@property (nonatomic) NSNumber *logged;
+@property (nonatomic) NSString *username;
+@property (nonatomic) NSString *email;
+@property (nonatomic) NSString *password;
+@property (nonatomic) NSString *nick;
 
+#warning ???: I'm not sure that location should be in CTFUser object. It should be in player? It's only necessary when user is in game. Maybe we should create some proxy object which will return us only these values which are necessary for gameplay?
+//@property (nonatomic) CGPoint location;
+
+#warning After first tests of properties above add this property too and test it.
+//@property (nonatomic, readonly) NSArray *characters;
+
+@property (nonatomic) NSNumber *logged;
 @property (readonly) BOOL isLogged;
 
 /** Return instance of CTFUser class from CoreData when exists, otherwise nil. */
@@ -21,5 +29,13 @@
 
 - (BOOL)loginUser;
 - (void)logoutUser;
+
+@end
+
+@interface CTFUser (API)
+
+typedef void (^RegisterBlock)(bool success, NSError *error);
+
++ (void)registerUser:(CTFUser *)user withBlock:(RegisterBlock)block;
 
 @end

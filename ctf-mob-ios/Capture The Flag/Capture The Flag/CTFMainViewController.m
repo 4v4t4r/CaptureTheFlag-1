@@ -28,7 +28,7 @@
     CTFUser *user = [CTFUser loggedUser];
     if (user)
     {
-        self.navigationItem.title = [NSString stringWithFormat:@"@%@", user.login];
+        self.navigationItem.title = [NSString stringWithFormat:@"@%@", user.username];
     }
 }
 

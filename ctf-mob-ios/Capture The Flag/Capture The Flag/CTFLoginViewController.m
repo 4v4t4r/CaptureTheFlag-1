@@ -60,8 +60,7 @@
         if (1) /// If successfuly logged to the server token will be provide in response
         {
             CTFUser *user = [CTFUser createObject];
-            user.login = _usernameTF.text;
-            user.token = @"token_from_server";
+            user.username = _usernameTF.text;
             BOOL result = [user loginUser];
             if (result)
             {

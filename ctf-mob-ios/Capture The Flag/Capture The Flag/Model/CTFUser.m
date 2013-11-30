@@ -10,8 +10,10 @@
 
 @implementation CTFUser
 
-@dynamic login;
-@dynamic token;
+@dynamic username;
+@dynamic email;
+@dynamic password;
+@dynamic nick;
 @dynamic logged;
 
 + (instancetype)loggedUser

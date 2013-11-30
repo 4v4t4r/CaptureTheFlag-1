@@ -38,7 +38,7 @@
 - (void)testLoggedUser
 {
     CTFUser *user = [CTFUser createObject];
-    user.login = @"logged";
+    user.username = @"logged";
     [user loginUser];
     
     CTFUser *current = [CTFUser loggedUser];
@@ -48,7 +48,7 @@
 - (void)testLoginUser
 {
     CTFUser *user = [CTFUser createObject];
-    user.login = @"login";
+    user.username = @"login";
     BOOL result = [user loginUser];
     XCTAssertTrue(result, @"User should be logged in");
 }
@@ -56,11 +56,11 @@
 - (void)testPreventAttemptToLogInAnotherUser
 {
     CTFUser *user = [CTFUser createObject];
-    user.login = @"first";
+    user.username = @"first";
     [user loginUser];
 
     CTFUser *otherUser = [CTFUser createObject];
-    otherUser.login = @"second";
+    otherUser.username = @"second";
     
     BOOL result = [otherUser loginUser];
     XCTAssertFalse(result, @"Second user shouldn't be logged in");
