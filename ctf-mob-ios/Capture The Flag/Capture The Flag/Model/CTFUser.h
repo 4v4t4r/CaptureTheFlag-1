@@ -31,11 +31,3 @@
 - (void)logoutUser;
 
 @end
-
-@interface CTFUser (API)
-
-typedef void (^RegisterBlock)(bool success, NSError *error);
-
-+ (void)registerUser:(CTFUser *)user withBlock:(RegisterBlock)block;
-
-@end

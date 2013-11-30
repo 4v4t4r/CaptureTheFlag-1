@@ -9,14 +9,6 @@
 /* Begin PBXBuildFile section */
 		6D163E61183BF63400BC4F84 /* CTFUserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D163E60183BF63400BC4F84 /* CTFUserTests.m */; };
 		6D163E62183BFB1A00BC4F84 /* LoginAndRegister.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6DFD193D182ACF0C00542227 /* LoginAndRegister.storyboard */; };
-		6D54EBA8182EB055002A6357 /* RKLoginResponseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D54EBA7182EB055002A6357 /* RKLoginResponseTests.m */; };
-		6D54EBB4182EB29C002A6357 /* login-response.json in Resources */ = {isa = PBXBuildFile; fileRef = 6D54EBB3182EB29C002A6357 /* login-response.json */; };
-		6D54EBBA182EB675002A6357 /* RKLoginResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D54EBB9182EB675002A6357 /* RKLoginResponse.m */; };
-		6D54EBBB182EB6A5002A6357 /* RKLoginResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D54EBB9182EB675002A6357 /* RKLoginResponse.m */; };
-		6D54EBBE182EC2D2002A6357 /* RKLoginRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D54EBBD182EC2D2002A6357 /* RKLoginRequest.m */; };
-		6D54EBC0182EC47D002A6357 /* login-request.json in Resources */ = {isa = PBXBuildFile; fileRef = 6D54EBBF182EC47D002A6357 /* login-request.json */; };
-		6D54EBC2182EC5E7002A6357 /* RKLoginRequestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D54EBC1182EC5E7002A6357 /* RKLoginRequestTests.m */; };
-		6D54EBC3182EC688002A6357 /* RKLoginRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D54EBBD182EC2D2002A6357 /* RKLoginRequest.m */; };
 		6D6DF209182B88F9004A4D58 /* CTFRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6DF208182B88F9004A4D58 /* CTFRegisterViewController.m */; };
 		6D6DF20F182B8B59004A4D58 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D6DF20D182B8B59004A4D58 /* Localizable.strings */; };
 		6D9CBE6A183AB4BB000FE071 /* CTFMainViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9CBE69183AB4BB000FE071 /* CTFMainViewControllerTests.m */; };
@@ -61,14 +53,6 @@
 /* Begin PBXFileReference section */
 		0575C0B261A543468AFC452D /* Pods/Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 		6D163E60183BF63400BC4F84 /* CTFUserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFUserTests.m; sourceTree = "<group>"; };
-		6D54EBA7182EB055002A6357 /* RKLoginResponseTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKLoginResponseTests.m; sourceTree = "<group>"; };
-		6D54EBB3182EB29C002A6357 /* login-response.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "login-response.json"; sourceTree = "<group>"; };
-		6D54EBB8182EB675002A6357 /* RKLoginResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKLoginResponse.h; sourceTree = "<group>"; };
-		6D54EBB9182EB675002A6357 /* RKLoginResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKLoginResponse.m; sourceTree = "<group>"; };
-		6D54EBBC182EC2D2002A6357 /* RKLoginRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKLoginRequest.h; sourceTree = "<group>"; };
-		6D54EBBD182EC2D2002A6357 /* RKLoginRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKLoginRequest.m; sourceTree = "<group>"; };
-		6D54EBBF182EC47D002A6357 /* login-request.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "login-request.json"; sourceTree = "<group>"; };
-		6D54EBC1182EC5E7002A6357 /* RKLoginRequestTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKLoginRequestTests.m; sourceTree = "<group>"; };
 		6D6DF207182B88F9004A4D58 /* CTFRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFRegisterViewController.h; sourceTree = "<group>"; };
 		6D6DF208182B88F9004A4D58 /* CTFRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFRegisterViewController.m; sourceTree = "<group>"; };
 		6D6DF20E182B8B59004A4D58 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -156,32 +140,9 @@
 			name = "UI Tests";
 			sourceTree = "<group>";
 		};
-		6D54EBB1182EB264002A6357 /* RestKit Tests */ = {
-			isa = PBXGroup;
-			children = (
-				6D54EBA7182EB055002A6357 /* RKLoginResponseTests.m */,
-				6D54EBC1182EC5E7002A6357 /* RKLoginRequestTests.m */,
-				6D54EBB2182EB26B002A6357 /* Fixtures */,
-			);
-			name = "RestKit Tests";
-			sourceTree = "<group>";
-		};
-		6D54EBB2182EB26B002A6357 /* Fixtures */ = {
-			isa = PBXGroup;
-			children = (
-				6D54EBB3182EB29C002A6357 /* login-response.json */,
-				6D54EBBF182EC47D002A6357 /* login-request.json */,
-			);
-			name = Fixtures;
-			sourceTree = "<group>";
-		};
 		6D54EBB7182EB657002A6357 /* API */ = {
 			isa = PBXGroup;
 			children = (
-				6D54EBBC182EC2D2002A6357 /* RKLoginRequest.h */,
-				6D54EBBD182EC2D2002A6357 /* RKLoginRequest.m */,
-				6D54EBB8182EB675002A6357 /* RKLoginResponse.h */,
-				6D54EBB9182EB675002A6357 /* RKLoginResponse.m */,
 			);
 			name = API;
 			sourceTree = "<group>";
@@ -289,7 +250,6 @@
 				6DE0FCCC182C030700800C09 /* CTFCredentialValidatorTests.m */,
 				6D163E5F183BF62100BC4F84 /* Model */,
 				6D54EBA9182EB05E002A6357 /* UI Tests */,
-				6D54EBB1182EB264002A6357 /* RestKit Tests */,
 				6DFD1951182ACF0D00542227 /* Supporting Files */,
 			);
 			path = "Capture The FlagTests";
@@ -397,8 +357,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6D54EBC0182EC47D002A6357 /* login-request.json in Resources */,
-				6D54EBB4182EB29C002A6357 /* login-response.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -478,9 +436,7 @@
 				6DE99141183AA128005F3DB1 /* CustomManagedObject.m in Sources */,
 				6DFD193C182ACF0C00542227 /* CTFAppDelegate.m in Sources */,
 				6DFD1942182ACF0C00542227 /* CTFLoginViewController.m in Sources */,
-				6D54EBBA182EB675002A6357 /* RKLoginResponse.m in Sources */,
 				6DFD1938182ACF0C00542227 /* main.m in Sources */,
-				6D54EBBE182EC2D2002A6357 /* RKLoginRequest.m in Sources */,
 				6DE0FCCB182BFC6F00800C09 /* CTFCredentialsValidator.m in Sources */,
 				6DE99139183A9F9E005F3DB1 /* Model.xcdatamodeld in Sources */,
 				6D6DF209182B88F9004A4D58 /* CTFRegisterViewController.m in Sources */,
@@ -494,16 +450,12 @@
 				6D163E61183BF63400BC4F84 /* CTFUserTests.m in Sources */,
 				6DE0FCD2182C582F00800C09 /* CTFLoginViewController.m in Sources */,
 				6DE0FCCD182C030700800C09 /* CTFCredentialValidatorTests.m in Sources */,
-				6D54EBC2182EC5E7002A6357 /* RKLoginRequestTests.m in Sources */,
 				6DE0FCCE182C030B00800C09 /* CTFCredentialsValidator.m in Sources */,
 				6D9D1803184A0AB9004BF6FE /* CTFUserAPITests.m in Sources */,
 				6DE0FCD0182C582300800C09 /* CTFLoginViewControllerTests.m in Sources */,
-				6D54EBA8182EB055002A6357 /* RKLoginResponseTests.m in Sources */,
 				6D9CBE6B183AB4D1000FE071 /* CTFMainViewController.m in Sources */,
 				6DE0FCD4182C5ABD00800C09 /* CTFRegisterViewControllerTests.m in Sources */,
 				6D9CBE6A183AB4BB000FE071 /* CTFMainViewControllerTests.m in Sources */,
-				6D54EBC3182EC688002A6357 /* RKLoginRequest.m in Sources */,
-				6D54EBBB182EB6A5002A6357 /* RKLoginResponse.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
