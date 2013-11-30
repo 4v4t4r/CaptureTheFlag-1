@@ -7,8 +7,7 @@
 //
 
 #import "CTFRegisterViewController.h"
-//#import "CTFCredentialsValidator.h"
-#import "CTFUserService.h"
+#import "CTFAPICredentials.h"
 
 @implementation CTFRegisterViewController
 
@@ -63,7 +62,7 @@
 {
     BOOL registrationEnabled = NO;
     CredentialsValidationResult result =
-    [CTFUserService validateSignUpCredentialsWithUsername:_usernameTF.text
+    [CTFAPICredentials validateSignUpCredentialsWithUsername:_usernameTF.text
                                              emailAddress:_emailTF.text
                                                  password:_passwordTF.text
                                                rePassword:_rePasswordTF.text];

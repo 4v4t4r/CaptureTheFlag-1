@@ -1,14 +1,14 @@
 //
-//  CTFCredentialsValidator.m
+//  CTFAPICredentials+Validator.m
 //  Capture The Flag
 //
-//  Created by Tomasz Szulc on 07.11.2013.
+//  Created by Tomasz Szulc on 30.11.2013.
 //  Copyright (c) 2013 Tomasz Szulc. All rights reserved.
 //
 
-#import "CTFCredentialsValidator.h"
+#import "CTFAPICredentials+Validator.h"
 
-@implementation CTFCredentialsValidator
+@implementation CTFAPICredentials (Validator)
 
 + (ValidationResult)validCredential:(NSString *)credential withType:(CredentialType)type
 {
@@ -16,7 +16,7 @@
     if (!credential || credential.length == 0)
         return result;
     
-    NSString *pattern = [CTFCredentialsValidator patternForType:type];
+    NSString *pattern = [self patternForType:type];
     
     NSError *error = nil;
     NSRegularExpression *regex = [[NSRegularExpression alloc]
@@ -53,5 +53,6 @@
     }
     return pattern;
 }
+
 
 @end

@@ -1,12 +1,13 @@
 //
-//  CTFCredentialsValidator.h
+//  CTFAPICredentials+Validator.h
 //  Capture The Flag
 //
-//  Created by Tomasz Szulc on 07.11.2013.
+//  Created by Tomasz Szulc on 30.11.2013.
 //  Copyright (c) 2013 Tomasz Szulc. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "CTFAPICredentials.h"
+/** This is a category of CTFAPICredentials used to validate credentials */
 
 typedef enum
 {
@@ -22,7 +23,7 @@ typedef enum
     ValidationWrongCredentials
 } ValidationResult;
 
-@interface CTFCredentialsValidator : NSObject
+@interface CTFAPICredentials (Validator)
 
 + (ValidationResult)validCredential:(NSString *)credential withType:(CredentialType)type;
 

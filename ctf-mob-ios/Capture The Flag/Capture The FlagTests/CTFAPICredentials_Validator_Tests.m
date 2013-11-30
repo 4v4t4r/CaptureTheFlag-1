@@ -7,12 +7,13 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "CTFCredentialsValidator.h"
+#import "CTFAPICredentials.h"
+#import "CTFAPICredentials+Validator.h"
 
-@interface CTFCredentialValidatorTests : XCTestCase
+@interface CTFAPICredentials_Validator_Tests : XCTestCase
 @end
 
-@implementation CTFCredentialValidatorTests
+@implementation CTFAPICredentials_Validator_Tests
 
 #pragma mark - CredentailTypeUsername
 - (void)testUsernameLength
@@ -33,7 +34,7 @@
 
 - (ValidationResult)validUsername:(NSString *)username
 {
-    return [CTFCredentialsValidator validCredential:username withType:CredentialTypeUsername];
+    return [CTFAPICredentials validCredential:username withType:CredentialTypeUsername];
 }
 
 
@@ -56,7 +57,7 @@
 
 - (ValidationResult)validPassword:(NSString *)password
 {
-    return [CTFCredentialsValidator validCredential:password withType:CredentialTypePassword];
+    return [CTFAPICredentials validCredential:password withType:CredentialTypePassword];
 }
 
 
@@ -75,7 +76,7 @@
 
 - (ValidationResult)validEmail:(NSString *)email
 {
-    return [CTFCredentialsValidator validCredential:email withType:CredentialTypeEmail];
+    return [CTFAPICredentials validCredential:email withType:CredentialTypeEmail];
 }
 
 @end

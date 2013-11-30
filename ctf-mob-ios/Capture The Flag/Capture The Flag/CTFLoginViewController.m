@@ -7,7 +7,7 @@
 //
 
 #import "CTFLoginViewController.h"
-#import "CTFCredentialsValidator.h"
+#import "CTFAPICredentials.h"
 #import "CTFUser.h"
 
 @interface CTFLoginViewController ()
@@ -47,11 +47,10 @@
 
 - (IBAction)loginPressed
 {
-    ValidationResult loginResult = [CTFCredentialsValidator validCredential:_usernameTF.text withType:CredentialTypeUsername];
-    ValidationResult passwordResult = [CTFCredentialsValidator validCredential:_passwordTF.text withType:CredentialTypePassword];
+    CredentialsValidationResult result =
+    [CTFAPICredentials validateSignInCredentialsWithUsername:_usernameTF.text password:_passwordTF.text];
     
-    if (loginResult == ValidationOK && passwordResult == ValidationOK)
-    {
+    if (result == CredentialsValidationResultOK) {
         _statusLabel.text = NSLocalizedString(@"view.login.label.status.logged", nil);
         [self.view endEditing:YES];
         
@@ -62,8 +61,7 @@
             CTFUser *user = [CTFUser createObject];
             user.username = _usernameTF.text;
             BOOL result = [user loginUser];
-            if (result)
-            {
+            if (result) {
                 /// Create new view and show
                 UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
                 UINavigationController *mainNavigationController = [storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([UINavigationController class])];
@@ -72,15 +70,12 @@
                     _passwordTF.text = @"";
                     _statusLabel.text = @"";
                 }];
-            }
-            else
-            {
+            } else {
                 /// We have check if this situation is possible in the future
                 NSLog(@"Something really goes wrong. User is still logged in");
             }
         }
-    }
-    else
+    } else
     {
         _statusLabel.text = NSLocalizedString(@"view.login.label.status.wrong_credentials", nil);
     }
@@ -94,14 +89,10 @@
 
 - (void)textFieldDidChange
 {
-    ValidationResult usernameResult = [CTFCredentialsValidator validCredential:_usernameTF.text withType:CredentialTypeUsername];
-    ValidationResult passwordResult = [CTFCredentialsValidator validCredential:_passwordTF.text withType:CredentialTypePassword];
+    CredentialsValidationResult result =
+    [CTFAPICredentials validateSignInCredentialsWithUsername:_usernameTF.text password:_passwordTF.text];
     
-    BOOL loginEnabled = NO;
-    if (usernameResult == ValidationOK && passwordResult == ValidationOK)
-        loginEnabled = YES;
-    
-    [_loginBtn setEnabled:loginEnabled];
+    [_loginBtn setEnabled:(result == CredentialsValidationResultOK)];
 }
 
 
