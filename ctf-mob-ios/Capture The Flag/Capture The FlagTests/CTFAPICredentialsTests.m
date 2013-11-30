@@ -62,6 +62,15 @@
     XCTAssertEqual(result, CredentialsValidationResultWrongPassword, @"");
 }
 
+- (void)testSignUpCredentialsShouldNotPassBecauseOfEmptyValue {
+    CredentialsValidationResult result =
+    [CTFAPICredentials validateSignUpCredentialsWithUsername:@""
+                                                emailAddress:nil
+                                                    password:@""
+                                                  rePassword:nil];
+    XCTAssertEqual(result, CredentialsValidationResultFailure, @"");
+}
+
 
 #pragma mark - SignIn
 - (void)testSignInCredentialsShouldBeValid {
@@ -80,6 +89,13 @@
     CredentialsValidationResult result =
     [CTFAPICredentials validateSignInCredentialsWithUsername:@"login123" password:@"pass1"];
     XCTAssertEqual(result, CredentialsValidationResultWrongPassword, @"Password should be too short");
+}
+
+- (void)testSignInCredentialsShouldNotPassBecauseOfEmptyValue {
+    CredentialsValidationResult result =
+    [CTFAPICredentials validateSignInCredentialsWithUsername:@"" password:nil];
+    
+    XCTAssertEqual(result, CredentialsValidationResultFailure, @"");
 }
 
 @end

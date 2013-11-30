@@ -10,6 +10,7 @@
 
 typedef enum {
     CredentialsValidationResultUndefined,
+    CredentialsValidationResultFailure,
     CredentialsValidationResultOK,
     
     CredentialsValidationResultWrongUsername,

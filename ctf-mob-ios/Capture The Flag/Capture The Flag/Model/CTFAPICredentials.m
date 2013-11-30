@@ -15,6 +15,13 @@
                                                         emailAddress:(NSString *)emailAddress
                                                             password:(NSString *)password
                                                           rePassword:(NSString *)repassword {
+    if (!username || username.length == 0 ||
+        !emailAddress || emailAddress.length == 0 ||
+        !password || password.length == 0 ||
+        !repassword || repassword.length == 0) {
+        return CredentialsValidationResultFailure;
+    }
+    
     ValidationResult usernameResult = [CTFAPICredentials validCredential:username
                                                                 withType:CredentialTypeUsername];
     ValidationResult emailResult = [CTFAPICredentials validCredential:emailAddress
@@ -46,6 +53,11 @@
 
 + (CredentialsValidationResult)validateSignInCredentialsWithUsername:(NSString *)username
                                                             password:(NSString *)password {
+    if (!username || username.length == 0 ||
+        !password || password.length == 0) {
+        return CredentialsValidationResultFailure;
+    }
+    
     ValidationResult usernameResult =
     [CTFAPICredentials validCredential:username withType:CredentialTypeUsername];
     
