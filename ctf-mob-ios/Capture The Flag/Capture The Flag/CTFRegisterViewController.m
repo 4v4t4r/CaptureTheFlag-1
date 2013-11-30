@@ -7,7 +7,8 @@
 //
 
 #import "CTFRegisterViewController.h"
-#import "CTFCredentialsValidator.h"
+//#import "CTFCredentialsValidator.h"
+#import "CTFUserService.h"
 
 @implementation CTFRegisterViewController
 
@@ -60,17 +61,14 @@
 
 - (void)textFieldDidChange
 {
-    ValidationResult emailResult = [CTFCredentialsValidator validCredential:_emailTF.text withType:CredentialTypeEmail];
-    ValidationResult usernameResult = [CTFCredentialsValidator validCredential:_usernameTF.text withType:CredentialTypeUsername];
-    ValidationResult passwordResult = [CTFCredentialsValidator validCredential:_passwordTF.text withType:CredentialTypePassword];
-    ValidationResult rePasswordResult = [CTFCredentialsValidator validCredential:_rePasswordTF.text withType:CredentialTypePassword];
-    
     BOOL registrationEnabled = NO;
-    if (emailResult == ValidationOK &&
-        usernameResult == ValidationOK &&
-        passwordResult == ValidationOK &&
-        rePasswordResult == ValidationOK)
-    {
+    CredentialsValidationResult result =
+    [CTFUserService validateSignUpCredentialsWithUsername:_usernameTF.text
+                                             emailAddress:_emailTF.text
+                                                 password:_passwordTF.text
+                                               rePassword:_rePasswordTF.text];
+    
+    if (result == CredentialsValidationResultOK) {
         registrationEnabled = YES;
     }
     
