@@ -9,7 +9,7 @@
 #import "CTFAPIConnection.h"
 
 @implementation CTFAPIConnection {
-    AFHTTPClient *_client;
+    RKObjectManager *_manager;
 }
 
 static CTFAPIConnection *_sharedConnection = nil;
@@ -23,18 +23,18 @@ static CTFAPIConnection *_sharedConnection = nil;
     return _sharedConnection;
 }
 
-- (instancetype)initWithClient:(AFHTTPClient *)client {
+- (instancetype)initWithManager:(RKObjectManager *)manager {
     self = [super init];
     if (self) {
-        _client = client;
+        _manager = manager;
     }
     return self;
 }
 
 
 #pragma mark - Accessors
-- (AFHTTPClient *)client {
-    return _client;
+- (RKObjectManager *)manager {
+    return _manager;
 }
 
 @end

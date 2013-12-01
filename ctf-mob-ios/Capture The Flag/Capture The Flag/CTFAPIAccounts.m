@@ -7,9 +7,9 @@
 //
 
 #import "CTFAPIAccounts.h"
-#import <RestKit/RestKit.h>
 
 #import "CTFAPIConnection.h"
+#import "CTFAPIOBJToken.h"
 
 @implementation CTFAPIAccounts
 {
@@ -25,9 +25,13 @@
 }
 
 - (void)signInWithUsername:(NSString *)username andPassword:(NSString *)password withBlock:(SignInBlock)block {
-    [_connection.client getPath:@"test.json" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        block(YES, [responseObject objectForKey:@"access_token"]);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+
+    [_connection.manager addResponseDescriptor:[CTFAPIOBJToken responseDescriptor]];
+
+    [_connection.manager getObjectsAtPath:@"test" parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        CTFAPIOBJToken *token = (CTFAPIOBJToken *)mappingResult.firstObject;
+        block(YES, token.value);
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         block(NO, nil);
     }];
 }

@@ -22,14 +22,15 @@
     
     /// Configure CTFAPIConnection
     NSURL *url = [NSURL URLWithString:@"http://iwrapperapp.com/abanalytics/api/"];
-    AFHTTPClient *client = [[AFHTTPClient alloc] initWithBaseURL:url];
-    NSURLCredential *credential = [[NSURLCredential alloc] initWithUser:@"analytics" password:@"0xgYjxGBKv" persistence:NSURLCredentialPersistenceNone];
     
-    CTFAPIConnection *connection = [[CTFAPIConnection alloc] initWithClient:client];
-    [client setDefaultCredential:credential];
-    [client registerHTTPOperationClass:[AFJSONRequestOperation class]];
+    RKObjectManager *manager = [RKObjectManager managerWithBaseURL:url];
+    [manager.HTTPClient setAuthorizationHeaderWithUsername:@"analytics" password:@"0xgYjxGBKv"];
+    [manager setRequestSerializationMIMEType:RKMIMETypeJSON];
+    
+    CTFAPIConnection *connection = [[CTFAPIConnection alloc] initWithManager:manager];
     [CTFAPIConnection setSharedConnection:connection];
 
+    /// Load view
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"LoginAndRegister" bundle:nil];
     UINavigationController *nav = [storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([UINavigationController class])];
     

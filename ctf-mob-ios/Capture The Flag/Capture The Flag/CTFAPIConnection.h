@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <RestKit/RestKit.h>
 
 @interface CTFAPIConnection : NSObject
 
@@ -30,10 +31,10 @@
  @define Method used to initailize connection object.
  @abstract 
  @discussion 
- @param client AFHTTPClient object.
+ @param manager RKObjectManager object.
  */
-- (instancetype)initWithClient:(AFHTTPClient *)client;
+- (instancetype)initWithManager:(RKObjectManager *)manager;
 
-@property (nonatomic, readonly) AFHTTPClient *client;
+@property (readonly, nonatomic, readonly) RKObjectManager *manager;
 
 @end
