@@ -34,7 +34,7 @@
 
 - (ValidationResult)validUsername:(NSString *)username
 {
-    return [CTFAPICredentials validCredential:username withType:CredentialTypeUsername];
+    return [CTFAPICredentials validateCredential:username withType:CredentialTypeUsername];
 }
 
 
@@ -57,7 +57,7 @@
 
 - (ValidationResult)validPassword:(NSString *)password
 {
-    return [CTFAPICredentials validCredential:password withType:CredentialTypePassword];
+    return [CTFAPICredentials validateCredential:password withType:CredentialTypePassword];
 }
 
 
@@ -76,7 +76,7 @@
 
 - (ValidationResult)validEmail:(NSString *)email
 {
-    return [CTFAPICredentials validCredential:email withType:CredentialTypeEmail];
+    return [CTFAPICredentials validateCredential:email withType:CredentialTypeEmail];
 }
 
 @end

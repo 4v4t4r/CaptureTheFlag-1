@@ -10,14 +10,25 @@
 #import "CoreDataService.h"
 #import "CTFLoginViewController.h"
 
+#import "CTFAPIConnection.h"
+
 @implementation CTFAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     /// Configure Core Data
-
     CoreDataService *sharedInstance = [CoreDataService new];
     [CoreDataService setSharedInstance:sharedInstance];
+    
+    /// Configure CTFAPIConnection
+    NSURL *url = [NSURL URLWithString:@"http://iwrapperapp.com/abanalytics/api/"];
+    AFHTTPClient *client = [[AFHTTPClient alloc] initWithBaseURL:url];
+    NSURLCredential *credential = [[NSURLCredential alloc] initWithUser:@"analytics" password:@"0xgYjxGBKv" persistence:NSURLCredentialPersistenceNone];
+    
+    CTFAPIConnection *connection = [[CTFAPIConnection alloc] initWithClient:client];
+    [client setDefaultCredential:credential];
+    [client registerHTTPOperationClass:[AFJSONRequestOperation class]];
+    [CTFAPIConnection setSharedConnection:connection];
 
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"LoginAndRegister" bundle:nil];
     UINavigationController *nav = [storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([UINavigationController class])];

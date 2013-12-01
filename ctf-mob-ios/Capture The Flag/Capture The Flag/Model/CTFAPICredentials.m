@@ -22,15 +22,15 @@
         return CredentialsValidationResultFailure;
     }
     
-    ValidationResult usernameResult = [CTFAPICredentials validCredential:username
+    ValidationResult usernameResult = [CTFAPICredentials validateCredential:username
                                                                 withType:CredentialTypeUsername];
-    ValidationResult emailResult = [CTFAPICredentials validCredential:emailAddress
+    ValidationResult emailResult = [CTFAPICredentials validateCredential:emailAddress
                                                              withType:CredentialTypeEmail];
     
     ValidationResult passwordResult = ValidationWrongCredentials;
     BOOL theSamePasswords = [password isEqualToString:repassword];
     if (theSamePasswords)
-        passwordResult = [CTFAPICredentials validCredential:password
+        passwordResult = [CTFAPICredentials validateCredential:password
                                                    withType:CredentialTypePassword];
     
     CredentialsValidationResult result = CredentialsValidationResultUndefined;
@@ -59,10 +59,10 @@
     }
     
     ValidationResult usernameResult =
-    [CTFAPICredentials validCredential:username withType:CredentialTypeUsername];
+    [CTFAPICredentials validateCredential:username withType:CredentialTypeUsername];
     
     ValidationResult passwordResult =
-    [CTFAPICredentials validCredential:password withType:CredentialTypePassword];
+    [CTFAPICredentials validateCredential:password withType:CredentialTypePassword];
     
     CredentialsValidationResult result = CredentialsValidationResultUndefined;
     if (usernameResult == ValidationOK &&

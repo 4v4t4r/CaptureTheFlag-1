@@ -1,5 +1,4 @@
 platform :ios, '6.0'
-link_with ['Capture The Flag', 'Capture The FlagTests']
 pod 'RestKit/Testing', '~> 0.20.0'
 pod 'RestKit', '~> 0.20.0'
 pod 'OCMock', '~> 2.2.1'

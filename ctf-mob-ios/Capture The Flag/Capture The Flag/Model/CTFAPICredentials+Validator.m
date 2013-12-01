@@ -10,7 +10,7 @@
 
 @implementation CTFAPICredentials (Validator)
 
-+ (ValidationResult)validCredential:(NSString *)credential withType:(CredentialType)type
++ (ValidationResult)validateCredential:(NSString *)credential withType:(CredentialType)type
 {
     ValidationResult result = ValidationUndefined;
     if (!credential || credential.length == 0)

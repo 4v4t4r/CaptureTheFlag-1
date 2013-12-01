@@ -25,6 +25,6 @@ typedef enum
 
 @interface CTFAPICredentials (Validator)
 
-+ (ValidationResult)validCredential:(NSString *)credential withType:(CredentialType)type;
++ (ValidationResult)validateCredential:(NSString *)credential withType:(CredentialType)type;
 
 @end
