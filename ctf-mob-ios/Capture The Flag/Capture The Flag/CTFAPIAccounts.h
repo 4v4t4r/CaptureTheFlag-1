@@ -1,5 +1,5 @@
 //
-//  CTFAPISignIn.h
+//  CTFAPIAccounts.h
 //  Capture The Flag
 //
 //  Created by Tomasz Szulc on 30.11.2013.
@@ -12,7 +12,7 @@
 
 typedef void (^SignInBlock)(BOOL success, NSString *token);
 
-@interface CTFAPISignIn : NSObject
+@interface CTFAPIAccounts : NSObject
 
 /**
  @define Method used to initialize object with connection.

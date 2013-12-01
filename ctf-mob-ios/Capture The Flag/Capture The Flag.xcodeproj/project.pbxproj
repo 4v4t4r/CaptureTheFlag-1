@@ -14,8 +14,7 @@
 		6D1825D5184A34DB0039FD92 /* CTFAPICredentials.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D1825D4184A34DB0039FD92 /* CTFAPICredentials.m */; };
 		6D1825D7184A36120039FD92 /* CTFAPICredentialsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D1825D6184A36120039FD92 /* CTFAPICredentialsTests.m */; };
 		6D1825DA184A48DB0039FD92 /* CTFAPICredentials+Validator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D1825D9184A48DB0039FD92 /* CTFAPICredentials+Validator.m */; };
-		6D1825DE184A4CC80039FD92 /* CTFAPISignIn.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D1825DD184A4CC80039FD92 /* CTFAPISignIn.m */; };
-		6D1825E0184A4F850039FD92 /* CTFAPISignInTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D1825DF184A4F850039FD92 /* CTFAPISignInTests.m */; };
+		6D1825DE184A4CC80039FD92 /* CTFAPIAccounts.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D1825DD184A4CC80039FD92 /* CTFAPIAccounts.m */; };
 		6D6DF209182B88F9004A4D58 /* CTFRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D6DF208182B88F9004A4D58 /* CTFRegisterViewController.m */; };
 		6D6DF20F182B8B59004A4D58 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D6DF20D182B8B59004A4D58 /* Localizable.strings */; };
 		6D9CBE6A183AB4BB000FE071 /* CTFMainViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9CBE69183AB4BB000FE071 /* CTFMainViewControllerTests.m */; };
@@ -65,9 +64,8 @@
 		6D1825D6184A36120039FD92 /* CTFAPICredentialsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFAPICredentialsTests.m; sourceTree = "<group>"; };
 		6D1825D8184A48DB0039FD92 /* CTFAPICredentials+Validator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CTFAPICredentials+Validator.h"; path = "Model/CTFAPICredentials+Validator.h"; sourceTree = "<group>"; };
 		6D1825D9184A48DB0039FD92 /* CTFAPICredentials+Validator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CTFAPICredentials+Validator.m"; path = "Model/CTFAPICredentials+Validator.m"; sourceTree = "<group>"; };
-		6D1825DC184A4CC80039FD92 /* CTFAPISignIn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFAPISignIn.h; sourceTree = "<group>"; };
-		6D1825DD184A4CC80039FD92 /* CTFAPISignIn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFAPISignIn.m; sourceTree = "<group>"; };
-		6D1825DF184A4F850039FD92 /* CTFAPISignInTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFAPISignInTests.m; sourceTree = "<group>"; };
+		6D1825DC184A4CC80039FD92 /* CTFAPIAccounts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFAPIAccounts.h; sourceTree = "<group>"; };
+		6D1825DD184A4CC80039FD92 /* CTFAPIAccounts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFAPIAccounts.m; sourceTree = "<group>"; };
 		6D6DF207182B88F9004A4D58 /* CTFRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFRegisterViewController.h; sourceTree = "<group>"; };
 		6D6DF208182B88F9004A4D58 /* CTFRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFRegisterViewController.m; sourceTree = "<group>"; };
 		6D6DF20E182B8B59004A4D58 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -146,7 +144,6 @@
 			children = (
 				6D1825D6184A36120039FD92 /* CTFAPICredentialsTests.m */,
 				6DE0FCCC182C030700800C09 /* CTFAPICredentials_Validator_Tests.m */,
-				6D1825DF184A4F850039FD92 /* CTFAPISignInTests.m */,
 			);
 			name = API;
 			sourceTree = "<group>";
@@ -164,12 +161,12 @@
 		6D54EBB7182EB657002A6357 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				6D1825DC184A4CC80039FD92 /* CTFAPIAccounts.h */,
+				6D1825DD184A4CC80039FD92 /* CTFAPIAccounts.m */,
 				6D1825D3184A34DB0039FD92 /* CTFAPICredentials.h */,
 				6D1825D4184A34DB0039FD92 /* CTFAPICredentials.m */,
 				6D1825D8184A48DB0039FD92 /* CTFAPICredentials+Validator.h */,
 				6D1825D9184A48DB0039FD92 /* CTFAPICredentials+Validator.m */,
-				6D1825DC184A4CC80039FD92 /* CTFAPISignIn.h */,
-				6D1825DD184A4CC80039FD92 /* CTFAPISignIn.m */,
 				6D0D8767184B5224002904AE /* CTFAPIConnection.h */,
 				6D0D8768184B5224002904AE /* CTFAPIConnection.m */,
 			);
@@ -460,7 +457,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6D0D8769184B5224002904AE /* CTFAPIConnection.m in Sources */,
-				6D1825DE184A4CC80039FD92 /* CTFAPISignIn.m in Sources */,
+				6D1825DE184A4CC80039FD92 /* CTFAPIAccounts.m in Sources */,
 				6D1825D5184A34DB0039FD92 /* CTFAPICredentials.m in Sources */,
 				6DE9912A183A99F7005F3DB1 /* CTFUser.m in Sources */,
 				6DE9912D183A9B6D005F3DB1 /* CTFMainViewController.m in Sources */,
@@ -487,7 +484,6 @@
 				6D9CBE6B183AB4D1000FE071 /* CTFMainViewController.m in Sources */,
 				6DE0FCD4182C5ABD00800C09 /* CTFRegisterViewControllerTests.m in Sources */,
 				6D9CBE6A183AB4BB000FE071 /* CTFMainViewControllerTests.m in Sources */,
-				6D1825E0184A4F850039FD92 /* CTFAPISignInTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
