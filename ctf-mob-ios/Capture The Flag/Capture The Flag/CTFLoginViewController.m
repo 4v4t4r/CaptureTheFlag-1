@@ -9,12 +9,15 @@
 #import "CTFLoginViewController.h"
 #import "CTFAPICredentials.h"
 #import "CTFUser.h"
-
+#import "CTFAPIAccounts.h"
+#import "CTFAPIConnection.h"
 @interface CTFLoginViewController ()
 
 @end
 
-@implementation CTFLoginViewController
+@implementation CTFLoginViewController {
+    CTFAPIAccounts *_accounts;
+}
 
 - (void)viewDidLoad
 {
@@ -23,6 +26,11 @@
 
     [self configureTapBackground];
     [self configureTextFields];
+    
+    _accounts = [[CTFAPIAccounts alloc] initWithConnection:[CTFAPIConnection sharedConnection]];
+    [_accounts signInWithUsername:@"tomkowz123" andPassword:@"password123" withBlock:^(NSString *token) {
+        NSLog(@"token = %@", token);
+    }];
 }
 
 - (void)localizeUI

@@ -9,7 +9,6 @@
 #import "CTFAPIAccounts.h"
 
 #import "CTFAPIConnection.h"
-#import "CTFAPIOBJToken.h"
 
 @implementation CTFAPIAccounts
 {
@@ -24,16 +23,25 @@
     return self;
 }
 
-- (void)signInWithUsername:(NSString *)username andPassword:(NSString *)password withBlock:(SignInBlock)block {
+static NSString *kAccessTokenKey = @"access_token";
+- (void)signInWithUsername:(NSString *)username andPassword:(NSString *)password withBlock:(TokenBlock)block {
 
-    [_connection.manager addResponseDescriptor:[CTFAPIOBJToken responseDescriptor]];
-
-    [_connection.manager getObjectsAtPath:@"test" parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        CTFAPIOBJToken *token = (CTFAPIOBJToken *)mappingResult.firstObject;
-        block(YES, token.value);
-    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        block(NO, nil);
-    }];
+    /// Validation
+    if (!username || !password ) {
+        return;
+    }
+    
+    /// Run if validated
+    NSDictionary *parameters = @{@"username": username, @"password": password};
+    [_connection.manager.HTTPClient getPath:@"test" parameters:parameters
+                                    success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                        NSString *token = [responseObject objectForKey:kAccessTokenKey];
+                                        if (block)
+                                            block(token);
+                                    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                        if (block)
+                                            block(nil);
+                                    }];
 }
 
 @end
