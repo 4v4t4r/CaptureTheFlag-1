@@ -145,7 +145,7 @@ static NSString *STKeychainErrorDomain = @"STKeychainErrorDomain";
 	
 	// See if we already have a password entered for these credentials.
 	NSError *getError = nil;
-	NSString *existingPassword = [STKeychain getPasswordForUsername:username andServiceName:serviceName error:&getError];
+	NSString *existingPassword = [self getPasswordForUsername:username andServiceName:serviceName error:&getError];
     
 	if ([getError code] == -1999) {
 		// There is an existing entry without a password properly stored (possibly as a result of the previous incorrect version of this code.
