@@ -35,4 +35,19 @@
     XCTAssertNotNil(user.managedObjectContext, @"User should have its moc");
 }
 
+- (void)testCurrentUserShouldBeNilIfNotCreated {
+    CTFUser *user = [CTFUser currentUser];
+    XCTAssertNil(user, @"");
+}
+
+- (void)testCurrentUserShouldNotBeNilIfCreated {
+    CTFUser *user = [CTFUser createObject];
+    user.username = @"thisislogin";
+    
+    CTFUser *loggedUser = [CTFUser currentUser];
+    
+    XCTAssertNotNil(loggedUser, @"");
+    XCTAssertEqualObjects(user, loggedUser, @"");
+}
+
 @end
