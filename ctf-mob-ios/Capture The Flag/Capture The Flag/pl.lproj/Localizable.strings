@@ -56,3 +56,12 @@
 
 /* Success, registered */
 "view.register.label.status.registered" = "Success!";
+
+/* Alert title */
+"view.register.alert.registration.title" = "Registration";
+
+/* Registration success */
+"view.register.alert.registration.message.success" = "Your account has been created";
+
+/* Registration failed */
+"view.register.alert.registration.message.failure" = "Error during registration process. Try again";

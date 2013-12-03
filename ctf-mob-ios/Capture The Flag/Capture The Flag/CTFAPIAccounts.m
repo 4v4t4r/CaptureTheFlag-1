@@ -7,8 +7,8 @@
 //
 
 #import "CTFAPIAccounts.h"
-
 #import "CTFAPIConnection.h"
+#import "CTFUser.h"
 
 @implementation CTFAPIAccounts
 {
@@ -23,14 +23,13 @@
     return self;
 }
 
-static NSString *kAccessTokenKey = @"access_token";
 - (void)signInWithUsername:(NSString *)username andPassword:(NSString *)password withBlock:(TokenBlock)block {
-
+    static NSString *kAccessTokenKey = @"access_token";
     /// Validation
     if (!username || !password ) {
         return;
     }
-    
+#warning [tsu] set official path and test with server when available
     /// Run if validated
     NSDictionary *parameters = @{@"username": username, @"password": password};
     [_connection.manager.HTTPClient getPath:@"test" parameters:parameters
@@ -42,6 +41,25 @@ static NSString *kAccessTokenKey = @"access_token";
                                         if (block)
                                             block(nil);
                                     }];
+}
+
+- (void)signUpWithUsername:(NSString *)username email:(NSString *)email password:(NSString *)password block:(SignUpBlock)block {
+    
+    if (!username || !email || !password) {
+        return;
+    }
+    
+    CTFUser *user = [CTFUser createObject];
+    user.username = username;
+    user.email = email;
+    user.password = password;
+#warning [tsu] set official path and test with server when available. I think here should be request and response descriptor configurated
+    [_connection.manager postObject:user path:@"path" parameters:nil
+                            success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+                                block(YES);
+                            } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+                                block(NO);
+                            }];
 }
 
 @end

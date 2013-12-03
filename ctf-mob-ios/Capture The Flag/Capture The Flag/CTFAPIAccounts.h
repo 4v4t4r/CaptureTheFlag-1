@@ -11,6 +11,7 @@
 @class CTFAPIConnection;
 
 typedef void (^TokenBlock)(NSString *token);
+typedef void (^SignUpBlock)(BOOL success);
 
 @interface CTFAPIAccounts : NSObject
 
@@ -31,5 +32,7 @@ typedef void (^TokenBlock)(NSString *token);
  @param block SignInBlock called when server response. It return success and token value.
  */
 - (void)signInWithUsername:(NSString *)username andPassword:(NSString *)password withBlock:(TokenBlock)block;
+
+- (void)signUpWithUsername:(NSString *)username email:(NSString *)email password:(NSString *)password block:(SignUpBlock)block;
 
 @end

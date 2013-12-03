@@ -24,7 +24,7 @@
     [CoreDataService setSharedInstance:sharedInstance];
     
     /// Configure CTFAPIConnection
-#warning - [tsu] This is only test configuration. When official server url will be available I'll update it.
+#warning [tsu] This is only test configuration. When official server url will be available I'll update it.
     NSURL *url = [NSURL URLWithString:@"http://iwrapperapp.com/abanalytics/api/"];
     
     RKObjectManager *manager = [RKObjectManager managerWithBaseURL:url];

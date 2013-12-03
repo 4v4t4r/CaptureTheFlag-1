@@ -96,10 +96,10 @@
                         _statusLabel.text = @"";
                     }];
                 } else {
-#warning - [tsu] something goes wrong. Check what may goes wrong and improve this case
+#warning [tsu] something goes wrong. Check what may goes wrong and improve this case
                 }
             } else {
-#warning - [tsu] need implementation of UIAlertView which shows appropriate alert that user can't login... Need some error handling
+#warning [tsu] need implementation of UIAlertView which shows appropriate alert that user can't login... Need some error handling
             }
         }];
     } else

@@ -15,6 +15,7 @@
 @dynamic email;
 @dynamic nick;
 @dynamic username;
+@dynamic password;
 @dynamic game;
 
 @end

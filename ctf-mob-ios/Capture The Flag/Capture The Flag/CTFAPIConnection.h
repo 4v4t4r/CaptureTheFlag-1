@@ -11,6 +11,8 @@
 
 @interface CTFAPIConnection : NSObject
 
+@property (readonly, nonatomic, readonly) RKObjectManager *manager;
+
 /**
  @define Method used to set shared connection object
  @abstract
@@ -34,7 +36,5 @@
  @param manager RKObjectManager object.
  */
 - (instancetype)initWithManager:(RKObjectManager *)manager;
-
-@property (readonly, nonatomic, readonly) RKObjectManager *manager;
 
 @end

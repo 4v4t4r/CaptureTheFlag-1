@@ -7,20 +7,36 @@
 //
 
 #import "CTFRegisterViewController.h"
+#import "CTFAPIConnection.h"
 #import "CTFAPICredentials.h"
+#import "CTFAPIAccounts.h"
 
-@implementation CTFRegisterViewController
+@interface CTFRegisterViewController () <UIAlertViewDelegate>
+@end
 
-- (void)viewDidLoad
-{
+@implementation CTFRegisterViewController {
+    CTFAPIAccounts *_accounts;
+    UIAlertView *_successAlert;
+    UIAlertView *_failureAlert;
+}
+
+#pragma mark - Lifecycle
+
+- (void)viewDidLoad {
     [super viewDidLoad];
     [self localizeUI];
     [self configureTapBackground];
     [self configureTextFields];
 }
 
-- (void)localizeUI
-{
+- (void)viewDidUnload {
+    _successAlert = nil;
+    _failureAlert = nil;
+    _accounts = nil;
+    [super viewDidUnload];
+}
+
+- (void)localizeUI {
     self.navigationItem.title = NSLocalizedString(@"view.register.navigation.title", nil);
     _emailTF.placeholder = NSLocalizedString(@"view.register.textField.email.placeholder", nil);
     _usernameTF.placeholder = NSLocalizedString(@"view.register.textField.username.placeholder", nil);
@@ -29,37 +45,52 @@
     [_registerBtn setTitle:NSLocalizedString(@"view.register.button.register.title", nil) forState:UIControlStateNormal];
 }
 
-- (void)configureTapBackground
-{
+- (void)configureTapBackground {
     UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backgroundTapped)];
     [self.view addGestureRecognizer:gesture];
 }
 
-- (void)backgroundTapped
-{
+- (void)backgroundTapped {
     [self.view endEditing:YES];
 }
 
-- (IBAction)registerPressed
-{
-    if (![_passwordTF.text isEqualToString:_rePasswordTF.text])
-    {
+- (IBAction)registerPressed {
+    if (![_passwordTF.text isEqualToString:_rePasswordTF.text]) {
         _statusLabel.text = NSLocalizedString(@"view.register.label.status.different_password", nil);
         return;
+    } else {
+        _accounts = [[CTFAPIAccounts alloc] initWithConnection:[CTFAPIConnection sharedConnection]];
+        [_accounts signUpWithUsername:_usernameTF.text email:_emailTF.text password:_passwordTF.text block:^(BOOL success) {
+            
+            NSString *title = NSLocalizedString(@"view.register.alert.registration.title", nil);
+            NSString *message = @"";
+            if (success) {
+                message = NSLocalizedString(@"view.register.alert.registration.message.success", nil);
+            } else {
+                message = NSLocalizedString(@"view.register.alert.registration.message.failure", nil);
+            }
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:Nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            alertView.delegate = self;
+            
+            if (success) {
+                _successAlert = alertView;
+                [_successAlert show];
+            } else {
+                _failureAlert = alertView;
+                [_failureAlert show];
+            }
+        }];
     }
-#warning Implement rest of the registration path
 }
 
-- (void)configureTextFields
-{
+- (void)configureTextFields {
     [_emailTF addTarget:self action:@selector(textFieldDidChange) forControlEvents:UIControlEventEditingChanged];
     [_usernameTF addTarget:self action:@selector(textFieldDidChange) forControlEvents:UIControlEventEditingChanged];
     [_passwordTF addTarget:self action:@selector(textFieldDidChange) forControlEvents:UIControlEventEditingChanged];
     [_rePasswordTF addTarget:self action:@selector(textFieldDidChange) forControlEvents:UIControlEventEditingChanged];
 }
 
-- (void)textFieldDidChange
-{
+- (void)textFieldDidChange {
     BOOL registrationEnabled = NO;
     CredentialsValidationResult result =
     [CTFAPICredentials validateSignUpCredentialsWithUsername:_usernameTF.text
@@ -74,11 +105,19 @@
     [_registerBtn setEnabled:registrationEnabled];
 }
 
+
 #pragma mark - UITextFieldDelegate
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
     return YES;
+}
+
+
+#pragma mark - UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if ([alertView isEqual:_failureAlert] && buttonIndex == 0) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 @end

@@ -2,25 +2,28 @@
 
 /* Login */
 /* Title of navigation bar */
-"view.login.navigation.title" = "Welcome to Capture The Flag";
+"view.login.navigation.title" = "Witaj w Capture The Flag";
 
 /* Username placeholder */
-"view.login.textField.username.placeholder" = "Username";
+"view.login.textField.username.placeholder" = "Nazwa użytkownika";
 
 /* Password placeholder */
-"view.login.textField.password.placeholder" = "Password";
+"view.login.textField.password.placeholder" = "Hasło";
 
 /* Log in button */
-"view.login.button.login.title" = "Log in";
+"view.login.button.login.title" = "Zaloguj się";
 
 /* Register button */
-"view.login.button.register.title" = "New in CTF? Create account";
+"view.login.button.register.title" = "Nowy w CTF? Zarejestruj się";
 
 /* Logged successfuly */
 "view.login.label.status.logged" = "Success!";
 
 /* Wrong credentials */
 "view.login.label.status.wrong_credentials" = "Wrong credentials. Try again";
+
+/* Empty fields */
+"view.login.label.status.empty_field" = "One of fields is empty";
 
 
 /* Register */
@@ -48,5 +51,17 @@
 /* Wrong credentials */
 "view.register.label.status.wrong_credentials" = "Wrong credentials. Try again";
 
+/* Empty fields */
+"view.register.label.status.empty_field" = "One of fields is empty";
+
 /* Success, registered */
 "view.register.label.status.registered" = "Success!";
+
+/* Alert title */
+"view.register.alert.registration.title" = "Registration";
+
+/* Registration success */
+"view.register.alert.registration.message.success" = "Your account has been created";
+
+/* Registration failed */
+"view.register.alert.registration.message.failure" = "Error during registration process. Try again";

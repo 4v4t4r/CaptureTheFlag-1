@@ -40,7 +40,7 @@
 
 
 #pragma mark - signInWithUsername:andPassword:withBlock:
-- (void)testRequestShouldnotBeCalledWhenCredentialsAreNil {
+- (void)testRequestShouldNotBeCalledWhenCredentialsAreNil {
     id mockClient = [OCMockObject mockForClass:[AFHTTPClient class]];
     
     RKObjectManager *manager = [[RKObjectManager alloc] init];
@@ -58,7 +58,6 @@
 }
 
 - (void)testTokenInBlockShouldBeNotNil {
-
     id mockClient = [OCMockObject mockForClass:[AFHTTPClient class]];
     
     [[[mockClient expect] andDo:^(NSInvocation *invocation) {
@@ -85,14 +84,13 @@
 }
 
 - (void)testTokenInBlockShouldBeNil {
-    
     id mockClient = [OCMockObject mockForClass:[AFHTTPClient class]];
     
     [[[mockClient expect] andDo:^(NSInvocation *invocation) {
         
         void (^failureBlock)(AFHTTPRequestOperation *operation, NSError *error) = nil;
         
-        [invocation getArgument:&failureBlock atIndex:4];
+        [invocation getArgument:&failureBlock atIndex:5];
         
         failureBlock(nil, nil);
         
@@ -109,6 +107,72 @@
     _accounts = [[CTFAPIAccounts alloc] initWithConnection:connection];
     id mockAccounts = [OCMockObject partialMockForObject:_accounts];
     [mockAccounts signInWithUsername:[OCMArg any] andPassword:[OCMArg any] withBlock:block];
+}
+
+
+#pragma mark - signUpWithUsername:email:password:block
+- (void)testSignUpShouldNotBeCalledWhenSomeCredentialIsNil {
+    id mockClient = [OCMockObject mockForClass:[AFHTTPClient class]];
+    
+    RKObjectManager *manager = [[RKObjectManager alloc] init];
+    manager.HTTPClient = mockClient;
+    
+    CTFAPIConnection *connection = [[CTFAPIConnection alloc] initWithManager:manager];
+    
+    _accounts = [[CTFAPIAccounts alloc] initWithConnection:connection];
+    id mockAccounts = [OCMockObject partialMockForObject:_accounts];
+    
+    [mockAccounts signUpWithUsername:OCMOCK_ANY email:OCMOCK_ANY password:nil block:nil];
+    [mockAccounts signUpWithUsername:OCMOCK_ANY email:nil password:OCMOCK_ANY block:nil];
+    [mockAccounts signUpWithUsername:nil email:OCMOCK_ANY password:OCMOCK_ANY block:nil];
+    [mockClient verify];
+}
+
+
+- (void)testBlockShouldReturnYesIfSuccess {
+    id mockClient = [OCMockObject mockForClass:[AFHTTPClient class]];
+    
+    RKObjectManager *manager = [[RKObjectManager alloc] init];
+    manager.HTTPClient = mockClient;
+    id mockMananger = [OCMockObject partialMockForObject:manager];
+    
+    [[[mockMananger expect] andDo:^(NSInvocation *invocation) {
+        void (^successblock)(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) = nil;
+        [invocation getArgument:&successblock atIndex:5];
+        successblock(nil, OCMOCK_ANY);
+    }] postObject:OCMOCK_ANY path:OCMOCK_ANY parameters:nil success:OCMOCK_ANY failure:OCMOCK_ANY];
+    
+    SignUpBlock block = ^(BOOL success) {
+        XCTAssertTrue(success, @"");
+    };
+    
+    CTFAPIConnection *connection = [[CTFAPIConnection alloc] initWithManager:mockMananger];
+    _accounts = [[CTFAPIAccounts alloc] initWithConnection:connection];
+    id mockAccounts = [OCMockObject partialMockForObject:_accounts];
+    [mockAccounts signUpWithUsername:@"username" email:@"email" password:@"password" block:block];
+}
+
+- (void)testBlockShouldReturnNOIfFailure {
+    id mockClient = [OCMockObject mockForClass:[AFHTTPClient class]];
+    
+    RKObjectManager *manager = [[RKObjectManager alloc] init];
+    manager.HTTPClient = mockClient;
+    id mockMananger = [OCMockObject partialMockForObject:manager];
+    
+    [[[mockMananger expect] andDo:^(NSInvocation *invocation) {
+        void (^failureBlock)(RKObjectRequestOperation *operation, NSError *error) = nil;
+        [invocation getArgument:&failureBlock atIndex:6];
+        failureBlock(nil, OCMOCK_ANY);
+    }] postObject:OCMOCK_ANY path:OCMOCK_ANY parameters:nil success:OCMOCK_ANY failure:OCMOCK_ANY];
+    
+    SignUpBlock block = ^(BOOL success) {
+        XCTAssertFalse(success, @"");
+    };
+    
+    CTFAPIConnection *connection = [[CTFAPIConnection alloc] initWithManager:mockMananger];
+    _accounts = [[CTFAPIAccounts alloc] initWithConnection:connection];
+    id mockAccounts = [OCMockObject partialMockForObject:_accounts];
+    [mockAccounts signUpWithUsername:@"username" email:@"email" password:@"password" block:block];
 }
 
 @end
