@@ -7,6 +7,7 @@
 //
 
 #import "CTFLoginViewController.h"
+#import "CTFGame.h"
 #import "CTFUser.h"
 
 #import "CTFAPICredentials.h"
@@ -72,8 +73,14 @@
         [_accounts signInWithUsername:username andPassword:password withBlock:^(NSString *token) {
             
             if (token) {
+                /// Configure game object with token and logged user
+                CTFGame *game = [[CTFGame alloc] initWithToken:token];
+            
                 CTFUser *user = [CTFUser createObject];
                 user.username = username;
+                game.currentUser = user;
+                
+                [CTFGame setSharedInstance:game];
                 
                 /// Store login and password in the Keychain
                 CTFLocalCredentials *credentials = [[CTFLocalCredentials alloc] initWithUsername:username password:password];

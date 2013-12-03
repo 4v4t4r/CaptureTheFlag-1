@@ -7,6 +7,7 @@
 //
 
 #import "CTFMainViewController.h"
+#import "CTFGame.h"
 #import "CTFUser.h"
 
 @interface CTFMainViewController ()
@@ -25,13 +26,14 @@
 {
     [super viewWillAppear:animated];
     
-    CTFUser *user = [CTFUser currentUser];
+    CTFUser *user = [CTFGame sharedInstance].currentUser;
     if (user) {
-        self.navigationItem.title = [NSString stringWithFormat:@"@%@", user.username];
+        self.navigationItem.title = [NSString stringWithFormat:@"@%@",user.username];
     }
 }
 
 - (IBAction)onLogout:(id)sender {
+    [CTFGame setSharedInstance:nil];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

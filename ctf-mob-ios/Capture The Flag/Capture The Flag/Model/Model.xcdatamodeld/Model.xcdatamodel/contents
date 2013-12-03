@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3401" systemVersion="13A603" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="CTFGame" representedClassName="CTFGame" syncable="YES">
+        <attribute name="token" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="currentUser" optional="YES" transient="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CTFUser" inverseName="game" inverseEntity="CTFUser" syncable="YES"/>
+    </entity>
     <entity name="CTFUser" representedClassName="CTFUser" syncable="YES">
         <attribute name="email" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
-        <attribute name="nick" optional="YES" transient="YES" syncable="YES"/>
+        <attribute name="nick" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <attribute name="username" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
+        <relationship name="game" optional="YES" transient="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CTFGame" inverseName="currentUser" inverseEntity="CTFGame" syncable="YES"/>
     </entity>
     <elements>
         <element name="CTFUser" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="CTFGame" positionX="0" positionY="0" width="0" height="0"/>
     </elements>
 </model>
