@@ -40,11 +40,11 @@
     NSString *pattern = nil;
     switch (type) {
         case CredentialTypeUsername:
-            pattern = @"[a-zA-Z0-9]{6,15}";
+            pattern = @"[a-zA-Z0-9]{6,50}";
             break;
             
         case CredentialTypePassword:
-            pattern = @"\\S{6,20}";
+            pattern = @"\\S{6,50}";
             break;
             
         case CredentialTypeEmail:

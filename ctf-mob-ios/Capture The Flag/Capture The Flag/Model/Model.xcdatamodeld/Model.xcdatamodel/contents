@@ -2,9 +2,7 @@
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3401" systemVersion="13A603" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="CTFUser" representedClassName="CTFUser" syncable="YES">
         <attribute name="email" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
-        <attribute name="logged" optional="YES" transient="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="nick" optional="YES" transient="YES" syncable="YES"/>
-        <attribute name="password" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <attribute name="username" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>

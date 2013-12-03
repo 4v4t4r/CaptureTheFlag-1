@@ -12,6 +12,9 @@
 
 #import "CTFAPIConnection.h"
 
+#import "STKeychain.h"
+#import "CTFLocalCredentialsStore.h"
+
 @implementation CTFAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -21,6 +24,7 @@
     [CoreDataService setSharedInstance:sharedInstance];
     
     /// Configure CTFAPIConnection
+#warning - [tsu] This is only test configuration. When official server url will be available I'll update it.
     NSURL *url = [NSURL URLWithString:@"http://iwrapperapp.com/abanalytics/api/"];
     
     RKObjectManager *manager = [RKObjectManager managerWithBaseURL:url];
@@ -30,6 +34,10 @@
     CTFAPIConnection *connection = [[CTFAPIConnection alloc] initWithManager:manager];
     [CTFAPIConnection setSharedConnection:connection];
 
+    /// Configure credentials store
+    CTFLocalCredentialsStore *credentialsStore = [[CTFLocalCredentialsStore alloc] initWithKeychain:[STKeychain sharedInstance]];
+    [CTFLocalCredentialsStore setSharedInstance:credentialsStore];
+    
     /// Load view
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"LoginAndRegister" bundle:nil];
     UINavigationController *nav = [storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([UINavigationController class])];

@@ -20,7 +20,7 @@
 {
     XCTAssert([self validUsername:@"login"] == ValidationWrongCredentials, @"");
     XCTAssert([self validUsername:@"loginn"] == ValidationOK, @"");
-    XCTAssert([self validUsername:@"thisisverylonglogin"] == ValidationWrongCredentials, @"");
+    XCTAssert([self validUsername:@"qwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklmnbvkk"] == ValidationWrongCredentials, @"");
 }
 
 - (void)testUsernameCharacters
@@ -43,7 +43,7 @@
 {
     XCTAssert([self validPassword:@"abc"] == ValidationWrongCredentials, @"");
     XCTAssert([self validPassword:@"ancdefgv"] == ValidationOK, @"");
-    XCTAssert([self validPassword:@"123asd!@#%^|dggg66654"] == ValidationWrongCredentials, @"");
+    XCTAssert([self validPassword:@"qwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklmnbvkk"] == ValidationWrongCredentials, @"");
 }
 
 - (void)testPasswordCharacters

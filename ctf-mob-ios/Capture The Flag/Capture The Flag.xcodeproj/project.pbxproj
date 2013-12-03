@@ -11,6 +11,12 @@
 		6D0D8769184B5224002904AE /* CTFAPIConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0D8768184B5224002904AE /* CTFAPIConnection.m */; };
 		6D0D8795184CF111002904AE /* CTFAPIConnectionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0D8794184CF111002904AE /* CTFAPIConnectionTests.m */; };
 		6D0D8797184CF3FD002904AE /* CTFAPIAccountsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0D8796184CF3FD002904AE /* CTFAPIAccountsTests.m */; };
+		6D0D879B184D26BC002904AE /* STKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0D879A184D26BC002904AE /* STKeychain.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		6D0D879E184D2A1E002904AE /* CTFLocalCredentialsStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0D879D184D2A1E002904AE /* CTFLocalCredentialsStore.m */; };
+		6D0D87A1184D2A58002904AE /* CTFLocalCredentials.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0D87A0184D2A58002904AE /* CTFLocalCredentials.m */; };
+		6D0D87A3184D2FB5002904AE /* CTFLocalCredentialsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0D87A2184D2FB5002904AE /* CTFLocalCredentialsTests.m */; };
+		6D0D87A5184D324C002904AE /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D0D87A4184D324C002904AE /* Security.framework */; };
+		6D0D87AB184D3488002904AE /* CTFLocalCredentialsStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0D87AA184D3488002904AE /* CTFLocalCredentialsStoreTests.m */; };
 		6D163E61183BF63400BC4F84 /* CTFUserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D163E60183BF63400BC4F84 /* CTFUserTests.m */; };
 		6D163E62183BFB1A00BC4F84 /* LoginAndRegister.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6DFD193D182ACF0C00542227 /* LoginAndRegister.storyboard */; };
 		6D1825D5184A34DB0039FD92 /* CTFAPICredentials.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D1825D4184A34DB0039FD92 /* CTFAPICredentials.m */; };
@@ -62,6 +68,17 @@
 		6D0D8768184B5224002904AE /* CTFAPIConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFAPIConnection.m; sourceTree = "<group>"; };
 		6D0D8794184CF111002904AE /* CTFAPIConnectionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFAPIConnectionTests.m; sourceTree = "<group>"; };
 		6D0D8796184CF3FD002904AE /* CTFAPIAccountsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFAPIAccountsTests.m; sourceTree = "<group>"; };
+		6D0D8799184D26BC002904AE /* STKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STKeychain.h; sourceTree = "<group>"; };
+		6D0D879A184D26BC002904AE /* STKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STKeychain.m; sourceTree = "<group>"; };
+		6D0D879C184D2A1E002904AE /* CTFLocalCredentialsStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFLocalCredentialsStore.h; sourceTree = "<group>"; };
+		6D0D879D184D2A1E002904AE /* CTFLocalCredentialsStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFLocalCredentialsStore.m; sourceTree = "<group>"; };
+		6D0D879F184D2A58002904AE /* CTFLocalCredentials.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFLocalCredentials.h; sourceTree = "<group>"; };
+		6D0D87A0184D2A58002904AE /* CTFLocalCredentials.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFLocalCredentials.m; sourceTree = "<group>"; };
+		6D0D87A2184D2FB5002904AE /* CTFLocalCredentialsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFLocalCredentialsTests.m; sourceTree = "<group>"; };
+		6D0D87A4184D324C002904AE /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		6D0D87A6184D3266002904AE /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		6D0D87A8184D32AD002904AE /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		6D0D87AA184D3488002904AE /* CTFLocalCredentialsStoreTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFLocalCredentialsStoreTests.m; sourceTree = "<group>"; };
 		6D163E60183BF63400BC4F84 /* CTFUserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFUserTests.m; sourceTree = "<group>"; };
 		6D1825D3184A34DB0039FD92 /* CTFAPICredentials.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CTFAPICredentials.h; path = Model/CTFAPICredentials.h; sourceTree = "<group>"; };
 		6D1825D4184A34DB0039FD92 /* CTFAPICredentials.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CTFAPICredentials.m; path = Model/CTFAPICredentials.m; sourceTree = "<group>"; };
@@ -114,6 +131,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D0D87A5184D324C002904AE /* Security.framework in Frameworks */,
 				6DFD192E182ACF0C00542227 /* CoreGraphics.framework in Frameworks */,
 				6DFD1930182ACF0C00542227 /* UIKit.framework in Frameworks */,
 				6DFD192C182ACF0C00542227 /* Foundation.framework in Frameworks */,
@@ -135,10 +153,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6D0D8798184D26AF002904AE /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				6D0D8799184D26BC002904AE /* STKeychain.h */,
+				6D0D879A184D26BC002904AE /* STKeychain.m */,
+			);
+			name = Utils;
+			sourceTree = "<group>";
+		};
 		6D163E5F183BF62100BC4F84 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				6D163E60183BF63400BC4F84 /* CTFUserTests.m */,
+				6D0D87A2184D2FB5002904AE /* CTFLocalCredentialsTests.m */,
+				6D0D87AA184D3488002904AE /* CTFLocalCredentialsStoreTests.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -201,6 +230,10 @@
 				6DE99140183AA128005F3DB1 /* CustomManagedObject.m */,
 				6DE99128183A99F7005F3DB1 /* CTFUser.h */,
 				6DE99129183A99F7005F3DB1 /* CTFUser.m */,
+				6D0D879C184D2A1E002904AE /* CTFLocalCredentialsStore.h */,
+				6D0D879D184D2A1E002904AE /* CTFLocalCredentialsStore.m */,
+				6D0D879F184D2A58002904AE /* CTFLocalCredentials.h */,
+				6D0D87A0184D2A58002904AE /* CTFLocalCredentials.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -238,6 +271,9 @@
 		6DFD192A182ACF0C00542227 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6D0D87A8184D32AD002904AE /* SystemConfiguration.framework */,
+				6D0D87A6184D3266002904AE /* CoreFoundation.framework */,
+				6D0D87A4184D324C002904AE /* Security.framework */,
 				6D0D874D184B2F28002904AE /* libPods-RestKit.a */,
 				6D0D874B184B2F22002904AE /* libPods.a */,
 				6DFD192B182ACF0C00542227 /* Foundation.framework */,
@@ -258,6 +294,7 @@
 				6DE9912E183A9B72005F3DB1 /* Main */,
 				6DE99127183A99D5005F3DB1 /* Model */,
 				6D54EBB7182EB657002A6357 /* API */,
+				6D0D8798184D26AF002904AE /* Utils */,
 				6DFD1932182ACF0C00542227 /* Supporting Files */,
 				6DFD1943182ACF0C00542227 /* Images.xcassets */,
 			);
@@ -465,9 +502,12 @@
 				6D0D8769184B5224002904AE /* CTFAPIConnection.m in Sources */,
 				6D1825DE184A4CC80039FD92 /* CTFAPIAccounts.m in Sources */,
 				6D1825D5184A34DB0039FD92 /* CTFAPICredentials.m in Sources */,
+				6D0D879E184D2A1E002904AE /* CTFLocalCredentialsStore.m in Sources */,
 				6DE9912A183A99F7005F3DB1 /* CTFUser.m in Sources */,
 				6DE9912D183A9B6D005F3DB1 /* CTFMainViewController.m in Sources */,
+				6D0D87A1184D2A58002904AE /* CTFLocalCredentials.m in Sources */,
 				6DE9913C183AA00E005F3DB1 /* CoreDataService.m in Sources */,
+				6D0D879B184D26BC002904AE /* STKeychain.m in Sources */,
 				6DE99141183AA128005F3DB1 /* CustomManagedObject.m in Sources */,
 				6DFD193C182ACF0C00542227 /* CTFAppDelegate.m in Sources */,
 				6DFD1942182ACF0C00542227 /* CTFLoginViewController.m in Sources */,
@@ -490,7 +530,9 @@
 				6D9CBE6B183AB4D1000FE071 /* CTFMainViewController.m in Sources */,
 				6DE0FCD4182C5ABD00800C09 /* CTFRegisterViewControllerTests.m in Sources */,
 				6D0D8795184CF111002904AE /* CTFAPIConnectionTests.m in Sources */,
+				6D0D87AB184D3488002904AE /* CTFLocalCredentialsStoreTests.m in Sources */,
 				6D0D8797184CF3FD002904AE /* CTFAPIAccountsTests.m in Sources */,
+				6D0D87A3184D2FB5002904AE /* CTFLocalCredentialsTests.m in Sources */,
 				6D9CBE6A183AB4BB000FE071 /* CTFMainViewControllerTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

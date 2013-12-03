@@ -35,44 +35,4 @@
     XCTAssertNotNil(user.managedObjectContext, @"User should have its moc");
 }
 
-- (void)testLoggedUser
-{
-    CTFUser *user = [CTFUser createObject];
-    user.username = @"logged";
-    [user loginUser];
-    
-    CTFUser *current = [CTFUser loggedUser];
-    XCTAssertEqualObjects(user, current, @"Users should be identically");
-}
-
-- (void)testLoginUser
-{
-    CTFUser *user = [CTFUser createObject];
-    user.username = @"login";
-    BOOL result = [user loginUser];
-    XCTAssertTrue(result, @"User should be logged in");
-}
-
-- (void)testPreventAttemptToLogInAnotherUser
-{
-    CTFUser *user = [CTFUser createObject];
-    user.username = @"first";
-    [user loginUser];
-
-    CTFUser *otherUser = [CTFUser createObject];
-    otherUser.username = @"second";
-    
-    BOOL result = [otherUser loginUser];
-    XCTAssertFalse(result, @"Second user shouldn't be logged in");
-}
-
-- (void)testLogoutUser
-{
-    CTFUser *user = [CTFUser createObject];
-    [user loginUser];
-    
-    [user logoutUser];
-    XCTAssertNil([CTFUser loggedUser], @"Current user should be nil");
-}
-
 @end

@@ -7,10 +7,15 @@
 //
 
 #import "CTFLoginViewController.h"
-#import "CTFAPICredentials.h"
 #import "CTFUser.h"
+
+#import "CTFAPICredentials.h"
 #import "CTFAPIAccounts.h"
 #import "CTFAPIConnection.h"
+
+#import "CTFLocalCredentialsStore.h"
+#import "CTFLocalCredentials.h"
+
 @interface CTFLoginViewController ()
 
 @end
@@ -26,15 +31,9 @@
 
     [self configureTapBackground];
     [self configureTextFields];
-    
-    _accounts = [[CTFAPIAccounts alloc] initWithConnection:[CTFAPIConnection sharedConnection]];
-    [_accounts signInWithUsername:@"tomkowz123" andPassword:@"password123" withBlock:^(NSString *token) {
-        NSLog(@"token = %@", token);
-    }];
 }
 
-- (void)localizeUI
-{
+- (void)localizeUI {
     self.navigationItem.title = NSLocalizedString(@"view.login.navigation.title", nil);
     _usernameTF.placeholder = NSLocalizedString(@"view.login.textField.username.placeholder", nil);
     _passwordTF.placeholder = NSLocalizedString(@"view.login.textField.password.placeholder", nil);
@@ -42,61 +41,67 @@
     [_registerBtn setTitle:NSLocalizedString(@"view.login.button.register.title", nil) forState:UIControlStateNormal];
 }
 
-- (void)configureTapBackground
-{
+- (void)configureTapBackground {
     UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backgroundTapped)];
     [self.view addGestureRecognizer:gesture];
 }
 
-- (void)backgroundTapped
-{
+- (void)backgroundTapped {
     [self.view endEditing:YES];
 }
 
 - (IBAction)loginPressed
 {
+    NSString *username = _usernameTF.text;
+    NSString *password = _passwordTF.text;
+    
     CredentialsValidationResult result =
-    [CTFAPICredentials validateSignInCredentialsWithUsername:_usernameTF.text password:_passwordTF.text];
+    [CTFAPICredentials validateSignInCredentialsWithUsername:username password:password];
     
     if (result == CredentialsValidationResultOK) {
         _statusLabel.text = NSLocalizedString(@"view.login.label.status.logged", nil);
         [self.view endEditing:YES];
         
-        /// Here will be post request.
-        
-        if (1) /// If successfuly logged to the server token will be provide in response
-        {
-            CTFUser *user = [CTFUser createObject];
-            user.username = _usernameTF.text;
-            BOOL result = [user loginUser];
-            if (result) {
-                /// Create new view and show
-                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                UINavigationController *mainNavigationController = [storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([UINavigationController class])];
-                [self presentViewController:mainNavigationController animated:YES completion:^{
-                    _usernameTF.text = @"";
-                    _passwordTF.text = @"";
-                    _statusLabel.text = @"";
-                }];
+        /// If successfuly logged to the server token will be provide in response
+        _accounts = [[CTFAPIAccounts alloc] initWithConnection:[CTFAPIConnection sharedConnection]];
+        [_accounts signInWithUsername:username andPassword:password withBlock:^(NSString *token) {
+            
+            if (token) {
+                CTFUser *user = [CTFUser createObject];
+                user.username = username;
+                
+                /// Store login and password in the Keychain
+                CTFLocalCredentials *credentials = [[CTFLocalCredentials alloc] initWithUsername:username password:password];
+                BOOL stored = [[CTFLocalCredentialsStore sharedInstance] storeCredentials:credentials];
+                
+                if (stored) {
+                    /// Create new view and show
+                    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                    UINavigationController *mainNavigationController = [storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([UINavigationController class])];
+                    [self presentViewController:mainNavigationController animated:YES completion:^{
+                        _usernameTF.text = @"";
+                        _passwordTF.text = @"";
+                        _statusLabel.text = @"";
+                    }];
+                } else {
+#warning - [tsu] something goes wrong. Check what may goes wrong and improve this case
+                }
             } else {
-                /// We have check if this situation is possible in the future
-                NSLog(@"Something really goes wrong. User is still logged in");
+#warning - [tsu] need implementation of UIAlertView which shows appropriate alert that user can't login... Need some error handling
             }
-        }
+        }];
     } else
     {
         _statusLabel.text = NSLocalizedString(@"view.login.label.status.wrong_credentials", nil);
     }
 }
 
-- (void)configureTextFields
-{
+- (void)configureTextFields {
     [_usernameTF addTarget:self action:@selector(textFieldDidChange) forControlEvents:UIControlEventEditingChanged];
     [_passwordTF addTarget:self action:@selector(textFieldDidChange) forControlEvents:UIControlEventEditingChanged];
 }
 
-- (void)textFieldDidChange
-{
+- (void)textFieldDidChange {
     CredentialsValidationResult result =
     [CTFAPICredentials validateSignInCredentialsWithUsername:_usernameTF.text password:_passwordTF.text];
     
@@ -105,16 +110,14 @@
 
 
 #pragma mark - UITextFieldDelegate
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
     return YES;
 }
 
 
 #pragma mark - Segues
-- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
-{
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
     if ([identifier isEqualToString:@"ToRegisterSegue"])
         return YES;
     return NO;
