@@ -24,20 +24,14 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    /*
-    CTFUser *user = [CTFUser loggedUser];
-    if (user)
-    {
+    
+    CTFUser *user = [CTFUser currentUser];
+    if (user) {
         self.navigationItem.title = [NSString stringWithFormat:@"@%@", user.username];
     }
-     */
 }
 
-- (IBAction)onLogout:(id)sender
-{
-    /*
-    [[CTFUser loggedUser] logoutUser];
-     */
+- (IBAction)onLogout:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

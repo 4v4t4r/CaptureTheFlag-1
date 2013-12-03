@@ -20,4 +20,6 @@
 #warning After first tests of properties above add this property too and test it.
 //@property (nonatomic, readonly) NSArray *characters;
 
++ (instancetype)currentUser;
+
 @end

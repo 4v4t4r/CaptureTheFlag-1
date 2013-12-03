@@ -33,6 +33,11 @@
     [self configureTextFields];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self fillTextFieldIfNecessary];
+}
+
 - (void)localizeUI {
     self.navigationItem.title = NSLocalizedString(@"view.login.navigation.title", nil);
     _usernameTF.placeholder = NSLocalizedString(@"view.login.textField.username.placeholder", nil);
@@ -99,6 +104,15 @@
 - (void)configureTextFields {
     [_usernameTF addTarget:self action:@selector(textFieldDidChange) forControlEvents:UIControlEventEditingChanged];
     [_passwordTF addTarget:self action:@selector(textFieldDidChange) forControlEvents:UIControlEventEditingChanged];
+}
+
+- (void)fillTextFieldIfNecessary {
+    CTFLocalCredentials *credentials = [[CTFLocalCredentialsStore sharedInstance] getCredentials];
+    if (credentials) {
+        [_usernameTF setText:credentials.username];
+        [_passwordTF setText:credentials.password];
+    }
+    [self textFieldDidChange];
 }
 
 - (void)textFieldDidChange {

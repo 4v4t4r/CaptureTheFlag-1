@@ -14,7 +14,7 @@
 @dynamic email;
 @dynamic nick;
 
-+ (instancetype)loggedUser
++ (instancetype)currentUser
 {
     NSFetchRequest *request = [self fetchRequestWithPredicate:nil];
     request.fetchLimit = 1;
