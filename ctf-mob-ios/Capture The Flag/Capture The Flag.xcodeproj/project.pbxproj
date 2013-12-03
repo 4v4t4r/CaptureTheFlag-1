@@ -73,10 +73,10 @@
 		6D0D8796184CF3FD002904AE /* CTFAPIAccountsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFAPIAccountsTests.m; sourceTree = "<group>"; };
 		6D0D8799184D26BC002904AE /* STKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STKeychain.h; sourceTree = "<group>"; };
 		6D0D879A184D26BC002904AE /* STKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STKeychain.m; sourceTree = "<group>"; };
-		6D0D879C184D2A1E002904AE /* CTFLocalCredentialsStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFLocalCredentialsStore.h; sourceTree = "<group>"; };
-		6D0D879D184D2A1E002904AE /* CTFLocalCredentialsStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFLocalCredentialsStore.m; sourceTree = "<group>"; };
-		6D0D879F184D2A58002904AE /* CTFLocalCredentials.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFLocalCredentials.h; sourceTree = "<group>"; };
-		6D0D87A0184D2A58002904AE /* CTFLocalCredentials.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFLocalCredentials.m; sourceTree = "<group>"; };
+		6D0D879C184D2A1E002904AE /* CTFLocalCredentialsStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CTFLocalCredentialsStore.h; path = Model/CTFLocalCredentialsStore.h; sourceTree = "<group>"; };
+		6D0D879D184D2A1E002904AE /* CTFLocalCredentialsStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CTFLocalCredentialsStore.m; path = Model/CTFLocalCredentialsStore.m; sourceTree = "<group>"; };
+		6D0D879F184D2A58002904AE /* CTFLocalCredentials.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CTFLocalCredentials.h; path = Model/CTFLocalCredentials.h; sourceTree = "<group>"; };
+		6D0D87A0184D2A58002904AE /* CTFLocalCredentials.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CTFLocalCredentials.m; path = Model/CTFLocalCredentials.m; sourceTree = "<group>"; };
 		6D0D87A2184D2FB5002904AE /* CTFLocalCredentialsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFLocalCredentialsTests.m; sourceTree = "<group>"; };
 		6D0D87A4184D324C002904AE /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		6D0D87A6184D3266002904AE /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
@@ -209,6 +209,10 @@
 				6D1825D9184A48DB0039FD92 /* CTFAPICredentials+Validator.m */,
 				6D0D8767184B5224002904AE /* CTFAPIConnection.h */,
 				6D0D8768184B5224002904AE /* CTFAPIConnection.m */,
+				6D0D879C184D2A1E002904AE /* CTFLocalCredentialsStore.h */,
+				6D0D879D184D2A1E002904AE /* CTFLocalCredentialsStore.m */,
+				6D0D879F184D2A58002904AE /* CTFLocalCredentials.h */,
+				6D0D87A0184D2A58002904AE /* CTFLocalCredentials.m */,
 			);
 			name = API;
 			sourceTree = "<group>";
@@ -235,10 +239,6 @@
 				6DE99140183AA128005F3DB1 /* CustomManagedObject.m */,
 				6DE99128183A99F7005F3DB1 /* CTFUser.h */,
 				6DE99129183A99F7005F3DB1 /* CTFUser.m */,
-				6D0D879C184D2A1E002904AE /* CTFLocalCredentialsStore.h */,
-				6D0D879D184D2A1E002904AE /* CTFLocalCredentialsStore.m */,
-				6D0D879F184D2A58002904AE /* CTFLocalCredentials.h */,
-				6D0D87A0184D2A58002904AE /* CTFLocalCredentials.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
