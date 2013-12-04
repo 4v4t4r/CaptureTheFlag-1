@@ -115,7 +115,7 @@
 
 #pragma mark - UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if ([alertView isEqual:_failureAlert] && buttonIndex == 0) {
+    if ([alertView isEqual:_successAlert] && buttonIndex == 0) {
         [self.navigationController popViewControllerAnimated:YES];
     }
 }
