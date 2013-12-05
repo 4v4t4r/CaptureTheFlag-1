@@ -6,9 +6,10 @@
     </entity>
     <entity name="CTFUser" representedClassName="CTFUser" syncable="YES">
         <attribute name="email" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
-        <attribute name="nick" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
-        <attribute name="password" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
-        <attribute name="username" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
+        <attribute name="location" optional="YES" attributeType="Transformable" valueTransformerName="location" syncable="YES"/>
+        <attribute name="nick" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="password" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="game" optional="YES" transient="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CTFGame" inverseName="currentUser" inverseEntity="CTFGame" syncable="YES"/>
     </entity>
     <elements>
