@@ -18,17 +18,24 @@
 @property (nonatomic, retain) NSString * password;
 @property (nonatomic, retain) id location;
 @property (nonatomic, retain) CTFGame *game;
-@property (nonatomic, retain) NSSet *characters;
+@property (nonatomic, retain) NSOrderedSet *characters;
 
 + (NSDictionary *)dictionaryForResponseMapping;
 
 @end
 
+
 @interface CTFUser (CoreDataGeneratedAccessors)
 
+- (void)insertObject:(CTFCharacter *)value inCharactersAtIndex:(NSUInteger)idx;
+- (void)removeObjectFromCharactersAtIndex:(NSUInteger)idx;
+- (void)insertCharacters:(NSArray *)value atIndexes:(NSIndexSet *)indexes;
+- (void)removeCharactersAtIndexes:(NSIndexSet *)indexes;
+- (void)replaceObjectInCharactersAtIndex:(NSUInteger)idx withObject:(CTFCharacter *)value;
+- (void)replaceCharactersAtIndexes:(NSIndexSet *)indexes withCharacters:(NSArray *)values;
 - (void)addCharactersObject:(CTFCharacter *)value;
 - (void)removeCharactersObject:(CTFCharacter *)value;
-- (void)addCharacters:(NSSet *)values;
-- (void)removeCharacters:(NSSet *)values;
+- (void)addCharacters:(NSOrderedSet *)values;
+- (void)removeCharacters:(NSOrderedSet *)values;
 
 @end

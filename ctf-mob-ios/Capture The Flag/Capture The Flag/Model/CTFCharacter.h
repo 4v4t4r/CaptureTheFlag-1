@@ -27,4 +27,6 @@ typedef enum {
 @property (nonatomic, retain) NSNumber * active;
 @property (nonatomic, retain) CTFUser *user;
 
++ (NSDictionary *)dictionaryResponseMapping;
+
 @end

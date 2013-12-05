@@ -33,6 +33,7 @@ typedef void (^SignUpBlock)(BOOL success);
  */
 - (void)signInWithUsername:(NSString *)username andPassword:(NSString *)password withBlock:(TokenBlock)block;
 
+#warning [tsu] add description
 - (void)signUpWithUsername:(NSString *)username email:(NSString *)email password:(NSString *)password block:(SignUpBlock)block;
 
 @end
