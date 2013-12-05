@@ -76,7 +76,11 @@ static CoreDataService *sharedInstance = nil;
         abort();
     }
     
-    _managedObjectContext = [NSManagedObjectContext new];
+    if (storeURL)
+        _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+    else
+        _managedObjectContext = [NSManagedObjectContext new];
+    
     [_managedObjectContext setPersistentStoreCoordinator:_persistentStoreCoordinator];
 }
 
