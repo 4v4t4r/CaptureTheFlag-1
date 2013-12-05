@@ -18,13 +18,15 @@
 @dynamic password;
 @dynamic location;
 @dynamic game;
+@dynamic characters;
 
 + (NSDictionary *)dictionaryForResponseMapping {
     return @{@"username" : @"username",
              @"email" : @"email",
              @"password" : @"password",
              @"nick" : @"nick",
-             @"location" : @"location"};
+             @"location" : @"location"/*,
+             @"characters" : @"characters"*/};
 }
 
 @end

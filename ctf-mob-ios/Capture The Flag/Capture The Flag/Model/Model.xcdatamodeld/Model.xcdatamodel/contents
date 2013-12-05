@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3401" systemVersion="13A603" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="CTFCharacter" representedClassName="CTFCharacter" syncable="YES">
+        <attribute name="active" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="health" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="level" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="totalScore" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="totalTime" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CTFUser" inverseName="characters" inverseEntity="CTFUser" syncable="YES"/>
+    </entity>
     <entity name="CTFGame" representedClassName="CTFGame" syncable="YES">
         <attribute name="token" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="currentUser" optional="YES" transient="YES" maxCount="1" deletionRule="Cascade" destinationEntity="CTFUser" inverseName="game" inverseEntity="CTFUser" syncable="YES"/>
@@ -10,10 +19,12 @@
         <attribute name="nick" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="password" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="characters" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="CTFCharacter" inverseName="user" inverseEntity="CTFCharacter" syncable="YES"/>
         <relationship name="game" optional="YES" transient="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CTFGame" inverseName="currentUser" inverseEntity="CTFGame" syncable="YES"/>
     </entity>
     <elements>
         <element name="CTFGame" positionX="0" positionY="0" width="0" height="0"/>
         <element name="CTFUser" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="CTFCharacter" positionX="0" positionY="0" width="0" height="0"/>
     </elements>
 </model>

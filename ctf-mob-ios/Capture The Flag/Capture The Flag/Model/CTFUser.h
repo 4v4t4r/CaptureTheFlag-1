@@ -8,7 +8,7 @@
 
 #import "CustomManagedObject.h"
 
-@class CTFGame;
+@class CTFCharacter, CTFGame;
 
 @interface CTFUser : CustomManagedObject
 
@@ -18,8 +18,17 @@
 @property (nonatomic, retain) NSString * password;
 @property (nonatomic, retain) id location;
 @property (nonatomic, retain) CTFGame *game;
-#warning [tsu] add characters to the model
+@property (nonatomic, retain) NSSet *characters;
 
 + (NSDictionary *)dictionaryForResponseMapping;
+
+@end
+
+@interface CTFUser (CoreDataGeneratedAccessors)
+
+- (void)addCharactersObject:(CTFCharacter *)value;
+- (void)removeCharactersObject:(CTFCharacter *)value;
+- (void)addCharacters:(NSSet *)values;
+- (void)removeCharacters:(NSSet *)values;
 
 @end

@@ -50,21 +50,30 @@
     test.managedObjectContext = _service.managedObjectContext;
     
     RKPropertyMappingTestExpectation *usernameExpectation =
-    [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"username" destinationKeyPath:@"username"];
+    [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"username" destinationKeyPath:@"username" value:@"tomkowz12"];
     [test addExpectation:usernameExpectation];
 
     RKPropertyMappingTestExpectation *emailExpectation =
-    [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"email" destinationKeyPath:@"email"];
+    [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"email" destinationKeyPath:@"email" value:@"tmk.szlc@gmail.com"];
     [test addExpectation:emailExpectation];
 
     RKPropertyMappingTestExpectation *passwordExpectation =
-    [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"password" destinationKeyPath:@"password"];
+    [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"password" destinationKeyPath:@"password" value:@"password123"];
     [test addExpectation:passwordExpectation];
     
     RKPropertyMappingTestExpectation *nickExpectation =
-    [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"location" destinationKeyPath:@"location"];
+    [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"nick" destinationKeyPath:@"nick" value:@"black_lord"];
     [test addExpectation:nickExpectation];
     
+    RKPropertyMappingTestExpectation *locationExpectation =
+    [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"location" destinationKeyPath:@"location" value:@[@(10), @(20)]];
+    [test addExpectation:locationExpectation];
+    
+    /*
+    RKPropertyMappingTestExpectation *charactersExpectation =
+    [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"characters" destinationKeyPath:@"characters"];
+    [test addExpectation:charactersExpectation];
+    */
     [test verify];
 }
 
