@@ -82,26 +82,44 @@
     [test addExpectation:locationExpectation];
     
     /// Configure expectation objects
-    /*
-    CTFCharacter *firstCharacter = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([CTFCharacter class]) inManagedObjectContext:_service.managedObjectContext];
-    firstCharacter.type = @(1);
-    firstCharacter.totalTime = @(21);
-    firstCharacter.totalScore = @(100);
-    firstCharacter.health = @(100);
-    firstCharacter.level = @(20);
-    firstCharacter.active = @YES;
     
-    CTFCharacter *secondCharacter = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([CTFCharacter class]) inManagedObjectContext:_service.managedObjectContext];
-    secondCharacter.type = @(2);
-    secondCharacter.totalTime = @(23);
-    secondCharacter.totalScore = @(98);
-    secondCharacter.health = @(55);
-    secondCharacter.level = @(12);
-    secondCharacter.active = @NO;
-    
-    NSOrderedSet *set = [[NSOrderedSet alloc] initWithArray:@[firstCharacter, secondCharacter]];*/
     RKPropertyMappingTestExpectation *charactersExpectation =
-    [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"characters" destinationKeyPath:@"characters" /*value:set*/];
+    [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"characters" destinationKeyPath:@"characters" evaluationBlock:^BOOL(RKPropertyMappingTestExpectation *expectation, RKPropertyMapping *mapping, id mappedValue, NSError *__autoreleasing *error) {
+        
+        NSArray *commitedKeysToCompare = @[@"type, totalTime, totalScore, healt, level, active"];
+        
+        NSArray *array = [mappedValue allObjects];
+        BOOL containsTwoItems = array.count == 2;
+        
+        /// Test First character
+        CTFCharacter *firstFetchedCharacter = (CTFCharacter *)array[0];
+        
+        CTFCharacter *firstReferenceCharacter = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([CTFCharacter class]) inManagedObjectContext:_service.managedObjectContext];
+        firstReferenceCharacter.type = @(1);
+        firstReferenceCharacter.totalTime = @(21);
+        firstReferenceCharacter.totalScore = @(100);
+        firstReferenceCharacter.health = @(100);
+        firstReferenceCharacter.level = @(20);
+        firstReferenceCharacter.active = @YES;
+        
+        BOOL isFirstEqual = [[firstFetchedCharacter committedValuesForKeys:commitedKeysToCompare] isEqual:[firstReferenceCharacter committedValuesForKeys:commitedKeysToCompare]];
+        
+        /// Test Second character
+        CTFCharacter *secondFetchedCharacter = (CTFCharacter *)array[1];
+        
+        CTFCharacter *secondReferenceCharacter = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([CTFCharacter class]) inManagedObjectContext:_service.managedObjectContext];
+        secondReferenceCharacter.type = @(2);
+        secondReferenceCharacter.totalTime = @(23);
+        secondReferenceCharacter.totalScore = @(98);
+        secondReferenceCharacter.health = @(55);
+        secondReferenceCharacter.level = @(12);
+        secondReferenceCharacter.active = @NO;
+        
+        BOOL isSecondEqual = [[secondFetchedCharacter committedValuesForKeys:commitedKeysToCompare] isEqual:[secondReferenceCharacter committedValuesForKeys:commitedKeysToCompare]];
+
+        return isFirstEqual && isSecondEqual && containsTwoItems;
+    }];
+    
     [test addExpectation:charactersExpectation];
     
     [test verify];
