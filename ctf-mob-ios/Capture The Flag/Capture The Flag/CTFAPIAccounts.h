@@ -25,15 +25,23 @@ typedef void (^SignUpBlock)(BOOL success);
 
 /**
  @define Method used to login to the server.
- @abstract Return token in block if successfuly logged in to server. Otherwise success is NO and token is nil.
+ @abstract Return token in block if successfuly logged in to server. Otherwise token is nil.
  @discussion Asynchronous method used to log in inter server with passed credentials.
  @param username The username to log in.
  @param password The password to log in.
- @param block SignInBlock called when server response. It return success and token value.
+ @param block SignInBlock called when server response. It return token value.
  */
 - (void)signInWithUsername:(NSString *)username andPassword:(NSString *)password withBlock:(TokenBlock)block;
 
-#warning [tsu] add description
+/**
+ @define Method used to register new account.
+ @absctract Return SignUpBlock with success if successfuly register. Otherwise return NO.
+ @discussion Asynchronous method use to register acount on the server with passed credentials.
+ @param username The username to register.
+ @param email email address of user account.
+ @param password password to the account.
+ @param block SignUpBlock called when server response. It return success value.
+ */
 - (void)signUpWithUsername:(NSString *)username email:(NSString *)email password:(NSString *)password block:(SignUpBlock)block;
 
 @end
