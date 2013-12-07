@@ -1,5 +1,5 @@
 //
-//  CTFUserTests.m
+//  CTFAPIMappingsTests.m
 //  Capture The Flag
 //
 //  Created by Tomasz Szulc on 03.12.2013.
@@ -13,67 +13,81 @@
 #import "CoreDataService.h"
 #import "CTFUser.h"
 #import "CTFCharacter.h"
-#import "CTFAPIMappings.h"
-@interface CTFUserTests : XCTestCase
+
+@interface CTFAPIMappingsTests : XCTestCase
 
 @end
 
-    @implementation CTFUserTests {
-        CoreDataService *_service;
-        RKObjectManager *_manager;
-        CTFAPIMappings *_mapping;
-    }
+@implementation CTFAPIMappingsTests {
+    CoreDataService *_service;
+    RKObjectManager *_manager;
+}
 
-    - (void)setUp {
-        _service = [[CoreDataService alloc] initForUnitTesting];
-        
-        _manager = [[RKObjectManager alloc] init];
-        RKManagedObjectStore *managedObjectStore = [[RKManagedObjectStore alloc] initWithManagedObjectModel:_service.managedObjectModel];
-        _manager.managedObjectStore = managedObjectStore;
-        
-        NSBundle *bundle = [NSBundle bundleWithIdentifier:[[NSBundle mainBundle].bundleIdentifier stringByAppendingString:@"Tests"]];
-        [RKTestFixture setFixtureBundle:bundle];
-        
-        _mapping = [[CTFAPIMappings alloc] initWithManager:_manager];
-        
-        [super setUp];
-    }
+- (void)setUp {
+    [super setUp];
+    _service = [[CoreDataService alloc] initForUnitTesting];
+    
+    _manager = [[RKObjectManager alloc] init];
+    RKManagedObjectStore *managedObjectStore = [[RKManagedObjectStore alloc] initWithPersistentStoreCoordinator:_service.persistentStoreCoordinator];
+    _manager.managedObjectStore = managedObjectStore;
+    [_manager.managedObjectStore createManagedObjectContexts];
+    
+    NSBundle *bundle = [NSBundle bundleWithIdentifier:[[NSBundle mainBundle].bundleIdentifier stringByAppendingString:@"Tests"]];
+    [RKTestFixture setFixtureBundle:bundle];
+}
 
-    - (void)tearDown {
-        _service = nil;
-        _manager = nil;
-        [super tearDown];
-    }
+- (void)tearDown {
+    _service = nil;
+    _manager = nil;
+    [super tearDown];
+}
 
-- (RKEntityMapping *)simpleUserMapping {
+- (RKEntityMapping *)userMapping {
+    /// Configure mapping
     RKEntityMapping *userMapping =
-    [RKEntityMapping mappingForEntityForName:NSStringFromClass([CTFUser class]) inManagedObjectStore:_mapping.manager.managedObjectStore];
-    [userMapping addAttributeMappingsFromDictionary:[_mapping userMappingDict]];
+    [RKEntityMapping mappingForEntityForName:NSStringFromClass([CTFUser class]) inManagedObjectStore:_manager.managedObjectStore];
+    
+    NSDictionary *userAttributesDict = @{@"username" : @"username",
+                               @"email" : @"email",
+                               @"password" : @"password",
+                               @"nick" : @"nick",
+                               @"location" : @"location"/*,
+                               @"characters": @"characters"*/};
+    
+    [userMapping addAttributeMappingsFromDictionary:userAttributesDict];
+    
+    /// Add relationship mapping
+    [userMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"characters" toKeyPath:@"characters" withMapping:[self characterMapping]]];
+    
     return userMapping;
 }
 
+- (RKEntityMapping *)characterMapping {
+    RKEntityMapping *characterMapping =
+    [RKEntityMapping mappingForEntityForName:NSStringFromClass([CTFCharacter class]) inManagedObjectStore:_manager.managedObjectStore];
+    
+    NSDictionary *characterAttributesDict = @{@"type": @"type",
+                                              @"total_time": @"totalTime",
+                                              @"total_score": @"totalScore",
+                                              @"health": @"health",
+                                              @"level": @"level",
+                                              @"is_active": @"active"};
+    
+    [characterMapping addAttributeMappingsFromDictionary:characterAttributesDict];
+    return characterMapping;
+}
 
-- (void)testUserResponseMApping {
-        id parsedJSON = [RKTestFixture parsedObjectWithContentsOfFixture:@"user-response.json"];
+- (void)testUserResponseMapping {
+    id parsedJSON = [RKTestFixture parsedObjectWithContentsOfFixture:@"user-response.json"];
         
-        /// Configure mapping
-        RKEntityMapping *userMapping = [_mapping simpleUserMappingWithStore:_mapping.manager.managedObjectStore];
-    
-//    RKEntityMapping *characterMapping =
-//    [RKEntityMapping mappingForEntityForName:NSStringFromClass([CTFCharacter class]) inManagedObjectStore:_manager.managedObjectStore];
-//    [characterMapping addAttributeMappingsFromDictionary:[_mapping characterMappingDict]];
-    
-//    [userMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"characters" toKeyPath:@"characters" withMapping:characterMapping]];
-    
-    
     /// Configure expectations
-        RKMappingTest *test = [RKMappingTest testForMapping:userMapping sourceObject:parsedJSON destinationObject:nil];
-        test.managedObjectContext = _service.managedObjectContext;
-        
-        RKPropertyMappingTestExpectation *usernameExpectation =
-        [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"username" destinationKeyPath:@"username" value:@"tomkowz12"];
-        [test addExpectation:usernameExpectation];
-/*
+    RKMappingTest *test = [RKMappingTest testForMapping:[self userMapping] sourceObject:parsedJSON destinationObject:nil];
+    test.managedObjectContext = _service.managedObjectContext;
+    
+    RKPropertyMappingTestExpectation *usernameExpectation =
+    [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"username" destinationKeyPath:@"username" value:@"tomkowz12"];
+    [test addExpectation:usernameExpectation];
+
     RKPropertyMappingTestExpectation *emailExpectation =
     [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"email" destinationKeyPath:@"email" value:@"tmk.szlc@gmail.com"];
     [test addExpectation:emailExpectation];
@@ -89,9 +103,9 @@
     RKPropertyMappingTestExpectation *locationExpectation =
     [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"location" destinationKeyPath:@"location" value:@[@(10), @(20)]];
     [test addExpectation:locationExpectation];
-    */
+    
     /// Configure expectation objects
-    /*
+    
     RKPropertyMappingTestExpectation *charactersExpectation =
     [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"characters" destinationKeyPath:@"characters" evaluationBlock:^BOOL(RKPropertyMappingTestExpectation *expectation, RKPropertyMapping *mapping, id mappedValue, NSError *__autoreleasing *error) {
         
@@ -130,7 +144,7 @@
     }];
     
     [test addExpectation:charactersExpectation];
-    */
+    
     [test verify];
 }
 

@@ -33,51 +33,38 @@ static CTFAPIMappings *_sharedInstance = nil;
 }
 
 - (RKEntityMapping *)userMapping {
-    /// Configure basic user mapping
+
     RKEntityMapping *userMapping =
     [RKEntityMapping mappingForEntityForName:NSStringFromClass([CTFUser class]) inManagedObjectStore:_manager.managedObjectStore];
-    [userMapping addAttributeMappingsFromDictionary:[self userMappingDict]];
-    
-    /// Configure character mapping
-    RKEntityMapping *characterMapping = [self characteMapping];
+    [userMapping addAttributeMappingsFromDictionary:[self _userAttributes]];
     
     RKRelationshipMapping *relationshipMapping =
-    [RKRelationshipMapping relationshipMappingFromKeyPath:@"characters" toKeyPath:@"characters" withMapping:characterMapping];
+    [RKRelationshipMapping relationshipMappingFromKeyPath:@"characters" toKeyPath:@"characters" withMapping:[self characteMapping]];
     [userMapping addPropertyMapping:relationshipMapping];
+    
     return userMapping;
 }
 
 - (RKEntityMapping *)characteMapping {
     RKEntityMapping *characterMapping =
     [RKEntityMapping mappingForEntityForName:NSStringFromClass([CTFCharacter class]) inManagedObjectStore:_manager.managedObjectStore];
-    [characterMapping addAttributeMappingsFromDictionary:[self characterMappingDict]];
+    [characterMapping addAttributeMappingsFromDictionary:[self _characterMappingDict]];
     return characterMapping;
 }
 
-- (RKEntityMapping *)testUserMappingWithStore:(RKManagedObjectStore *)store {
-    RKEntityMapping *userMapping =
-    [RKEntityMapping mappingForEntityForName:NSStringFromClass([CTFUser class]) inManagedObjectStore:store];
-    [userMapping addAttributeMappingsFromDictionary:[self userMappingDict]];
-    /*
-    RKEntityMapping *characterMapping =
-    [RKEntityMapping mappingForEntityForName:NSStringFromClass([CTFCharacter class]) inManagedObjectStore:store];
-    [characterMapping addAttributeMappingsFromDictionary:[self characterMappingDict]];
-    
-    [userMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"characters" toKeyPath:@"characters" withMapping:characterMapping]];
-    
-     */return userMapping;
+
+#pragma mark - Dictionaries with attribute mappings
+- (NSDictionary *)_userAttributes {
+    NSDictionary *userDict = @{@"username" : @"username",
+                               @"email" : @"email",
+                               @"password" : @"password",
+                               @"nick" : @"nick",
+                               @"location" : @"location"/*,
+                               @"characters": @"characters"*/};
+    return userDict;
 }
 
-- (NSDictionary *)userMappingDict {
-    return @{@"username" : @"username",
-             @"email" : @"email",
-             @"password" : @"password",
-             @"nick" : @"nick",
-             @"location" : @"location"/*,
-            @"characters": @"characters"*/};
-}
-
-- (NSDictionary *)characterMappingDict {
+- (NSDictionary *)_characterMappingDict {
     return @{@"type": @"type",
              @"total_time": @"totalTime",
              @"total_score": @"totalScore",
@@ -86,15 +73,10 @@ static CTFAPIMappings *_sharedInstance = nil;
              @"is_active": @"active"};
 }
 
+
+#pragma mark - Accessors
 - (RKObjectManager *)manager {
     return _manager;
-}
-
-- (RKEntityMapping *)simpleUserMappingWithStore:(RKManagedObjectStore *)store {
-    RKEntityMapping *userMapping =
-    [RKEntityMapping mappingForEntityForName:NSStringFromClass([CTFUser class]) inManagedObjectStore:_manager.managedObjectStore];
-    [userMapping addAttributeMappingsFromDictionary:[self userMappingDict]];
-    return userMapping;
 }
 
 @end

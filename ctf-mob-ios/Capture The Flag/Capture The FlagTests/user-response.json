@@ -3,5 +3,21 @@
     "email": "tmk.szlc@gmail.com",
     "password": "password123",
     "nick": "black_lord",
-    "location": [10, 20]
+    "location": [10, 20],
+    "characters" : [{
+                    "type": 1,
+                    "total_time": 21,
+                    "total_score": 100,
+                    "health": 100,
+                    "level": 20,
+                    "is_active": 1
+                    },
+                    {
+                    "type": 2,
+                    "total_time": 23,
+                    "total_score": 98,
+                    "health": 55,
+                    "level": 12,
+                    "is_active": 0
+                    }]
 }

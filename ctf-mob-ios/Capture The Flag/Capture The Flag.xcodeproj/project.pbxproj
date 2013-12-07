@@ -11,7 +11,7 @@
 		6D071593184E59B8002C3023 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D0D87A8184D32AD002904AE /* SystemConfiguration.framework */; };
 		6D071595184E59EF002C3023 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D071594184E59EF002C3023 /* MobileCoreServices.framework */; };
 		6D0715B1184E7F22002C3023 /* CTFGame.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0715B0184E7F22002C3023 /* CTFGame.m */; };
-		6D0715B3184E82F1002C3023 /* CTFUserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0715B2184E82F1002C3023 /* CTFUserTests.m */; };
+		6D0715B3184E82F1002C3023 /* CTFAPIMappingsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0715B2184E82F1002C3023 /* CTFAPIMappingsTests.m */; };
 		6D0715B5184E8318002C3023 /* CTFGameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0715B4184E8318002C3023 /* CTFGameTests.m */; };
 		6D0715BB184FCD35002C3023 /* user-response.json in Resources */ = {isa = PBXBuildFile; fileRef = 6D0715BA184FCD35002C3023 /* user-response.json */; };
 		6D0715BC184FD965002C3023 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6DE99137183A9F9E005F3DB1 /* Model.xcdatamodeld */; };
@@ -73,7 +73,7 @@
 		6D071594184E59EF002C3023 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		6D0715AF184E7F22002C3023 /* CTFGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFGame.h; sourceTree = "<group>"; };
 		6D0715B0184E7F22002C3023 /* CTFGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFGame.m; sourceTree = "<group>"; };
-		6D0715B2184E82F1002C3023 /* CTFUserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFUserTests.m; sourceTree = "<group>"; };
+		6D0715B2184E82F1002C3023 /* CTFAPIMappingsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFAPIMappingsTests.m; sourceTree = "<group>"; };
 		6D0715B4184E8318002C3023 /* CTFGameTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFGameTests.m; sourceTree = "<group>"; };
 		6D0715BA184FCD35002C3023 /* user-response.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "user-response.json"; sourceTree = "<group>"; };
 		6D0715BE1850F8DC002C3023 /* CTFUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFUser.h; sourceTree = "<group>"; };
@@ -172,6 +172,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6D0715CD1853153E002C3023 /* Fixtures */ = {
+			isa = PBXGroup;
+			children = (
+				6D0715BA184FCD35002C3023 /* user-response.json */,
+			);
+			name = Fixtures;
+			sourceTree = "<group>";
+		};
 		6D0D8798184D26AF002904AE /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -185,8 +193,6 @@
 			isa = PBXGroup;
 			children = (
 				6D0715B4184E8318002C3023 /* CTFGameTests.m */,
-				6D0715B2184E82F1002C3023 /* CTFUserTests.m */,
-				6D0715BA184FCD35002C3023 /* user-response.json */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -200,6 +206,7 @@
 				6D0D8796184CF3FD002904AE /* CTFAPIAccountsTests.m */,
 				6D0D87A2184D2FB5002904AE /* CTFLocalCredentialsTests.m */,
 				6D0D87AA184D3488002904AE /* CTFLocalCredentialsStoreTests.m */,
+				6D0715B2184E82F1002C3023 /* CTFAPIMappingsTests.m */,
 			);
 			name = API;
 			sourceTree = "<group>";
@@ -344,6 +351,7 @@
 		6DFD1950182ACF0D00542227 /* Capture The FlagTests */ = {
 			isa = PBXGroup;
 			children = (
+				6D0715CD1853153E002C3023 /* Fixtures */,
 				6D1825DB184A4A2A0039FD92 /* API */,
 				6D163E5F183BF62100BC4F84 /* Model */,
 				6D54EBA9182EB05E002A6357 /* UI Tests */,
@@ -554,7 +562,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6D0715B3184E82F1002C3023 /* CTFUserTests.m in Sources */,
+				6D0715B3184E82F1002C3023 /* CTFAPIMappingsTests.m in Sources */,
 				6DE0FCD2182C582F00800C09 /* CTFLoginViewController.m in Sources */,
 				6D1825D7184A36120039FD92 /* CTFAPICredentialsTests.m in Sources */,
 				6D0715BD184FD965002C3023 /* Model.xcdatamodeld in Sources */,

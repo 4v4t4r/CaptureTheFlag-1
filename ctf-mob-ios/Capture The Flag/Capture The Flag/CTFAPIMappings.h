@@ -8,18 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
-    @interface CTFAPIMappings : NSObject
+@interface CTFAPIMappings : NSObject
 
-    @property (readonly) RKObjectManager *manager;
+@property (readonly) RKObjectManager *manager;
 
-    + (instancetype)sharedInstance;
-    + (void)setSharedInstance:(CTFAPIMappings *)sharedInstance;
-    - (instancetype)initWithManager:(RKObjectManager *)manager;
++ (instancetype)sharedInstance;
++ (void)setSharedInstance:(CTFAPIMappings *)sharedInstance;
+- (instancetype)initWithManager:(RKObjectManager *)manager;
 
 - (RKEntityMapping *)userMapping;
 - (RKEntityMapping *)characterMapping;
-- (RKEntityMapping *)testUserMappingWithStore:(RKManagedObjectStore *)store;
-- (NSDictionary *)userMappingDict;
-- (NSDictionary *)characterMappingDict;
-- (RKEntityMapping *)simpleUserMappingWithStore:(RKManagedObjectStore *)store;
+
 @end
