@@ -39,13 +39,13 @@ static CTFAPIMappings *_sharedInstance = nil;
     [userMapping addAttributeMappingsFromDictionary:[self _userAttributes]];
     
     RKRelationshipMapping *relationshipMapping =
-    [RKRelationshipMapping relationshipMappingFromKeyPath:@"characters" toKeyPath:@"characters" withMapping:[self characteMapping]];
+    [RKRelationshipMapping relationshipMappingFromKeyPath:@"characters" toKeyPath:@"characters" withMapping:[self characterMapping]];
     [userMapping addPropertyMapping:relationshipMapping];
     
     return userMapping;
 }
 
-- (RKEntityMapping *)characteMapping {
+- (RKEntityMapping *)characterMapping {
     RKEntityMapping *characterMapping =
     [RKEntityMapping mappingForEntityForName:NSStringFromClass([CTFCharacter class]) inManagedObjectStore:_manager.managedObjectStore];
     [characterMapping addAttributeMappingsFromDictionary:[self _characterMappingDict]];

@@ -148,5 +148,37 @@
     [test verify];
 }
 
+- (void)testCharacterResponseMapping {
+    id parsedJSON = [RKTestFixture parsedObjectWithContentsOfFixture:@"character-response.json"];
+    
+    RKMappingTest *test = [RKMappingTest testForMapping:[self characterMapping] sourceObject:parsedJSON destinationObject:nil];
+    test.managedObjectContext = _service.managedObjectContext;
+    
+    RKPropertyMappingTestExpectation *typeExpectation =
+    [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"type" destinationKeyPath:@"type" value:@(1)];
+    [test addExpectation:typeExpectation];
+    
+    RKPropertyMappingTestExpectation *totalTimeExpectation =
+    [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"total_time" destinationKeyPath:@"totalTime" value:@(21)];
+    [test addExpectation:totalTimeExpectation];
+    
+    RKPropertyMappingTestExpectation *totalScoreExpectation =
+    [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"total_score" destinationKeyPath:@"totalScore" value:@(100)];
+    [test addExpectation:totalScoreExpectation];
+    
+    RKPropertyMappingTestExpectation *healthExpectation =
+    [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"health" destinationKeyPath:@"health" value:@(100)];
+    [test addExpectation:healthExpectation];
+    
+    RKPropertyMappingTestExpectation *levelExpectation =
+    [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"level" destinationKeyPath:@"level" value:@(20)];
+    [test addExpectation:levelExpectation];
+    
+    RKPropertyMappingTestExpectation *isActiveExpectation =
+    [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"is_active" destinationKeyPath:@"active" value:@(1)];
+    [test addExpectation:isActiveExpectation];
+    
+    [test verify];
+}
 
 @end
