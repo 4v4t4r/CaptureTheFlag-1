@@ -115,7 +115,13 @@
                         _statusLabel.text = @"";
                     }];
                 } else {
-#warning [tsu] something goes wrong. Check what may goes wrong and improve this case
+                    UIAlertView *alertView =
+                    [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"view.login.alert.cant_store_credentials.title", nil)
+                                               message:NSLocalizedString(@"view.login.alert.cant_store_credentials.message", nil)
+                                              delegate:Nil
+                                     cancelButtonTitle:NSLocalizedString(@"button.OK", nil)
+                                     otherButtonTitles:nil, nil];
+                    [alertView show];
                 }
             } else {
 #warning [tsu] need implementation of UIAlertView which shows appropriate alert that user can't login... Need some error handling

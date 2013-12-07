@@ -69,7 +69,12 @@
             } else {
                 message = NSLocalizedString(@"view.register.alert.registration.message.failure", nil);
             }
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:Nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            UIAlertView *alertView =
+            [[UIAlertView alloc] initWithTitle:title
+                                       message:message
+                                      delegate:Nil
+                             cancelButtonTitle:NSLocalizedString(@"button.OK", nil)
+                             otherButtonTitles:nil, nil];
             alertView.delegate = self;
             
             if (success) {

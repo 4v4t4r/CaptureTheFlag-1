@@ -1,4 +1,5 @@
 /* General - It's place for general words */
+"button.OK" = "OK";
 
 /* Login */
 /* Title of navigation bar */
@@ -24,6 +25,14 @@
 
 /* Empty fields */
 "view.login.label.status.empty_field" = "One of fields is empty";
+
+/* Error during storing credentials */
+/* title */
+"view.login.alert.cant_store_credentials.title" = "Can't login";
+
+/* message */
+"view.login.alert.cant_store_credentials.message" = "Something goes wrong with Keychain during login process. Please try again";
+
 
 
 /* Register */

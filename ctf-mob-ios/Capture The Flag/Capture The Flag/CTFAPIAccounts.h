@@ -10,6 +10,7 @@
 
 @class CTFAPIConnection;
 
+#warning [tsu] Implement error handling when server will be return correctly codes
 typedef void (^TokenBlock)(NSString *token);
 typedef void (^SignUpBlock)(BOOL success);
 
