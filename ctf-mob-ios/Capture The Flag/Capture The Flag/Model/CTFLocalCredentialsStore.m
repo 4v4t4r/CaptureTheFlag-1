@@ -42,18 +42,29 @@ static CTFLocalCredentialsStore *sharedInstance = nil;
     
     NSString *key = [CTFLocalCredentialsStore key];
     NSString *objectToStore = [NSString stringWithFormat:@"%@,%@", credentials.username, credentials.password];
-    BOOL stored = [_keychain storeUsername:key andPassword:objectToStore forServiceName:key updateExisting:YES error:nil];
+    NSError *error = nil;
+    BOOL stored = [_keychain storeUsername:key andPassword:objectToStore forServiceName:key updateExisting:YES error:&error];
+    if (error) {
+        NSLog(@"%s, %@", __PRETTY_FUNCTION__, [error localizedDescription]);
+    }
     return stored;
 }
 
 - (CTFLocalCredentials *)getCredentials {
     NSString *key = [CTFLocalCredentialsStore key];
-    NSString *storedObject = [_keychain getPasswordForUsername:key andServiceName:key error:nil];
-    NSArray *components = [storedObject componentsSeparatedByString:@","];
-    
+    NSError *error = nil;
+    NSString *storedObject = [_keychain getPasswordForUsername:key andServiceName:key error:&error];
+   
     CTFLocalCredentials *credentials = nil;
-    if (components.count == 2)
-        credentials = [[CTFLocalCredentials alloc] initWithUsername:components[0] password:components[1]];
+    if (!error) {
+        NSArray *components = [storedObject componentsSeparatedByString:@","];
+        
+        if (components.count == 2)
+            credentials = [[CTFLocalCredentials alloc] initWithUsername:components[0] password:components[1]];
+    } else {
+        NSLog(@"%s, %@", __PRETTY_FUNCTION__, [error localizedDescription]);
+    }
+    
     return credentials;
 }
 
