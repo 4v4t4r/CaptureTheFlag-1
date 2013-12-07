@@ -49,7 +49,8 @@
     id mockKeychain = [OCMockObject mockForClass:[STKeychain class]];
     
     BOOL result = YES;
-    [[[mockKeychain expect] andReturnValue:OCMOCK_VALUE(result)] storeUsername:OCMOCK_ANY andPassword:OCMOCK_ANY forServiceName:OCMOCK_ANY updateExisting:YES error:nil];
+    NSError *error = nil;
+    [[[mockKeychain expect] andReturnValue:OCMOCK_VALUE(result)] storeUsername:OCMOCK_ANY andPassword:OCMOCK_ANY forServiceName:OCMOCK_ANY updateExisting:YES error:[OCMArg setTo:error]];
     
     CTFLocalCredentials *credentials = [[CTFLocalCredentials alloc] initWithUsername:@"username" password:@"password"];
     
@@ -66,7 +67,9 @@
     NSString *password = @"password";
     
     NSString *storedPassword = [NSString stringWithFormat:@"%@,%@", username, password];
-    [[[mockKeychain expect] andReturn:storedPassword] getPasswordForUsername:OCMOCK_ANY andServiceName:OCMOCK_ANY error:nil];
+    NSError *error = nil;
+
+    [[[mockKeychain expect] andReturn:storedPassword] getPasswordForUsername:OCMOCK_ANY andServiceName:OCMOCK_ANY error:[OCMArg setTo:error]];
     
     CTFLocalCredentialsStore *store = [[CTFLocalCredentialsStore alloc] initWithKeychain:mockKeychain];
     CTFLocalCredentials *credentials = [store getCredentials];
