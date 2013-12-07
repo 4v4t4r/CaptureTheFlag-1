@@ -11,6 +11,7 @@
 #import "CTFLoginViewController.h"
 
 #import "CTFAPIConnection.h"
+#import "CTFAPIMappings.h"
 
 #import "STKeychain.h"
 #import "CTFLocalCredentialsStore.h"
@@ -20,10 +21,10 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     /// Configure Core Data
-    CoreDataService *sharedInstance = [CoreDataService new];
-    [CoreDataService setSharedInstance:sharedInstance];
+    CoreDataService *sharedCoreData = [CoreDataService new];
+    [CoreDataService setSharedInstance:sharedCoreData];
     
-    /// Configure CTFAPIConnection
+    /// Configure RestKit
 #warning [tsu] This is only test configuration. When official server url will be available I'll update it.
     NSURL *url = [NSURL URLWithString:@"http://iwrapperapp.com/abanalytics/api/"];
     
@@ -31,12 +32,22 @@
     [manager.HTTPClient setAuthorizationHeaderWithUsername:@"analytics" password:@"0xgYjxGBKv"];
     [manager setRequestSerializationMIMEType:RKMIMETypeJSON];
     
+    RKManagedObjectStore *managedObjectStore =
+    [[RKManagedObjectStore alloc] initWithPersistentStoreCoordinator:sharedCoreData.persistentStoreCoordinator];
+    manager.managedObjectStore = managedObjectStore;
+    [manager.managedObjectStore createManagedObjectContexts];
+    
+    /// Configure CTFAPIConnection
     CTFAPIConnection *connection = [[CTFAPIConnection alloc] initWithManager:manager];
     [CTFAPIConnection setSharedConnection:connection];
 
-    /// Configure credentials store
+    /// Configure CredentialsStore
     CTFLocalCredentialsStore *credentialsStore = [[CTFLocalCredentialsStore alloc] initWithKeychain:[STKeychain sharedInstance]];
     [CTFLocalCredentialsStore setSharedInstance:credentialsStore];
+    
+    /// Configure Mappings
+    CTFAPIMappings *mappings = [[CTFAPIMappings alloc] initWithManager:manager];
+    [CTFAPIMappings setSharedInstance:mappings];
     
     /// Load view
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"LoginAndRegister" bundle:nil];

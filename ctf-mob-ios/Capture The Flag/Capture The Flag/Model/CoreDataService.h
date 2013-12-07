@@ -22,6 +22,7 @@
  */
 + (void)setSharedInstance:(CoreDataService *)instance;
 
+- (instancetype)init;
 - (instancetype)initForUnitTesting;
 
 - (void)saveContext;
