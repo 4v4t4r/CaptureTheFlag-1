@@ -10,6 +10,7 @@
 #import <OCMock/OCMock.h>
 #import <RestKit/Testing.h>
 
+#import "CTFAPIMappings.h"
 #import "CoreDataService.h"
 #import "CTFUser.h"
 #import "CTFCharacter.h"
@@ -21,10 +22,13 @@
 @implementation CTFAPIMappingsTests {
     CoreDataService *_service;
     RKObjectManager *_manager;
+    CTFAPIMappings *_mappings;
 }
 
 - (void)setUp {
     [super setUp];
+    [CTFAPIMappings setSharedInstance:nil];
+    
     _service = [[CoreDataService alloc] initForUnitTesting];
     
     _manager = [[RKObjectManager alloc] init];
@@ -39,7 +43,33 @@
 - (void)tearDown {
     _service = nil;
     _manager = nil;
+    _mappings = nil;
     [super tearDown];
+}
+
+- (void)testSharedInstanceShouldBeNil {
+    XCTAssertNil([CTFAPIMappings sharedInstance], @"");
+}
+
+- (void)testSharedInstanceShouldBeNotNilAndManagerWithStoreShouldBeEquals {
+    RKObjectManager *manager = [[RKObjectManager alloc] init];
+    CTFAPIMappings *mappings = [[CTFAPIMappings alloc] initWithManager:manager];
+    [CTFAPIMappings setSharedInstance:mappings];
+    XCTAssertNotNil([CTFAPIMappings sharedInstance], @"");
+}
+
+- (void)testInstanceShouldHaveTheSameManagerAndStoreAsInjected {
+    RKObjectManager *objectManager = [[RKObjectManager alloc] init];
+    RKManagedObjectStore *store = [[RKManagedObjectStore alloc] initWithPersistentStoreCoordinator:_service.persistentStoreCoordinator];
+    [store createManagedObjectContexts];
+    
+    objectManager.managedObjectStore = store;
+    
+    CTFAPIMappings *mappings = [[CTFAPIMappings alloc] initWithManager:objectManager];
+    XCTAssertNotNil(mappings, @"");
+    XCTAssertNotNil(mappings.manager, @"");
+    XCTAssertEqualObjects(mappings.manager, objectManager, @"");
+    XCTAssertEqualObjects(mappings.manager.managedObjectStore, objectManager.managedObjectStore, @"");
 }
 
 - (RKEntityMapping *)userMapping {
