@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 Tomasz Szulc. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "CTFViewController.h"
 
-@interface CTFMainViewController : UIViewController
+@interface CTFMainViewController : CTFViewController
 - (IBAction)onLogout:(id)sender;
 
 @end

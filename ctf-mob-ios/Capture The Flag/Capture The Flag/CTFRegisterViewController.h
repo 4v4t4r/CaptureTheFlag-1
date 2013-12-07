@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 Tomasz Szulc. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "CTFViewController.h"
 
-@interface CTFRegisterViewController : UIViewController
+@interface CTFRegisterViewController : CTFViewController
 
 #pragma mark - Outlets
 @property (weak, nonatomic) IBOutlet UITextField *emailTF;

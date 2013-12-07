@@ -16,7 +16,7 @@
     if (!credential || credential.length == 0)
         return result;
     
-    NSString *pattern = [self patternForType:type];
+    NSString *pattern = [self _patternForType:type];
     
     NSError *error = nil;
     NSRegularExpression *regex = [[NSRegularExpression alloc]
@@ -35,7 +35,7 @@
     return result;
 }
 
-+ (NSString *)patternForType:(CredentialType)type
++ (NSString *)_patternForType:(CredentialType)type
 {
     NSString *pattern = nil;
     switch (type) {

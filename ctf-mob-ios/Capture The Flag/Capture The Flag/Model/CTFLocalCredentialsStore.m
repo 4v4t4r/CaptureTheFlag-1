@@ -40,7 +40,7 @@ static CTFLocalCredentialsStore *sharedInstance = nil;
     if (!credentials)
         return NO;
     
-    NSString *key = [CTFLocalCredentialsStore key];
+    NSString *key = [CTFLocalCredentialsStore _key];
     NSString *objectToStore = [NSString stringWithFormat:@"%@,%@", credentials.username, credentials.password];
     NSError *error = nil;
     BOOL stored = [_keychain storeUsername:key andPassword:objectToStore forServiceName:key updateExisting:YES error:&error];
@@ -51,7 +51,7 @@ static CTFLocalCredentialsStore *sharedInstance = nil;
 }
 
 - (CTFLocalCredentials *)getCredentials {
-    NSString *key = [CTFLocalCredentialsStore key];
+    NSString *key = [CTFLocalCredentialsStore _key];
     NSError *error = nil;
     NSString *storedObject = [_keychain getPasswordForUsername:key andServiceName:key error:&error];
    
@@ -68,7 +68,7 @@ static CTFLocalCredentialsStore *sharedInstance = nil;
     return credentials;
 }
 
-+ (NSString *)key {
++ (NSString *)_key {
     NSMutableString *key = [[NSMutableString alloc] initWithString:[[NSBundle mainBundle] bundleIdentifier]];
     return key;
 }

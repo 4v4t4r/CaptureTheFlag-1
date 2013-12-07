@@ -7,6 +7,7 @@
 //
 
 #import "CTFRegisterViewController.h"
+
 #import "CTFAPIConnection.h"
 #import "CTFAPICredentials.h"
 #import "CTFAPIAccounts.h"
@@ -24,9 +25,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self localizeUI];
-    [self configureTapBackground];
-    [self configureTextFields];
+    [self _configureTapBackground];
+    [self _configureTextFields];
 }
 
 - (void)viewDidUnload {
@@ -36,21 +36,12 @@
     [super viewDidUnload];
 }
 
-- (void)localizeUI {
-    self.navigationItem.title = NSLocalizedString(@"view.register.navigation.title", nil);
-    _emailTF.placeholder = NSLocalizedString(@"view.register.textField.email.placeholder", nil);
-    _usernameTF.placeholder = NSLocalizedString(@"view.register.textField.username.placeholder", nil);
-    _passwordTF.placeholder = NSLocalizedString(@"view.register.textField.password.placeholder", nil);
-    _rePasswordTF.placeholder = NSLocalizedString(@"view.register.textField.re-password.placeholder", nil);
-    [_registerBtn setTitle:NSLocalizedString(@"view.register.button.register.title", nil) forState:UIControlStateNormal];
-}
-
-- (void)configureTapBackground {
-    UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backgroundTapped)];
+- (void)_configureTapBackground {
+    UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(_backgroundTapped)];
     [self.view addGestureRecognizer:gesture];
 }
 
-- (void)backgroundTapped {
+- (void)_backgroundTapped {
     [self.view endEditing:YES];
 }
 
@@ -88,7 +79,7 @@
     }
 }
 
-- (void)configureTextFields {
+- (void)_configureTextFields {
     [_emailTF addTarget:self action:@selector(textFieldDidChange) forControlEvents:UIControlEventEditingChanged];
     [_usernameTF addTarget:self action:@selector(textFieldDidChange) forControlEvents:UIControlEventEditingChanged];
     [_passwordTF addTarget:self action:@selector(textFieldDidChange) forControlEvents:UIControlEventEditingChanged];
@@ -123,6 +114,17 @@
     if ([alertView isEqual:_successAlert] && buttonIndex == 0) {
         [self.navigationController popViewControllerAnimated:YES];
     }
+}
+
+
+#pragma mark - CTFViewControllerProtocol
+- (void)localizeUI {
+    self.navigationItem.title = NSLocalizedString(@"view.register.navigation.title", nil);
+    _emailTF.placeholder = NSLocalizedString(@"view.register.textField.email.placeholder", nil);
+    _usernameTF.placeholder = NSLocalizedString(@"view.register.textField.username.placeholder", nil);
+    _passwordTF.placeholder = NSLocalizedString(@"view.register.textField.password.placeholder", nil);
+    _rePasswordTF.placeholder = NSLocalizedString(@"view.register.textField.re-password.placeholder", nil);
+    [_registerBtn setTitle:NSLocalizedString(@"view.register.button.register.title", nil) forState:UIControlStateNormal];
 }
 
 @end

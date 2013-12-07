@@ -7,6 +7,7 @@
 //
 
 #import "CTFLoginViewController.h"
+
 #import "CTFGame.h"
 #import "CTFUser.h"
 
@@ -29,15 +30,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self localizeUI];
 
-    [self configureTapBackground];
-    [self configureTextFields];
-//    [self getUserFromServer_test];
+    [self _configureTapBackground];
+    [self _configureTextFields];
+//    [self _getUserFromServer_test];
 }
 
 #pragma mark [tsu] only temporary for check if mapping is correctly. Remove it later. Something is wrong in tests and I need to check it here. Issue reported on RestKit github
-- (void)getUserFromServer_test {
+- (void)_getUserFromServer_test {
     CTFAPIConnection *connection = [CTFAPIConnection sharedConnection];
     NSLog(@"managedObjectStore = %@", connection.manager.managedObjectStore);
     
@@ -55,23 +55,15 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self fillTextFieldIfNecessary];
+    [self _fillTextFieldIfNecessary];
 }
 
-- (void)localizeUI {
-    self.navigationItem.title = NSLocalizedString(@"view.login.navigation.title", nil);
-    _usernameTF.placeholder = NSLocalizedString(@"view.login.textField.username.placeholder", nil);
-    _passwordTF.placeholder = NSLocalizedString(@"view.login.textField.password.placeholder", nil);
-    [_loginBtn setTitle:NSLocalizedString(@"view.login.button.login.title", nil) forState:UIControlStateNormal];
-    [_registerBtn setTitle:NSLocalizedString(@"view.login.button.register.title", nil) forState:UIControlStateNormal];
-}
-
-- (void)configureTapBackground {
-    UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backgroundTapped)];
+- (void)_configureTapBackground {
+    UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(_backgroundTapped)];
     [self.view addGestureRecognizer:gesture];
 }
 
-- (void)backgroundTapped {
+- (void)_backgroundTapped {
     [self.view endEditing:YES];
 }
 
@@ -133,12 +125,12 @@
     }
 }
 
-- (void)configureTextFields {
+- (void)_configureTextFields {
     [_usernameTF addTarget:self action:@selector(textFieldDidChange) forControlEvents:UIControlEventEditingChanged];
     [_passwordTF addTarget:self action:@selector(textFieldDidChange) forControlEvents:UIControlEventEditingChanged];
 }
 
-- (void)fillTextFieldIfNecessary {
+- (void)_fillTextFieldIfNecessary {
     CTFLocalCredentials *credentials = [[CTFLocalCredentialsStore sharedInstance] getCredentials];
     if (credentials) {
         [_usernameTF setText:credentials.username];
@@ -167,6 +159,16 @@
     if ([identifier isEqualToString:@"ToRegisterSegue"])
         return YES;
     return NO;
+}
+
+
+#pragma mark - CTFViewControllerProtocol
+- (void)localizeUI {
+    self.navigationItem.title = NSLocalizedString(@"view.login.navigation.title", nil);
+    _usernameTF.placeholder = NSLocalizedString(@"view.login.textField.username.placeholder", nil);
+    _passwordTF.placeholder = NSLocalizedString(@"view.login.textField.password.placeholder", nil);
+    [_loginBtn setTitle:NSLocalizedString(@"view.login.button.login.title", nil) forState:UIControlStateNormal];
+    [_registerBtn setTitle:NSLocalizedString(@"view.login.button.register.title", nil) forState:UIControlStateNormal];
 }
 
 @end

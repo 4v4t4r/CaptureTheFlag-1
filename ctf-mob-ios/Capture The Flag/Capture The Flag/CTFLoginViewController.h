@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 Tomasz Szulc. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "CTFViewController.h"
 
-@interface CTFLoginViewController : UIViewController <UITextFieldDelegate>
+@interface CTFLoginViewController : CTFViewController <UITextFieldDelegate>
 
 #pragma mark - Outlets
 @property (weak, nonatomic) IBOutlet UITextField *usernameTF;
