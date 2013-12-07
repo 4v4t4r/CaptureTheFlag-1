@@ -20,16 +20,8 @@
 @dynamic game;
 @dynamic characters;
 
-+ (NSDictionary *)dictionaryForResponseMapping {
-    return @{@"username" : @"username",
-             @"email" : @"email",
-             @"password" : @"password",
-             @"nick" : @"nick",
-             @"location" : @"location"/*,
-             @"characters": @"characters"*/};
-}
-
 @end
+
 
 @implementation CTFUser (CoreDataGeneratedAccessors)
 

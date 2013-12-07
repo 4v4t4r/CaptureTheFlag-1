@@ -18,6 +18,7 @@
 		6D0715BD184FD965002C3023 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6DE99137183A9F9E005F3DB1 /* Model.xcdatamodeld */; };
 		6D0715C01850F8DC002C3023 /* CTFUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0715BF1850F8DC002C3023 /* CTFUser.m */; };
 		6D0715C3185101E6002C3023 /* CTFCharacter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0715C2185101E6002C3023 /* CTFCharacter.m */; };
+		6D0715CC18524380002C3023 /* CTFAPIMappings.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0715CB18524380002C3023 /* CTFAPIMappings.m */; };
 		6D0D8769184B5224002904AE /* CTFAPIConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0D8768184B5224002904AE /* CTFAPIConnection.m */; };
 		6D0D8795184CF111002904AE /* CTFAPIConnectionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0D8794184CF111002904AE /* CTFAPIConnectionTests.m */; };
 		6D0D8797184CF3FD002904AE /* CTFAPIAccountsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0D8796184CF3FD002904AE /* CTFAPIAccountsTests.m */; };
@@ -79,6 +80,8 @@
 		6D0715BF1850F8DC002C3023 /* CTFUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFUser.m; sourceTree = "<group>"; };
 		6D0715C1185101E6002C3023 /* CTFCharacter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFCharacter.h; sourceTree = "<group>"; };
 		6D0715C2185101E6002C3023 /* CTFCharacter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFCharacter.m; sourceTree = "<group>"; };
+		6D0715CA18524380002C3023 /* CTFAPIMappings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFAPIMappings.h; sourceTree = "<group>"; };
+		6D0715CB18524380002C3023 /* CTFAPIMappings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFAPIMappings.m; sourceTree = "<group>"; };
 		6D0D874B184B2F22002904AE /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
 		6D0D874D184B2F28002904AE /* libPods-RestKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-RestKit.a"; path = "Pods/build/Debug-iphoneos/libPods-RestKit.a"; sourceTree = "<group>"; };
 		6D0D8767184B5224002904AE /* CTFAPIConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFAPIConnection.h; sourceTree = "<group>"; };
@@ -222,6 +225,8 @@
 				6D1825D9184A48DB0039FD92 /* CTFAPICredentials+Validator.m */,
 				6D0D8767184B5224002904AE /* CTFAPIConnection.h */,
 				6D0D8768184B5224002904AE /* CTFAPIConnection.m */,
+				6D0715CA18524380002C3023 /* CTFAPIMappings.h */,
+				6D0715CB18524380002C3023 /* CTFAPIMappings.m */,
 				6D0D879C184D2A1E002904AE /* CTFLocalCredentialsStore.h */,
 				6D0D879D184D2A1E002904AE /* CTFLocalCredentialsStore.m */,
 				6D0D879F184D2A58002904AE /* CTFLocalCredentials.h */,
@@ -525,6 +530,7 @@
 			files = (
 				6D0D8769184B5224002904AE /* CTFAPIConnection.m in Sources */,
 				6D0715B1184E7F22002C3023 /* CTFGame.m in Sources */,
+				6D0715CC18524380002C3023 /* CTFAPIMappings.m in Sources */,
 				6D1825DE184A4CC80039FD92 /* CTFAPIAccounts.m in Sources */,
 				6D1825D5184A34DB0039FD92 /* CTFAPICredentials.m in Sources */,
 				6D0D879E184D2A1E002904AE /* CTFLocalCredentialsStore.m in Sources */,

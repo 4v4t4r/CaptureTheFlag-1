@@ -20,8 +20,6 @@
 @property (nonatomic, retain) CTFGame *game;
 @property (nonatomic, retain) NSOrderedSet *characters;
 
-+ (NSDictionary *)dictionaryForResponseMapping;
-
 @end
 
 
