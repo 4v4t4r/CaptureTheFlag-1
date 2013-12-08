@@ -8,6 +8,18 @@
 
 #import "CustomManagedObject.h"
 
+typedef enum {
+    CTFItemTypeRedFlag,
+    CTFItemTypeBlueFlag,
+    
+    CTFItemTypeRedBase,
+    CTFItemTypeBlueBase,
+    
+    CTFItemTypeMedicBox,
+    
+    CTFItemTypePistol,
+    CTFItemTypeAmmo
+} CTFItemType;
 
 @interface CTFItem : CustomManagedObject
 
