@@ -21,7 +21,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		3B046ECBE24B4874BABE7C52 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9825F57F59AB43ED892D2396 /* libPods.a */; };
 		6D071593184E59B8002C3023 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D0D87A8184D32AD002904AE /* SystemConfiguration.framework */; };
 		6D071595184E59EF002C3023 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D071594184E59EF002C3023 /* MobileCoreServices.framework */; };
 		6D0715B3184E82F1002C3023 /* CTFAPIMappingsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0715B2184E82F1002C3023 /* CTFAPIMappingsTests.m */; };
@@ -36,9 +35,11 @@
 		6D0D87A3184D2FB5002904AE /* CTFLocalCredentialsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0D87A2184D2FB5002904AE /* CTFLocalCredentialsTests.m */; };
 		6D0D87A5184D324C002904AE /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D0D87A4184D324C002904AE /* Security.framework */; };
 		6D0D87AB184D3488002904AE /* CTFLocalCredentialsStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0D87AA184D3488002904AE /* CTFLocalCredentialsStoreTests.m */; };
-		6D163E62183BFB1A00BC4F84 /* LoginAndRegister.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6DFD193D182ACF0C00542227 /* LoginAndRegister.storyboard */; };
 		6D1825D7184A36120039FD92 /* CTFAPICredentialsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D1825D6184A36120039FD92 /* CTFAPICredentialsTests.m */; };
 		6D6DF20F182B8B59004A4D58 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D6DF20D182B8B59004A4D58 /* Localizable.strings */; };
+		6D9BE0871854AF320036172C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D9BE0861854AF320036172C /* libPods.a */; };
+		6D9BE08A1854AF870036172C /* LoginAndRegister.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D9BE0881854AF870036172C /* LoginAndRegister.storyboard */; };
+		6D9BE08B1854AF870036172C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D9BE0891854AF870036172C /* Main.storyboard */; };
 		6D9CBE6A183AB4BB000FE071 /* CTFMainViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9CBE69183AB4BB000FE071 /* CTFMainViewControllerTests.m */; };
 		6DB609AF185488870094E37D /* CTFLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB609A7185488870094E37D /* CTFLoginViewController.m */; };
 		6DB609B0185488870094E37D /* CTFMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB609A9185488870094E37D /* CTFMainViewController.m */; };
@@ -64,7 +65,6 @@
 		6DE0FCCD182C030700800C09 /* CTFAPICredentials_Validator_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE0FCCC182C030700800C09 /* CTFAPICredentials_Validator_Tests.m */; };
 		6DE0FCD0182C582300800C09 /* CTFLoginViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE0FCCF182C582200800C09 /* CTFLoginViewControllerTests.m */; };
 		6DE0FCD4182C5ABD00800C09 /* CTFRegisterViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE0FCD3182C5ABD00800C09 /* CTFRegisterViewControllerTests.m */; };
-		6DE99130183A9B89005F3DB1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6DE9912F183A9B89005F3DB1 /* Main.storyboard */; };
 		6DE9913C183AA00E005F3DB1 /* CoreDataService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE9913B183AA00E005F3DB1 /* CoreDataService.m */; };
 		6DE99141183AA128005F3DB1 /* CustomManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE99140183AA128005F3DB1 /* CustomManagedObject.m */; };
 		6DFD192C182ACF0C00542227 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DFD192B182ACF0C00542227 /* Foundation.framework */; };
@@ -76,7 +76,6 @@
 		6DFD194B182ACF0D00542227 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DFD194A182ACF0D00542227 /* XCTest.framework */; };
 		6DFD194C182ACF0D00542227 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DFD192B182ACF0C00542227 /* Foundation.framework */; };
 		6DFD194D182ACF0D00542227 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DFD192F182ACF0C00542227 /* UIKit.framework */; };
-		A613A6866B7049208079ACBE /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9825F57F59AB43ED892D2396 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,8 +102,6 @@
 		6D0715B4184E8318002C3023 /* CTFSessionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFSessionTests.m; sourceTree = "<group>"; };
 		6D0715BA184FCD35002C3023 /* user-response.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "user-response.json"; sourceTree = "<group>"; };
 		6D0715CE18531651002C3023 /* character-response.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "character-response.json"; sourceTree = "<group>"; };
-		6D0D874B184B2F22002904AE /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
-		6D0D874D184B2F28002904AE /* libPods-RestKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-RestKit.a"; path = "Pods/build/Debug-iphoneos/libPods-RestKit.a"; sourceTree = "<group>"; };
 		6D0D8794184CF111002904AE /* CTFAPIConnectionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFAPIConnectionTests.m; sourceTree = "<group>"; };
 		6D0D8796184CF3FD002904AE /* CTFAPIAccountsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFAPIAccountsTests.m; sourceTree = "<group>"; };
 		6D0D8799184D26BC002904AE /* STKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STKeychain.h; sourceTree = "<group>"; };
@@ -117,6 +114,9 @@
 		6D1825D6184A36120039FD92 /* CTFAPICredentialsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFAPICredentialsTests.m; sourceTree = "<group>"; };
 		6D6DF20E182B8B59004A4D58 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6D6DF210182B8B76004A4D58 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6D9BE0861854AF320036172C /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
+		6D9BE0881854AF870036172C /* LoginAndRegister.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LoginAndRegister.storyboard; sourceTree = "<group>"; };
+		6D9BE0891854AF870036172C /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		6D9CBE69183AB4BB000FE071 /* CTFMainViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFMainViewControllerTests.m; sourceTree = "<group>"; };
 		6DB609A6185488870094E37D /* CTFLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFLoginViewController.h; sourceTree = "<group>"; };
 		6DB609A7185488870094E37D /* CTFLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFLoginViewController.m; sourceTree = "<group>"; };
@@ -164,7 +164,6 @@
 		6DE0FCCC182C030700800C09 /* CTFAPICredentials_Validator_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFAPICredentials_Validator_Tests.m; sourceTree = "<group>"; };
 		6DE0FCCF182C582200800C09 /* CTFLoginViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFLoginViewControllerTests.m; sourceTree = "<group>"; };
 		6DE0FCD3182C5ABD00800C09 /* CTFRegisterViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFRegisterViewControllerTests.m; sourceTree = "<group>"; };
-		6DE9912F183A9B89005F3DB1 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = ../Main.storyboard; sourceTree = "<group>"; };
 		6DE99138183A9F9E005F3DB1 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		6DE9913A183AA00E005F3DB1 /* CoreDataService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataService.h; sourceTree = "<group>"; };
 		6DE9913B183AA00E005F3DB1 /* CoreDataService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataService.m; sourceTree = "<group>"; };
@@ -180,13 +179,11 @@
 		6DFD1939182ACF0C00542227 /* Capture The Flag-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Capture The Flag-Prefix.pch"; sourceTree = "<group>"; };
 		6DFD193A182ACF0C00542227 /* CTFAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CTFAppDelegate.h; sourceTree = "<group>"; };
 		6DFD193B182ACF0C00542227 /* CTFAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CTFAppDelegate.m; sourceTree = "<group>"; };
-		6DFD193E182ACF0C00542227 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LoginAndRegister.storyboard; sourceTree = "<group>"; };
 		6DFD1943182ACF0C00542227 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		6DFD1949182ACF0D00542227 /* Capture The FlagTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Capture The FlagTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DFD194A182ACF0D00542227 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		6DFD1952182ACF0D00542227 /* Capture The FlagTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Capture The FlagTests-Info.plist"; sourceTree = "<group>"; };
 		6DFD1954182ACF0D00542227 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		9825F57F59AB43ED892D2396 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -194,13 +191,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D9BE0871854AF320036172C /* libPods.a in Frameworks */,
 				6D071595184E59EF002C3023 /* MobileCoreServices.framework in Frameworks */,
 				6D071593184E59B8002C3023 /* SystemConfiguration.framework in Frameworks */,
 				6D0D87A5184D324C002904AE /* Security.framework in Frameworks */,
 				6DFD192E182ACF0C00542227 /* CoreGraphics.framework in Frameworks */,
 				6DFD1930182ACF0C00542227 /* UIKit.framework in Frameworks */,
 				6DFD192C182ACF0C00542227 /* Foundation.framework in Frameworks */,
-				3B046ECBE24B4874BABE7C52 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -211,7 +208,6 @@
 				6DFD194B182ACF0D00542227 /* XCTest.framework in Frameworks */,
 				6DFD194D182ACF0D00542227 /* UIKit.framework in Frameworks */,
 				6DFD194C182ACF0D00542227 /* Foundation.framework in Frameworks */,
-				A613A6866B7049208079ACBE /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -310,8 +306,8 @@
 		6DB609B3185488960094E37D /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
-				6DE9912F183A9B89005F3DB1 /* Main.storyboard */,
-				6DFD193D182ACF0C00542227 /* LoginAndRegister.storyboard */,
+				6D9BE0881854AF870036172C /* LoginAndRegister.storyboard */,
+				6D9BE0891854AF870036172C /* Main.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -388,17 +384,15 @@
 		6DFD192A182ACF0C00542227 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6D9BE0861854AF320036172C /* libPods.a */,
 				6D071594184E59EF002C3023 /* MobileCoreServices.framework */,
 				6D0D87A8184D32AD002904AE /* SystemConfiguration.framework */,
 				6D0D87A6184D3266002904AE /* CoreFoundation.framework */,
 				6D0D87A4184D324C002904AE /* Security.framework */,
-				6D0D874D184B2F28002904AE /* libPods-RestKit.a */,
-				6D0D874B184B2F22002904AE /* libPods.a */,
 				6DFD192B182ACF0C00542227 /* Foundation.framework */,
 				6DFD192D182ACF0C00542227 /* CoreGraphics.framework */,
 				6DFD192F182ACF0C00542227 /* UIKit.framework */,
 				6DFD194A182ACF0D00542227 /* XCTest.framework */,
-				9825F57F59AB43ED892D2396 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -535,10 +529,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D9BE08A1854AF870036172C /* LoginAndRegister.storyboard in Resources */,
 				6DFD1944182ACF0C00542227 /* Images.xcassets in Resources */,
 				6D6DF20F182B8B59004A4D58 /* Localizable.strings in Resources */,
-				6DE99130183A9B89005F3DB1 /* Main.storyboard in Resources */,
-				6D163E62183BFB1A00BC4F84 /* LoginAndRegister.storyboard in Resources */,
+				6D9BE08B1854AF870036172C /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -714,15 +708,6 @@
 				6DFD1935182ACF0C00542227 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		6DFD193D182ACF0C00542227 /* LoginAndRegister.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6DFD193E182ACF0C00542227 /* Base */,
-			);
-			name = LoginAndRegister.storyboard;
-			path = ..;
 			sourceTree = "<group>";
 		};
 		6DFD1953182ACF0D00542227 /* InfoPlist.strings */ = {
