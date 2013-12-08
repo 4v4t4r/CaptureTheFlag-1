@@ -10,9 +10,9 @@
 		3B046ECBE24B4874BABE7C52 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9825F57F59AB43ED892D2396 /* libPods.a */; };
 		6D071593184E59B8002C3023 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D0D87A8184D32AD002904AE /* SystemConfiguration.framework */; };
 		6D071595184E59EF002C3023 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D071594184E59EF002C3023 /* MobileCoreServices.framework */; };
-		6D0715B1184E7F22002C3023 /* CTFGame.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0715B0184E7F22002C3023 /* CTFGame.m */; };
+		6D0715B1184E7F22002C3023 /* CTFSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0715B0184E7F22002C3023 /* CTFSession.m */; };
 		6D0715B3184E82F1002C3023 /* CTFAPIMappingsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0715B2184E82F1002C3023 /* CTFAPIMappingsTests.m */; };
-		6D0715B5184E8318002C3023 /* CTFGameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0715B4184E8318002C3023 /* CTFGameTests.m */; };
+		6D0715B5184E8318002C3023 /* CTFSessionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0715B4184E8318002C3023 /* CTFSessionTests.m */; };
 		6D0715BB184FCD35002C3023 /* user-response.json in Resources */ = {isa = PBXBuildFile; fileRef = 6D0715BA184FCD35002C3023 /* user-response.json */; };
 		6D0715BC184FD965002C3023 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6DE99137183A9F9E005F3DB1 /* Model.xcdatamodeld */; };
 		6D0715BD184FD965002C3023 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6DE99137183A9F9E005F3DB1 /* Model.xcdatamodeld */; };
@@ -72,10 +72,10 @@
 /* Begin PBXFileReference section */
 		0575C0B261A543468AFC452D /* Pods/Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 		6D071594184E59EF002C3023 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
-		6D0715AF184E7F22002C3023 /* CTFGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFGame.h; sourceTree = "<group>"; };
-		6D0715B0184E7F22002C3023 /* CTFGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFGame.m; sourceTree = "<group>"; };
+		6D0715AF184E7F22002C3023 /* CTFSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFSession.h; sourceTree = "<group>"; };
+		6D0715B0184E7F22002C3023 /* CTFSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFSession.m; sourceTree = "<group>"; };
 		6D0715B2184E82F1002C3023 /* CTFAPIMappingsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFAPIMappingsTests.m; sourceTree = "<group>"; };
-		6D0715B4184E8318002C3023 /* CTFGameTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFGameTests.m; sourceTree = "<group>"; };
+		6D0715B4184E8318002C3023 /* CTFSessionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFSessionTests.m; sourceTree = "<group>"; };
 		6D0715BA184FCD35002C3023 /* user-response.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "user-response.json"; sourceTree = "<group>"; };
 		6D0715BE1850F8DC002C3023 /* CTFUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFUser.h; sourceTree = "<group>"; };
 		6D0715BF1850F8DC002C3023 /* CTFUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFUser.m; sourceTree = "<group>"; };
@@ -200,7 +200,7 @@
 		6D163E5F183BF62100BC4F84 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				6D0715B4184E8318002C3023 /* CTFGameTests.m */,
+				6D0715B4184E8318002C3023 /* CTFSessionTests.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -287,8 +287,8 @@
 				6D0715C2185101E6002C3023 /* CTFCharacter.m */,
 				6D0715BE1850F8DC002C3023 /* CTFUser.h */,
 				6D0715BF1850F8DC002C3023 /* CTFUser.m */,
-				6D0715AF184E7F22002C3023 /* CTFGame.h */,
-				6D0715B0184E7F22002C3023 /* CTFGame.m */,
+				6D0715AF184E7F22002C3023 /* CTFSession.h */,
+				6D0715B0184E7F22002C3023 /* CTFSession.m */,
 				6DE9913A183AA00E005F3DB1 /* CoreDataService.h */,
 				6DE9913B183AA00E005F3DB1 /* CoreDataService.m */,
 				6DE9913F183AA128005F3DB1 /* CustomManagedObject.h */,
@@ -552,7 +552,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6DB609C5185488CE0094E37D /* CTFAPICredentials+Validator.m in Sources */,
-				6D0715B1184E7F22002C3023 /* CTFGame.m in Sources */,
+				6D0715B1184E7F22002C3023 /* CTFSession.m in Sources */,
 				6DB609C6185488CE0094E37D /* CTFAPIMappings.m in Sources */,
 				6DB609B0185488870094E37D /* CTFMainViewController.m in Sources */,
 				6DB609C2185488CE0094E37D /* CTFAPIAccounts.m in Sources */,
@@ -588,7 +588,7 @@
 				6D0D8795184CF111002904AE /* CTFAPIConnectionTests.m in Sources */,
 				6D0D87AB184D3488002904AE /* CTFLocalCredentialsStoreTests.m in Sources */,
 				6D0D8797184CF3FD002904AE /* CTFAPIAccountsTests.m in Sources */,
-				6D0715B5184E8318002C3023 /* CTFGameTests.m in Sources */,
+				6D0715B5184E8318002C3023 /* CTFSessionTests.m in Sources */,
 				6D0D87A3184D2FB5002904AE /* CTFLocalCredentialsTests.m in Sources */,
 				6D9CBE6A183AB4BB000FE071 /* CTFMainViewControllerTests.m in Sources */,
 			);

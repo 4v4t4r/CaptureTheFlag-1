@@ -8,7 +8,7 @@
 
 #import "CustomManagedObject.h"
 
-@class CTFCharacter, CTFGame;
+@class CTFCharacter, CTFSession;
 
 @interface CTFUser : CustomManagedObject
 
@@ -17,7 +17,7 @@
 @property (nonatomic, retain) NSString * username;
 @property (nonatomic, retain) NSString * password;
 @property (nonatomic, retain) id location;
-@property (nonatomic, retain) CTFGame *game;
+@property (nonatomic, retain) CTFSession *session;
 @property (nonatomic, retain) NSOrderedSet *characters;
 
 @end

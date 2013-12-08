@@ -7,7 +7,7 @@
 //
 
 #import "CTFUser.h"
-#import "CTFGame.h"
+#import "CTFSession.h"
 #import "CTFCharacter.h"
 
 @implementation CTFUser
@@ -17,7 +17,7 @@
 @dynamic username;
 @dynamic password;
 @dynamic location;
-@dynamic game;
+@dynamic session;
 @dynamic characters;
 
 @end

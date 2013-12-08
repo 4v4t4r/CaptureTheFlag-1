@@ -1,15 +1,15 @@
 //
-//  CTFGame.m
+//  CTFSession.m
 //  Capture The Flag
 //
 //  Created by Tomasz Szulc on 03.12.2013.
 //  Copyright (c) 2013 Tomasz Szulc. All rights reserved.
 //
 
-#import "CTFGame.h"
+#import "CTFSession.h"
 #import "CTFUser.h"
 
-@implementation CTFGame {
+@implementation CTFSession {
     NSString *_token;
     CTFUser *_currentUser;
 }
@@ -17,14 +17,14 @@
 @dynamic token;
 @dynamic currentUser;
 
-static CTFGame *sharedInstance = nil;
+static CTFSession *sharedInstance = nil;
 + (instancetype)sharedInstance {
     @synchronized (self) {
         return sharedInstance;
     }
 }
 
-+ (void)setSharedInstance:(CTFGame *)game {
++ (void)setSharedInstance:(CTFSession *)game {
     sharedInstance = game;
 }
 
@@ -32,7 +32,7 @@ static CTFGame *sharedInstance = nil;
     if (!token)
         return nil;
     
-    self = [CTFGame createObject];
+    self = [CTFSession createObject];
     if (self) {
         _token = token;
     }

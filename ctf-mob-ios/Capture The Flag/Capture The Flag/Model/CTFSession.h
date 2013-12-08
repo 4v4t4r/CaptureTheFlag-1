@@ -1,5 +1,5 @@
 //
-//  CTFGame.h
+//  CTFSession.h
 //  Capture The Flag
 //
 //  Created by Tomasz Szulc on 03.12.2013.
@@ -10,13 +10,13 @@
 
 @class CTFUser;
 
-@interface CTFGame : CustomManagedObject
+@interface CTFSession : CustomManagedObject
 
 @property (readonly) NSString *token;
 @property (readonly) CTFUser *currentUser;
 
 + (instancetype)sharedInstance;
-+ (void)setSharedInstance:(CTFGame *)game;
++ (void)setSharedInstance:(CTFSession *)game;
 
 - (instancetype)initWithToken:(NSString *)token;
 
