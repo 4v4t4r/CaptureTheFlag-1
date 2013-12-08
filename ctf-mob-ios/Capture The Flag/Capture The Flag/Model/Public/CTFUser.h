@@ -1,27 +1,8 @@
-//
-//  CTFUser.h
-//  Capture The Flag
-//
-//  Created by Tomasz Szulc on 05.12.2013.
-//  Copyright (c) 2013 Tomasz Szulc. All rights reserved.
-//
+#import "_CTFUser.h"
 
-#import "CustomManagedObject.h"
-
-@class CTFCharacter, CTFSession;
-
-@interface CTFUser : CustomManagedObject
-
-@property (nonatomic, retain) NSString * email;
-@property (nonatomic, retain) NSString * nick;
-@property (nonatomic, retain) NSString * username;
-@property (nonatomic, retain) NSString * password;
-@property (nonatomic, retain) id location;
-@property (nonatomic, retain) CTFSession *session;
-@property (nonatomic, retain) NSOrderedSet *characters;
+@interface CTFUser : _CTFUser {}
 
 @end
-
 
 @interface CTFUser (CoreDataGeneratedAccessors)
 

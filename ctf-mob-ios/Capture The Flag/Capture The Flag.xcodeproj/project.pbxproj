@@ -6,18 +6,29 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		6DB609C91854903C0094E37D /* Mogenerator */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 6DB609CA1854903C0094E37D /* Build configuration list for PBXAggregateTarget "Mogenerator" */;
+			buildPhases = (
+				6DB609CD185490650094E37D /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = Mogenerator;
+			productName = Mogenerator;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		3B046ECBE24B4874BABE7C52 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9825F57F59AB43ED892D2396 /* libPods.a */; };
 		6D071593184E59B8002C3023 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D0D87A8184D32AD002904AE /* SystemConfiguration.framework */; };
 		6D071595184E59EF002C3023 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D071594184E59EF002C3023 /* MobileCoreServices.framework */; };
-		6D0715B1184E7F22002C3023 /* CTFSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0715B0184E7F22002C3023 /* CTFSession.m */; };
 		6D0715B3184E82F1002C3023 /* CTFAPIMappingsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0715B2184E82F1002C3023 /* CTFAPIMappingsTests.m */; };
 		6D0715B5184E8318002C3023 /* CTFSessionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0715B4184E8318002C3023 /* CTFSessionTests.m */; };
 		6D0715BB184FCD35002C3023 /* user-response.json in Resources */ = {isa = PBXBuildFile; fileRef = 6D0715BA184FCD35002C3023 /* user-response.json */; };
 		6D0715BC184FD965002C3023 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6DE99137183A9F9E005F3DB1 /* Model.xcdatamodeld */; };
 		6D0715BD184FD965002C3023 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6DE99137183A9F9E005F3DB1 /* Model.xcdatamodeld */; };
-		6D0715C01850F8DC002C3023 /* CTFUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0715BF1850F8DC002C3023 /* CTFUser.m */; };
-		6D0715C3185101E6002C3023 /* CTFCharacter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0715C2185101E6002C3023 /* CTFCharacter.m */; };
 		6D0715CF18531651002C3023 /* character-response.json in Resources */ = {isa = PBXBuildFile; fileRef = 6D0715CE18531651002C3023 /* character-response.json */; };
 		6D0D8795184CF111002904AE /* CTFAPIConnectionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0D8794184CF111002904AE /* CTFAPIConnectionTests.m */; };
 		6D0D8797184CF3FD002904AE /* CTFAPIAccountsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0D8796184CF3FD002904AE /* CTFAPIAccountsTests.m */; };
@@ -29,7 +40,6 @@
 		6D1825D7184A36120039FD92 /* CTFAPICredentialsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D1825D6184A36120039FD92 /* CTFAPICredentialsTests.m */; };
 		6D6DF20F182B8B59004A4D58 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D6DF20D182B8B59004A4D58 /* Localizable.strings */; };
 		6D9CBE6A183AB4BB000FE071 /* CTFMainViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D9CBE69183AB4BB000FE071 /* CTFMainViewControllerTests.m */; };
-		6DB609A4185487F10094E37D /* CTFItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB609A3185487F10094E37D /* CTFItem.m */; };
 		6DB609AF185488870094E37D /* CTFLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB609A7185488870094E37D /* CTFLoginViewController.m */; };
 		6DB609B0185488870094E37D /* CTFMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB609A9185488870094E37D /* CTFMainViewController.m */; };
 		6DB609B1185488870094E37D /* CTFRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB609AB185488870094E37D /* CTFRegisterViewController.m */; };
@@ -41,6 +51,16 @@
 		6DB609C6185488CE0094E37D /* CTFAPIMappings.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB609BD185488CE0094E37D /* CTFAPIMappings.m */; };
 		6DB609C7185488CE0094E37D /* CTFLocalCredentials.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB609BF185488CE0094E37D /* CTFLocalCredentials.m */; };
 		6DB609C8185488CE0094E37D /* CTFLocalCredentialsStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB609C1185488CE0094E37D /* CTFLocalCredentialsStore.m */; };
+		6DB609E61854A11A0094E37D /* _CTFCharacter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB609D21854A11A0094E37D /* _CTFCharacter.m */; };
+		6DB609E71854A11A0094E37D /* _CTFGame.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB609D41854A11A0094E37D /* _CTFGame.m */; };
+		6DB609E81854A11A0094E37D /* _CTFItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB609D61854A11A0094E37D /* _CTFItem.m */; };
+		6DB609E91854A11A0094E37D /* _CTFSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB609D81854A11A0094E37D /* _CTFSession.m */; };
+		6DB609EA1854A11A0094E37D /* _CTFUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB609DA1854A11A0094E37D /* _CTFUser.m */; };
+		6DB609EB1854A11A0094E37D /* CTFCharacter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB609DD1854A11A0094E37D /* CTFCharacter.m */; };
+		6DB609EC1854A11A0094E37D /* CTFGame.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB609DF1854A11A0094E37D /* CTFGame.m */; };
+		6DB609ED1854A11A0094E37D /* CTFItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB609E11854A11A0094E37D /* CTFItem.m */; };
+		6DB609EE1854A11A0094E37D /* CTFSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB609E31854A11A0094E37D /* CTFSession.m */; };
+		6DB609EF1854A11A0094E37D /* CTFUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB609E51854A11A0094E37D /* CTFUser.m */; };
 		6DE0FCCD182C030700800C09 /* CTFAPICredentials_Validator_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE0FCCC182C030700800C09 /* CTFAPICredentials_Validator_Tests.m */; };
 		6DE0FCD0182C582300800C09 /* CTFLoginViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE0FCCF182C582200800C09 /* CTFLoginViewControllerTests.m */; };
 		6DE0FCD4182C5ABD00800C09 /* CTFRegisterViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE0FCD3182C5ABD00800C09 /* CTFRegisterViewControllerTests.m */; };
@@ -60,6 +80,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		6DB609CE1854918B0094E37D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6DFD1920182ACF0C00542227 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6DB609C91854903C0094E37D;
+			remoteInfo = Mogenerator;
+		};
 		6DFD194E182ACF0D00542227 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6DFD1920182ACF0C00542227 /* Project object */;
@@ -72,15 +99,9 @@
 /* Begin PBXFileReference section */
 		0575C0B261A543468AFC452D /* Pods/Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 		6D071594184E59EF002C3023 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
-		6D0715AF184E7F22002C3023 /* CTFSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFSession.h; sourceTree = "<group>"; };
-		6D0715B0184E7F22002C3023 /* CTFSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFSession.m; sourceTree = "<group>"; };
 		6D0715B2184E82F1002C3023 /* CTFAPIMappingsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFAPIMappingsTests.m; sourceTree = "<group>"; };
 		6D0715B4184E8318002C3023 /* CTFSessionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFSessionTests.m; sourceTree = "<group>"; };
 		6D0715BA184FCD35002C3023 /* user-response.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "user-response.json"; sourceTree = "<group>"; };
-		6D0715BE1850F8DC002C3023 /* CTFUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFUser.h; sourceTree = "<group>"; };
-		6D0715BF1850F8DC002C3023 /* CTFUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFUser.m; sourceTree = "<group>"; };
-		6D0715C1185101E6002C3023 /* CTFCharacter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFCharacter.h; sourceTree = "<group>"; };
-		6D0715C2185101E6002C3023 /* CTFCharacter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFCharacter.m; sourceTree = "<group>"; };
 		6D0715CE18531651002C3023 /* character-response.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "character-response.json"; sourceTree = "<group>"; };
 		6D0D874B184B2F22002904AE /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
 		6D0D874D184B2F28002904AE /* libPods-RestKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-RestKit.a"; path = "Pods/build/Debug-iphoneos/libPods-RestKit.a"; sourceTree = "<group>"; };
@@ -97,8 +118,6 @@
 		6D6DF20E182B8B59004A4D58 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6D6DF210182B8B76004A4D58 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6D9CBE69183AB4BB000FE071 /* CTFMainViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFMainViewControllerTests.m; sourceTree = "<group>"; };
-		6DB609A2185487F10094E37D /* CTFItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFItem.h; sourceTree = "<group>"; };
-		6DB609A3185487F10094E37D /* CTFItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFItem.m; sourceTree = "<group>"; };
 		6DB609A6185488870094E37D /* CTFLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFLoginViewController.h; sourceTree = "<group>"; };
 		6DB609A7185488870094E37D /* CTFLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFLoginViewController.m; sourceTree = "<group>"; };
 		6DB609A8185488870094E37D /* CTFMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFMainViewController.h; sourceTree = "<group>"; };
@@ -122,6 +141,26 @@
 		6DB609BF185488CE0094E37D /* CTFLocalCredentials.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFLocalCredentials.m; sourceTree = "<group>"; };
 		6DB609C0185488CE0094E37D /* CTFLocalCredentialsStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFLocalCredentialsStore.h; sourceTree = "<group>"; };
 		6DB609C1185488CE0094E37D /* CTFLocalCredentialsStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFLocalCredentialsStore.m; sourceTree = "<group>"; };
+		6DB609D11854A11A0094E37D /* _CTFCharacter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _CTFCharacter.h; sourceTree = "<group>"; };
+		6DB609D21854A11A0094E37D /* _CTFCharacter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _CTFCharacter.m; sourceTree = "<group>"; };
+		6DB609D31854A11A0094E37D /* _CTFGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _CTFGame.h; sourceTree = "<group>"; };
+		6DB609D41854A11A0094E37D /* _CTFGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _CTFGame.m; sourceTree = "<group>"; };
+		6DB609D51854A11A0094E37D /* _CTFItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _CTFItem.h; sourceTree = "<group>"; };
+		6DB609D61854A11A0094E37D /* _CTFItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _CTFItem.m; sourceTree = "<group>"; };
+		6DB609D71854A11A0094E37D /* _CTFSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _CTFSession.h; sourceTree = "<group>"; };
+		6DB609D81854A11A0094E37D /* _CTFSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _CTFSession.m; sourceTree = "<group>"; };
+		6DB609D91854A11A0094E37D /* _CTFUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _CTFUser.h; sourceTree = "<group>"; };
+		6DB609DA1854A11A0094E37D /* _CTFUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _CTFUser.m; sourceTree = "<group>"; };
+		6DB609DC1854A11A0094E37D /* CTFCharacter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFCharacter.h; sourceTree = "<group>"; };
+		6DB609DD1854A11A0094E37D /* CTFCharacter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFCharacter.m; sourceTree = "<group>"; };
+		6DB609DE1854A11A0094E37D /* CTFGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFGame.h; sourceTree = "<group>"; };
+		6DB609DF1854A11A0094E37D /* CTFGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFGame.m; sourceTree = "<group>"; };
+		6DB609E01854A11A0094E37D /* CTFItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFItem.h; sourceTree = "<group>"; };
+		6DB609E11854A11A0094E37D /* CTFItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFItem.m; sourceTree = "<group>"; };
+		6DB609E21854A11A0094E37D /* CTFSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFSession.h; sourceTree = "<group>"; };
+		6DB609E31854A11A0094E37D /* CTFSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFSession.m; sourceTree = "<group>"; };
+		6DB609E41854A11A0094E37D /* CTFUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFUser.h; sourceTree = "<group>"; };
+		6DB609E51854A11A0094E37D /* CTFUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFUser.m; sourceTree = "<group>"; };
 		6DE0FCCC182C030700800C09 /* CTFAPICredentials_Validator_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFAPICredentials_Validator_Tests.m; sourceTree = "<group>"; };
 		6DE0FCCF182C582200800C09 /* CTFLoginViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFLoginViewControllerTests.m; sourceTree = "<group>"; };
 		6DE0FCD3182C5ABD00800C09 /* CTFRegisterViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFRegisterViewControllerTests.m; sourceTree = "<group>"; };
@@ -277,22 +316,51 @@
 			name = Storyboards;
 			sourceTree = "<group>";
 		};
+		6DB609D01854A11A0094E37D /* _Private (Mogenerator) */ = {
+			isa = PBXGroup;
+			children = (
+				6DB609D11854A11A0094E37D /* _CTFCharacter.h */,
+				6DB609D21854A11A0094E37D /* _CTFCharacter.m */,
+				6DB609D31854A11A0094E37D /* _CTFGame.h */,
+				6DB609D41854A11A0094E37D /* _CTFGame.m */,
+				6DB609D51854A11A0094E37D /* _CTFItem.h */,
+				6DB609D61854A11A0094E37D /* _CTFItem.m */,
+				6DB609D71854A11A0094E37D /* _CTFSession.h */,
+				6DB609D81854A11A0094E37D /* _CTFSession.m */,
+				6DB609D91854A11A0094E37D /* _CTFUser.h */,
+				6DB609DA1854A11A0094E37D /* _CTFUser.m */,
+			);
+			name = "_Private (Mogenerator)";
+			path = Private;
+			sourceTree = "<group>";
+		};
+		6DB609DB1854A11A0094E37D /* Public */ = {
+			isa = PBXGroup;
+			children = (
+				6DB609DC1854A11A0094E37D /* CTFCharacter.h */,
+				6DB609DD1854A11A0094E37D /* CTFCharacter.m */,
+				6DB609DE1854A11A0094E37D /* CTFGame.h */,
+				6DB609DF1854A11A0094E37D /* CTFGame.m */,
+				6DB609E01854A11A0094E37D /* CTFItem.h */,
+				6DB609E11854A11A0094E37D /* CTFItem.m */,
+				6DB609E21854A11A0094E37D /* CTFSession.h */,
+				6DB609E31854A11A0094E37D /* CTFSession.m */,
+				6DB609E41854A11A0094E37D /* CTFUser.h */,
+				6DB609E51854A11A0094E37D /* CTFUser.m */,
+			);
+			path = Public;
+			sourceTree = "<group>";
+		};
 		6DE99127183A99D5005F3DB1 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				6DE99137183A9F9E005F3DB1 /* Model.xcdatamodeld */,
-				6DB609A2185487F10094E37D /* CTFItem.h */,
-				6DB609A3185487F10094E37D /* CTFItem.m */,
-				6D0715C1185101E6002C3023 /* CTFCharacter.h */,
-				6D0715C2185101E6002C3023 /* CTFCharacter.m */,
-				6D0715BE1850F8DC002C3023 /* CTFUser.h */,
-				6D0715BF1850F8DC002C3023 /* CTFUser.m */,
-				6D0715AF184E7F22002C3023 /* CTFSession.h */,
-				6D0715B0184E7F22002C3023 /* CTFSession.m */,
 				6DE9913A183AA00E005F3DB1 /* CoreDataService.h */,
 				6DE9913B183AA00E005F3DB1 /* CoreDataService.m */,
 				6DE9913F183AA128005F3DB1 /* CustomManagedObject.h */,
 				6DE99140183AA128005F3DB1 /* CustomManagedObject.m */,
+				6DB609DB1854A11A0094E37D /* Public */,
+				6DB609D01854A11A0094E37D /* _Private (Mogenerator) */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -399,6 +467,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				6DB609CF1854918B0094E37D /* PBXTargetDependency */,
 			);
 			name = "Capture The Flag";
 			productName = "Capture The Flag";
@@ -456,6 +525,7 @@
 			targets = (
 				6DFD1927182ACF0C00542227 /* Capture The Flag */,
 				6DFD1948182ACF0D00542227 /* Capture The FlagTests */,
+				6DB609C91854903C0094E37D /* Mogenerator */,
 			);
 		};
 /* End PBXProject section */
@@ -484,6 +554,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		6DB609CD185490650094E37D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = ./mogenerator.sh;
+		};
 		7C20C11204714DBBB786253C /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -552,26 +635,32 @@
 			buildActionMask = 2147483647;
 			files = (
 				6DB609C5185488CE0094E37D /* CTFAPICredentials+Validator.m in Sources */,
-				6D0715B1184E7F22002C3023 /* CTFSession.m in Sources */,
 				6DB609C6185488CE0094E37D /* CTFAPIMappings.m in Sources */,
 				6DB609B0185488870094E37D /* CTFMainViewController.m in Sources */,
 				6DB609C2185488CE0094E37D /* CTFAPIAccounts.m in Sources */,
 				6DB609B1185488870094E37D /* CTFRegisterViewController.m in Sources */,
 				6DB609C8185488CE0094E37D /* CTFLocalCredentialsStore.m in Sources */,
 				6DB609C3185488CE0094E37D /* CTFAPIConnection.m in Sources */,
-				6D0715C3185101E6002C3023 /* CTFCharacter.m in Sources */,
 				6DB609B2185488870094E37D /* CTFViewController.m in Sources */,
+				6DB609EE1854A11A0094E37D /* CTFSession.m in Sources */,
 				6DB609AF185488870094E37D /* CTFLoginViewController.m in Sources */,
 				6D0715BC184FD965002C3023 /* Model.xcdatamodeld in Sources */,
 				6DE9913C183AA00E005F3DB1 /* CoreDataService.m in Sources */,
+				6DB609EC1854A11A0094E37D /* CTFGame.m in Sources */,
+				6DB609EB1854A11A0094E37D /* CTFCharacter.m in Sources */,
+				6DB609EF1854A11A0094E37D /* CTFUser.m in Sources */,
 				6DB609C4185488CE0094E37D /* CTFAPICredentials.m in Sources */,
+				6DB609E81854A11A0094E37D /* _CTFItem.m in Sources */,
 				6D0D879B184D26BC002904AE /* STKeychain.m in Sources */,
+				6DB609E71854A11A0094E37D /* _CTFGame.m in Sources */,
+				6DB609E91854A11A0094E37D /* _CTFSession.m in Sources */,
 				6DE99141183AA128005F3DB1 /* CustomManagedObject.m in Sources */,
-				6DB609A4185487F10094E37D /* CTFItem.m in Sources */,
 				6DFD193C182ACF0C00542227 /* CTFAppDelegate.m in Sources */,
+				6DB609EA1854A11A0094E37D /* _CTFUser.m in Sources */,
+				6DB609E61854A11A0094E37D /* _CTFCharacter.m in Sources */,
 				6DFD1938182ACF0C00542227 /* main.m in Sources */,
 				6DB609C7185488CE0094E37D /* CTFLocalCredentials.m in Sources */,
-				6D0715C01850F8DC002C3023 /* CTFUser.m in Sources */,
+				6DB609ED1854A11A0094E37D /* CTFItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -597,6 +686,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		6DB609CF1854918B0094E37D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6DB609C91854903C0094E37D /* Mogenerator */;
+			targetProxy = 6DB609CE1854918B0094E37D /* PBXContainerItemProxy */;
+		};
 		6DFD194F182ACF0D00542227 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6DFD1927182ACF0C00542227 /* Capture The Flag */;
@@ -642,6 +736,20 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		6DB609CB1854903C0094E37D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		6DB609CC1854903C0094E37D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		6DFD1958182ACF0D00542227 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0575C0B261A543468AFC452D /* Pods/Pods.xcconfig */;
@@ -800,6 +908,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		6DB609CA1854903C0094E37D /* Build configuration list for PBXAggregateTarget "Mogenerator" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6DB609CB1854903C0094E37D /* Debug */,
+				6DB609CC1854903C0094E37D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		6DFD1923182ACF0C00542227 /* Build configuration list for PBXProject "Capture The Flag" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

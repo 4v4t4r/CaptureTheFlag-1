@@ -1,24 +1,12 @@
-//
-//  CTFUser.m
-//  Capture The Flag
-//
-//  Created by Tomasz Szulc on 05.12.2013.
-//  Copyright (c) 2013 Tomasz Szulc. All rights reserved.
-//
-
 #import "CTFUser.h"
-#import "CTFSession.h"
-#import "CTFCharacter.h"
+
+
+@interface CTFUser ()
+
+@end
+
 
 @implementation CTFUser
-
-@dynamic email;
-@dynamic nick;
-@dynamic username;
-@dynamic password;
-@dynamic location;
-@dynamic session;
-@dynamic characters;
 
 @end
 
@@ -134,3 +122,4 @@ static NSString *const kItemsKey = @"characters";
 }
 
 @end
+
