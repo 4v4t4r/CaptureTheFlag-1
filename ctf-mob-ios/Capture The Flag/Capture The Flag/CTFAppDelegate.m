@@ -11,7 +11,7 @@
 #import "CTFLoginViewController.h"
 
 #import "CTFAPIConnection.h"
-#import "CTFAPIMappings.h"
+#import "CTFAPIRKDescriptors.h"
 
 #import "STKeychain.h"
 #import "CTFLocalCredentialsStore.h"
@@ -37,6 +37,11 @@
     manager.managedObjectStore = managedObjectStore;
     [manager.managedObjectStore createManagedObjectContexts];
     
+    /// Configure RKDescriptors
+    CTFAPIRKDescriptors *descriptors = [[CTFAPIRKDescriptors alloc] initWithManager:manager];
+    [CTFAPIRKDescriptors setSharedInstance:descriptors];
+    [manager addResponseDescriptorsFromArray:@[[descriptors getUserResponseDescriptor]]];
+    
     /// Configure CTFAPIConnection
     CTFAPIConnection *connection = [[CTFAPIConnection alloc] initWithManager:manager];
     [CTFAPIConnection setSharedConnection:connection];
@@ -44,10 +49,6 @@
     /// Configure CredentialsStore
     CTFLocalCredentialsStore *credentialsStore = [[CTFLocalCredentialsStore alloc] initWithKeychain:[STKeychain sharedInstance]];
     [CTFLocalCredentialsStore setSharedInstance:credentialsStore];
-    
-    /// Configure Mappings
-    CTFAPIMappings *mappings = [[CTFAPIMappings alloc] initWithManager:manager];
-    [CTFAPIMappings setSharedInstance:mappings];
     
     /// Load view
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"LoginAndRegister" bundle:nil];

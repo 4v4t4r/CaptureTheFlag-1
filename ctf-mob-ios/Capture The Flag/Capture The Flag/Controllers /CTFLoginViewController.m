@@ -14,7 +14,7 @@
 #import "CTFAPICredentials.h"
 #import "CTFAPIAccounts.h"
 #import "CTFAPIConnection.h"
-#import "CTFAPIMappings.h"
+#import "CTFAPIRKDescriptors.h"
 
 #import "CTFLocalCredentialsStore.h"
 #import "CTFLocalCredentials.h"
@@ -33,24 +33,6 @@
 
     [self _configureTapBackground];
     [self _configureTextFields];
-//    [self _getUserFromServer_test];
-}
-
-#pragma mark [tsu] only temporary for check if mapping is correctly. Remove it later. Something is wrong in tests and I need to check it here. Issue reported on RestKit github
-- (void)_getUserFromServer_test {
-    CTFAPIConnection *connection = [CTFAPIConnection sharedConnection];
-    NSLog(@"managedObjectStore = %@", connection.manager.managedObjectStore);
-    
-    RKEntityMapping *userMapping = [[CTFAPIMappings sharedInstance] userMapping];
-    
-    RKResponseDescriptor *descriptor = [RKResponseDescriptor responseDescriptorWithMapping:userMapping method:RKRequestMethodGET pathPattern:@"test" keyPath:nil statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-    [connection.manager addResponseDescriptor:descriptor];
-
-    [connection.manager getObject:nil path:@"test" parameters:Nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        NSLog(@"success, %@", [mappingResult.firstObject class]);
-    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"failure");
-    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

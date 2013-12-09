@@ -1,26 +1,26 @@
 //
-//  CTFAPIMappings.m
+//  CTFAPIRKDescriptors.m
 //  Capture The Flag
 //
 //  Created by Tomasz Szulc on 06.12.2013.
 //  Copyright (c) 2013 Tomasz Szulc. All rights reserved.
 //
 
-#import "CTFAPIMappings.h"
+#import "CTFAPIRKDescriptors.h"
 
 #import "CTFUser.h"
 #import "CTFCharacter.h"
 
-@implementation CTFAPIMappings {
+@implementation CTFAPIRKDescriptors {
     RKObjectManager *_manager;
 }
 
-static CTFAPIMappings *_sharedInstance = nil;
+static CTFAPIRKDescriptors *_sharedInstance = nil;
 + (instancetype)sharedInstance {
     return _sharedInstance;
 }
 
-+ (void)setSharedInstance:(CTFAPIMappings *)sharedInstance {
++ (void)setSharedInstance:(CTFAPIRKDescriptors *)sharedInstance {
     _sharedInstance = sharedInstance;
 }
 
@@ -32,6 +32,33 @@ static CTFAPIMappings *_sharedInstance = nil;
     return self;
 }
 
+
+#pragma mark - Descriptors
+- (RKResponseDescriptor *)getUserResponseDescriptor {
+    RKResponseDescriptor *descriptor;
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
+    [indexSet addIndexes:[self successfulCodes]];
+    [indexSet addIndexes:[self clientErrorCodes]];
+    
+#warning [tsu] Update path when server will be available.
+    descriptor = [RKResponseDescriptor responseDescriptorWithMapping:[self userMapping]
+                                                              method:RKRequestMethodGET
+                                                         pathPattern:@"test"
+                                                             keyPath:nil
+                                                         statusCodes:indexSet];
+    return descriptor;
+}
+
+- (NSIndexSet *)successfulCodes {
+    return RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful);
+}
+
+- (NSIndexSet *)clientErrorCodes {
+    return  RKStatusCodeIndexSetForClass(RKStatusCodeClassClientError);
+}
+
+
+#pragma mark - Mappings
 - (RKEntityMapping *)userMapping {
 
     RKEntityMapping *userMapping =
@@ -71,7 +98,6 @@ static CTFAPIMappings *_sharedInstance = nil;
              @"level": @"level",
              @"is_active": @"active"};
 }
-
 
 #pragma mark - Accessors
 - (RKObjectManager *)manager {

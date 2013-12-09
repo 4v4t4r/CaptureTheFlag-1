@@ -1,5 +1,5 @@
 //
-//  CTFAPIMappings.h
+//  CTFAPIRKDescriptors.h
 //  Capture The Flag
 //
 //  Created by Tomasz Szulc on 06.12.2013.
@@ -8,14 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
-@interface CTFAPIMappings : NSObject
+@interface CTFAPIRKDescriptors : NSObject
 
 @property (readonly) RKObjectManager *manager;
 
 + (instancetype)sharedInstance;
-+ (void)setSharedInstance:(CTFAPIMappings *)sharedInstance;
++ (void)setSharedInstance:(CTFAPIRKDescriptors *)sharedInstance;
 - (instancetype)initWithManager:(RKObjectManager *)manager;
 
+#pragma mark - Descriptors
+- (RKResponseDescriptor *)getUserResponseDescriptor;
+
+#pragma mark - Mappings
 - (RKEntityMapping *)userMapping;
 - (RKEntityMapping *)characterMapping;
 

@@ -7,6 +7,7 @@
 //
 
 #import "CTFAPIConnection.h"
+#import "CTFAPIRKDescriptors.h"
 
 @implementation CTFAPIConnection {
     RKObjectManager *_manager;
@@ -30,7 +31,6 @@ static CTFAPIConnection *_sharedConnection = nil;
     }
     return self;
 }
-
 
 #pragma mark - Accessors
 - (RKObjectManager *)manager {

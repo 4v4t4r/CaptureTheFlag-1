@@ -1,5 +1,5 @@
 //
-//  CTFAPIMappingsTests.m
+//  CTFAPIRKDescriptors.m
 //  Capture The Flag
 //
 //  Created by Tomasz Szulc on 03.12.2013.
@@ -10,24 +10,24 @@
 #import <OCMock/OCMock.h>
 #import <RestKit/Testing.h>
 
-#import "CTFAPIMappings.h"
+#import "CTFAPIRKDescriptors.h"
 #import "CoreDataService.h"
 #import "CTFUser.h"
 #import "CTFCharacter.h"
 
-@interface CTFAPIMappingsTests : XCTestCase
+@interface CTFAPIRKDescriptorsTests : XCTestCase
 
 @end
 
-@implementation CTFAPIMappingsTests {
+@implementation CTFAPIRKDescriptorsTests {
     CoreDataService *_service;
     RKObjectManager *_manager;
-    CTFAPIMappings *_mappings;
+    CTFAPIRKDescriptors *_descriptors;
 }
 
 - (void)setUp {
     [super setUp];
-    [CTFAPIMappings setSharedInstance:nil];
+    [CTFAPIRKDescriptors setSharedInstance:nil];
     
     _service = [[CoreDataService alloc] initForUnitTesting];
     
@@ -36,7 +36,7 @@
     _manager.managedObjectStore = managedObjectStore;
     [_manager.managedObjectStore createManagedObjectContexts];
     
-    _mappings = [[CTFAPIMappings alloc] initWithManager:_manager];
+    _descriptors = [[CTFAPIRKDescriptors alloc] initWithManager:_manager];
     
     NSBundle *bundle = [NSBundle bundleWithIdentifier:[[NSBundle mainBundle].bundleIdentifier stringByAppendingString:@"Tests"]];
     [RKTestFixture setFixtureBundle:bundle];
@@ -45,19 +45,19 @@
 - (void)tearDown {
     _service = nil;
     _manager = nil;
-    _mappings = nil;
+    _descriptors = nil;
     [super tearDown];
 }
 
 - (void)testSharedInstanceShouldBeNil {
-    XCTAssertNil([CTFAPIMappings sharedInstance], @"");
+    XCTAssertNil([CTFAPIRKDescriptors sharedInstance], @"");
 }
 
 - (void)testSharedInstanceShouldBeNotNilAndManagerWithStoreShouldBeEquals {
     RKObjectManager *manager = [[RKObjectManager alloc] init];
-    CTFAPIMappings *mappings = [[CTFAPIMappings alloc] initWithManager:manager];
-    [CTFAPIMappings setSharedInstance:mappings];
-    XCTAssertNotNil([CTFAPIMappings sharedInstance], @"");
+    CTFAPIRKDescriptors *mappings = [[CTFAPIRKDescriptors alloc] initWithManager:manager];
+    [CTFAPIRKDescriptors setSharedInstance:mappings];
+    XCTAssertNotNil([CTFAPIRKDescriptors sharedInstance], @"");
 }
 
 - (void)testInstanceShouldHaveTheSameManagerAndStoreAsInjected {
@@ -67,18 +67,34 @@
     
     objectManager.managedObjectStore = store;
     
-    CTFAPIMappings *mappings = [[CTFAPIMappings alloc] initWithManager:objectManager];
+    CTFAPIRKDescriptors *mappings = [[CTFAPIRKDescriptors alloc] initWithManager:objectManager];
     XCTAssertNotNil(mappings, @"");
     XCTAssertNotNil(mappings.manager, @"");
     XCTAssertEqualObjects(mappings.manager, objectManager, @"");
     XCTAssertEqualObjects(mappings.manager.managedObjectStore, objectManager.managedObjectStore, @"");
 }
 
-- (void)testUserResponseMapping {
+
+#pragma mark - Descriptors
+- (void)testGetUserResponseDescriptor {
+    RKResponseDescriptor *descriptor = [_descriptors getUserResponseDescriptor];
+    XCTAssertEqualObjects(descriptor.pathPattern, @"test", @"");
+    
+    BOOL containsSuccessfulCodes = [descriptor.statusCodes containsIndexes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    XCTAssertTrue(containsSuccessfulCodes, @"");
+
+    BOOL containsClientErrorCodes = [descriptor.statusCodes containsIndexes:RKStatusCodeIndexSetForClass(RKStatusCodeClassClientError)];
+    XCTAssertTrue(containsClientErrorCodes, @"");
+    
+    XCTAssertEqual(descriptor.method, RKRequestMethodGET, @"");
+}
+
+#pragma mark - Mappings
+- (void)testUserMapping {
     id parsedJSON = [RKTestFixture parsedObjectWithContentsOfFixture:@"user-response.json"];
         
     /// Configure expectations
-    RKMappingTest *test = [RKMappingTest testForMapping:[_mappings userMapping] sourceObject:parsedJSON destinationObject:nil];
+    RKMappingTest *test = [RKMappingTest testForMapping:[_descriptors userMapping] sourceObject:parsedJSON destinationObject:nil];
     test.managedObjectContext = _service.managedObjectContext;
     
     RKPropertyMappingTestExpectation *usernameExpectation =
@@ -145,10 +161,10 @@
     [test verify];
 }
 
-- (void)testCharacterResponseMapping {
+- (void)testCharacterMapping {
     id parsedJSON = [RKTestFixture parsedObjectWithContentsOfFixture:@"character-response.json"];
     
-    RKMappingTest *test = [RKMappingTest testForMapping:[_mappings characterMapping] sourceObject:parsedJSON destinationObject:nil];
+    RKMappingTest *test = [RKMappingTest testForMapping:[_descriptors characterMapping] sourceObject:parsedJSON destinationObject:nil];
     test.managedObjectContext = _service.managedObjectContext;
     
     RKPropertyMappingTestExpectation *typeExpectation =
