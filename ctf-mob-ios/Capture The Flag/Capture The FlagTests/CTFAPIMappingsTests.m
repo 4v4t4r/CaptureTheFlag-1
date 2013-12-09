@@ -36,6 +36,8 @@
     _manager.managedObjectStore = managedObjectStore;
     [_manager.managedObjectStore createManagedObjectContexts];
     
+    _mappings = [[CTFAPIMappings alloc] initWithManager:_manager];
+    
     NSBundle *bundle = [NSBundle bundleWithIdentifier:[[NSBundle mainBundle].bundleIdentifier stringByAppendingString:@"Tests"]];
     [RKTestFixture setFixtureBundle:bundle];
 }
@@ -72,46 +74,11 @@
     XCTAssertEqualObjects(mappings.manager.managedObjectStore, objectManager.managedObjectStore, @"");
 }
 
-- (RKEntityMapping *)userMapping {
-    /// Configure mapping
-    RKEntityMapping *userMapping =
-    [RKEntityMapping mappingForEntityForName:NSStringFromClass([CTFUser class]) inManagedObjectStore:_manager.managedObjectStore];
-    
-    NSDictionary *userAttributesDict = @{@"username" : @"username",
-                               @"email" : @"email",
-                               @"password" : @"password",
-                               @"nick" : @"nick",
-                               @"location" : @"location"/*,
-                               @"characters": @"characters"*/};
-    
-    [userMapping addAttributeMappingsFromDictionary:userAttributesDict];
-    
-    /// Add relationship mapping
-    [userMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"characters" toKeyPath:@"characters" withMapping:[self characterMapping]]];
-    
-    return userMapping;
-}
-
-- (RKEntityMapping *)characterMapping {
-    RKEntityMapping *characterMapping =
-    [RKEntityMapping mappingForEntityForName:NSStringFromClass([CTFCharacter class]) inManagedObjectStore:_manager.managedObjectStore];
-    
-    NSDictionary *characterAttributesDict = @{@"type": @"type",
-                                              @"total_time": @"totalTime",
-                                              @"total_score": @"totalScore",
-                                              @"health": @"health",
-                                              @"level": @"level",
-                                              @"is_active": @"active"};
-    
-    [characterMapping addAttributeMappingsFromDictionary:characterAttributesDict];
-    return characterMapping;
-}
-
 - (void)testUserResponseMapping {
     id parsedJSON = [RKTestFixture parsedObjectWithContentsOfFixture:@"user-response.json"];
         
     /// Configure expectations
-    RKMappingTest *test = [RKMappingTest testForMapping:[self userMapping] sourceObject:parsedJSON destinationObject:nil];
+    RKMappingTest *test = [RKMappingTest testForMapping:[_mappings userMapping] sourceObject:parsedJSON destinationObject:nil];
     test.managedObjectContext = _service.managedObjectContext;
     
     RKPropertyMappingTestExpectation *usernameExpectation =
@@ -181,7 +148,7 @@
 - (void)testCharacterResponseMapping {
     id parsedJSON = [RKTestFixture parsedObjectWithContentsOfFixture:@"character-response.json"];
     
-    RKMappingTest *test = [RKMappingTest testForMapping:[self characterMapping] sourceObject:parsedJSON destinationObject:nil];
+    RKMappingTest *test = [RKMappingTest testForMapping:[_mappings characterMapping] sourceObject:parsedJSON destinationObject:nil];
     test.managedObjectContext = _service.managedObjectContext;
     
     RKPropertyMappingTestExpectation *typeExpectation =

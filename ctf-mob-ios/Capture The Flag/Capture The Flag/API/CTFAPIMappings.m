@@ -55,13 +55,12 @@ static CTFAPIMappings *_sharedInstance = nil;
 
 #pragma mark - Dictionaries with attribute mappings
 - (NSDictionary *)_userAttributes {
-    NSDictionary *userDict = @{@"username" : @"username",
-                               @"email" : @"email",
-                               @"password" : @"password",
-                               @"nick" : @"nick",
-                               @"location" : @"location"/*,
-                               @"characters": @"characters"*/};
-    return userDict;
+    return @{@"username" : @"username",
+             @"email" : @"email",
+             @"password" : @"password",
+             @"nick" : @"nick",
+             @"location" : @"location"/*,
+             @"characters": @"characters"*/};
 }
 
 - (NSDictionary *)_characterMappingDict {
