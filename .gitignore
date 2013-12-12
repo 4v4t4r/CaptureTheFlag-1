@@ -37,7 +37,6 @@ nosetests.xml
 
 # Xcode
 *.xcuserdatad
-*.xcscheme
 xcuserdata/*
 *.xccheckout
 xcuserdata
