@@ -17,6 +17,7 @@
 - (instancetype)initWithManager:(RKObjectManager *)manager;
 
 #pragma mark - Descriptors
+/// Response descriptor used to get whole user object with characters.
 - (RKResponseDescriptor *)getUserResponseDescriptor;
 
 #pragma mark - Mappings
