@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 Tomasz Szulc. All rights reserved.
 //
 
-#import "CTFAPICredentials+Validator.h"
+#import "CTFAPILocalCredentialsValidator+Validator.h"
 
-@implementation CTFAPICredentials (Validator)
+@implementation CTFAPILocalCredentialsValidator (Validator)
 
 + (ValidationResult)validateCredential:(NSString *)credential withType:(CredentialType)type
 {

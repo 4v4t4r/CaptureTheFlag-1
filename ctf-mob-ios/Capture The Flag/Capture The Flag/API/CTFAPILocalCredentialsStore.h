@@ -8,10 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@class CTFLocalCredentials;
+@class CTFAPILocalCredentials;
 @class STKeychain;
 
-@interface CTFLocalCredentialsStore : NSObject
+@interface CTFAPILocalCredentialsStore : NSObject
 
 /**
  @define Method used to get shared object
@@ -27,7 +27,7 @@
  @discussion
  @param instance Instance of CTFLocalCredentialsStore class.
  */
-+ (void)setSharedInstance:(CTFLocalCredentialsStore *)instance;
++ (void)setSharedInstance:(CTFAPILocalCredentialsStore *)instance;
 
 /**
  @define Method used to initialization object.
@@ -43,7 +43,7 @@
  @discussion
  @param credentials Credentials which will be stored in Keychain
  */
-- (BOOL)storeCredentials:(CTFLocalCredentials *)credentials;
+- (BOOL)storeCredentials:(CTFAPILocalCredentials *)credentials;
 
 /**
  @define Method used to get credentials from Keychain
@@ -51,6 +51,6 @@
  @discussion
  @param
  */
-- (CTFLocalCredentials *)getCredentials;
+- (CTFAPILocalCredentials *)getCredentials;
 
 @end

@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Tomasz Szulc. All rights reserved.
 //
 
-#import "CTFAPICredentials.h"
+#import "CTFAPILocalCredentialsValidator.h"
 /** This is a category of CTFAPICredentials used to validate credentials */
 
 typedef enum
@@ -23,7 +23,7 @@ typedef enum
     ValidationWrongCredentials
 } ValidationResult;
 
-@interface CTFAPICredentials (Validator)
+@interface CTFAPILocalCredentialsValidator (Validator)
 
 + (ValidationResult)validateCredential:(NSString *)credential withType:(CredentialType)type;
 

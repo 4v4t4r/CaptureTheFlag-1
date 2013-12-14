@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 Tomasz Szulc. All rights reserved.
 //
 
-#import "CTFLocalCredentials.h"
+#import "CTFAPILocalCredentials.h"
 #import "STKeychain.h"
-@implementation CTFLocalCredentials
+@implementation CTFAPILocalCredentials
 {
     NSString *_username;
     NSString *_password;

@@ -7,8 +7,8 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "CTFAPICredentials.h"
-#import "CTFAPICredentials+Validator.h"
+#import "CTFAPILocalCredentialsValidator.h"
+#import "CTFAPILocalCredentialsValidator+Validator.h"
 
 @interface CTFAPICredentials_Validator_Tests : XCTestCase
 @end
@@ -34,7 +34,7 @@
 
 - (ValidationResult)validUsername:(NSString *)username
 {
-    return [CTFAPICredentials validateCredential:username withType:CredentialTypeUsername];
+    return [CTFAPILocalCredentialsValidator validateCredential:username withType:CredentialTypeUsername];
 }
 
 
@@ -57,7 +57,7 @@
 
 - (ValidationResult)validPassword:(NSString *)password
 {
-    return [CTFAPICredentials validateCredential:password withType:CredentialTypePassword];
+    return [CTFAPILocalCredentialsValidator validateCredential:password withType:CredentialTypePassword];
 }
 
 
@@ -76,7 +76,7 @@
 
 - (ValidationResult)validEmail:(NSString *)email
 {
-    return [CTFAPICredentials validateCredential:email withType:CredentialTypeEmail];
+    return [CTFAPILocalCredentialsValidator validateCredential:email withType:CredentialTypeEmail];
 }
 
 @end

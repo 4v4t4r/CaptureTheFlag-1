@@ -19,7 +19,7 @@ typedef enum {
     CredentialsValidationResultWrongPassword
 } CredentialsValidationResult;
 
-@interface CTFAPICredentials : NSObject
+@interface CTFAPILocalCredentialsValidator : NSObject
 
 /**
  @define A CredentialsValidationResult value define if passed credentials for registration are correct.

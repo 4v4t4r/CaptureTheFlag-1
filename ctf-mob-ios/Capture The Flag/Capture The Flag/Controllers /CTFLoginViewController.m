@@ -11,13 +11,13 @@
 #import "CTFSession.h"
 #import "CTFUser.h"
 
-#import "CTFAPICredentials.h"
+#import "CTFAPILocalCredentialsValidator.h"
 #import "CTFAPIAccounts.h"
 #import "CTFAPIConnection.h"
 #import "CTFAPIRKDescriptors.h"
 
-#import "CTFLocalCredentialsStore.h"
-#import "CTFLocalCredentials.h"
+#import "CTFAPILocalCredentialsStore.h"
+#import "CTFAPILocalCredentials.h"
 
 @interface CTFLoginViewController ()
 
@@ -55,7 +55,7 @@
     NSString *password = _passwordTF.text;
     
     CredentialsValidationResult result =
-    [CTFAPICredentials validateSignInCredentialsWithUsername:username password:password];
+    [CTFAPILocalCredentialsValidator validateSignInCredentialsWithUsername:username password:password];
     
     if (result == CredentialsValidationResultOK) {
         _statusLabel.text = NSLocalizedString(@"view.login.label.status.logged", nil);
@@ -76,8 +76,8 @@
                 [CTFSession setSharedInstance:session];
                 
                 /// Store login and password in the Keychain
-                CTFLocalCredentials *credentials = [[CTFLocalCredentials alloc] initWithUsername:username password:password];
-                BOOL stored = [[CTFLocalCredentialsStore sharedInstance] storeCredentials:credentials];
+                CTFAPILocalCredentials *credentials = [[CTFAPILocalCredentials alloc] initWithUsername:username password:password];
+                BOOL stored = [[CTFAPILocalCredentialsStore sharedInstance] storeCredentials:credentials];
                 
                 if (stored) {
                     /// Create new view and show
@@ -113,7 +113,7 @@
 }
 
 - (void)_fillTextFieldIfNecessary {
-    CTFLocalCredentials *credentials = [[CTFLocalCredentialsStore sharedInstance] getCredentials];
+    CTFAPILocalCredentials *credentials = [[CTFAPILocalCredentialsStore sharedInstance] getCredentials];
     if (credentials) {
         [_usernameTF setText:credentials.username];
         [_passwordTF setText:credentials.password];
@@ -123,7 +123,7 @@
 
 - (void)textFieldDidChange {
     CredentialsValidationResult result =
-    [CTFAPICredentials validateSignInCredentialsWithUsername:_usernameTF.text password:_passwordTF.text];
+    [CTFAPILocalCredentialsValidator validateSignInCredentialsWithUsername:_usernameTF.text password:_passwordTF.text];
     
     [_loginBtn setEnabled:(result == CredentialsValidationResultOK)];
 }

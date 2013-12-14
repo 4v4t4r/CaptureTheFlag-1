@@ -7,7 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "CTFAPICredentials.h"
+#import "CTFAPILocalCredentialsValidator.h"
 
 @interface CTFAPICredentialsTests : XCTestCase
 
@@ -19,7 +19,7 @@
 #pragma mark - SignUp
 - (void)testSignUpCredentialsShouldBeValid {
     CredentialsValidationResult result =
-    [CTFAPICredentials validateSignUpCredentialsWithUsername:@"login111"
+    [CTFAPILocalCredentialsValidator validateSignUpCredentialsWithUsername:@"login111"
                                              emailAddress:@"login@login.com"
                                                  password:@"login123"
                                                rePassword:@"login123"];
@@ -28,7 +28,7 @@
 
 - (void)testSignUpCredentialsShouldNotPassBecauseOfWrongUsername {
     CredentialsValidationResult result =
-    [CTFAPICredentials validateSignUpCredentialsWithUsername:@"l o g i n"
+    [CTFAPILocalCredentialsValidator validateSignUpCredentialsWithUsername:@"l o g i n"
                                              emailAddress:@"login@login.com"
                                                  password:@"password"
                                                rePassword:@"password"];
@@ -37,7 +37,7 @@
 
 - (void)testSignUpCredentialsShouldNotPassBecauseOfWrongEmailAddress {
     CredentialsValidationResult result =
-    [CTFAPICredentials validateSignUpCredentialsWithUsername:@"login123"
+    [CTFAPILocalCredentialsValidator validateSignUpCredentialsWithUsername:@"login123"
                                              emailAddress:@"this is not an email"
                                                  password:@"password"
                                                rePassword:@"password"];
@@ -46,7 +46,7 @@
 
 - (void)testSignUpCredentialsShouldNotPassBecauseOfDifferentPasswords {
     CredentialsValidationResult result =
-    [CTFAPICredentials validateSignUpCredentialsWithUsername:@"login123"
+    [CTFAPILocalCredentialsValidator validateSignUpCredentialsWithUsername:@"login123"
                                              emailAddress:@"login@login.com"
                                                  password:@"password1"
                                                rePassword:@"password2"];
@@ -55,7 +55,7 @@
 
 - (void)testSignUpCredentialsShouldNotPassBecauseOfTooShortPassword {
     CredentialsValidationResult result =
-    [CTFAPICredentials validateSignUpCredentialsWithUsername:@"login123"
+    [CTFAPILocalCredentialsValidator validateSignUpCredentialsWithUsername:@"login123"
                                              emailAddress:@"login@login.com"
                                                  password:@"pass1"
                                                rePassword:@"pass1"];
@@ -64,7 +64,7 @@
 
 - (void)testSignUpCredentialsShouldNotPassBecauseOfEmptyValue {
     CredentialsValidationResult result =
-    [CTFAPICredentials validateSignUpCredentialsWithUsername:@""
+    [CTFAPILocalCredentialsValidator validateSignUpCredentialsWithUsername:@""
                                                 emailAddress:nil
                                                     password:@""
                                                   rePassword:nil];
@@ -75,25 +75,25 @@
 #pragma mark - SignIn
 - (void)testSignInCredentialsShouldBeValid {
     CredentialsValidationResult result =
-    [CTFAPICredentials validateSignInCredentialsWithUsername:@"login123" password:@"password123"];
+    [CTFAPILocalCredentialsValidator validateSignInCredentialsWithUsername:@"login123" password:@"password123"];
     XCTAssertEqual(result, CredentialsValidationResultOK, @"");
 }
 
 - (void)testSignInCredentialsShouldNotPassBecauseOfWrongUsername {
     CredentialsValidationResult result =
-    [CTFAPICredentials validateSignInCredentialsWithUsername:@"l o g i n " password:@"password123"];
+    [CTFAPILocalCredentialsValidator validateSignInCredentialsWithUsername:@"l o g i n " password:@"password123"];
     XCTAssertEqual(result, CredentialsValidationResultWrongUsername, @"");
 }
 
 - (void)testSignInCredentialsShouldNotPassBecauseOfWrongPassword {
     CredentialsValidationResult result =
-    [CTFAPICredentials validateSignInCredentialsWithUsername:@"login123" password:@"pass1"];
+    [CTFAPILocalCredentialsValidator validateSignInCredentialsWithUsername:@"login123" password:@"pass1"];
     XCTAssertEqual(result, CredentialsValidationResultWrongPassword, @"Password should be too short");
 }
 
 - (void)testSignInCredentialsShouldNotPassBecauseOfEmptyValue {
     CredentialsValidationResult result =
-    [CTFAPICredentials validateSignInCredentialsWithUsername:@"" password:nil];
+    [CTFAPILocalCredentialsValidator validateSignInCredentialsWithUsername:@"" password:nil];
     
     XCTAssertEqual(result, CredentialsValidationResultFailure, @"");
 }
