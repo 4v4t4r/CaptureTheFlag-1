@@ -1,7 +1,6 @@
 #import "_CTFGame.h"
 
 typedef enum {
-    GameStatusUndefined = -1,
     GameStatusInProgress,
     GameStatusCreated,
     GameStatusOnHold,

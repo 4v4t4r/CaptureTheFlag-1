@@ -1,7 +1,6 @@
 #import "_CTFItem.h"
 
 typedef enum {
-    CTFItemTypeUndefined = -1,
     CTFItemTypeRedFlag,
     CTFItemTypeBlueFlag,
     
