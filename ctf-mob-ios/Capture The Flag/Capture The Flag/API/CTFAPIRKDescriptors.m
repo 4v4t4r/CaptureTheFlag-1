@@ -64,6 +64,16 @@ static CTFAPIRKDescriptors *_sharedInstance = nil;
     RKEntityMapping *characterMapping =
     [RKEntityMapping mappingForEntityForName:NSStringFromClass([CTFCharacter class]) inManagedObjectStore:_manager.managedObjectStore];
     [characterMapping addAttributeMappingsFromDictionary:[self _characterMappingDict]];
+    
+    /// User Mapping without Character relationship mapping
+    RKEntityMapping *userMapping =
+    [RKEntityMapping mappingForEntityForName:NSStringFromClass([CTFUser class]) inManagedObjectStore:_manager.managedObjectStore];
+    [userMapping addAttributeMappingsFromDictionary:[self _userAttributesDict]];
+    
+    RKRelationshipMapping *userRelationshipMapping =
+    [RKRelationshipMapping relationshipMappingFromKeyPath:@"user" toKeyPath:@"user" withMapping:userMapping];
+    [characterMapping addPropertyMapping:userRelationshipMapping];
+    
     return characterMapping;
 }
 
@@ -152,7 +162,7 @@ static CTFAPIRKDescriptors *_sharedInstance = nil;
     
     RKEntityMapping *userMapping =
     [RKEntityMapping mappingForEntityForName:NSStringFromClass([CTFUser class]) inManagedObjectStore:_manager.managedObjectStore];
-    [userMapping addAttributeMappingsFromDictionary:[self _userAttributes]];
+    [userMapping addAttributeMappingsFromDictionary:[self _userAttributesDict]];
     
     RKRelationshipMapping *relationshipMapping =
     [RKRelationshipMapping relationshipMappingFromKeyPath:@"characters" toKeyPath:@"characters" withMapping:[self characterMapping]];
@@ -161,7 +171,7 @@ static CTFAPIRKDescriptors *_sharedInstance = nil;
     return userMapping;
 }
 
-- (NSDictionary *)_userAttributes {
+- (NSDictionary *)_userAttributesDict {
     return @{@"username" : @"username",
              @"email" : @"email",
              @"password" : @"password",

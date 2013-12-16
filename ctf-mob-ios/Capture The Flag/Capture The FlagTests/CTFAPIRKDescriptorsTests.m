@@ -185,7 +185,11 @@
     RKPropertyMappingTestExpectation *levelExpectation =
     [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"level" destinationKeyPath:@"level" value:@(20)];
     [test addExpectation:levelExpectation];
-        
+    
+    RKPropertyMappingTestExpectation *userExpectation =
+    [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"user" destinationKeyPath:@"user"];
+    [test addExpectation:userExpectation];
+    
     [test verify];
 }
 

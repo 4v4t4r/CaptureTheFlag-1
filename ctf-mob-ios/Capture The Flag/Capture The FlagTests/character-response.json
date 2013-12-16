@@ -3,5 +3,12 @@
     "total_time": 21,
     "total_score": 100,
     "health": 100,
-    "level": 20
+    "level": 20,
+    "user": {
+        "username": "tomkowz12",
+        "email": "tmk.szlc@gmail.com",
+        "password": "password123",
+        "nick": "black_lord",
+        "location": [10, 20]
+    }
 }
