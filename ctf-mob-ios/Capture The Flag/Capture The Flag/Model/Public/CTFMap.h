@@ -1,5 +1,8 @@
 #import "_CTFMap.h"
+#import <MapKit/MapKit.h>
 
 @interface CTFMap : _CTFMap {}
-// Custom logic goes here.
+
+@property (readonly) CLLocation *locationCoordinates;
+
 @end

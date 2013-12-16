@@ -63,11 +63,11 @@
         <relationship name="session" optional="YES" transient="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CTFSession" inverseName="currentUser" inverseEntity="CTFSession" syncable="YES"/>
     </entity>
     <elements>
-        <element name="CTFCharacter" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="CTFGame" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="CTFItem" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="CTFMap" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="CTFSession" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="CTFUser" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="CTFCharacter" positionX="-72" positionY="45" width="128" height="135"/>
+        <element name="CTFGame" positionX="-90" positionY="231" width="128" height="210"/>
+        <element name="CTFItem" positionX="171" positionY="-279" width="128" height="135"/>
+        <element name="CTFMap" positionX="268" positionY="-117" width="128" height="180"/>
+        <element name="CTFSession" positionX="-486" positionY="324" width="128" height="75"/>
+        <element name="CTFUser" positionX="-315" positionY="51" width="128" height="165"/>
     </elements>
 </model>

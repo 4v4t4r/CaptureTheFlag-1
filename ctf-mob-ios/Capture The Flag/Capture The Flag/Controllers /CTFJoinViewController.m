@@ -10,6 +10,7 @@
 #import "CTFDetailsJoinViewController.h"
 #import "CTFJoinGameCell.h"
 #import "CTFGame.h"
+#import "CTFMap.h"
 
 @interface CTFJoinViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -18,6 +19,31 @@
 
 @implementation CTFJoinViewController {
     NSMutableArray *_content;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self _prepareContent];
+}
+
+#warning [tsu] implement!
+- (void)_prepareContent {
+    if (!_content) {
+        _content = [NSMutableArray new];
+    } else {
+        [_content removeAllObjects];
+    }
+    
+    CTFGame *game = [CTFGame createObject];
+    game.name = @"Potyczka na Jasnych Bł.";
+
+    CTFMap *map = [CTFMap createObject];
+    map.createdBy = @"tomkowz";
+    map.location = @[@(53.43485), @(14.566391)];
+    game.map = map;
+    
+    [_content addObject:game];
 }
 
 - (void)viewDidLoad
@@ -32,7 +58,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
+    return _content.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -44,23 +70,21 @@
         cell = [[CTFJoinGameCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
     }
 
-    cell.titleLabel.text = @"Na jasnych błoniach";
+    CTFGame *game = _content[indexPath.row];
+    cell.titleLabel.text = game.name;
     cell.distanceLabel.text = @"1.2km";
     cell.startDateLabel.text = @"23-12-2013 14:30";
     
     return cell;
 }
 
-
 #pragma mark - Segue support
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     static NSString *toDetailsJoin = @"ToDetailsJoin";
     if ([segue.identifier isEqualToString:toDetailsJoin]) {
         CTFDetailsJoinViewController *dvc = (CTFDetailsJoinViewController *)segue.destinationViewController;
-        CTFGame *game = [CTFGame createObject];
-        game.name = @"Na jasnych błoniach";
         
+        CTFGame *game = (CTFGame *)_content[_tableView.indexPathForSelectedRow.row];
         [dvc setGame:game];
     }
 }

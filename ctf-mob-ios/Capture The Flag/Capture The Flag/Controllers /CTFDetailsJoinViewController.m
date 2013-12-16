@@ -8,6 +8,7 @@
 
 #import "CTFDetailsJoinViewController.h"
 #import "CTFGame.h"
+#import "CTFMap.h"
 #import "MapViewAnnotation.h"
 
 @import MapKit;
@@ -32,9 +33,7 @@
 }
 
 - (void)_configureMapView {
-    CLLocation *gameLocation = [[CLLocation alloc] initWithLatitude:53.43485 longitude:14.566391]; /// from _game.map.location
-    
-    MapViewAnnotation *annotation = [[MapViewAnnotation alloc] initWithTitle:_game.name andCoordinate:gameLocation.coordinate];
+    MapViewAnnotation *annotation = [[MapViewAnnotation alloc] initWithTitle:_game.name andCoordinate:_game.map.locationCoordinates.coordinate];
     [_mapView addAnnotation:annotation];
 }
 
