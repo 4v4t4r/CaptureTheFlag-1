@@ -122,7 +122,7 @@
     RKPropertyMappingTestExpectation *charactersExpectation =
     [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"characters" destinationKeyPath:@"characters" evaluationBlock:^BOOL(RKPropertyMappingTestExpectation *expectation, RKPropertyMapping *mapping, id mappedValue, NSError *__autoreleasing *error) {
         
-        NSArray *commitedKeysToCompare = @[@"type, totalTime, totalScore, healt, level, active"];
+        NSArray *commitedKeysToCompare = @[@"type, totalTime, totalScore, health, level, active"];
         
         NSArray *array = [mappedValue allObjects];
         BOOL containsTwoItems = array.count == 2;
