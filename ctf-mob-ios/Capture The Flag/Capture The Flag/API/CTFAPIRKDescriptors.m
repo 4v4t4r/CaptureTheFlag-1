@@ -7,10 +7,10 @@
 //
 
 #import "CTFAPIRKDescriptors.h"
-
-#import "CTFUser.h"
 #import "CTFCharacter.h"
+#import "CTFGame.h"
 #import "CTFMap.h"
+#import "CTFUser.h"
 
 @implementation CTFAPIRKDescriptors {
     RKObjectManager *_manager;
@@ -116,6 +116,28 @@ static CTFAPIRKDescriptors *_sharedInstance = nil;
              @"location": @"location",
              @"radius": @"radius",
              @"created_by": @"createdBy",
+             @"created_date": @"createdDate",
+             @"modified_date": @"modifiedDate"};
+}
+
+
+#pragma mark - Game Mapping
+- (RKEntityMapping *)gameMapping {
+    RKEntityMapping *gameMapping =
+    [RKEntityMapping mappingForEntityForName:NSStringFromClass([CTFGame class]) inManagedObjectStore:_manager.managedObjectStore];
+    [gameMapping addAttributeMappingsFromDictionary:[self _gameMappingDict]];
+    
+    return gameMapping;
+}
+
+- (NSDictionary *)_gameMappingDict {
+    return @{@"id": @"gameId",
+             @"name": @"name",
+             @"description": @"desc",
+             @"status": @"status",
+             @"start_time": @"startTime",
+             @"max_players": @"maxPlayers",
+             @"type": @"type",
              @"created_date": @"createdDate",
              @"modified_date": @"modifiedDate"};
 }

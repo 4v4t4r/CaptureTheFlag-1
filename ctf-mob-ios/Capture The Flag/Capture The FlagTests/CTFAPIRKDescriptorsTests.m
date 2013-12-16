@@ -240,4 +240,53 @@
     [test verify];
 }
 
+- (void)testGameMapping {
+    id parsedJSON = [RKTestFixture parsedObjectWithContentsOfFixture:@"game-response.json"];
+    
+    RKMappingTest *test = [RKMappingTest testForMapping:[_descriptors gameMapping] sourceObject:parsedJSON destinationObject:nil];
+    test.managedObjectContext = _service.managedObjectContext;
+    
+    RKPropertyMappingTestExpectation *idExpectation =
+    [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"id" destinationKeyPath:@"gameId" value:@"12345hash"];
+    [test addExpectation:idExpectation];
+
+    RKPropertyMappingTestExpectation *nameExpectation =
+    [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"name" destinationKeyPath:@"name" value:@"game's name"];
+    [test addExpectation:nameExpectation];
+    
+    RKPropertyMappingTestExpectation *descriptionExpectation =
+    [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"description" destinationKeyPath:@"desc" value:@"game description"];
+    [test addExpectation:descriptionExpectation];
+    
+    RKPropertyMappingTestExpectation *statusExpectation =
+    [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"status" destinationKeyPath:@"status" value:@(1)];
+    [test addExpectation:statusExpectation];
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"dd-MM-YYYY hh-mm-ss"];
+    NSDate *startTimeDate = [dateFormatter dateFromString:@"14-12-2013 15:13:00"];
+    
+    RKPropertyMappingTestExpectation *startTimeExpectation =
+    [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"start_time" destinationKeyPath:@"startTime" value:startTimeDate];
+    [test addExpectation:startTimeExpectation];
+    
+    RKPropertyMappingTestExpectation *maxPlayersEpectation =
+    [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"max_players" destinationKeyPath:@"maxPlayers" value:@(6)];
+    [test addExpectation:maxPlayersEpectation];
+    
+    RKPropertyMappingTestExpectation *typeExpectation =
+    [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"type" destinationKeyPath:@"type" value:@(1)];
+    [test addExpectation:typeExpectation];
+    
+    NSDate *createdDate = [dateFormatter dateFromString:@"10-11-2013 13:12:00"];
+    RKPropertyMappingTestExpectation *createdDateExpectation =
+    [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"created_date" destinationKeyPath:@"createdDate" value:createdDate];
+    [test addExpectation:createdDateExpectation];
+    
+    NSDate *modifiedDate = [dateFormatter dateFromString:@"11-12-2013 10:15:00"];
+    RKPropertyMappingTestExpectation *modifiedDateExpectation =
+    [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"modified_date" destinationKeyPath:@"modifiedDate" value:modifiedDate];
+    [test addExpectation:modifiedDateExpectation];
+}
+
 @end

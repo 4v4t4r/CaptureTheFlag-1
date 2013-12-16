@@ -21,8 +21,9 @@
 - (RKResponseDescriptor *)getUserResponseDescriptor;
 
 #pragma mark - Mappings
-- (RKEntityMapping *)userMapping;
 - (RKEntityMapping *)characterMapping;
+- (RKEntityMapping *)gameMapping;
 - (RKEntityMapping *)mapMapping;
+- (RKEntityMapping *)userMapping;
 
 @end
