@@ -4,7 +4,6 @@
 #import "_CTFCharacter.h"
 
 const struct CTFCharacterAttributes CTFCharacterAttributes = {
-	.active = @"active",
 	.health = @"health",
 	.level = @"level",
 	.totalScore = @"totalScore",
@@ -45,11 +44,6 @@ const struct CTFCharacterFetchedProperties CTFCharacterFetchedProperties = {
 + (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
 	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
 	
-	if ([key isEqualToString:@"activeValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"active"];
-		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
-		return keyPaths;
-	}
 	if ([key isEqualToString:@"healthValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"health"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
@@ -78,32 +72,6 @@ const struct CTFCharacterFetchedProperties CTFCharacterFetchedProperties = {
 
 	return keyPaths;
 }
-
-
-
-
-@dynamic active;
-
-
-
-- (BOOL)activeValue {
-	NSNumber *result = [self active];
-	return [result boolValue];
-}
-
-- (void)setActiveValue:(BOOL)value_ {
-	[self setActive:[NSNumber numberWithBool:value_]];
-}
-
-- (BOOL)primitiveActiveValue {
-	NSNumber *result = [self primitiveActive];
-	return [result boolValue];
-}
-
-- (void)setPrimitiveActiveValue:(BOOL)value_ {
-	[self setPrimitiveActive:[NSNumber numberWithBool:value_]];
-}
-
 
 
 

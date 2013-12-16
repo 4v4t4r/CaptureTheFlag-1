@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3401" systemVersion="13A603" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="CTFCharacter" representedClassName="CTFCharacter" syncable="YES">
-        <attribute name="active" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="health" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="level" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="totalScore" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -20,7 +19,7 @@
         <attribute name="status" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <relationship name="items" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CTFItem" inverseName="game" inverseEntity="CTFItem" syncable="YES"/>
         <relationship name="map" optional="YES" transient="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CTFMap" inverseName="game" inverseEntity="CTFMap" syncable="YES"/>
-        <relationship name="players" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CTFMap" syncable="YES"/>
+        <relationship name="players" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CTFCharacter" syncable="YES"/>
     </entity>
     <entity name="CTFItem" representedClassName="CTFItem" syncable="YES">
         <attribute name="desc" optional="YES" attributeType="String" syncable="YES"/>

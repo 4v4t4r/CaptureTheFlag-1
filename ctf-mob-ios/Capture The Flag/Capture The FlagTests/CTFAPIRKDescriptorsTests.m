@@ -123,7 +123,7 @@
     RKPropertyMappingTestExpectation *charactersExpectation =
     [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"characters" destinationKeyPath:@"characters" evaluationBlock:^BOOL(RKPropertyMappingTestExpectation *expectation, RKPropertyMapping *mapping, id mappedValue, NSError *__autoreleasing *error) {
         
-        NSArray *commitedKeysToCompare = @[@"type, totalTime, totalScore, health, level, active"];
+        NSArray *commitedKeysToCompare = @[@"type, totalTime, totalScore, health, level"];
         
         NSArray *array = [mappedValue allObjects];
         BOOL containsTwoItems = array.count == 2;
@@ -137,7 +137,6 @@
         firstReferenceCharacter.totalScore = @(100);
         firstReferenceCharacter.health = @(100);
         firstReferenceCharacter.level = @(20);
-        firstReferenceCharacter.active = @YES;
         
         BOOL isFirstEqual = [[firstFetchedCharacter committedValuesForKeys:commitedKeysToCompare] isEqual:[firstReferenceCharacter committedValuesForKeys:commitedKeysToCompare]];
         
@@ -150,7 +149,6 @@
         secondReferenceCharacter.totalScore = @(98);
         secondReferenceCharacter.health = @(55);
         secondReferenceCharacter.level = @(12);
-        secondReferenceCharacter.active = @NO;
         
         BOOL isSecondEqual = [[secondFetchedCharacter committedValuesForKeys:commitedKeysToCompare] isEqual:[secondReferenceCharacter committedValuesForKeys:commitedKeysToCompare]];
 
@@ -187,11 +185,7 @@
     RKPropertyMappingTestExpectation *levelExpectation =
     [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"level" destinationKeyPath:@"level" value:@(20)];
     [test addExpectation:levelExpectation];
-    
-    RKPropertyMappingTestExpectation *isActiveExpectation =
-    [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"is_active" destinationKeyPath:@"active" value:@(1)];
-    [test addExpectation:isActiveExpectation];
-    
+        
     [test verify];
 }
 
@@ -281,28 +275,21 @@
     
     RKPropertyMappingTestExpectation *mapExpectation =
     [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"map" destinationKeyPath:@"map" evaluationBlock:^BOOL(RKPropertyMappingTestExpectation *expectation, RKPropertyMapping *mapping, id mappedValue, NSError *__autoreleasing *error) {
-        
-        NSArray *commitedKeysToCompare = @[@"mapId, name, description, location, radius, createdBy, createdDate, modifiedDate"];
-        
-        CTFMap *map = (CTFMap *)mappedValue;
-        
-        CTFMap *referenceMap = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([CTFMap class]) inManagedObjectContext:_service.managedObjectContext];
-        referenceMap.mapId = @(1);
-        referenceMap.name = @"map's name";
-        referenceMap.desc = @"map description";
-        referenceMap.location = @[@(12.33233), @(43.12122)];
-        referenceMap.radius = @(5.0);
-        referenceMap.createdBy = @"owner name";
-        
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"dd-MM-YYYY hh-mm-ss"];
-        referenceMap.createdDate = [dateFormatter dateFromString:@"10-11-2013 12:12:00]"];
-        referenceMap.modifiedDate = [dateFormatter dateFromString:@"10-11-2013 12:12:00]"];
-        
-        return [[map committedValuesForKeys:commitedKeysToCompare] isEqual:[referenceMap committedValuesForKeys:commitedKeysToCompare]];
+        return (mappedValue != nil);
     }];
     [test addExpectation:mapExpectation];
-
+    
+    RKPropertyMappingTestExpectation *playersExpectation =
+    [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"players" destinationKeyPath:@"players" evaluationBlock:^BOOL(RKPropertyMappingTestExpectation *expectation, RKPropertyMapping *mapping, id mappedValue, NSError *__autoreleasing *error) {
+        return ([mappedValue count] == 2);
+    }];
+    [test addExpectation:playersExpectation];
+    
+    RKPropertyMappingTestExpectation *itemsExpectation =
+    [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"items" destinationKeyPath:@"items" evaluationBlock:^BOOL(RKPropertyMappingTestExpectation *expectation, RKPropertyMapping *mapping, id mappedValue, NSError *__autoreleasing *error) {
+        return ([mappedValue count] == 2);
+    }];
+    [test addExpectation:itemsExpectation];
     
     NSDate *createdDate = [dateFormatter dateFromString:@"10-11-2013 13:12:00"];
     RKPropertyMappingTestExpectation *createdDateExpectation =

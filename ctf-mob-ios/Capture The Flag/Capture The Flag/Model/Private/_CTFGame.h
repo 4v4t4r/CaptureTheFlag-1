@@ -26,7 +26,7 @@ extern const struct CTFGameFetchedProperties {
 
 @class CTFItem;
 @class CTFMap;
-@class CTFMap;
+@class CTFCharacter;
 
 
 
@@ -175,8 +175,8 @@ extern const struct CTFGameFetchedProperties {
 
 - (void)addPlayers:(NSSet*)value_;
 - (void)removePlayers:(NSSet*)value_;
-- (void)addPlayersObject:(CTFMap*)value_;
-- (void)removePlayersObject:(CTFMap*)value_;
+- (void)addPlayersObject:(CTFCharacter*)value_;
+- (void)removePlayersObject:(CTFCharacter*)value_;
 
 @end
 

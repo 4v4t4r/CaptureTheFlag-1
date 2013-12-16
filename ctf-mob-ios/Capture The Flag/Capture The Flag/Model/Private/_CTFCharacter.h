@@ -5,7 +5,6 @@
 #import "CustomManagedObject.h"
 
 extern const struct CTFCharacterAttributes {
-	__unsafe_unretained NSString *active;
 	__unsafe_unretained NSString *health;
 	__unsafe_unretained NSString *level;
 	__unsafe_unretained NSString *totalScore;
@@ -28,7 +27,6 @@ extern const struct CTFCharacterFetchedProperties {
 
 
 
-
 @interface CTFCharacterID : NSManagedObjectID {}
 @end
 
@@ -37,20 +35,6 @@ extern const struct CTFCharacterFetchedProperties {
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
 - (CTFCharacterID*)objectID;
-
-
-
-
-
-@property (nonatomic, strong) NSNumber* active;
-
-
-
-@property BOOL activeValue;
-- (BOOL)activeValue;
-- (void)setActiveValue:(BOOL)value_;
-
-//- (BOOL)validateActive:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -141,15 +125,6 @@ extern const struct CTFCharacterFetchedProperties {
 @end
 
 @interface _CTFCharacter (CoreDataGeneratedPrimitiveAccessors)
-
-
-- (NSNumber*)primitiveActive;
-- (void)setPrimitiveActive:(NSNumber*)value;
-
-- (BOOL)primitiveActiveValue;
-- (void)setPrimitiveActiveValue:(BOOL)value_;
-
-
 
 
 - (NSNumber*)primitiveHealth;

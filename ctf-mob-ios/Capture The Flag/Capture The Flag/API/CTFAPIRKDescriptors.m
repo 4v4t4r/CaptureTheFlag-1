@@ -72,8 +72,7 @@ static CTFAPIRKDescriptors *_sharedInstance = nil;
              @"total_time": @"totalTime",
              @"total_score": @"totalScore",
              @"health": @"health",
-             @"level": @"level",
-             @"is_active": @"active"};
+             @"level": @"level"};
 }
 
 
@@ -86,6 +85,14 @@ static CTFAPIRKDescriptors *_sharedInstance = nil;
     RKRelationshipMapping *mapMapping =
     [RKRelationshipMapping relationshipMappingFromKeyPath:@"map" toKeyPath:@"map" withMapping:[self mapMapping]];
     [gameMapping addPropertyMapping:mapMapping];
+    
+    RKRelationshipMapping *charactersMapping =
+    [RKRelationshipMapping relationshipMappingFromKeyPath:@"players" toKeyPath:@"players" withMapping:[self characterMapping]];
+    [gameMapping addPropertyMapping:charactersMapping];
+    
+    RKRelationshipMapping *itemsMapping =
+    [RKRelationshipMapping relationshipMappingFromKeyPath:@"items" toKeyPath:@"items" withMapping:[self itemMapping]];
+    [gameMapping addPropertyMapping:itemsMapping];
     
     return gameMapping;
 }

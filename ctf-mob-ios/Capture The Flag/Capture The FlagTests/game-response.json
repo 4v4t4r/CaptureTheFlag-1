@@ -16,6 +16,34 @@
         "created_date": "10-11-2013 12:12:00",
         "modified_date": "10-11-2013 12:12:00"
     },
+    "characters" : [{
+                    "type": 1,
+                    "total_time": 21,
+                    "total_score": 100,
+                    "health": 100,
+                    "level": 20
+                    },
+                    {
+                    "type": 2,
+                    "total_time": 23,
+                    "total_score": 98,
+                    "health": 55,
+                    "level": 12
+                    }],
+    "items": [{
+              "name": "item's name",
+              "description": "item's description",
+              "type": 1,
+              "location": [10, 20],
+              "value": 10.4
+              },
+              {
+              "name": "item's name",
+              "description": "item's description",
+              "type": 1,
+              "location": [10, 20],
+              "value": 10.4
+              }],
     "created_date": "10-11-2013 13:12:00",
     "modified_date": "11-12-2013 10:15:00"
 }
