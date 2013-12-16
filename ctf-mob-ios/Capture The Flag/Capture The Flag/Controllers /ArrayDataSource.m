@@ -58,4 +58,14 @@
     return cell;
 }
 
+
+#pragma mark - Accessors
+- (NSArray *)items {
+    return _items;
+}
+
+- (NSString *)cellIdentifier {
+    return _cellIdentifier;
+}
+
 @end
