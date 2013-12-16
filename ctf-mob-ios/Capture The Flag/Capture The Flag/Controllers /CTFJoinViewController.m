@@ -81,4 +81,8 @@
     return _tableView;
 }
 
+- (ArrayDataSource *)dataSource {
+    return _dataSource;
+}
+
 @end

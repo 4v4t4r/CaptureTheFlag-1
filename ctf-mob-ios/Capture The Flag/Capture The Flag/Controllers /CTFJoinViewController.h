@@ -7,9 +7,10 @@
 //
 
 #import "CTFViewController.h"
-
+@class ArrayDataSource;
 @interface CTFJoinViewController : CTFViewController <UITableViewDelegate>
 
 @property (nonatomic, readonly) UITableView *tableView;
+@property (nonatomic, readonly) ArrayDataSource *dataSource;
 
 @end
