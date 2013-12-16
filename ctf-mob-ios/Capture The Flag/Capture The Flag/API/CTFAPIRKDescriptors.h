@@ -23,5 +23,6 @@
 #pragma mark - Mappings
 - (RKEntityMapping *)userMapping;
 - (RKEntityMapping *)characterMapping;
+- (RKEntityMapping *)mapMapping;
 
 @end

@@ -10,6 +10,7 @@
 
 #import "CTFUser.h"
 #import "CTFCharacter.h"
+#import "CTFMap.h"
 
 @implementation CTFAPIRKDescriptors {
     RKObjectManager *_manager;
@@ -58,7 +59,7 @@ static CTFAPIRKDescriptors *_sharedInstance = nil;
 }
 
 
-#pragma mark - Mappings
+#pragma mark - User Mapping
 - (RKEntityMapping *)userMapping {
 
     RKEntityMapping *userMapping =
@@ -72,22 +73,22 @@ static CTFAPIRKDescriptors *_sharedInstance = nil;
     return userMapping;
 }
 
-- (RKEntityMapping *)characterMapping {
-    RKEntityMapping *characterMapping =
-    [RKEntityMapping mappingForEntityForName:NSStringFromClass([CTFCharacter class]) inManagedObjectStore:_manager.managedObjectStore];
-    [characterMapping addAttributeMappingsFromDictionary:[self _characterMappingDict]];
-    return characterMapping;
-}
-
-
-#pragma mark - Dictionaries with attribute mappings
 - (NSDictionary *)_userAttributes {
     return @{@"username" : @"username",
              @"email" : @"email",
              @"password" : @"password",
              @"nick" : @"nick",
              @"location" : @"location"/*,
-             @"characters": @"characters"*/};
+                                       @"characters": @"characters"*/};
+}
+
+
+#pragma mark - Character Mapping
+- (RKEntityMapping *)characterMapping {
+    RKEntityMapping *characterMapping =
+    [RKEntityMapping mappingForEntityForName:NSStringFromClass([CTFCharacter class]) inManagedObjectStore:_manager.managedObjectStore];
+    [characterMapping addAttributeMappingsFromDictionary:[self _characterMappingDict]];
+    return characterMapping;
 }
 
 - (NSDictionary *)_characterMappingDict {
@@ -97,6 +98,26 @@ static CTFAPIRKDescriptors *_sharedInstance = nil;
              @"health": @"health",
              @"level": @"level",
              @"is_active": @"active"};
+}
+
+
+#pragma mark - Map Mapping
+- (RKEntityMapping *)mapMapping {
+    RKEntityMapping *mapMapping =
+    [RKEntityMapping mappingForEntityForName:NSStringFromClass([CTFMap class]) inManagedObjectStore:_manager.managedObjectStore];
+    [mapMapping addAttributeMappingsFromDictionary:[self _mapMappingDict]];
+    return mapMapping;
+}
+
+- (NSDictionary *)_mapMappingDict {
+    return @{@"id": @"mapId",
+             @"name": @"name",
+             @"description": @"desc",
+             @"location": @"location",
+             @"radius": @"radius",
+             @"created_by": @"createdBy",
+             @"created_date": @"createdDate",
+             @"modified_date": @"modifiedDate"};
 }
 
 #pragma mark - Accessors

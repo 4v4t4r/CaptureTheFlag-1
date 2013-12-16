@@ -1,0 +1,10 @@
+{
+    "id": 1,
+    "name": "map's name",
+    "description": "map description",
+    "location": [12.33233, 43.12122],
+    "radius": 5.0,
+    "created_by": "owner name",
+    "created_date": "12-12-2013 12:12:00",
+    "modified_date": "13-12-2013 12:12:00"
+}
