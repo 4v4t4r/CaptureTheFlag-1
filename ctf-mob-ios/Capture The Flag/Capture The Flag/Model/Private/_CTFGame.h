@@ -5,13 +5,13 @@
 #import "CustomManagedObject.h"
 
 extern const struct CTFGameAttributes {
-	__unsafe_unretained NSString *created_date;
+	__unsafe_unretained NSString *createdDate;
 	__unsafe_unretained NSString *desc;
 	__unsafe_unretained NSString *gameId;
-	__unsafe_unretained NSString *max_players;
-	__unsafe_unretained NSString *modified_date;
+	__unsafe_unretained NSString *maxPlayers;
+	__unsafe_unretained NSString *modifiedDate;
 	__unsafe_unretained NSString *name;
-	__unsafe_unretained NSString *start_time;
+	__unsafe_unretained NSString *startTime;
 	__unsafe_unretained NSString *status;
 } CTFGameAttributes;
 
@@ -50,11 +50,11 @@ extern const struct CTFGameFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSDate* created_date;
+@property (nonatomic, strong) NSDate* createdDate;
 
 
 
-//- (BOOL)validateCreated_date:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateCreatedDate:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -70,13 +70,9 @@ extern const struct CTFGameFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSNumber* gameId;
+@property (nonatomic, strong) NSString* gameId;
 
 
-
-@property int32_t gameIdValue;
-- (int32_t)gameIdValue;
-- (void)setGameIdValue:(int32_t)value_;
 
 //- (BOOL)validateGameId:(id*)value_ error:(NSError**)error_;
 
@@ -84,25 +80,25 @@ extern const struct CTFGameFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSNumber* max_players;
+@property (nonatomic, strong) NSNumber* maxPlayers;
 
 
 
-@property int16_t max_playersValue;
-- (int16_t)max_playersValue;
-- (void)setMax_playersValue:(int16_t)value_;
+@property int16_t maxPlayersValue;
+- (int16_t)maxPlayersValue;
+- (void)setMaxPlayersValue:(int16_t)value_;
 
-//- (BOOL)validateMax_players:(id*)value_ error:(NSError**)error_;
-
-
+//- (BOOL)validateMaxPlayers:(id*)value_ error:(NSError**)error_;
 
 
 
-@property (nonatomic, strong) NSDate* modified_date;
+
+
+@property (nonatomic, strong) NSDate* modifiedDate;
 
 
 
-//- (BOOL)validateModified_date:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateModifiedDate:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -118,11 +114,11 @@ extern const struct CTFGameFetchedProperties {
 
 
 
-@property (nonatomic, strong) NSDate* start_time;
+@property (nonatomic, strong) NSDate* startTime;
 
 
 
-//- (BOOL)validateStart_time:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateStartTime:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -183,8 +179,8 @@ extern const struct CTFGameFetchedProperties {
 @interface _CTFGame (CoreDataGeneratedPrimitiveAccessors)
 
 
-- (NSDate*)primitiveCreated_date;
-- (void)setPrimitiveCreated_date:(NSDate*)value;
+- (NSDate*)primitiveCreatedDate;
+- (void)setPrimitiveCreatedDate:(NSDate*)value;
 
 
 
@@ -195,26 +191,23 @@ extern const struct CTFGameFetchedProperties {
 
 
 
-- (NSNumber*)primitiveGameId;
-- (void)setPrimitiveGameId:(NSNumber*)value;
-
-- (int32_t)primitiveGameIdValue;
-- (void)setPrimitiveGameIdValue:(int32_t)value_;
+- (NSString*)primitiveGameId;
+- (void)setPrimitiveGameId:(NSString*)value;
 
 
 
 
-- (NSNumber*)primitiveMax_players;
-- (void)setPrimitiveMax_players:(NSNumber*)value;
+- (NSNumber*)primitiveMaxPlayers;
+- (void)setPrimitiveMaxPlayers:(NSNumber*)value;
 
-- (int16_t)primitiveMax_playersValue;
-- (void)setPrimitiveMax_playersValue:(int16_t)value_;
-
-
+- (int16_t)primitiveMaxPlayersValue;
+- (void)setPrimitiveMaxPlayersValue:(int16_t)value_;
 
 
-- (NSDate*)primitiveModified_date;
-- (void)setPrimitiveModified_date:(NSDate*)value;
+
+
+- (NSDate*)primitiveModifiedDate;
+- (void)setPrimitiveModifiedDate:(NSDate*)value;
 
 
 
@@ -225,8 +218,8 @@ extern const struct CTFGameFetchedProperties {
 
 
 
-- (NSDate*)primitiveStart_time;
-- (void)setPrimitiveStart_time:(NSDate*)value;
+- (NSDate*)primitiveStartTime;
+- (void)setPrimitiveStartTime:(NSDate*)value;
 
 
 
