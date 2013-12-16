@@ -10,6 +10,7 @@
 #import "CTFCharacter.h"
 #import "CTFGame.h"
 #import "CTFMap.h"
+#import "CTFItem.h"
 #import "CTFUser.h"
 
 @implementation CTFAPIRKDescriptors {
@@ -58,31 +59,6 @@ static CTFAPIRKDescriptors *_sharedInstance = nil;
     return  RKStatusCodeIndexSetForClass(RKStatusCodeClassClientError);
 }
 
-
-#pragma mark - User Mapping
-- (RKEntityMapping *)userMapping {
-
-    RKEntityMapping *userMapping =
-    [RKEntityMapping mappingForEntityForName:NSStringFromClass([CTFUser class]) inManagedObjectStore:_manager.managedObjectStore];
-    [userMapping addAttributeMappingsFromDictionary:[self _userAttributes]];
-    
-    RKRelationshipMapping *relationshipMapping =
-    [RKRelationshipMapping relationshipMappingFromKeyPath:@"characters" toKeyPath:@"characters" withMapping:[self characterMapping]];
-    [userMapping addPropertyMapping:relationshipMapping];
-    
-    return userMapping;
-}
-
-- (NSDictionary *)_userAttributes {
-    return @{@"username" : @"username",
-             @"email" : @"email",
-             @"password" : @"password",
-             @"nick" : @"nick",
-             @"location" : @"location"/*,
-                                       @"characters": @"characters"*/};
-}
-
-
 #pragma mark - Character Mapping
 - (RKEntityMapping *)characterMapping {
     RKEntityMapping *characterMapping =
@@ -98,6 +74,45 @@ static CTFAPIRKDescriptors *_sharedInstance = nil;
              @"health": @"health",
              @"level": @"level",
              @"is_active": @"active"};
+}
+
+
+#pragma mark - Game Mapping
+- (RKEntityMapping *)gameMapping {
+    RKEntityMapping *gameMapping =
+    [RKEntityMapping mappingForEntityForName:NSStringFromClass([CTFGame class]) inManagedObjectStore:_manager.managedObjectStore];
+    [gameMapping addAttributeMappingsFromDictionary:[self _gameMappingDict]];
+    
+    return gameMapping;
+}
+
+- (NSDictionary *)_gameMappingDict {
+    return @{@"id": @"gameId",
+             @"name": @"name",
+             @"description": @"desc",
+             @"status": @"status",
+             @"start_time": @"startTime",
+             @"max_players": @"maxPlayers",
+             @"type": @"type",
+             @"created_date": @"createdDate",
+             @"modified_date": @"modifiedDate"};
+}
+
+
+#pragma mark - Item Mapping
+- (RKEntityMapping *)itemMapping {
+    RKEntityMapping *itemMapping =
+    [RKEntityMapping mappingForEntityForName:NSStringFromClass([CTFItem class]) inManagedObjectStore:_manager.managedObjectStore];
+    [itemMapping addAttributeMappingsFromDictionary:[self _itemMappingDict]];
+    return itemMapping;
+}
+
+- (NSDictionary *)_itemMappingDict {
+    return @{@"name": @"name",
+             @"description": @"desc",
+             @"type": @"type",
+             @"location": @"location",
+             @"value": @"value"};
 }
 
 
@@ -121,25 +136,27 @@ static CTFAPIRKDescriptors *_sharedInstance = nil;
 }
 
 
-#pragma mark - Game Mapping
-- (RKEntityMapping *)gameMapping {
-    RKEntityMapping *gameMapping =
-    [RKEntityMapping mappingForEntityForName:NSStringFromClass([CTFGame class]) inManagedObjectStore:_manager.managedObjectStore];
-    [gameMapping addAttributeMappingsFromDictionary:[self _gameMappingDict]];
+#pragma mark - User Mapping
+- (RKEntityMapping *)userMapping {
     
-    return gameMapping;
+    RKEntityMapping *userMapping =
+    [RKEntityMapping mappingForEntityForName:NSStringFromClass([CTFUser class]) inManagedObjectStore:_manager.managedObjectStore];
+    [userMapping addAttributeMappingsFromDictionary:[self _userAttributes]];
+    
+    RKRelationshipMapping *relationshipMapping =
+    [RKRelationshipMapping relationshipMappingFromKeyPath:@"characters" toKeyPath:@"characters" withMapping:[self characterMapping]];
+    [userMapping addPropertyMapping:relationshipMapping];
+    
+    return userMapping;
 }
 
-- (NSDictionary *)_gameMappingDict {
-    return @{@"id": @"gameId",
-             @"name": @"name",
-             @"description": @"desc",
-             @"status": @"status",
-             @"start_time": @"startTime",
-             @"max_players": @"maxPlayers",
-             @"type": @"type",
-             @"created_date": @"createdDate",
-             @"modified_date": @"modifiedDate"};
+- (NSDictionary *)_userAttributes {
+    return @{@"username" : @"username",
+             @"email" : @"email",
+             @"password" : @"password",
+             @"nick" : @"nick",
+             @"location" : @"location"/*,
+                                       @"characters": @"characters"*/};
 }
 
 #pragma mark - Accessors

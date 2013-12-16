@@ -1,0 +1,7 @@
+{
+    "name": "item's name",
+    "description": "item's description",
+    "type": 1,
+    "location": [10, 20],
+    "value": 10.4
+}

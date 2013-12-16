@@ -24,6 +24,7 @@
 - (RKEntityMapping *)characterMapping;
 - (RKEntityMapping *)gameMapping;
 - (RKEntityMapping *)mapMapping;
+- (RKEntityMapping *)itemMapping;
 - (RKEntityMapping *)userMapping;
 
 @end

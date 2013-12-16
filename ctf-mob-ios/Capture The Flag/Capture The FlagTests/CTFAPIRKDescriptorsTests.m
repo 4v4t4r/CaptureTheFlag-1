@@ -289,4 +289,33 @@
     [test addExpectation:modifiedDateExpectation];
 }
 
+- (void)testItemMapping {
+    id parsedJSON = [RKTestFixture parsedObjectWithContentsOfFixture:@"item-response.json"];
+    
+    RKMappingTest *test = [RKMappingTest testForMapping:[_descriptors itemMapping] sourceObject:parsedJSON destinationObject:nil];
+    test.managedObjectContext = _service.managedObjectContext;
+
+    RKPropertyMappingTestExpectation *nameExpectation =
+    [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"name" destinationKeyPath:@"name" value:@"item's name"];
+    [test addExpectation:nameExpectation];
+    
+    RKPropertyMappingTestExpectation *descriptionExpectation =
+    [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"description" destinationKeyPath:@"desc" value:@"item's description"];
+    [test addExpectation:descriptionExpectation];
+    
+    RKPropertyMappingTestExpectation *typeExpectation =
+    [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"type" destinationKeyPath:@"type" value:@(1)];
+    [test addExpectation:typeExpectation];
+    
+    RKPropertyMappingTestExpectation *locationExpectation =
+    [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"location" destinationKeyPath:@"location" value:@[@(10), @(20)]];
+    [test addExpectation:locationExpectation];
+    
+    RKPropertyMappingTestExpectation *valueExpectation =
+    [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"value" destinationKeyPath:@"value" value:@(10.4)];
+    [test addExpectation:valueExpectation];
+    
+    [test verify];
+}
+
 @end
