@@ -72,11 +72,11 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CTFJoinGameCell" rowHeight="60" id="ag8-yV-WAC" customClass="CTFJoinGameCell">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="CTFJoinGameCell" rowHeight="60" id="ag8-yV-WAC" customClass="CTFJoinGameCell">
                                         <rect key="frame" x="0.0" y="86" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ag8-yV-WAC" id="1BL-HS-7ET">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="287" height="59"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Game Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ams-cG-uFl">
@@ -84,24 +84,24 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="17" id="R1o-Eu-0KE"/>
-                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="226" id="sR1-wj-JQd"/>
+                                                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="226" id="sR1-wj-JQd"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.4km" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wyz-g9-six">
-                                                    <rect key="frame" x="275" y="7" width="40" height="15"/>
+                                                    <rect key="frame" x="239" y="7" width="43" height="15"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="40" id="EiT-Cf-tgr"/>
-                                                        <constraint firstAttribute="height" constant="15" id="OGU-Yv-SJZ"/>
+                                                        <constraint firstAttribute="width" constant="43" id="D61-bn-Pc0"/>
+                                                        <constraint firstAttribute="height" constant="15" id="sQT-Qn-iDd"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23-12-2013 14:30" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mx3-gm-0ie">
-                                                    <rect key="frame" x="215" y="25" width="100" height="15"/>
+                                                    <rect key="frame" x="182" y="25" width="100" height="15"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="mRw-FJ-M8n"/>
@@ -111,13 +111,13 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="Mx3-gm-0ie" firstAttribute="top" secondItem="Wyz-g9-six" secondAttribute="bottom" constant="3" id="KlV-qS-xv5"/>
+                                                <constraint firstItem="Wyz-g9-six" firstAttribute="leading" secondItem="Ams-cG-uFl" secondAttribute="trailing" constant="8" id="2WP-Ty-6El"/>
+                                                <constraint firstAttribute="trailing" secondItem="Wyz-g9-six" secondAttribute="trailing" constant="5" id="Kcf-DP-Egl"/>
                                                 <constraint firstItem="Ams-cG-uFl" firstAttribute="leading" secondItem="1BL-HS-7ET" secondAttribute="leading" constant="5" id="PBP-Qr-7j5"/>
+                                                <constraint firstItem="Mx3-gm-0ie" firstAttribute="top" secondItem="Wyz-g9-six" secondAttribute="bottom" constant="3" id="Vbf-Tv-pUS"/>
                                                 <constraint firstItem="Ams-cG-uFl" firstAttribute="top" secondItem="1BL-HS-7ET" secondAttribute="top" constant="5" id="ahx-C4-OlN"/>
-                                                <constraint firstAttribute="trailing" secondItem="Wyz-g9-six" secondAttribute="trailing" constant="5" id="eaC-n8-KFO"/>
+                                                <constraint firstItem="Wyz-g9-six" firstAttribute="top" secondItem="1BL-HS-7ET" secondAttribute="top" constant="7" id="aus-f3-B8v"/>
                                                 <constraint firstAttribute="trailing" secondItem="Mx3-gm-0ie" secondAttribute="trailing" constant="5" id="iHD-9K-P7I"/>
-                                                <constraint firstItem="Wyz-g9-six" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Ams-cG-uFl" secondAttribute="trailing" constant="16" id="opd-MG-puL"/>
-                                                <constraint firstItem="Wyz-g9-six" firstAttribute="top" secondItem="1BL-HS-7ET" secondAttribute="top" constant="7" id="rLo-0b-4qX"/>
                                                 <constraint firstItem="Mx3-gm-0ie" firstAttribute="leading" relation="lessThanOrEqual" secondItem="1BL-HS-7ET" secondAttribute="leading" constant="269" id="xz0-fV-Zfe"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -125,6 +125,7 @@
                                             <outlet property="distanceLabel" destination="Wyz-g9-six" id="Bto-j6-Zs7"/>
                                             <outlet property="startDateLabel" destination="Mx3-gm-0ie" id="Jx2-qL-Qie"/>
                                             <outlet property="titleLabel" destination="Ams-cG-uFl" id="2Ms-vd-6VG"/>
+                                            <segue destination="ThT-YQ-HKM" kind="push" identifier="ToDetailsJoin" id="t4I-YQ-UHo"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -144,6 +145,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jKP-Xn-joC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2016" y="93"/>
+        </scene>
+        <!--Details Join View Controller - Game title-->
+        <scene sceneID="ygo-O9-n9f">
+            <objects>
+                <viewController storyboardIdentifier="CTFDetailsJoinViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ThT-YQ-HKM" customClass="CTFDetailsJoinViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="b2u-T8-kp6"/>
+                        <viewControllerLayoutGuide type="bottom" id="1P0-T9-JpW"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="bQV-p4-efJ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Game title" id="0uz-CP-LtD"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AIn-zu-fec" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2487" y="93"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="tfm-bp-gzL">

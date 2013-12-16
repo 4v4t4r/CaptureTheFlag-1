@@ -37,6 +37,7 @@
 		6D1825D7184A36120039FD92 /* CTFAPICredentialsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D1825D6184A36120039FD92 /* CTFAPICredentialsTests.m */; };
 		6D65DE05185EE07C00C76A90 /* CTFJoinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D65DE04185EE07C00C76A90 /* CTFJoinViewController.m */; };
 		6D65DE08185EE20400C76A90 /* CTFJoinGameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D65DE07185EE20400C76A90 /* CTFJoinGameCell.m */; };
+		6D65DE0C185EF32800C76A90 /* CTFDetailsJoinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D65DE0B185EF32800C76A90 /* CTFDetailsJoinViewController.m */; };
 		6D6DF20F182B8B59004A4D58 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D6DF20D182B8B59004A4D58 /* Localizable.strings */; };
 		6D9BE0871854AF320036172C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D9BE0861854AF320036172C /* libPods.a */; };
 		6D9BE08A1854AF870036172C /* LoginAndRegister.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D9BE0881854AF870036172C /* LoginAndRegister.storyboard */; };
@@ -117,6 +118,8 @@
 		6D65DE04185EE07C00C76A90 /* CTFJoinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFJoinViewController.m; sourceTree = "<group>"; };
 		6D65DE06185EE20400C76A90 /* CTFJoinGameCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFJoinGameCell.h; sourceTree = "<group>"; };
 		6D65DE07185EE20400C76A90 /* CTFJoinGameCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFJoinGameCell.m; sourceTree = "<group>"; };
+		6D65DE0A185EF32800C76A90 /* CTFDetailsJoinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFDetailsJoinViewController.h; sourceTree = "<group>"; };
+		6D65DE0B185EF32800C76A90 /* CTFDetailsJoinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFDetailsJoinViewController.m; sourceTree = "<group>"; };
 		6D6DF20E182B8B59004A4D58 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6D6DF210182B8B76004A4D58 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6D9BE0861854AF320036172C /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
@@ -309,6 +312,8 @@
 				6DB609B3185488960094E37D /* Storyboards */,
 				6D65DE03185EE07C00C76A90 /* CTFJoinViewController.h */,
 				6D65DE04185EE07C00C76A90 /* CTFJoinViewController.m */,
+				6D65DE0A185EF32800C76A90 /* CTFDetailsJoinViewController.h */,
+				6D65DE0B185EF32800C76A90 /* CTFDetailsJoinViewController.m */,
 				6DB609A8185488870094E37D /* CTFMainViewController.h */,
 				6DB609A9185488870094E37D /* CTFMainViewController.m */,
 				6DB609A6185488870094E37D /* CTFLoginViewController.h */,
@@ -651,6 +656,7 @@
 				6DB609B0185488870094E37D /* CTFMainViewController.m in Sources */,
 				6DB609C2185488CE0094E37D /* CTFAPIAccounts.m in Sources */,
 				6DB609B1185488870094E37D /* CTFRegisterViewController.m in Sources */,
+				6D65DE0C185EF32800C76A90 /* CTFDetailsJoinViewController.m in Sources */,
 				6DB609C8185488CE0094E37D /* CTFLocalCredentialsStore.m in Sources */,
 				6DB609C3185488CE0094E37D /* CTFAPIConnection.m in Sources */,
 				6D65DE08185EE20400C76A90 /* CTFJoinGameCell.m in Sources */,

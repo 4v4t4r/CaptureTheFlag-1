@@ -7,7 +7,9 @@
 //
 
 #import "CTFJoinViewController.h"
+#import "CTFDetailsJoinViewController.h"
 #import "CTFJoinGameCell.h"
+#import "CTFGame.h"
 
 @interface CTFJoinViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -48,6 +50,21 @@
     
     return cell;
 }
+
+
+#pragma mark - Segue support
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    static NSString *toDetailsJoin = @"ToDetailsJoin";
+    if ([segue.identifier isEqualToString:toDetailsJoin]) {
+        CTFDetailsJoinViewController *dvc = (CTFDetailsJoinViewController *)segue.destinationViewController;
+        CTFGame *game = [CTFGame createObject];
+        game.name = @"Na jasnych błoniach";
+        
+        [dvc setGame:game];
+    }
+}
+
 
 
 #pragma mark - CTFViewControllerProtocol
