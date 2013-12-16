@@ -130,7 +130,7 @@
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
-                                    <outlet property="dataSource" destination="ao8-4y-C14" id="wgF-Yu-rVq"/>
+                                    <outlet property="dataSource" destination="2IS-yf-UER" id="G00-6Y-Veg"/>
                                     <outlet property="delegate" destination="ao8-4y-C14" id="A0e-Xh-Mxr"/>
                                 </connections>
                             </tableView>
@@ -139,10 +139,12 @@
                     </view>
                     <navigationItem key="navigationItem" title="Select game" id="I0O-k1-kvo"/>
                     <connections>
+                        <outlet property="dataSource" destination="2IS-yf-UER" id="vlE-Fe-ziv"/>
                         <outlet property="tableView" destination="dgC-c4-nwQ" id="1Bi-wS-r1y"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jKP-Xn-joC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <customObject id="2IS-yf-UER" customClass="ArrayDataSource"/>
             </objects>
             <point key="canvasLocation" x="2016" y="93"/>
         </scene>

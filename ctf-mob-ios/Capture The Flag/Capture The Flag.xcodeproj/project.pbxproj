@@ -34,6 +34,7 @@
 		6D0D87A3184D2FB5002904AE /* CTFAPILocalCredentialsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0D87A2184D2FB5002904AE /* CTFAPILocalCredentialsTests.m */; };
 		6D0D87A5184D324C002904AE /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D0D87A4184D324C002904AE /* Security.framework */; };
 		6D0D87AB184D3488002904AE /* CTFAPILocalCredentialsStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0D87AA184D3488002904AE /* CTFAPILocalCredentialsStoreTests.m */; };
+		6D0FAA20185F8E5D0084F505 /* ArrayDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0FAA1F185F8E5D0084F505 /* ArrayDataSource.m */; };
 		6D1825D7184A36120039FD92 /* CTFAPICredentialsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D1825D6184A36120039FD92 /* CTFAPICredentialsTests.m */; };
 		6D65DE05185EE07C00C76A90 /* CTFJoinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D65DE04185EE07C00C76A90 /* CTFJoinViewController.m */; };
 		6D65DE08185EE20400C76A90 /* CTFJoinGameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D65DE07185EE20400C76A90 /* CTFJoinGameCell.m */; };
@@ -121,6 +122,8 @@
 		6D0D87A6184D3266002904AE /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		6D0D87A8184D32AD002904AE /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		6D0D87AA184D3488002904AE /* CTFAPILocalCredentialsStoreTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFAPILocalCredentialsStoreTests.m; sourceTree = "<group>"; };
+		6D0FAA1E185F8E5D0084F505 /* ArrayDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrayDataSource.h; sourceTree = "<group>"; };
+		6D0FAA1F185F8E5D0084F505 /* ArrayDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrayDataSource.m; sourceTree = "<group>"; };
 		6D1825D6184A36120039FD92 /* CTFAPICredentialsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFAPICredentialsTests.m; sourceTree = "<group>"; };
 		6D65DE03185EE07C00C76A90 /* CTFJoinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFJoinViewController.h; sourceTree = "<group>"; };
 		6D65DE04185EE07C00C76A90 /* CTFJoinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFJoinViewController.m; sourceTree = "<group>"; };
@@ -331,6 +334,8 @@
 			children = (
 				6D65DE0F185F012000C76A90 /* MapViewAnnotation.h */,
 				6D65DE10185F012000C76A90 /* MapViewAnnotation.m */,
+				6D0FAA1E185F8E5D0084F505 /* ArrayDataSource.h */,
+				6D0FAA1F185F8E5D0084F505 /* ArrayDataSource.m */,
 			);
 			name = Other;
 			sourceTree = "<group>";
@@ -698,6 +703,7 @@
 				6DB609C6185488CE0094E37D /* CTFAPIRKDescriptors.m in Sources */,
 				6DB609B0185488870094E37D /* CTFMainViewController.m in Sources */,
 				6DB609C2185488CE0094E37D /* CTFAPIAccounts.m in Sources */,
+				6D0FAA20185F8E5D0084F505 /* ArrayDataSource.m in Sources */,
 				6DB609B1185488870094E37D /* CTFRegisterViewController.m in Sources */,
 				6D65DE0C185EF32800C76A90 /* CTFDetailsJoinViewController.m in Sources */,
 				6DB609C8185488CE0094E37D /* CTFAPILocalCredentialsStore.m in Sources */,

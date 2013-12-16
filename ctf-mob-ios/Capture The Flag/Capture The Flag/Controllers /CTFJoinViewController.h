@@ -8,6 +8,8 @@
 
 #import "CTFViewController.h"
 
-@interface CTFJoinViewController : CTFViewController
+@interface CTFJoinViewController : CTFViewController <UITableViewDelegate>
+
+@property (nonatomic, readonly) UITableView *tableView;
 
 @end

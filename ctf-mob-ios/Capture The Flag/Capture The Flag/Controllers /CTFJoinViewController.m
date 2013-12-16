@@ -11,29 +11,34 @@
 #import "CTFJoinGameCell.h"
 #import "CTFGame.h"
 #import "CTFMap.h"
+#import "ArrayDataSource.h"
 
-@interface CTFJoinViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface CTFJoinViewController ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-
+@property (strong, nonatomic) IBOutlet ArrayDataSource *dataSource;
 @end
 
 @implementation CTFJoinViewController {
-    NSMutableArray *_content;
+    NSArray *_content;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self _prepareContent];
+    _content = [self _prepareContent];
+    
+    [_dataSource setItems:_content];
+    [_dataSource setCellIdentifier:NSStringFromClass([CTFJoinGameCell class])];
+    [_dataSource setConfigureCellBlock:^(CTFJoinGameCell *cell, CTFGame *game) {
+        cell.titleLabel.text = game.name;
+        cell.distanceLabel.text = @"1.2km";
+        cell.startDateLabel.text = @"23-12-2013 14:30";
+    }];
 }
 
 #warning [tsu] implement!
-- (void)_prepareContent {
-    if (!_content) {
-        _content = [NSMutableArray new];
-    } else {
-        [_content removeAllObjects];
-    }
+- (NSArray *)_prepareContent {
+    NSMutableArray *content = [NSMutableArray new];
     
     CTFGame *game = [CTFGame createObject];
     game.name = @"Potyczka na Jasnych Bł.";
@@ -43,7 +48,8 @@
     map.location = @[@(53.43485), @(14.566391)];
     game.map = map;
     
-    [_content addObject:game];
+    [content addObject:game];
+    return content;
 }
 
 - (void)viewDidLoad
@@ -51,32 +57,6 @@
     [super viewDidLoad];
 }
 
-
-#pragma mark - UITableViewDelegagte & DataSource
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _content.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-   
-    NSString *cellIdentifier = NSStringFromClass([CTFJoinGameCell class]);
-    CTFJoinGameCell *cell = (CTFJoinGameCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    
-    if (!cell) {
-        cell = [[CTFJoinGameCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
-    }
-
-    CTFGame *game = _content[indexPath.row];
-    cell.titleLabel.text = game.name;
-    cell.distanceLabel.text = @"1.2km";
-    cell.startDateLabel.text = @"23-12-2013 14:30";
-    
-    return cell;
-}
 
 #pragma mark - Segue support
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -90,10 +70,15 @@
 }
 
 
-
 #pragma mark - CTFViewControllerProtocol
 - (void)localizeUI {
     self.navigationItem.title = NSLocalizedString(@"view.join.navigation.title", nil);
+}
+
+
+#pragma mark - Accessors
+- (UITableView *)tableView {
+    return _tableView;
 }
 
 @end
