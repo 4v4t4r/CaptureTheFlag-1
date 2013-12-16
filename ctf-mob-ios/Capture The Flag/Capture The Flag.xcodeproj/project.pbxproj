@@ -38,6 +38,9 @@
 		6D65DE05185EE07C00C76A90 /* CTFJoinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D65DE04185EE07C00C76A90 /* CTFJoinViewController.m */; };
 		6D65DE08185EE20400C76A90 /* CTFJoinGameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D65DE07185EE20400C76A90 /* CTFJoinGameCell.m */; };
 		6D65DE0C185EF32800C76A90 /* CTFDetailsJoinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D65DE0B185EF32800C76A90 /* CTFDetailsJoinViewController.m */; };
+		6D65DE0E185EF8ED00C76A90 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D65DE0D185EF8ED00C76A90 /* MapKit.framework */; };
+		6D65DE11185F012000C76A90 /* MapViewAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D65DE10185F012000C76A90 /* MapViewAnnotation.m */; };
+		6D65DE14185F05A900C76A90 /* BLStream.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 6D65DE13185F05A900C76A90 /* BLStream.gpx */; };
 		6D6DF20F182B8B59004A4D58 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D6DF20D182B8B59004A4D58 /* Localizable.strings */; };
 		6D9BE0871854AF320036172C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D9BE0861854AF320036172C /* libPods.a */; };
 		6D9BE08A1854AF870036172C /* LoginAndRegister.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D9BE0881854AF870036172C /* LoginAndRegister.storyboard */; };
@@ -120,6 +123,10 @@
 		6D65DE07185EE20400C76A90 /* CTFJoinGameCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFJoinGameCell.m; sourceTree = "<group>"; };
 		6D65DE0A185EF32800C76A90 /* CTFDetailsJoinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFDetailsJoinViewController.h; sourceTree = "<group>"; };
 		6D65DE0B185EF32800C76A90 /* CTFDetailsJoinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFDetailsJoinViewController.m; sourceTree = "<group>"; };
+		6D65DE0D185EF8ED00C76A90 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		6D65DE0F185F012000C76A90 /* MapViewAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewAnnotation.h; sourceTree = "<group>"; };
+		6D65DE10185F012000C76A90 /* MapViewAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewAnnotation.m; sourceTree = "<group>"; };
+		6D65DE13185F05A900C76A90 /* BLStream.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = BLStream.gpx; sourceTree = "<group>"; };
 		6D6DF20E182B8B59004A4D58 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6D6DF210182B8B76004A4D58 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6D9BE0861854AF320036172C /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
@@ -200,6 +207,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D65DE0E185EF8ED00C76A90 /* MapKit.framework in Frameworks */,
 				6D9BE0871854AF320036172C /* libPods.a in Frameworks */,
 				6D071595184E59EF002C3023 /* MobileCoreServices.framework in Frameworks */,
 				6D071593184E59B8002C3023 /* SystemConfiguration.framework in Frameworks */,
@@ -303,6 +311,15 @@
 			name = Views;
 			sourceTree = "<group>";
 		};
+		6D65DE12185F012800C76A90 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				6D65DE0F185F012000C76A90 /* MapViewAnnotation.h */,
+				6D65DE10185F012000C76A90 /* MapViewAnnotation.m */,
+			);
+			name = Other;
+			sourceTree = "<group>";
+		};
 		6DB609A51854886A0094E37D /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -321,6 +338,7 @@
 				6DB609AA185488870094E37D /* CTFRegisterViewController.h */,
 				6DB609AB185488870094E37D /* CTFRegisterViewController.m */,
 				6D65DE09185EE20900C76A90 /* Views */,
+				6D65DE12185F012800C76A90 /* Other */,
 			);
 			name = Controllers;
 			path = "Controllers ";
@@ -407,6 +425,7 @@
 		6DFD192A182ACF0C00542227 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6D65DE0D185EF8ED00C76A90 /* MapKit.framework */,
 				6D9BE0861854AF320036172C /* libPods.a */,
 				6D071594184E59EF002C3023 /* MobileCoreServices.framework */,
 				6D0D87A8184D32AD002904AE /* SystemConfiguration.framework */,
@@ -443,6 +462,7 @@
 				6DFD1934182ACF0C00542227 /* InfoPlist.strings */,
 				6DFD1937182ACF0C00542227 /* main.m */,
 				6DFD1939182ACF0C00542227 /* Capture The Flag-Prefix.pch */,
+				6D65DE13185F05A900C76A90 /* BLStream.gpx */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -552,6 +572,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D65DE14185F05A900C76A90 /* BLStream.gpx in Resources */,
 				6D9BE08A1854AF870036172C /* LoginAndRegister.storyboard in Resources */,
 				6DFD1944182ACF0C00542227 /* Images.xcassets in Resources */,
 				6D6DF20F182B8B59004A4D58 /* Localizable.strings in Resources */,
@@ -664,6 +685,7 @@
 				6DB609EE1854A11A0094E37D /* CTFSession.m in Sources */,
 				6DB609AF185488870094E37D /* CTFLoginViewController.m in Sources */,
 				6D0715BC184FD965002C3023 /* Model.xcdatamodeld in Sources */,
+				6D65DE11185F012000C76A90 /* MapViewAnnotation.m in Sources */,
 				6DE9913C183AA00E005F3DB1 /* CoreDataService.m in Sources */,
 				6DB609EC1854A11A0094E37D /* CTFGame.m in Sources */,
 				6DB609EB1854A11A0094E37D /* CTFCharacter.m in Sources */,

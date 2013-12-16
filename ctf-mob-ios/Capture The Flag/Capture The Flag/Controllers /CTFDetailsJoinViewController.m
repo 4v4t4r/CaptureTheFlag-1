@@ -8,8 +8,12 @@
 
 #import "CTFDetailsJoinViewController.h"
 #import "CTFGame.h"
+#import "MapViewAnnotation.h"
 
-@interface CTFDetailsJoinViewController ()
+@import MapKit;
+
+@interface CTFDetailsJoinViewController () <MKMapViewDelegate>
+@property (weak, nonatomic) IBOutlet MKMapView *mapView;
 
 @end
 
@@ -21,11 +25,35 @@
 {
     [super viewDidLoad];
     
+    _mapView.delegate = self;
+    
     self.navigationItem.title = _game.name;
+    [self _configureMapView];
+}
+
+- (void)_configureMapView {
+    CLLocation *gameLocation = [[CLLocation alloc] initWithLatitude:53.43485 longitude:14.566391]; /// from _game.map.location
+    
+    MapViewAnnotation *annotation = [[MapViewAnnotation alloc] initWithTitle:_game.name andCoordinate:gameLocation.coordinate];
+    [_mapView addAnnotation:annotation];
 }
 
 - (void)setGame:(CTFGame *)game {
     _game = game;
+}
+
+
+#pragma mark - MKMapViewDelegate
+- (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views {
+    MKAnnotationView *annotationView = views[0];
+    id <MKAnnotation> annotation = [annotationView annotation];
+    
+    CLLocation *annotationLocation = [[CLLocation alloc] initWithLatitude:annotation.coordinate.latitude longitude:annotation.coordinate.longitude];
+    
+    CLLocationDistance offset = 1000;
+    CLLocationDistance distance = [annotationLocation distanceFromLocation:_mapView.userLocation.location];
+    MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(annotationLocation.coordinate, distance + offset, distance + offset);
+    [_mapView setRegion:viewRegion animated:YES];
 }
 
 @end

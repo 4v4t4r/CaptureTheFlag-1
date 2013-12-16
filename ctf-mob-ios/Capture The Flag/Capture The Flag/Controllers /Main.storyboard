@@ -157,9 +157,18 @@
                     <view key="view" contentMode="scaleToFill" id="bQV-p4-efJ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" pitchEnabled="NO" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GG4-3T-zgo">
+                                <rect key="frame" x="0.0" y="65" width="320" height="293"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </mapView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Game title" id="0uz-CP-LtD"/>
+                    <connections>
+                        <outlet property="mapView" destination="GG4-3T-zgo" id="I0y-Fi-ZZk"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AIn-zu-fec" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
