@@ -6,6 +6,16 @@
     "start_time": "14-12-2013 15:13:00",
     "max_players" : 6,
     "type": 1,
+    "map": {
+        "id": 1,
+        "name": "map's name",
+        "description": "map description",
+        "location": [12.33233, 43.12122],
+        "radius": 5.0,
+        "created_by": "owner name",
+        "created_date": "10-11-2013 12:12:00",
+        "modified_date": "10-11-2013 12:12:00"
+    },
     "created_date": "10-11-2013 13:12:00",
     "modified_date": "11-12-2013 10:15:00"
 }

@@ -12,8 +12,9 @@
 
 #import "CTFAPIRKDescriptors.h"
 #import "CoreDataService.h"
-#import "CTFUser.h"
 #import "CTFCharacter.h"
+#import "CTFMap.h"
+#import "CTFUser.h"
 
 @interface CTFAPIRKDescriptorsTests : XCTestCase
 
@@ -277,6 +278,31 @@
     RKPropertyMappingTestExpectation *typeExpectation =
     [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"type" destinationKeyPath:@"type" value:@(1)];
     [test addExpectation:typeExpectation];
+    
+    RKPropertyMappingTestExpectation *mapExpectation =
+    [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"map" destinationKeyPath:@"map" evaluationBlock:^BOOL(RKPropertyMappingTestExpectation *expectation, RKPropertyMapping *mapping, id mappedValue, NSError *__autoreleasing *error) {
+        
+        NSArray *commitedKeysToCompare = @[@"mapId, name, description, location, radius, createdBy, createdDate, modifiedDate"];
+        
+        CTFMap *map = (CTFMap *)mappedValue;
+        
+        CTFMap *referenceMap = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([CTFMap class]) inManagedObjectContext:_service.managedObjectContext];
+        referenceMap.mapId = @(1);
+        referenceMap.name = @"map's name";
+        referenceMap.desc = @"map description";
+        referenceMap.location = @[@(12.33233), @(43.12122)];
+        referenceMap.radius = @(5.0);
+        referenceMap.createdBy = @"owner name";
+        
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"dd-MM-YYYY hh-mm-ss"];
+        referenceMap.createdDate = [dateFormatter dateFromString:@"10-11-2013 12:12:00]"];
+        referenceMap.modifiedDate = [dateFormatter dateFromString:@"10-11-2013 12:12:00]"];
+        
+        return [[map committedValuesForKeys:commitedKeysToCompare] isEqual:[referenceMap committedValuesForKeys:commitedKeysToCompare]];
+    }];
+    [test addExpectation:mapExpectation];
+
     
     NSDate *createdDate = [dateFormatter dateFromString:@"10-11-2013 13:12:00"];
     RKPropertyMappingTestExpectation *createdDateExpectation =

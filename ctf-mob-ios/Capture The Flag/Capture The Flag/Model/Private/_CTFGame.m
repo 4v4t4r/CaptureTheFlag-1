@@ -7,7 +7,6 @@ const struct CTFGameAttributes CTFGameAttributes = {
 	.created_date = @"created_date",
 	.desc = @"desc",
 	.gameId = @"gameId",
-	.map = @"map",
 	.max_players = @"max_players",
 	.modified_date = @"modified_date",
 	.name = @"name",
@@ -17,6 +16,7 @@ const struct CTFGameAttributes CTFGameAttributes = {
 
 const struct CTFGameRelationships CTFGameRelationships = {
 	.items = @"items",
+	.map = @"map",
 	.players = @"players",
 };
 
@@ -111,13 +111,6 @@ const struct CTFGameFetchedProperties CTFGameFetchedProperties = {
 
 
 
-@dynamic map;
-
-
-
-
-
-
 @dynamic max_players;
 
 
@@ -202,6 +195,10 @@ const struct CTFGameFetchedProperties CTFGameFetchedProperties = {
 	[self didAccessValueForKey:@"items"];
 	return result;
 }
+	
+
+@dynamic map;
+
 	
 
 @dynamic players;

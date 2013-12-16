@@ -13,14 +13,14 @@
         <attribute name="created_date" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="desc" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="gameId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="map" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="max_players" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="modified_date" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="start_time" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="status" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <relationship name="items" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CTFItem" inverseName="game" inverseEntity="CTFItem" syncable="YES"/>
-        <relationship name="players" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CTFUser" inverseName="game" inverseEntity="CTFUser" syncable="YES"/>
+        <relationship name="map" optional="YES" transient="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CTFMap" inverseName="game" inverseEntity="CTFMap" syncable="YES"/>
+        <relationship name="players" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CTFMap" syncable="YES"/>
     </entity>
     <entity name="CTFItem" representedClassName="CTFItem" syncable="YES">
         <attribute name="desc" optional="YES" attributeType="String" syncable="YES"/>
@@ -39,6 +39,7 @@
         <attribute name="modifiedDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="name" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <attribute name="radius" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <relationship name="game" optional="YES" transient="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CTFGame" inverseName="map" inverseEntity="CTFGame" syncable="YES"/>
     </entity>
     <entity name="CTFSession" representedClassName="CTFSession" syncable="YES">
         <attribute name="token" optional="YES" attributeType="String" syncable="YES">
@@ -66,8 +67,8 @@
         <element name="CTFCharacter" positionX="0" positionY="0" width="0" height="0"/>
         <element name="CTFGame" positionX="0" positionY="0" width="0" height="0"/>
         <element name="CTFItem" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="CTFMap" positionX="0" positionY="0" width="0" height="0"/>
         <element name="CTFSession" positionX="0" positionY="0" width="0" height="0"/>
         <element name="CTFUser" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="CTFMap" positionX="0" positionY="0" width="0" height="0"/>
     </elements>
 </model>

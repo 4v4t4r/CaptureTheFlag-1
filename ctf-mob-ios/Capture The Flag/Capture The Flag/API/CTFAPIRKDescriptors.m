@@ -83,6 +83,10 @@ static CTFAPIRKDescriptors *_sharedInstance = nil;
     [RKEntityMapping mappingForEntityForName:NSStringFromClass([CTFGame class]) inManagedObjectStore:_manager.managedObjectStore];
     [gameMapping addAttributeMappingsFromDictionary:[self _gameMappingDict]];
     
+    RKRelationshipMapping *mapMapping =
+    [RKRelationshipMapping relationshipMappingFromKeyPath:@"map" toKeyPath:@"map" withMapping:[self mapMapping]];
+    [gameMapping addPropertyMapping:mapMapping];
+    
     return gameMapping;
 }
 

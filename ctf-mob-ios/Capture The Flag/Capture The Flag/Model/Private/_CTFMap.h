@@ -16,11 +16,13 @@ extern const struct CTFMapAttributes {
 } CTFMapAttributes;
 
 extern const struct CTFMapRelationships {
+	__unsafe_unretained NSString *game;
 } CTFMapRelationships;
 
 extern const struct CTFMapFetchedProperties {
 } CTFMapFetchedProperties;
 
+@class CTFGame;
 
 
 
@@ -132,6 +134,13 @@ extern const struct CTFMapFetchedProperties {
 
 
 
+@property (nonatomic, strong) CTFGame *game;
+
+//- (BOOL)validateGame:(id*)value_ error:(NSError**)error_;
+
+
+
+
 
 @end
 
@@ -194,6 +203,11 @@ extern const struct CTFMapFetchedProperties {
 - (void)setPrimitiveRadiusValue:(float)value_;
 
 
+
+
+
+- (CTFGame*)primitiveGame;
+- (void)setPrimitiveGame:(CTFGame*)value;
 
 
 @end

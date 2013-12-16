@@ -15,6 +15,7 @@ const struct CTFMapAttributes CTFMapAttributes = {
 };
 
 const struct CTFMapRelationships CTFMapRelationships = {
+	.game = @"game",
 };
 
 const struct CTFMapFetchedProperties CTFMapFetchedProperties = {
@@ -156,6 +157,10 @@ const struct CTFMapFetchedProperties CTFMapFetchedProperties = {
 
 
 
+
+@dynamic game;
+
+	
 
 
 

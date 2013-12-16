@@ -8,7 +8,6 @@ extern const struct CTFGameAttributes {
 	__unsafe_unretained NSString *created_date;
 	__unsafe_unretained NSString *desc;
 	__unsafe_unretained NSString *gameId;
-	__unsafe_unretained NSString *map;
 	__unsafe_unretained NSString *max_players;
 	__unsafe_unretained NSString *modified_date;
 	__unsafe_unretained NSString *name;
@@ -18,6 +17,7 @@ extern const struct CTFGameAttributes {
 
 extern const struct CTFGameRelationships {
 	__unsafe_unretained NSString *items;
+	__unsafe_unretained NSString *map;
 	__unsafe_unretained NSString *players;
 } CTFGameRelationships;
 
@@ -25,12 +25,12 @@ extern const struct CTFGameFetchedProperties {
 } CTFGameFetchedProperties;
 
 @class CTFItem;
-@class CTFUser;
+@class CTFMap;
+@class CTFMap;
 
 
 
 
-@class NSObject;
 
 
 
@@ -79,16 +79,6 @@ extern const struct CTFGameFetchedProperties {
 - (void)setGameIdValue:(int32_t)value_;
 
 //- (BOOL)validateGameId:(id*)value_ error:(NSError**)error_;
-
-
-
-
-
-@property (nonatomic, strong) id map;
-
-
-
-//- (BOOL)validateMap:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -159,6 +149,13 @@ extern const struct CTFGameFetchedProperties {
 
 
 
+@property (nonatomic, strong) CTFMap *map;
+
+//- (BOOL)validateMap:(id*)value_ error:(NSError**)error_;
+
+
+
+
 @property (nonatomic, strong) NSSet *players;
 
 - (NSMutableSet*)playersSet;
@@ -178,8 +175,8 @@ extern const struct CTFGameFetchedProperties {
 
 - (void)addPlayers:(NSSet*)value_;
 - (void)removePlayers:(NSSet*)value_;
-- (void)addPlayersObject:(CTFUser*)value_;
-- (void)removePlayersObject:(CTFUser*)value_;
+- (void)addPlayersObject:(CTFMap*)value_;
+- (void)removePlayersObject:(CTFMap*)value_;
 
 @end
 
@@ -203,12 +200,6 @@ extern const struct CTFGameFetchedProperties {
 
 - (int32_t)primitiveGameIdValue;
 - (void)setPrimitiveGameIdValue:(int32_t)value_;
-
-
-
-
-- (id)primitiveMap;
-- (void)setPrimitiveMap:(id)value;
 
 
 
@@ -252,6 +243,11 @@ extern const struct CTFGameFetchedProperties {
 
 - (NSMutableSet*)primitiveItems;
 - (void)setPrimitiveItems:(NSMutableSet*)value;
+
+
+
+- (CTFMap*)primitiveMap;
+- (void)setPrimitiveMap:(CTFMap*)value;
 
 
 
