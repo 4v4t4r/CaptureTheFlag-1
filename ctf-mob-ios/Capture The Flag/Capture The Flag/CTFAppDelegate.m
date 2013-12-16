@@ -14,7 +14,7 @@
 #import "CTFAPIRKDescriptors.h"
 
 #import "STKeychain.h"
-#import "CTFLocalCredentialsStore.h"
+#import "CTFAPILocalCredentialsStore.h"
 
 @implementation CTFAppDelegate
 
@@ -47,8 +47,8 @@
     [CTFAPIConnection setSharedConnection:connection];
 
     /// Configure CredentialsStore
-    CTFLocalCredentialsStore *credentialsStore = [[CTFLocalCredentialsStore alloc] initWithKeychain:[STKeychain sharedInstance]];
-    [CTFLocalCredentialsStore setSharedInstance:credentialsStore];
+    CTFAPILocalCredentialsStore *credentialsStore = [[CTFAPILocalCredentialsStore alloc] initWithKeychain:[STKeychain sharedInstance]];
+    [CTFAPILocalCredentialsStore setSharedInstance:credentialsStore];
     
     /// Load view
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"LoginAndRegister" bundle:nil];

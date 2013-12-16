@@ -13,12 +13,14 @@ extern const struct CTFCharacterAttributes {
 } CTFCharacterAttributes;
 
 extern const struct CTFCharacterRelationships {
+	__unsafe_unretained NSString *game;
 	__unsafe_unretained NSString *user;
 } CTFCharacterRelationships;
 
 extern const struct CTFCharacterFetchedProperties {
 } CTFCharacterFetchedProperties;
 
+@class CTFGame;
 @class CTFUser;
 
 
@@ -110,6 +112,13 @@ extern const struct CTFCharacterFetchedProperties {
 
 
 
+@property (nonatomic, strong) CTFGame *game;
+
+//- (BOOL)validateGame:(id*)value_ error:(NSError**)error_;
+
+
+
+
 @property (nonatomic, strong) CTFUser *user;
 
 //- (BOOL)validateUser:(id*)value_ error:(NSError**)error_;
@@ -170,6 +179,11 @@ extern const struct CTFCharacterFetchedProperties {
 - (void)setPrimitiveTypeValue:(int16_t)value_;
 
 
+
+
+
+- (CTFGame*)primitiveGame;
+- (void)setPrimitiveGame:(CTFGame*)value;
 
 
 

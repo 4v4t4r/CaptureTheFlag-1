@@ -14,7 +14,6 @@ extern const struct CTFUserAttributes {
 
 extern const struct CTFUserRelationships {
 	__unsafe_unretained NSString *characters;
-	__unsafe_unretained NSString *game;
 	__unsafe_unretained NSString *session;
 } CTFUserRelationships;
 
@@ -22,7 +21,6 @@ extern const struct CTFUserFetchedProperties {
 } CTFUserFetchedProperties;
 
 @class CTFCharacter;
-@class CTFGame;
 @class CTFSession;
 
 
@@ -101,13 +99,6 @@ extern const struct CTFUserFetchedProperties {
 
 
 
-@property (nonatomic, strong) CTFGame *game;
-
-//- (BOOL)validateGame:(id*)value_ error:(NSError**)error_;
-
-
-
-
 @property (nonatomic, strong) CTFSession *session;
 
 //- (BOOL)validateSession:(id*)value_ error:(NSError**)error_;
@@ -163,11 +154,6 @@ extern const struct CTFUserFetchedProperties {
 
 - (NSMutableOrderedSet*)primitiveCharacters;
 - (void)setPrimitiveCharacters:(NSMutableOrderedSet*)value;
-
-
-
-- (CTFGame*)primitiveGame;
-- (void)setPrimitiveGame:(CTFGame*)value;
 
 
 

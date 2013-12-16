@@ -13,7 +13,6 @@ const struct CTFUserAttributes CTFUserAttributes = {
 
 const struct CTFUserRelationships CTFUserRelationships = {
 	.characters = @"characters",
-	.game = @"game",
 	.session = @"session",
 };
 
@@ -99,10 +98,6 @@ const struct CTFUserFetchedProperties CTFUserFetchedProperties = {
 	[self didAccessValueForKey:@"characters"];
 	return result;
 }
-	
-
-@dynamic game;
-
 	
 
 @dynamic session;

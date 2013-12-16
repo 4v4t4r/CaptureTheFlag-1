@@ -12,6 +12,7 @@ const struct CTFCharacterAttributes CTFCharacterAttributes = {
 };
 
 const struct CTFCharacterRelationships CTFCharacterRelationships = {
+	.game = @"game",
 	.user = @"user",
 };
 
@@ -205,6 +206,10 @@ const struct CTFCharacterFetchedProperties CTFCharacterFetchedProperties = {
 
 
 
+
+@dynamic game;
+
+	
 
 @dynamic user;
 

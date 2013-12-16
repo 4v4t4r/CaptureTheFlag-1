@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface CTFLocalCredentials : NSObject
+@interface CTFAPILocalCredentials : NSObject
 
 @property (readonly) NSString *username;
 @property (readonly) NSString *password;

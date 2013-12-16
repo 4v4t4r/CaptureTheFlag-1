@@ -8,41 +8,41 @@
 
 #import <XCTest/XCTest.h>
 #import <OCMock/OCMock.h>
-#import "CTFLocalCredentialsStore.h"
-#import "CTFLocalCredentials.h"
+#import "CTFAPILocalCredentialsStore.h"
+#import "CTFAPILocalCredentials.h"
 #import "STKeychain.h"
 
-@interface CTFLocalCredentialsStoreTests : XCTestCase
+@interface CTFAPILocalCredentialsStoreTests : XCTestCase
 
 @end
 
-@implementation CTFLocalCredentialsStoreTests
+@implementation CTFAPILocalCredentialsStoreTests
 
 - (void)setUp {
     [super setUp];
-    [CTFLocalCredentialsStore setSharedInstance:nil];
+    [CTFAPILocalCredentialsStore setSharedInstance:nil];
 }
 
 - (void)tearDown {
-    [CTFLocalCredentialsStore setSharedInstance:nil];
+    [CTFAPILocalCredentialsStore setSharedInstance:nil];
     [super tearDown];
 }
 
 - (void)testShouldInitWithKeychain {
-    CTFLocalCredentialsStore *store = [[CTFLocalCredentialsStore alloc] initWithKeychain:[STKeychain sharedInstance]];
+    CTFAPILocalCredentialsStore *store = [[CTFAPILocalCredentialsStore alloc] initWithKeychain:[STKeychain sharedInstance]];
     XCTAssertNotNil(store, @"");
 }
 
 - (void)testShouldNotInitWithNil {
-    CTFLocalCredentialsStore *store = [[CTFLocalCredentialsStore alloc] initWithKeychain:nil];
+    CTFAPILocalCredentialsStore *store = [[CTFAPILocalCredentialsStore alloc] initWithKeychain:nil];
     XCTAssertNil(store, @"");
 }
 
 - (void)testSharedInstanceShouldBeNotNilAfterAssignment {
-    CTFLocalCredentialsStore *store = [[CTFLocalCredentialsStore alloc] initWithKeychain:[STKeychain sharedInstance]];
-    XCTAssertNil([CTFLocalCredentialsStore sharedInstance], @"");
-    [CTFLocalCredentialsStore setSharedInstance:store];
-    XCTAssertNotNil([CTFLocalCredentialsStore sharedInstance], @"");
+    CTFAPILocalCredentialsStore *store = [[CTFAPILocalCredentialsStore alloc] initWithKeychain:[STKeychain sharedInstance]];
+    XCTAssertNil([CTFAPILocalCredentialsStore sharedInstance], @"");
+    [CTFAPILocalCredentialsStore setSharedInstance:store];
+    XCTAssertNotNil([CTFAPILocalCredentialsStore sharedInstance], @"");
 }
 
 - (void)testShouldStoreCredentials {
@@ -52,9 +52,9 @@
     NSError *error = nil;
     [[[mockKeychain expect] andReturnValue:OCMOCK_VALUE(result)] storeUsername:OCMOCK_ANY andPassword:OCMOCK_ANY forServiceName:OCMOCK_ANY updateExisting:YES error:[OCMArg setTo:error]];
     
-    CTFLocalCredentials *credentials = [[CTFLocalCredentials alloc] initWithUsername:@"username" password:@"password"];
+    CTFAPILocalCredentials *credentials = [[CTFAPILocalCredentials alloc] initWithUsername:@"username" password:@"password"];
     
-    CTFLocalCredentialsStore *store = [[CTFLocalCredentialsStore alloc] initWithKeychain:mockKeychain];
+    CTFAPILocalCredentialsStore *store = [[CTFAPILocalCredentialsStore alloc] initWithKeychain:mockKeychain];
     [store storeCredentials:credentials];
     
     [mockKeychain verify];
@@ -71,8 +71,8 @@
 
     [[[mockKeychain expect] andReturn:storedPassword] getPasswordForUsername:OCMOCK_ANY andServiceName:OCMOCK_ANY error:[OCMArg setTo:error]];
     
-    CTFLocalCredentialsStore *store = [[CTFLocalCredentialsStore alloc] initWithKeychain:mockKeychain];
-    CTFLocalCredentials *credentials = [store getCredentials];
+    CTFAPILocalCredentialsStore *store = [[CTFAPILocalCredentialsStore alloc] initWithKeychain:mockKeychain];
+    CTFAPILocalCredentials *credentials = [store getCredentials];
     [mockKeychain verify];
 
     XCTAssertNotNil(credentials, @"");

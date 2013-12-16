@@ -6,10 +6,10 @@
 //  Copyright (c) 2013 Tomasz Szulc. All rights reserved.
 //
 
-#import "CTFAPICredentials.h"
-#import "CTFAPICredentials+Validator.h"
+#import "CTFAPILocalCredentialsValidator.h"
+#import "CTFAPILocalCredentialsValidator+Validator.h"
 
-@implementation CTFAPICredentials
+@implementation CTFAPILocalCredentialsValidator
 
 + (CredentialsValidationResult)validateSignUpCredentialsWithUsername:(NSString *)username
                                                         emailAddress:(NSString *)emailAddress
@@ -22,15 +22,15 @@
         return CredentialsValidationResultFailure;
     }
     
-    ValidationResult usernameResult = [CTFAPICredentials validateCredential:username
+    ValidationResult usernameResult = [CTFAPILocalCredentialsValidator validateCredential:username
                                                                 withType:CredentialTypeUsername];
-    ValidationResult emailResult = [CTFAPICredentials validateCredential:emailAddress
+    ValidationResult emailResult = [CTFAPILocalCredentialsValidator validateCredential:emailAddress
                                                              withType:CredentialTypeEmail];
     
     ValidationResult passwordResult = ValidationWrongCredentials;
     BOOL theSamePasswords = [password isEqualToString:repassword];
     if (theSamePasswords)
-        passwordResult = [CTFAPICredentials validateCredential:password
+        passwordResult = [CTFAPILocalCredentialsValidator validateCredential:password
                                                    withType:CredentialTypePassword];
     
     CredentialsValidationResult result = CredentialsValidationResultUndefined;
@@ -59,10 +59,10 @@
     }
     
     ValidationResult usernameResult =
-    [CTFAPICredentials validateCredential:username withType:CredentialTypeUsername];
+    [CTFAPILocalCredentialsValidator validateCredential:username withType:CredentialTypeUsername];
     
     ValidationResult passwordResult =
-    [CTFAPICredentials validateCredential:password withType:CredentialTypePassword];
+    [CTFAPILocalCredentialsValidator validateCredential:password withType:CredentialTypePassword];
     
     CredentialsValidationResult result = CredentialsValidationResultUndefined;
     if (usernameResult == ValidationOK &&

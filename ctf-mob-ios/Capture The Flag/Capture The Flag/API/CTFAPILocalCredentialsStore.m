@@ -6,11 +6,11 @@
 //  Copyright (c) 2013 Tomasz Szulc. All rights reserved.
 //
 
-#import "CTFLocalCredentialsStore.h"
-#import "CTFLocalCredentials.h"
+#import "CTFAPILocalCredentialsStore.h"
+#import "CTFAPILocalCredentials.h"
 #import "STKeychain.h"
 
-@implementation CTFLocalCredentialsStore {
+@implementation CTFAPILocalCredentialsStore {
     STKeychain *_keychain;
 }
 
@@ -20,8 +20,8 @@
     }
 }
 
-static CTFLocalCredentialsStore *sharedInstance = nil;
-+ (void)setSharedInstance:(CTFLocalCredentialsStore *)instance {
+static CTFAPILocalCredentialsStore *sharedInstance = nil;
++ (void)setSharedInstance:(CTFAPILocalCredentialsStore *)instance {
     sharedInstance = instance;
 }
 
@@ -36,11 +36,11 @@ static CTFLocalCredentialsStore *sharedInstance = nil;
     return self;
 }
 
-- (BOOL)storeCredentials:(CTFLocalCredentials *)credentials {
+- (BOOL)storeCredentials:(CTFAPILocalCredentials *)credentials {
     if (!credentials)
         return NO;
     
-    NSString *key = [CTFLocalCredentialsStore _key];
+    NSString *key = [CTFAPILocalCredentialsStore _key];
     NSString *objectToStore = [NSString stringWithFormat:@"%@,%@", credentials.username, credentials.password];
     NSError *error = nil;
     BOOL stored = [_keychain storeUsername:key andPassword:objectToStore forServiceName:key updateExisting:YES error:&error];
@@ -50,17 +50,17 @@ static CTFLocalCredentialsStore *sharedInstance = nil;
     return stored;
 }
 
-- (CTFLocalCredentials *)getCredentials {
-    NSString *key = [CTFLocalCredentialsStore _key];
+- (CTFAPILocalCredentials *)getCredentials {
+    NSString *key = [CTFAPILocalCredentialsStore _key];
     NSError *error = nil;
     NSString *storedObject = [_keychain getPasswordForUsername:key andServiceName:key error:&error];
    
-    CTFLocalCredentials *credentials = nil;
+    CTFAPILocalCredentials *credentials = nil;
     if (!error) {
         NSArray *components = [storedObject componentsSeparatedByString:@","];
         
         if (components.count == 2)
-            credentials = [[CTFLocalCredentials alloc] initWithUsername:components[0] password:components[1]];
+            credentials = [[CTFAPILocalCredentials alloc] initWithUsername:components[0] password:components[1]];
     } else {
         NSLog(@"%s, %@", __PRETTY_FUNCTION__, [error localizedDescription]);
     }

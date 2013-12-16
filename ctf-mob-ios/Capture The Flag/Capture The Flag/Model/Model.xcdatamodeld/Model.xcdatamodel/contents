@@ -6,6 +6,7 @@
         <attribute name="totalScore" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="totalTime" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="game" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CTFGame" inverseName="players" inverseEntity="CTFGame" syncable="YES"/>
         <relationship name="user" optional="YES" transient="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CTFUser" inverseName="characters" inverseEntity="CTFUser" syncable="YES"/>
     </entity>
     <entity name="CTFGame" representedClassName="CTFGame" syncable="YES">
@@ -19,7 +20,7 @@
         <attribute name="status" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <relationship name="items" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CTFItem" inverseName="game" inverseEntity="CTFItem" syncable="YES"/>
         <relationship name="map" optional="YES" transient="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CTFMap" inverseName="game" inverseEntity="CTFMap" syncable="YES"/>
-        <relationship name="players" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CTFCharacter" syncable="YES"/>
+        <relationship name="players" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CTFCharacter" inverseName="game" inverseEntity="CTFCharacter" syncable="YES"/>
     </entity>
     <entity name="CTFItem" representedClassName="CTFItem" syncable="YES">
         <attribute name="desc" optional="YES" attributeType="String" syncable="YES"/>
@@ -59,15 +60,14 @@
         <attribute name="password" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="characters" optional="YES" transient="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="CTFCharacter" inverseName="user" inverseEntity="CTFCharacter" syncable="YES"/>
-        <relationship name="game" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CTFGame" inverseName="players" inverseEntity="CTFGame" syncable="YES"/>
         <relationship name="session" optional="YES" transient="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CTFSession" inverseName="currentUser" inverseEntity="CTFSession" syncable="YES"/>
     </entity>
     <elements>
-        <element name="CTFCharacter" positionX="-72" positionY="45" width="128" height="135"/>
-        <element name="CTFGame" positionX="-90" positionY="231" width="128" height="210"/>
-        <element name="CTFItem" positionX="171" positionY="-279" width="128" height="135"/>
-        <element name="CTFMap" positionX="268" positionY="-117" width="128" height="180"/>
-        <element name="CTFSession" positionX="-486" positionY="324" width="128" height="75"/>
-        <element name="CTFUser" positionX="-315" positionY="51" width="128" height="165"/>
+        <element name="CTFCharacter" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="CTFGame" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="CTFItem" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="CTFMap" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="CTFSession" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="CTFUser" positionX="0" positionY="0" width="0" height="0"/>
     </elements>
 </model>
