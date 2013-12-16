@@ -1,7 +1,7 @@
-/* General - It's place for general words */
+/* GENERAL - It's place for general words */
 "button.OK" = "OK";
 
-/* Login */
+/* LOGIN */
 /* Title of navigation bar */
 "view.login.navigation.title" = "Witaj w Capture The Flag";
 
@@ -35,7 +35,7 @@
 
 
 
-/* Register */
+/* REGISTER */
 /* Title of navigation bar */
 "view.register.navigation.title" = "Create Account";
 
@@ -74,3 +74,10 @@
 
 /* Registration failed */
 "view.register.alert.registration.message.failure" = "Error during registration process. Try again";
+
+
+/* JOIN */
+/* title of navigation bar */
+"view.join.navigation.title" = "Select game";
+
+

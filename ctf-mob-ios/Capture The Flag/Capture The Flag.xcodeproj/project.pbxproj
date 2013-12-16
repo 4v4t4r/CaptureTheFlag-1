@@ -35,6 +35,8 @@
 		6D0D87A5184D324C002904AE /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D0D87A4184D324C002904AE /* Security.framework */; };
 		6D0D87AB184D3488002904AE /* CTFLocalCredentialsStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0D87AA184D3488002904AE /* CTFLocalCredentialsStoreTests.m */; };
 		6D1825D7184A36120039FD92 /* CTFAPICredentialsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D1825D6184A36120039FD92 /* CTFAPICredentialsTests.m */; };
+		6D65DE05185EE07C00C76A90 /* CTFJoinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D65DE04185EE07C00C76A90 /* CTFJoinViewController.m */; };
+		6D65DE08185EE20400C76A90 /* CTFJoinGameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D65DE07185EE20400C76A90 /* CTFJoinGameCell.m */; };
 		6D6DF20F182B8B59004A4D58 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D6DF20D182B8B59004A4D58 /* Localizable.strings */; };
 		6D9BE0871854AF320036172C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D9BE0861854AF320036172C /* libPods.a */; };
 		6D9BE08A1854AF870036172C /* LoginAndRegister.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D9BE0881854AF870036172C /* LoginAndRegister.storyboard */; };
@@ -111,6 +113,10 @@
 		6D0D87A8184D32AD002904AE /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		6D0D87AA184D3488002904AE /* CTFLocalCredentialsStoreTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFLocalCredentialsStoreTests.m; sourceTree = "<group>"; };
 		6D1825D6184A36120039FD92 /* CTFAPICredentialsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFAPICredentialsTests.m; sourceTree = "<group>"; };
+		6D65DE03185EE07C00C76A90 /* CTFJoinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFJoinViewController.h; sourceTree = "<group>"; };
+		6D65DE04185EE07C00C76A90 /* CTFJoinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFJoinViewController.m; sourceTree = "<group>"; };
+		6D65DE06185EE20400C76A90 /* CTFJoinGameCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFJoinGameCell.h; sourceTree = "<group>"; };
+		6D65DE07185EE20400C76A90 /* CTFJoinGameCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFJoinGameCell.m; sourceTree = "<group>"; };
 		6D6DF20E182B8B59004A4D58 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6D6DF210182B8B76004A4D58 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6D9BE0861854AF320036172C /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
@@ -285,6 +291,15 @@
 			path = API;
 			sourceTree = "<group>";
 		};
+		6D65DE09185EE20900C76A90 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				6D65DE06185EE20400C76A90 /* CTFJoinGameCell.h */,
+				6D65DE07185EE20400C76A90 /* CTFJoinGameCell.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 		6DB609A51854886A0094E37D /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -292,12 +307,15 @@
 				6DB609AD185488870094E37D /* CTFViewController.m */,
 				6DB609AE185488870094E37D /* CTFViewControllerProtocol.h */,
 				6DB609B3185488960094E37D /* Storyboards */,
+				6D65DE03185EE07C00C76A90 /* CTFJoinViewController.h */,
+				6D65DE04185EE07C00C76A90 /* CTFJoinViewController.m */,
 				6DB609A8185488870094E37D /* CTFMainViewController.h */,
 				6DB609A9185488870094E37D /* CTFMainViewController.m */,
 				6DB609A6185488870094E37D /* CTFLoginViewController.h */,
 				6DB609A7185488870094E37D /* CTFLoginViewController.m */,
 				6DB609AA185488870094E37D /* CTFRegisterViewController.h */,
 				6DB609AB185488870094E37D /* CTFRegisterViewController.m */,
+				6D65DE09185EE20900C76A90 /* Views */,
 			);
 			name = Controllers;
 			path = "Controllers ";
@@ -635,6 +653,7 @@
 				6DB609B1185488870094E37D /* CTFRegisterViewController.m in Sources */,
 				6DB609C8185488CE0094E37D /* CTFLocalCredentialsStore.m in Sources */,
 				6DB609C3185488CE0094E37D /* CTFAPIConnection.m in Sources */,
+				6D65DE08185EE20400C76A90 /* CTFJoinGameCell.m in Sources */,
 				6DB609B2185488870094E37D /* CTFViewController.m in Sources */,
 				6DB609EE1854A11A0094E37D /* CTFSession.m in Sources */,
 				6DB609AF185488870094E37D /* CTFLoginViewController.m in Sources */,
@@ -646,6 +665,7 @@
 				6DB609C4185488CE0094E37D /* CTFAPICredentials.m in Sources */,
 				6DB609E81854A11A0094E37D /* _CTFItem.m in Sources */,
 				6D0D879B184D26BC002904AE /* STKeychain.m in Sources */,
+				6D65DE05185EE07C00C76A90 /* CTFJoinViewController.m in Sources */,
 				6DB609E71854A11A0094E37D /* _CTFGame.m in Sources */,
 				6DB609E91854A11A0094E37D /* _CTFSession.m in Sources */,
 				6DE99141183AA128005F3DB1 /* CustomManagedObject.m in Sources */,
