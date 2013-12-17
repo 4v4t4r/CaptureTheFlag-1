@@ -56,5 +56,28 @@
     XCTAssertEqualObjects(dataSource.cellIdentifier, cellIdentifier, @"");
 }
 
+- (void)testDataSource {
+    /// Data Source
+    [dataSource setItems:@[@"A"]];
+    [dataSource setConfigureCellBlock:^(UITableViewCell *cell, NSString *object) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-retain-cycles"
+        XCTAssertNotNil(cell, @"");
+        XCTAssertEqualObjects(object, @"A", @"");
+#pragma clang diagnostic pop
+    }];
+    
+    /// Table View
+    id mockTableView = [OCMockObject niceMockForClass:[UITableView class]];
+    [[[mockTableView stub] andReturn:dataSource] dataSource];
+    
+    UITableViewCell *cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    
+    [[[mockTableView stub] andReturn:cell] dequeueReusableCellWithIdentifier:OCMOCK_ANY forIndexPath:OCMOCK_ANY];
+
+    [[mockTableView dataSource] tableView:mockTableView cellForRowAtIndexPath:indexPath];
+}
+
 
 @end

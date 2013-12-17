@@ -37,7 +37,7 @@
 }
 
 - (void)setConfigureCellBlock:(ConfigureCellBlock)block {
-    _configureCellBlock = block;
+    _configureCellBlock = [block copy];
 }
 
 
