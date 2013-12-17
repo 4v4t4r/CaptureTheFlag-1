@@ -81,3 +81,8 @@
 "view.join.navigation.title" = "Select game";
 
 
+/* PROFILE */
+/* title of navigation bar */
+"view.profile.navigation.title" = "Profile";
+
+

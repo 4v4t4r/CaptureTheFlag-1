@@ -37,6 +37,8 @@
 		6D0FAA20185F8E5D0084F505 /* ArrayDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0FAA1F185F8E5D0084F505 /* ArrayDataSource.m */; };
 		6D0FAA22185F9B6D0084F505 /* CTFJoinViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0FAA21185F9B6D0084F505 /* CTFJoinViewControllerTests.m */; };
 		6D0FAA26185F9EBA0084F505 /* ArrayDataSourceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0FAA25185F9EBA0084F505 /* ArrayDataSourceTests.m */; };
+		6D0FAA2918610A8B0084F505 /* CTFProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0FAA2818610A8B0084F505 /* CTFProfileViewController.m */; };
+		6D0FAA2B18610AF80084F505 /* CTFProfileViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0FAA2A18610AF80084F505 /* CTFProfileViewControllerTests.m */; };
 		6D1825D7184A36120039FD92 /* CTFAPICredentialsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D1825D6184A36120039FD92 /* CTFAPICredentialsTests.m */; };
 		6D65DE05185EE07C00C76A90 /* CTFJoinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D65DE04185EE07C00C76A90 /* CTFJoinViewController.m */; };
 		6D65DE08185EE20400C76A90 /* CTFJoinGameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D65DE07185EE20400C76A90 /* CTFJoinGameCell.m */; };
@@ -128,6 +130,9 @@
 		6D0FAA1F185F8E5D0084F505 /* ArrayDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrayDataSource.m; sourceTree = "<group>"; };
 		6D0FAA21185F9B6D0084F505 /* CTFJoinViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFJoinViewControllerTests.m; sourceTree = "<group>"; };
 		6D0FAA25185F9EBA0084F505 /* ArrayDataSourceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrayDataSourceTests.m; sourceTree = "<group>"; };
+		6D0FAA2718610A8B0084F505 /* CTFProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFProfileViewController.h; sourceTree = "<group>"; };
+		6D0FAA2818610A8B0084F505 /* CTFProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFProfileViewController.m; sourceTree = "<group>"; };
+		6D0FAA2A18610AF80084F505 /* CTFProfileViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFProfileViewControllerTests.m; sourceTree = "<group>"; };
 		6D1825D6184A36120039FD92 /* CTFAPICredentialsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFAPICredentialsTests.m; sourceTree = "<group>"; };
 		6D65DE03185EE07C00C76A90 /* CTFJoinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFJoinViewController.h; sourceTree = "<group>"; };
 		6D65DE04185EE07C00C76A90 /* CTFJoinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFJoinViewController.m; sourceTree = "<group>"; };
@@ -301,6 +306,7 @@
 				6DE0FCD3182C5ABD00800C09 /* CTFRegisterViewControllerTests.m */,
 				6D9CBE69183AB4BB000FE071 /* CTFMainViewControllerTests.m */,
 				6D0FAA21185F9B6D0084F505 /* CTFJoinViewControllerTests.m */,
+				6D0FAA2A18610AF80084F505 /* CTFProfileViewControllerTests.m */,
 			);
 			name = "UI Tests";
 			sourceTree = "<group>";
@@ -361,6 +367,8 @@
 				6DB609A9185488870094E37D /* CTFMainViewController.m */,
 				6DB609A6185488870094E37D /* CTFLoginViewController.h */,
 				6DB609A7185488870094E37D /* CTFLoginViewController.m */,
+				6D0FAA2718610A8B0084F505 /* CTFProfileViewController.h */,
+				6D0FAA2818610A8B0084F505 /* CTFProfileViewController.m */,
 				6DB609AA185488870094E37D /* CTFRegisterViewController.h */,
 				6DB609AB185488870094E37D /* CTFRegisterViewController.m */,
 				6D65DE09185EE20900C76A90 /* Views */,
@@ -709,6 +717,7 @@
 				6DB609C6185488CE0094E37D /* CTFAPIRKDescriptors.m in Sources */,
 				6DB609B0185488870094E37D /* CTFMainViewController.m in Sources */,
 				6DB609C2185488CE0094E37D /* CTFAPIAccounts.m in Sources */,
+				6D0FAA2918610A8B0084F505 /* CTFProfileViewController.m in Sources */,
 				6D0FAA20185F8E5D0084F505 /* ArrayDataSource.m in Sources */,
 				6DB609B1185488870094E37D /* CTFRegisterViewController.m in Sources */,
 				6D65DE0C185EF32800C76A90 /* CTFDetailsJoinViewController.m in Sources */,
@@ -755,6 +764,7 @@
 				6D0FAA26185F9EBA0084F505 /* ArrayDataSourceTests.m in Sources */,
 				6D0D87AB184D3488002904AE /* CTFAPILocalCredentialsStoreTests.m in Sources */,
 				6D0D8797184CF3FD002904AE /* CTFAPIAccountsTests.m in Sources */,
+				6D0FAA2B18610AF80084F505 /* CTFProfileViewControllerTests.m in Sources */,
 				6D0715B5184E8318002C3023 /* CTFSessionTests.m in Sources */,
 				6D0FAA22185F9B6D0084F505 /* CTFJoinViewControllerTests.m in Sources */,
 				6D0D87A3184D2FB5002904AE /* CTFAPILocalCredentialsTests.m in Sources */,

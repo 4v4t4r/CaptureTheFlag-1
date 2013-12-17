@@ -45,6 +45,16 @@
                                     <action selector="onLogout:" destination="71M-yZ-NWY" eventType="touchUpInside" id="jqU-qm-dnu"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4bD-Sz-ijM">
+                                <rect key="frame" x="43" y="202" width="234" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Profile">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="YzZ-wa-xwm" kind="push" id="8ci-qB-TJV"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -147,6 +157,25 @@
                 <customObject id="2IS-yf-UER" customClass="ArrayDataSource"/>
             </objects>
             <point key="canvasLocation" x="2016" y="93"/>
+        </scene>
+        <!--Profile View Controller - Profile-->
+        <scene sceneID="7om-g2-djo">
+            <objects>
+                <viewController storyboardIdentifier="CTFProfileViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="YzZ-wa-xwm" customClass="CTFProfileViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="t4f-48-d4H"/>
+                        <viewControllerLayoutGuide type="bottom" id="0z6-Qy-10s"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="6sc-Ta-1Iu">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Profile" id="v0d-u8-5Pa"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aht-rU-Reo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2016" y="760"/>
         </scene>
         <!--Details Join View Controller - Game title-->
         <scene sceneID="ygo-O9-n9f">
