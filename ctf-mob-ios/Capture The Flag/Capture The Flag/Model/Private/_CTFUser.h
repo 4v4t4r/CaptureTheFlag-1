@@ -9,6 +9,7 @@ extern const struct CTFUserAttributes {
 	__unsafe_unretained NSString *location;
 	__unsafe_unretained NSString *nick;
 	__unsafe_unretained NSString *password;
+	__unsafe_unretained NSString *userId;
 	__unsafe_unretained NSString *username;
 } CTFUserAttributes;
 
@@ -25,6 +26,7 @@ extern const struct CTFUserFetchedProperties {
 
 
 @class NSObject;
+
 
 
 
@@ -77,6 +79,20 @@ extern const struct CTFUserFetchedProperties {
 
 
 //- (BOOL)validatePassword:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSNumber* userId;
+
+
+
+@property int32_t userIdValue;
+- (int32_t)userIdValue;
+- (void)setUserIdValue:(int32_t)value_;
+
+//- (BOOL)validateUserId:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -141,6 +157,15 @@ extern const struct CTFUserFetchedProperties {
 
 - (NSString*)primitivePassword;
 - (void)setPrimitivePassword:(NSString*)value;
+
+
+
+
+- (NSNumber*)primitiveUserId;
+- (void)setPrimitiveUserId:(NSNumber*)value;
+
+- (int32_t)primitiveUserIdValue;
+- (void)setPrimitiveUserIdValue:(int32_t)value_;
 
 
 

@@ -98,6 +98,10 @@
     RKMappingTest *test = [RKMappingTest testForMapping:[_descriptors userMapping] sourceObject:parsedJSON destinationObject:nil];
     test.managedObjectContext = _service.managedObjectContext;
     
+    RKPropertyMappingTestExpectation *idExpectation =
+    [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"id" destinationKeyPath:@"userId" value:@(1)];
+    [test addExpectation:idExpectation];
+    
     RKPropertyMappingTestExpectation *usernameExpectation =
     [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"username" destinationKeyPath:@"username" value:@"tomkowz12"];
     [test addExpectation:usernameExpectation];

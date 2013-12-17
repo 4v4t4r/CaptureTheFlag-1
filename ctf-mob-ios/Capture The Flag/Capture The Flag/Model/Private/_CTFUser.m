@@ -8,6 +8,7 @@ const struct CTFUserAttributes CTFUserAttributes = {
 	.location = @"location",
 	.nick = @"nick",
 	.password = @"password",
+	.userId = @"userId",
 	.username = @"username",
 };
 
@@ -45,6 +46,11 @@ const struct CTFUserFetchedProperties CTFUserFetchedProperties = {
 + (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
 	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
 	
+	if ([key isEqualToString:@"userIdValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"userId"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
 
 	return keyPaths;
 }
@@ -75,6 +81,32 @@ const struct CTFUserFetchedProperties CTFUserFetchedProperties = {
 
 @dynamic password;
 
+
+
+
+
+
+@dynamic userId;
+
+
+
+- (int32_t)userIdValue {
+	NSNumber *result = [self userId];
+	return [result intValue];
+}
+
+- (void)setUserIdValue:(int32_t)value_ {
+	[self setUserId:[NSNumber numberWithInt:value_]];
+}
+
+- (int32_t)primitiveUserIdValue {
+	NSNumber *result = [self primitiveUserId];
+	return [result intValue];
+}
+
+- (void)setPrimitiveUserIdValue:(int32_t)value_ {
+	[self setPrimitiveUserId:[NSNumber numberWithInt:value_]];
+}
 
 
 

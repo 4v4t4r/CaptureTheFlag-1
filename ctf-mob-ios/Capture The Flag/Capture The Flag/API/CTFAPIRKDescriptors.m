@@ -172,7 +172,8 @@ static CTFAPIRKDescriptors *_sharedInstance = nil;
 }
 
 - (NSDictionary *)_userAttributesDict {
-    return @{@"username" : @"username",
+    return @{@"id" : @"userId",
+             @"username" : @"username",
              @"email" : @"email",
              @"password" : @"password",
              @"nick" : @"nick",
