@@ -9,10 +9,12 @@
 #import <Foundation/Foundation.h>
 
 @class CTFAPIConnection;
+@class CTFUser;
 
 #warning [tsu] Implement error handling when server will be return correctly codes
 typedef void (^TokenBlock)(NSString *token);
 typedef void (^SignUpBlock)(BOOL success);
+typedef void (^ProfileBlock)(CTFUser *user);
 
 @interface CTFAPIAccounts : NSObject
 
@@ -44,5 +46,7 @@ typedef void (^SignUpBlock)(BOOL success);
  @param block SignUpBlock called when server response. It return success value.
  */
 - (void)signUpWithUsername:(NSString *)username email:(NSString *)email password:(NSString *)password block:(SignUpBlock)block;
+
+- (void)profileInformationForToken:(NSString *)token block:(ProfileBlock)block;
 
 @end

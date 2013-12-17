@@ -17,6 +17,12 @@
 - (instancetype)initWithManager:(RKObjectManager *)manager;
 
 #pragma mark - Descriptors
+
+/**
+ api/profile
+ */
+- (RKResponseDescriptor *)profileResponseDescriptor;
+
 /// Response descriptor used to get whole user object with characters.
 - (RKResponseDescriptor *)getUserResponseDescriptor;
 

@@ -59,6 +59,22 @@ static CTFAPIRKDescriptors *_sharedInstance = nil;
     return  RKStatusCodeIndexSetForClass(RKStatusCodeClassClientError);
 }
 
+#pragma mark api/profile
+- (RKResponseDescriptor *)profileResponseDescriptor {
+    
+    RKResponseDescriptor *response =
+    [RKResponseDescriptor responseDescriptorWithMapping:[self userMapping]
+                                                 method:RKRequestMethodGET
+                                            pathPattern:@"profile"
+                                                keyPath:nil
+                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    return response;
+}
+
+
+
+
+
 #pragma mark - Character Mapping
 - (RKEntityMapping *)characterMapping {
     RKEntityMapping *characterMapping =

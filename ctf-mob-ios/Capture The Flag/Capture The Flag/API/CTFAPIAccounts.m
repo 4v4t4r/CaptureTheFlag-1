@@ -62,4 +62,17 @@
                             }];
 }
 
+- (void)profileInformationForToken:(NSString *)token block:(ProfileBlock)block {
+    /*
+    [[CTFAPIConnection sharedConnection].manager addResponseDescriptor:[CTFAPIRKDescriptors sharedInstance].profileResponseDescriptor];
+    
+    __block CTFUser *object = nil;
+    [[CTFAPIConnection sharedConnection].manager getObject:object path:@"profile" parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        object = (CTFUser *)mappingResult.array[0];
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        
+    }];
+     */
+}
+
 @end
