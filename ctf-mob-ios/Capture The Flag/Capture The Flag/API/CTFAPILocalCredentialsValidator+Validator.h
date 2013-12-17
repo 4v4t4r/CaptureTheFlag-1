@@ -24,7 +24,13 @@ typedef enum
 } ValidationResult;
 
 @interface CTFAPILocalCredentialsValidator (Validator)
-
+/**
+ @define Method validate credential with type.
+ @abstract Return ValidationResultOK if value is correct typed, otherwise return ValidationResultWrongCredentials
+ @discussion Class used to validate credential.
+ @param credential Credential to check.
+ @param type Type of credential to check.
+ */
 + (ValidationResult)validateCredential:(NSString *)credential withType:(CredentialType)type;
 
 @end
