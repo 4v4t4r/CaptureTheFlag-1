@@ -5,6 +5,8 @@
 
 const struct CTFUserAttributes CTFUserAttributes = {
 	.email = @"email",
+	.firstName = @"firstName",
+	.lastName = @"lastName",
 	.location = @"location",
 	.nick = @"nick",
 	.password = @"password",
@@ -59,6 +61,20 @@ const struct CTFUserFetchedProperties CTFUserFetchedProperties = {
 
 
 @dynamic email;
+
+
+
+
+
+
+@dynamic firstName;
+
+
+
+
+
+
+@dynamic lastName;
 
 
 

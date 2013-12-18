@@ -149,7 +149,9 @@
              @"email" : @"email",
              @"password" : @"password",
              @"nick" : @"nick",
-             @"location" : @"location"};
+             @"location" : @"location",
+             @"first_name" : @"firstName",
+             @"last_name": @"lastName"};
 }
 
 @end

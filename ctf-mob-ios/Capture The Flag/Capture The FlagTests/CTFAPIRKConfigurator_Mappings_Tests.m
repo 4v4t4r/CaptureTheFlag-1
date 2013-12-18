@@ -107,6 +107,14 @@
     [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"location" destinationKeyPath:@"location" value:@[@(10), @(20)]];
     [test addExpectation:locationExpectation];
     
+    RKPropertyMappingTestExpectation *firstNameExpectation =
+    [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"first_name" destinationKeyPath:@"firstName" value:@"First"];
+    [test addExpectation:firstNameExpectation];
+    
+    RKPropertyMappingTestExpectation *lastNameExpectation =
+    [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"last_name" destinationKeyPath:@"lastName" value:@"Last"];
+    [test addExpectation:lastNameExpectation];
+    
     /// Configure expectation objects
     
     RKPropertyMappingTestExpectation *charactersExpectation =

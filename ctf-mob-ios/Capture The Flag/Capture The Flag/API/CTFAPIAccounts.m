@@ -57,13 +57,14 @@ static NSString * const scope = @"read+write";
         return;
     }
     
+    /// prepare user object
     CTFUser *user = [CTFUser createObject];
     user.username = username;
-    user.email = email;
+    user.nick = username;
     user.password = password;
-#warning [tsu] set official path and test with server when available. I think here should be request and response descriptor configurated
-#warning [tsu] path is available. Please update
-    [_connection.manager postObject:user path:@"path" parameters:nil
+    user.email = email;
+    
+    [_connection.manager postObject:user path:@"api/users/" parameters:nil
                             success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
                                 block(YES);
                             } failure:^(RKObjectRequestOperation *operation, NSError *error) {

@@ -9,7 +9,7 @@
 #import "CTFAPIRKConfigurator.h"
 
 @interface CTFAPIRKConfigurator (Mappings)
-
+#warning [tsu] add description
 - (RKEntityMapping *)entityMappingFromClass:(Class)aClass;
 
 @end

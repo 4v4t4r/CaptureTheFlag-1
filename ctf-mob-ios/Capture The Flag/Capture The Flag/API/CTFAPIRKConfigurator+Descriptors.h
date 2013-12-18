@@ -11,8 +11,18 @@
 @interface CTFAPIRKConfigurator (Descriptors)
 
 /**
+ api/users
+ */
+#warning [tsu] add tests for request
+- (RKRequestDescriptor *)usersPOSTRequestDescriptor;
+#warning [tsu] add tests for response
+- (RKResponseDescriptor *)usersPOSTResponseDescriptor;
+
+
+/**
  api/profile
  */
+#warning [tsu] add tests for response
 - (RKResponseDescriptor *)profileResponseDescriptor;
 
 @end

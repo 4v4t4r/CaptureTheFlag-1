@@ -6,6 +6,8 @@
 
 extern const struct CTFUserAttributes {
 	__unsafe_unretained NSString *email;
+	__unsafe_unretained NSString *firstName;
+	__unsafe_unretained NSString *lastName;
 	__unsafe_unretained NSString *location;
 	__unsafe_unretained NSString *nick;
 	__unsafe_unretained NSString *password;
@@ -23,6 +25,8 @@ extern const struct CTFUserFetchedProperties {
 
 @class CTFCharacter;
 @class CTFSession;
+
+
 
 
 @class NSObject;
@@ -49,6 +53,26 @@ extern const struct CTFUserFetchedProperties {
 
 
 //- (BOOL)validateEmail:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSString* firstName;
+
+
+
+//- (BOOL)validateFirstName:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
+@property (nonatomic, strong) NSString* lastName;
+
+
+
+//- (BOOL)validateLastName:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -139,6 +163,18 @@ extern const struct CTFUserFetchedProperties {
 
 - (NSString*)primitiveEmail;
 - (void)setPrimitiveEmail:(NSString*)value;
+
+
+
+
+- (NSString*)primitiveFirstName;
+- (void)setPrimitiveFirstName:(NSString*)value;
+
+
+
+
+- (NSString*)primitiveLastName;
+- (void)setPrimitiveLastName:(NSString*)value;
 
 
 

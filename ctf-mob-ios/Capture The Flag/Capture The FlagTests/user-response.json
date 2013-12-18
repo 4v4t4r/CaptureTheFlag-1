@@ -4,6 +4,8 @@
     "email": "tmk.szlc@gmail.com",
     "password": "password123",
     "nick": "black_lord",
+    "first_name": "First",
+    "last_name": "Last",
     "location": [10, 20],
     "characters" : [{
                     "type": 1,

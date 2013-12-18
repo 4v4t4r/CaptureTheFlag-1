@@ -45,38 +45,42 @@
     [self.view endEditing:YES];
 }
 
+#warning [tsu] przy wcisnieciu wszystkie pola powinny stac sie nieaktywne, przycisk rowniez
+#warning [tsu] nie powinno byc mozliwosci wyjscia z ekranu jesli aktualnie trwa rejestracja
 - (IBAction)registerPressed {
     if (![_passwordTF.text isEqualToString:_rePasswordTF.text]) {
         _statusLabel.text = NSLocalizedString(@"view.register.label.status.different_password", nil);
         return;
-    } else {
-        _accounts = [[CTFAPIAccounts alloc] initWithConnection:[CTFAPIConnection sharedConnection]];
-        [_accounts signUpWithUsername:_usernameTF.text email:_emailTF.text password:_passwordTF.text block:^(BOOL success) {
-            
-            NSString *title = NSLocalizedString(@"view.register.alert.registration.title", nil);
-            NSString *message = @"";
-            if (success) {
-                message = NSLocalizedString(@"view.register.alert.registration.message.success", nil);
-            } else {
-                message = NSLocalizedString(@"view.register.alert.registration.message.failure", nil);
-            }
-            UIAlertView *alertView =
-            [[UIAlertView alloc] initWithTitle:title
-                                       message:message
-                                      delegate:Nil
-                             cancelButtonTitle:NSLocalizedString(@"button.OK", nil)
-                             otherButtonTitles:nil, nil];
-            alertView.delegate = self;
-            
-            if (success) {
-                _successAlert = alertView;
-                [_successAlert show];
-            } else {
-                _failureAlert = alertView;
-                [_failureAlert show];
-            }
-        }];
     }
+    [_activityIndicator startAnimating];
+    _accounts = [[CTFAPIAccounts alloc] initWithConnection:[CTFAPIConnection sharedConnection]];
+    [_accounts signUpWithUsername:_usernameTF.text email:_emailTF.text password:_passwordTF.text block:^(BOOL success) {
+        
+        NSString *title = NSLocalizedString(@"view.register.alert.registration.title", nil);
+        NSString *message = @"";
+        if (success) {
+            message = NSLocalizedString(@"view.register.alert.registration.message.success", nil);
+        } else {
+            message = NSLocalizedString(@"view.register.alert.registration.message.failure", nil);
+        }
+        UIAlertView *alertView =
+        [[UIAlertView alloc] initWithTitle:title
+                                   message:message
+                                  delegate:Nil
+                         cancelButtonTitle:NSLocalizedString(@"button.OK", nil)
+                         otherButtonTitles:nil, nil];
+        alertView.delegate = self;
+        
+        if (success) {
+            _successAlert = alertView;
+            [_successAlert show];
+        } else {
+            _failureAlert = alertView;
+            [_failureAlert show];
+        }
+        
+        [_activityIndicator stopAnimating];
+    }];
 }
 
 - (void)_configureTextFields {

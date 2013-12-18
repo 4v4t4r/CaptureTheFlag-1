@@ -55,6 +55,8 @@
     </entity>
     <entity name="CTFUser" representedClassName="CTFUser" syncable="YES">
         <attribute name="email" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
+        <attribute name="firstName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="location" optional="YES" attributeType="Transformable" valueTransformerName="" syncable="YES"/>
         <attribute name="nick" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="password" optional="YES" attributeType="String" syncable="YES"/>

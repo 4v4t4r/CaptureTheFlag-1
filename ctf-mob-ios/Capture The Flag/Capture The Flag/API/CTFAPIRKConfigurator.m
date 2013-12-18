@@ -25,6 +25,11 @@
 }
 
 - (void)configure {
+    /// api/users/
+    [_manager addRequestDescriptor:[self usersPOSTRequestDescriptor]];
+    [_manager addResponseDescriptor:[self usersPOSTResponseDescriptor]];
+    
+    /// api/profile
     [_manager addResponseDescriptor:[self profileResponseDescriptor]];
 }
 
