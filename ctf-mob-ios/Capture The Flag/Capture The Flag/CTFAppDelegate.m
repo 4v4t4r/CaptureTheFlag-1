@@ -25,8 +25,7 @@
     [CoreDataService setSharedInstance:sharedCoreData];
     
     /// Configure RestKit
-#warning [tsu] This is only test configuration. When official server url will be available I'll update it.
-    NSURL *url = [NSURL URLWithString:@"http://iwrapperapp.com/abanalytics/api/"];
+    NSURL *url = [NSURL URLWithString:@"http://78.133.154.39:8888"];
     
     RKObjectManager *manager = [RKObjectManager managerWithBaseURL:url];
     [manager.HTTPClient setAuthorizationHeaderWithUsername:@"analytics" password:@"0xgYjxGBKv"];
