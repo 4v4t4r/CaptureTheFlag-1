@@ -10,6 +10,10 @@
 #import "CTFAPIConnection.h"
 #import "CTFUser.h"
 
+static NSString * const client_id = @"94f5481b9ac440230663";
+static NSString * const client_secret = @"660e440fbe257bcfaadea794acd41230c18fe4d0";
+static NSString * const scope = @"read+write";
+
 @implementation CTFAPIAccounts
 {
     CTFAPIConnection *_connection;
@@ -31,8 +35,12 @@
     }
 #warning [tsu] set official path and test with server when available
     /// Run if validated
-    NSDictionary *parameters = @{@"username": username, @"password": password};
-    [_connection.manager.HTTPClient getPath:@"test" parameters:parameters
+    NSDictionary *parameters = @{@"client_id": client_id,
+                                 @"client_secret": client_secret,
+                                 @"grant_type": @"password",
+                                 @"username": username,
+                                 @"password": password};
+    [_connection.manager.HTTPClient postPath:@"oauth2/access_token" parameters:parameters
                                     success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                         NSString *token = [responseObject objectForKey:kAccessTokenKey];
                                         if (block)

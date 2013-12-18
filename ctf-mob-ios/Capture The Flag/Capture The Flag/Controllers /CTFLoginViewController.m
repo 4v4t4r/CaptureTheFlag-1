@@ -57,16 +57,15 @@
     [CTFAPILocalCredentialsValidator validateSignInCredentialsWithUsername:username password:password];
     
     if (result == CredentialsValidationResultOK) {
-        _statusLabel.text = NSLocalizedString(@"view.login.label.status.logged", nil);
         [self.view endEditing:YES];
         
         /// If successfuly logged to the server token will be provide in response
         _accounts = [[CTFAPIAccounts alloc] initWithConnection:[CTFAPIConnection sharedConnection]];
         [_accounts signInWithUsername:username andPassword:password withBlock:^(NSString *token) {
-#warning [tsu] please fix it when requesting token will be available on the server side
-            token = @"fake_token";
             
             if (token) {
+                _statusLabel.text = NSLocalizedString(@"view.login.label.status.logged", nil);
+
                 /// Configure game object with token and logged user
                 CTFSession *session = [[CTFSession alloc] initWithToken:token];
             
