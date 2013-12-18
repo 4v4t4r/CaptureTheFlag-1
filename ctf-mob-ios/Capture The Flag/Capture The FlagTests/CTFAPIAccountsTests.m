@@ -68,7 +68,7 @@
         
         successBlock(nil, @{@"access_token" : @"this_is_a_token"});
         
-    }] getPath:[OCMArg any] parameters:[OCMArg any] success:[OCMArg any] failure:[OCMArg any]] ;
+    }] postPath:[OCMArg any] parameters:[OCMArg any] success:[OCMArg any] failure:[OCMArg any]] ;
     
     RKObjectManager *manager = [[RKObjectManager alloc] init];
     manager.HTTPClient = mockClient;
@@ -94,7 +94,7 @@
         
         failureBlock(nil, nil);
         
-    }] getPath:[OCMArg any] parameters:[OCMArg any] success:[OCMArg any] failure:[OCMArg any]] ;
+    }] postPath:[OCMArg any] parameters:[OCMArg any] success:[OCMArg any] failure:[OCMArg any]] ;
     
     RKObjectManager *manager = [[RKObjectManager alloc] init];
     manager.HTTPClient = mockClient;
