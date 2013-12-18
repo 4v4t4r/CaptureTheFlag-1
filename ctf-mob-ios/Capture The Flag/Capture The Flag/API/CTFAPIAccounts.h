@@ -38,7 +38,7 @@ typedef void (^ProfileBlock)(CTFUser *user);
 
 /**
  @define Method used to register new account.
- @absctract Return SignUpBlock with success if successfuly register. Otherwise return NO.
+ @abstract Return SignUpBlock with success if successfuly register. Otherwise return NO.
  @discussion Asynchronous method use to register acount on the server with passed credentials.
  @param username The username to register.
  @param email email address of user account.
@@ -47,6 +47,13 @@ typedef void (^ProfileBlock)(CTFUser *user);
  */
 - (void)signUpWithUsername:(NSString *)username email:(NSString *)email password:(NSString *)password block:(SignUpBlock)block;
 
-- (void)profileInformationForToken:(NSString *)token block:(ProfileBlock)block;
+/**
+ @define Method for getting account information associated with token
+ @abstract Return block with user if user for token exists, otherwise nil.
+ @discussion 
+ @param token Token used to communicate with the server
+ @param block ProfileBlock called after server response
+ */
+- (void)accountInfoForToken:(NSString *)token block:(ProfileBlock)block;
 
 @end

@@ -175,4 +175,8 @@
     [mockAccounts signUpWithUsername:@"username" email:@"email" password:@"password" block:block];
 }
 
+
+#pragma mark - accountInfoForToken:block
+#warning [tsu] implement tests for accountInfoForToken:block method
+
 @end

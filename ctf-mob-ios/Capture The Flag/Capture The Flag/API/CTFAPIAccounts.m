@@ -54,6 +54,7 @@
     user.email = email;
     user.password = password;
 #warning [tsu] set official path and test with server when available. I think here should be request and response descriptor configurated
+#warning [tsu] path is available. Please update
     [_connection.manager postObject:user path:@"path" parameters:nil
                             success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
                                 block(YES);
@@ -62,17 +63,18 @@
                             }];
 }
 
-- (void)profileInformationForToken:(NSString *)token block:(ProfileBlock)block {
-    /*
-    [[CTFAPIConnection sharedConnection].manager addResponseDescriptor:[CTFAPIRKDescriptors sharedInstance].profileResponseDescriptor];
+- (void)accountInfoForToken:(NSString *)token block:(ProfileBlock)block {
+#warning [tsu] need to pass token in parameter
+     [[CTFAPIConnection sharedConnection].manager getObject:nil path:@"profile" parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+         CTFUser *object;
+         NSArray *array = mappingResult.array;
+         if (array.count)
+             object = (CTFUser *)mappingResult.array[0];
+         block(object);
+     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+         block(nil);
+     }];
     
-    __block CTFUser *object = nil;
-    [[CTFAPIConnection sharedConnection].manager getObject:object path:@"profile" parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        object = (CTFUser *)mappingResult.array[0];
-    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        
-    }];
-     */
 }
 
 @end

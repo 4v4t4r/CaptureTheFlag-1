@@ -7,7 +7,6 @@
 //
 
 #import "CTFAPIConnection.h"
-#import "CTFAPIRKDescriptors.h"
 
 @implementation CTFAPIConnection {
     RKObjectManager *_manager;

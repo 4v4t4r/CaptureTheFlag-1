@@ -11,7 +11,7 @@
 #import "CTFLoginViewController.h"
 
 #import "CTFAPIConnection.h"
-#import "CTFAPIRKDescriptors.h"
+#import "CTFAPIRKConfigurator.h"
 
 #import "STKeychain.h"
 #import "CTFAPILocalCredentialsStore.h"
@@ -37,10 +37,9 @@
     manager.managedObjectStore = managedObjectStore;
     [manager.managedObjectStore createManagedObjectContexts];
     
-    /// Configure RKDescriptors
-    CTFAPIRKDescriptors *descriptors = [[CTFAPIRKDescriptors alloc] initWithManager:manager];
-    [CTFAPIRKDescriptors setSharedInstance:descriptors];
-    [manager addResponseDescriptorsFromArray:@[[descriptors getUserResponseDescriptor]]];
+    /// Configure RestKit Manager
+    CTFAPIRKConfigurator *configurator = [[CTFAPIRKConfigurator alloc] initWithManager:manager];
+    [configurator configure];
     
     /// Configure CTFAPIConnection
     CTFAPIConnection *connection = [[CTFAPIConnection alloc] initWithManager:manager];

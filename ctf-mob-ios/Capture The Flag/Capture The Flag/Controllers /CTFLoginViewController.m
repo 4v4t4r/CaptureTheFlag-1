@@ -14,7 +14,6 @@
 #import "CTFAPILocalCredentialsValidator.h"
 #import "CTFAPIAccounts.h"
 #import "CTFAPIConnection.h"
-#import "CTFAPIRKDescriptors.h"
 
 #import "CTFAPILocalCredentialsStore.h"
 #import "CTFAPILocalCredentials.h"

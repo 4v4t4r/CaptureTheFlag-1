@@ -1,89 +1,46 @@
 //
-//  CTFAPIRKDescriptors.m
+//  CTFAPIRKConfigurator+Mappings.m
 //  Capture The Flag
 //
-//  Created by Tomasz Szulc on 06.12.2013.
+//  Created by Tomasz Szulc on 18/12/13.
 //  Copyright (c) 2013 Tomasz Szulc. All rights reserved.
 //
 
-#import "CTFAPIRKDescriptors.h"
-#import "CTFCharacter.h"
-#import "CTFGame.h"
-#import "CTFMap.h"
-#import "CTFItem.h"
-#import "CTFUser.h"
+#import "CTFAPIRKConfigurator+Mappings.h"
 
-@implementation CTFAPIRKDescriptors {
-    RKObjectManager *_manager;
-}
+@implementation CTFAPIRKConfigurator (Mappings)
 
-static CTFAPIRKDescriptors *_sharedInstance = nil;
-+ (instancetype)sharedInstance {
-    return _sharedInstance;
-}
 
-+ (void)setSharedInstance:(CTFAPIRKDescriptors *)sharedInstance {
-    _sharedInstance = sharedInstance;
-}
-
-- (instancetype)initWithManager:(RKObjectManager *)manager {
-    self = [super init];
-    if (self) {
-        _manager = manager;
+#pragma mark - Factory
+- (RKEntityMapping *)entityMappingFromClass:(Class)aClass {
+    RKEntityMapping *mapping = nil;
+    if (aClass == [CTFCharacter class]) {
+        mapping = [self characterMapping];
+    } else if (aClass == [CTFGame class]) {
+        mapping = [self gameMapping];
+    } else if (aClass == [CTFItem class]) {
+        mapping = [self itemMapping];
+    } else if (aClass == [CTFMap class]) {
+        mapping = [self mapMapping];
+    } else if (aClass == [CTFUser class]) {
+        mapping = [self userMapping];
     }
-    return self;
-}
-
-
-#pragma mark - Descriptors
-- (RKResponseDescriptor *)getUserResponseDescriptor {
-    RKResponseDescriptor *descriptor;
-    NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
-    [indexSet addIndexes:[self successfulCodes]];
-    [indexSet addIndexes:[self clientErrorCodes]];
     
-#warning [tsu] Update path when server will be available.
-    descriptor = [RKResponseDescriptor responseDescriptorWithMapping:[self userMapping]
-                                                              method:RKRequestMethodGET
-                                                         pathPattern:@"test"
-                                                             keyPath:nil
-                                                         statusCodes:indexSet];
-    return descriptor;
+    return mapping;
 }
-
-- (NSIndexSet *)successfulCodes {
-    return RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful);
-}
-
-- (NSIndexSet *)clientErrorCodes {
-    return  RKStatusCodeIndexSetForClass(RKStatusCodeClassClientError);
-}
-
-#pragma mark api/profile
-- (RKResponseDescriptor *)profileResponseDescriptor {
-    
-    RKResponseDescriptor *response =
-    [RKResponseDescriptor responseDescriptorWithMapping:[self userMapping]
-                                                 method:RKRequestMethodGET
-                                            pathPattern:@"profile"
-                                                keyPath:nil
-                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-    return response;
-}
-
-
-
 
 
 #pragma mark - Character Mapping
 - (RKEntityMapping *)characterMapping {
+    RKManagedObjectStore *store = self.manager.managedObjectStore;
+    
     RKEntityMapping *characterMapping =
-    [RKEntityMapping mappingForEntityForName:NSStringFromClass([CTFCharacter class]) inManagedObjectStore:_manager.managedObjectStore];
+    [RKEntityMapping mappingForEntityForName:NSStringFromClass([CTFCharacter class]) inManagedObjectStore:store];
     [characterMapping addAttributeMappingsFromDictionary:[self _characterMappingDict]];
     
     /// User Mapping without Character relationship mapping
     RKEntityMapping *userMapping =
-    [RKEntityMapping mappingForEntityForName:NSStringFromClass([CTFUser class]) inManagedObjectStore:_manager.managedObjectStore];
+    [RKEntityMapping mappingForEntityForName:NSStringFromClass([CTFUser class]) inManagedObjectStore:store];
     [userMapping addAttributeMappingsFromDictionary:[self _userAttributesDict]];
     
     RKRelationshipMapping *userRelationshipMapping =
@@ -101,11 +58,10 @@ static CTFAPIRKDescriptors *_sharedInstance = nil;
              @"level": @"level"};
 }
 
-
 #pragma mark - Game Mapping
 - (RKEntityMapping *)gameMapping {
     RKEntityMapping *gameMapping =
-    [RKEntityMapping mappingForEntityForName:NSStringFromClass([CTFGame class]) inManagedObjectStore:_manager.managedObjectStore];
+    [RKEntityMapping mappingForEntityForName:NSStringFromClass([CTFGame class]) inManagedObjectStore:self.manager.managedObjectStore];
     [gameMapping addAttributeMappingsFromDictionary:[self _gameMappingDict]];
     
     RKRelationshipMapping *mapMapping =
@@ -139,7 +95,7 @@ static CTFAPIRKDescriptors *_sharedInstance = nil;
 #pragma mark - Item Mapping
 - (RKEntityMapping *)itemMapping {
     RKEntityMapping *itemMapping =
-    [RKEntityMapping mappingForEntityForName:NSStringFromClass([CTFItem class]) inManagedObjectStore:_manager.managedObjectStore];
+    [RKEntityMapping mappingForEntityForName:NSStringFromClass([CTFItem class]) inManagedObjectStore:self.manager.managedObjectStore];
     [itemMapping addAttributeMappingsFromDictionary:[self _itemMappingDict]];
     return itemMapping;
 }
@@ -156,7 +112,7 @@ static CTFAPIRKDescriptors *_sharedInstance = nil;
 #pragma mark - Map Mapping
 - (RKEntityMapping *)mapMapping {
     RKEntityMapping *mapMapping =
-    [RKEntityMapping mappingForEntityForName:NSStringFromClass([CTFMap class]) inManagedObjectStore:_manager.managedObjectStore];
+    [RKEntityMapping mappingForEntityForName:NSStringFromClass([CTFMap class]) inManagedObjectStore:self.manager.managedObjectStore];
     [mapMapping addAttributeMappingsFromDictionary:[self _mapMappingDict]];
     return mapMapping;
 }
@@ -177,7 +133,7 @@ static CTFAPIRKDescriptors *_sharedInstance = nil;
 - (RKEntityMapping *)userMapping {
     
     RKEntityMapping *userMapping =
-    [RKEntityMapping mappingForEntityForName:NSStringFromClass([CTFUser class]) inManagedObjectStore:_manager.managedObjectStore];
+    [RKEntityMapping mappingForEntityForName:NSStringFromClass([CTFUser class]) inManagedObjectStore:self.manager.managedObjectStore];
     [userMapping addAttributeMappingsFromDictionary:[self _userAttributesDict]];
     
     RKRelationshipMapping *relationshipMapping =
@@ -193,13 +149,8 @@ static CTFAPIRKDescriptors *_sharedInstance = nil;
              @"email" : @"email",
              @"password" : @"password",
              @"nick" : @"nick",
-             @"location" : @"location"/*,
-                                       @"characters": @"characters"*/};
-}
-
-#pragma mark - Accessors
-- (RKObjectManager *)manager {
-    return _manager;
+             @"location" : @"location"};
 }
 
 @end
+

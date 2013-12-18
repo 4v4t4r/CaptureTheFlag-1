@@ -1,102 +1,48 @@
 //
-//  CTFAPIRKDescriptors.m
+//  CTFAPIRKConfigurator_Mappings_Tests.m
 //  Capture The Flag
 //
-//  Created by Tomasz Szulc on 03.12.2013.
+//  Created by Tomasz Szulc on 18/12/13.
 //  Copyright (c) 2013 Tomasz Szulc. All rights reserved.
 //
 
-#import <XCTest/XCTest.h>
-#import <OCMock/OCMock.h>
+#import "CTFAPIRKConfiguratorTests.h"
+#import "CTFAPIRKConfigurator+Mappings.h"
+#import <RestKit/RestKit.h>
 #import <RestKit/Testing.h>
 
-#import "CTFAPIRKDescriptors.h"
 #import "CoreDataService.h"
 #import "CTFCharacter.h"
 #import "CTFMap.h"
 #import "CTFUser.h"
+#import "CTFItem.h"
+#import "CTFGame.h"
 
-@interface CTFAPIRKDescriptorsTests : XCTestCase
-
+@interface CTFAPIRKConfigurator_Mappings_Tests : CTFAPIRKConfiguratorTests
 @end
 
-@implementation CTFAPIRKDescriptorsTests {
-    CoreDataService *_service;
-    RKObjectManager *_manager;
-    CTFAPIRKDescriptors *_descriptors;
-}
+@implementation CTFAPIRKConfigurator_Mappings_Tests
 
-- (void)setUp {
+- (void)setUp
+{
     [super setUp];
-    [CTFAPIRKDescriptors setSharedInstance:nil];
-    
-    _service = [[CoreDataService alloc] initForUnitTesting];
-    
-    _manager = [[RKObjectManager alloc] init];
-    RKManagedObjectStore *managedObjectStore = [[RKManagedObjectStore alloc] initWithPersistentStoreCoordinator:_service.persistentStoreCoordinator];
-    _manager.managedObjectStore = managedObjectStore;
-    [_manager.managedObjectStore createManagedObjectContexts];
-    
-    _descriptors = [[CTFAPIRKDescriptors alloc] initWithManager:_manager];
-    
+    self.configurator = [[CTFAPIRKConfigurator alloc] initWithManager:self.manager];
+
     NSBundle *bundle = [NSBundle bundleWithIdentifier:[[NSBundle mainBundle].bundleIdentifier stringByAppendingString:@"Tests"]];
     [RKTestFixture setFixtureBundle:bundle];
 }
 
-- (void)tearDown {
-    _service = nil;
-    _manager = nil;
-    _descriptors = nil;
+- (void)tearDown
+{
     [super tearDown];
 }
 
-- (void)testSharedInstanceShouldBeNil {
-    XCTAssertNil([CTFAPIRKDescriptors sharedInstance], @"");
-}
-
-- (void)testSharedInstanceShouldBeNotNilAndManagerWithStoreShouldBeEquals {
-    RKObjectManager *manager = [[RKObjectManager alloc] init];
-    CTFAPIRKDescriptors *mappings = [[CTFAPIRKDescriptors alloc] initWithManager:manager];
-    [CTFAPIRKDescriptors setSharedInstance:mappings];
-    XCTAssertNotNil([CTFAPIRKDescriptors sharedInstance], @"");
-}
-
-- (void)testInstanceShouldHaveTheSameManagerAndStoreAsInjected {
-    RKObjectManager *objectManager = [[RKObjectManager alloc] init];
-    RKManagedObjectStore *store = [[RKManagedObjectStore alloc] initWithPersistentStoreCoordinator:_service.persistentStoreCoordinator];
-    [store createManagedObjectContexts];
-    
-    objectManager.managedObjectStore = store;
-    
-    CTFAPIRKDescriptors *mappings = [[CTFAPIRKDescriptors alloc] initWithManager:objectManager];
-    XCTAssertNotNil(mappings, @"");
-    XCTAssertNotNil(mappings.manager, @"");
-    XCTAssertEqualObjects(mappings.manager, objectManager, @"");
-    XCTAssertEqualObjects(mappings.manager.managedObjectStore, objectManager.managedObjectStore, @"");
-}
-
-
-#pragma mark - Descriptors
-- (void)testGetUserResponseDescriptor {
-    RKResponseDescriptor *descriptor = [_descriptors getUserResponseDescriptor];
-    XCTAssertEqualObjects(descriptor.pathPattern, @"test", @"");
-    
-    BOOL containsSuccessfulCodes = [descriptor.statusCodes containsIndexes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-    XCTAssertTrue(containsSuccessfulCodes, @"");
-
-    BOOL containsClientErrorCodes = [descriptor.statusCodes containsIndexes:RKStatusCodeIndexSetForClass(RKStatusCodeClassClientError)];
-    XCTAssertTrue(containsClientErrorCodes, @"");
-    
-    XCTAssertEqual(descriptor.method, RKRequestMethodGET, @"");
-}
-
-#pragma mark - Mappings
 - (void)testUserMapping {
     id parsedJSON = [RKTestFixture parsedObjectWithContentsOfFixture:@"user-response.json"];
-        
+    
     /// Configure expectations
-    RKMappingTest *test = [RKMappingTest testForMapping:[_descriptors userMapping] sourceObject:parsedJSON destinationObject:nil];
-    test.managedObjectContext = _service.managedObjectContext;
+    RKMappingTest *test = [RKMappingTest testForMapping:[self.configurator entityMappingFromClass:[CTFUser class]] sourceObject:parsedJSON destinationObject:nil];
+    test.managedObjectContext = self.service.managedObjectContext;
     
     RKPropertyMappingTestExpectation *idExpectation =
     [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"id" destinationKeyPath:@"userId" value:@(1)];
@@ -105,11 +51,11 @@
     RKPropertyMappingTestExpectation *usernameExpectation =
     [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"username" destinationKeyPath:@"username" value:@"tomkowz12"];
     [test addExpectation:usernameExpectation];
-
+    
     RKPropertyMappingTestExpectation *emailExpectation =
     [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"email" destinationKeyPath:@"email" value:@"tmk.szlc@gmail.com"];
     [test addExpectation:emailExpectation];
-
+    
     RKPropertyMappingTestExpectation *passwordExpectation =
     [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"password" destinationKeyPath:@"password" value:@"password123"];
     [test addExpectation:passwordExpectation];
@@ -135,7 +81,7 @@
         /// Test First character
         CTFCharacter *firstFetchedCharacter = (CTFCharacter *)array[0];
         
-        CTFCharacter *firstReferenceCharacter = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([CTFCharacter class]) inManagedObjectContext:_service.managedObjectContext];
+        CTFCharacter *firstReferenceCharacter = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([CTFCharacter class]) inManagedObjectContext:self.service.managedObjectContext];
         firstReferenceCharacter.type = @(1);
         firstReferenceCharacter.totalTime = @(21);
         firstReferenceCharacter.totalScore = @(100);
@@ -147,7 +93,7 @@
         /// Test Second character
         CTFCharacter *secondFetchedCharacter = (CTFCharacter *)array[1];
         
-        CTFCharacter *secondReferenceCharacter = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([CTFCharacter class]) inManagedObjectContext:_service.managedObjectContext];
+        CTFCharacter *secondReferenceCharacter = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([CTFCharacter class]) inManagedObjectContext:self.service.managedObjectContext];
         secondReferenceCharacter.type = @(2);
         secondReferenceCharacter.totalTime = @(23);
         secondReferenceCharacter.totalScore = @(98);
@@ -155,7 +101,7 @@
         secondReferenceCharacter.level = @(12);
         
         BOOL isSecondEqual = [[secondFetchedCharacter committedValuesForKeys:commitedKeysToCompare] isEqual:[secondReferenceCharacter committedValuesForKeys:commitedKeysToCompare]];
-
+        
         return isFirstEqual && isSecondEqual && containsTwoItems;
     }];
     
@@ -167,8 +113,8 @@
 - (void)testCharacterMapping {
     id parsedJSON = [RKTestFixture parsedObjectWithContentsOfFixture:@"character-response.json"];
     
-    RKMappingTest *test = [RKMappingTest testForMapping:[_descriptors characterMapping] sourceObject:parsedJSON destinationObject:nil];
-    test.managedObjectContext = _service.managedObjectContext;
+    RKMappingTest *test = [RKMappingTest testForMapping:[self.configurator entityMappingFromClass:[CTFCharacter class]] sourceObject:parsedJSON destinationObject:nil];
+    test.managedObjectContext = self.service.managedObjectContext;
     
     RKPropertyMappingTestExpectation *typeExpectation =
     [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"type" destinationKeyPath:@"type" value:@(1)];
@@ -200,8 +146,8 @@
 - (void)testMapMapping {
     id parsedJSON = [RKTestFixture parsedObjectWithContentsOfFixture:@"map-response.json"];
     
-    RKMappingTest *test = [RKMappingTest testForMapping:[_descriptors mapMapping] sourceObject:parsedJSON destinationObject:nil];
-    test.managedObjectContext = _service.managedObjectContext;
+    RKMappingTest *test = [RKMappingTest testForMapping:[self.configurator entityMappingFromClass:[CTFMap class]] sourceObject:parsedJSON destinationObject:nil];
+    test.managedObjectContext = self.service.managedObjectContext;
     
     RKPropertyMappingTestExpectation *idExpectation =
     [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"id" destinationKeyPath:@"mapId" value:@(1)];
@@ -246,13 +192,13 @@
 - (void)testGameMapping {
     id parsedJSON = [RKTestFixture parsedObjectWithContentsOfFixture:@"game-response.json"];
     
-    RKMappingTest *test = [RKMappingTest testForMapping:[_descriptors gameMapping] sourceObject:parsedJSON destinationObject:nil];
-    test.managedObjectContext = _service.managedObjectContext;
+    RKMappingTest *test = [RKMappingTest testForMapping:[self.configurator entityMappingFromClass:[CTFGame class]] sourceObject:parsedJSON destinationObject:nil];
+    test.managedObjectContext = self.service.managedObjectContext;
     
     RKPropertyMappingTestExpectation *idExpectation =
     [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"id" destinationKeyPath:@"gameId" value:@"12345hash"];
     [test addExpectation:idExpectation];
-
+    
     RKPropertyMappingTestExpectation *nameExpectation =
     [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"name" destinationKeyPath:@"name" value:@"game's name"];
     [test addExpectation:nameExpectation];
@@ -313,9 +259,9 @@
 - (void)testItemMapping {
     id parsedJSON = [RKTestFixture parsedObjectWithContentsOfFixture:@"item-response.json"];
     
-    RKMappingTest *test = [RKMappingTest testForMapping:[_descriptors itemMapping] sourceObject:parsedJSON destinationObject:nil];
-    test.managedObjectContext = _service.managedObjectContext;
-
+    RKMappingTest *test = [RKMappingTest testForMapping:[self.configurator entityMappingFromClass:[CTFItem class]] sourceObject:parsedJSON destinationObject:nil];
+    test.managedObjectContext = self.service.managedObjectContext;
+    
     RKPropertyMappingTestExpectation *nameExpectation =
     [RKPropertyMappingTestExpectation expectationWithSourceKeyPath:@"name" destinationKeyPath:@"name" value:@"item's name"];
     [test addExpectation:nameExpectation];
@@ -338,5 +284,6 @@
     
     [test verify];
 }
+
 
 @end
