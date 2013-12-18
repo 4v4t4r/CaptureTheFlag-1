@@ -54,6 +54,10 @@
                                     <segue destination="fgQ-rb-h6r" kind="push" identifier="ToRegisterSegue" id="Qey-az-Xmu"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Si2-A1-rpV">
+                                <rect key="frame" x="150" y="315" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZVL-xP-k0u">
                                 <rect key="frame" x="20" y="286" width="280" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -66,6 +70,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Login" id="Zku-c0-Cs9"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="Si2-A1-rpV" id="yfi-AY-qUA"/>
                         <outlet property="loginBtn" destination="Xvb-iS-pHe" id="BTH-N0-Cby"/>
                         <outlet property="passwordTF" destination="QwA-VG-tYr" id="3tf-Vz-ecc"/>
                         <outlet property="registerBtn" destination="a1s-h3-w1J" id="8qb-5P-eQO"/>

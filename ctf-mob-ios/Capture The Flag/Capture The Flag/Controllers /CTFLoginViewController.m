@@ -57,6 +57,7 @@
     [CTFAPILocalCredentialsValidator validateSignInCredentialsWithUsername:username password:password];
     
     if (result == CredentialsValidationResultOK) {
+        [_activityIndicator startAnimating];
         [self.view endEditing:YES];
         
         /// If successfuly logged to the server token will be provide in response
@@ -64,6 +65,7 @@
         [_accounts signInWithUsername:username andPassword:password withBlock:^(NSString *token) {
             
             if (token) {
+                [_activityIndicator stopAnimating];
                 _statusLabel.text = NSLocalizedString(@"view.login.label.status.logged", nil);
 
                 /// Configure game object with token and logged user
@@ -98,11 +100,11 @@
                     [alertView show];
                 }
             } else {
+                [_activityIndicator stopAnimating];
 #warning [tsu] need implementation of UIAlertView which shows appropriate alert that user can't login... Need some error handling
             }
         }];
-    } else
-    {
+    } else {
         _statusLabel.text = NSLocalizedString(@"view.login.label.status.wrong_credentials", nil);
     }
 }
