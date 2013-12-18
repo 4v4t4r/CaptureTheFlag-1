@@ -22,8 +22,4 @@
     return self;
 }
 
-- (void)dealloc {
-    _title = nil;
-}
-
 @end
