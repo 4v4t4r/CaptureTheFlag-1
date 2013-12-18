@@ -56,7 +56,22 @@
     XCTAssertEqualObjects(dataSource.cellIdentifier, cellIdentifier, @"");
 }
 
-- (void)testDataSource {
+- (void)testDataSourceIfBlockHasBeenCalled {
+    [dataSource setItems:@[@"A"]];
+    __block BOOL invoked = NO;
+    [dataSource setConfigureCellBlock:^(UITableViewCell *cell, NSString *object) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-retain-cycles"
+        invoked = YES;
+        XCTAssertTrue(1, @"");
+#pragma clang diagnostic pop
+    }];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    [dataSource tableView:nil cellForRowAtIndexPath:indexPath];
+    XCTAssertTrue(invoked, @"");
+}
+
+- (void)testDataSourceArgumentsInBlockShouldNotBeNil {
     /// Data Source
     [dataSource setItems:@[@"A"]];
     [dataSource setConfigureCellBlock:^(UITableViewCell *cell, NSString *object) {
@@ -69,7 +84,6 @@
     
     /// Table View
     id mockTableView = [OCMockObject niceMockForClass:[UITableView class]];
-    [[[mockTableView stub] andReturn:dataSource] dataSource];
     
     UITableViewCell *cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
