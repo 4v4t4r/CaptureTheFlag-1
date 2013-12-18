@@ -1,3 +1,4 @@
+from django.contrib.auth.models import Group
 from rest_framework import serializers
 from apps.core.models import PortalUser, Character
 
@@ -15,7 +16,15 @@ class PortalUserSerializer(serializers.ModelSerializer):
 
     def save_object(self, obj, **kwargs):
         super(PortalUserSerializer, self).save_object(obj, **kwargs)
+        try:
+            player_group = Group.objects.get_by_natural_key("Player")
+        except Group.DoesNotExist, e:
+            # todo: add logger in this place
+            raise e
+
         obj.set_password(obj.password)
+        player_group.user_set.add(obj)
+        obj.save()
 
     class Meta:
         model = PortalUser
