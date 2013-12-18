@@ -15,4 +15,4 @@ class PortalUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PortalUser
-        fields = ('id', 'username', 'first_name', 'last_name', 'email', 'nick', 'characters')
+        fields = ('id', 'username', 'password', 'first_name', 'last_name', 'email', 'nick', 'characters')
