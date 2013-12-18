@@ -45,13 +45,12 @@
     [self.view endEditing:YES];
 }
 
-#warning [tsu] przy wcisnieciu wszystkie pola powinny stac sie nieaktywne, przycisk rowniez
-#warning [tsu] nie powinno byc mozliwosci wyjscia z ekranu jesli aktualnie trwa rejestracja
 - (IBAction)registerPressed {
     if (![_passwordTF.text isEqualToString:_rePasswordTF.text]) {
         _statusLabel.text = NSLocalizedString(@"view.register.label.status.different_password", nil);
         return;
     }
+    [self _setUIEnabled:NO];
     [_activityIndicator startAnimating];
     _accounts = [[CTFAPIAccounts alloc] initWithConnection:[CTFAPIConnection sharedConnection]];
     [_accounts signUpWithUsername:_usernameTF.text email:_emailTF.text password:_passwordTF.text block:^(BOOL success) {
@@ -75,12 +74,22 @@
             _successAlert = alertView;
             [_successAlert show];
         } else {
+#warning [tsu] think about error codes. What code will be returned (400?) if user already exists? There will be need to add handling for server error codes in response descriptors. Maybe block should be improved.
             _failureAlert = alertView;
             [_failureAlert show];
         }
         
         [_activityIndicator stopAnimating];
+        [self _setUIEnabled:YES];
     }];
+}
+
+- (void)_setUIEnabled:(BOOL)state {
+    [_emailTF setEnabled:state];
+    [_usernameTF setEnabled:state];
+    [_passwordTF setEnabled:state];
+    [_rePasswordTF setEnabled:state];
+    [_registerBtn setEnabled:state];
 }
 
 - (void)_configureTextFields {
