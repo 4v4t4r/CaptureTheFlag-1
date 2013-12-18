@@ -73,9 +73,17 @@ static NSString * const scope = @"read+write";
 }
 
 - (void)accountInfoForToken:(NSString *)token block:(ProfileBlock)block {
-#warning [tsu] need to pass token in parameter
-     [[CTFAPIConnection sharedConnection].manager getObject:nil path:@"profile" parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-         CTFUser *object;
+    if (!token) {
+        block(nil);
+        return;
+    }
+    
+    NSDictionary *parameters = @{@"token" : token};
+     [[CTFAPIConnection sharedConnection].manager
+      getObject:nil path:@"api/profile/"
+      parameters:parameters
+      success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+         CTFUser *object = nil;
          NSArray *array = mappingResult.array;
          if (array.count)
              object = (CTFUser *)mappingResult.array[0];

@@ -11,6 +11,7 @@
 #import <OCMock/OCMock.h>
 #import "CTFAPIConnection.h"
 #import "CTFAPIAccounts.h"
+#import "CTFUser.h"
 
 @interface CTFAPIAccountsTests : XCTestCase
 
@@ -177,6 +178,32 @@
 
 
 #pragma mark - accountInfoForToken:block
-#warning [tsu] implement tests for accountInfoForToken:block method
+- (void)testThatMethodShouldReturnProfileInformationForCorrectToken {
+
+    id mockManager = [OCMockObject mockForClass:[RKObjectManager class]];
+    [[[mockManager expect] andDo:^(NSInvocation *invocation) {
+        void(^successBlock)(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) = nil;
+        [invocation getArgument:&successBlock atIndex:4];
+        id mockUser = [OCMockObject mockForClass:[CTFUser class]];
+        successBlock(nil, mockUser);
+    }] getObject:nil
+     path:@"api/profile/"
+     parameters:[OCMArg isNotNil]
+     success:[OCMArg any]
+     failure:[OCMArg any]];
+    
+    CTFAPIConnection *connection = [[CTFAPIConnection alloc] initWithManager:mockManager];
+    CTFAPIAccounts *acc = [[CTFAPIAccounts alloc] initWithConnection:connection];
+    
+    [acc accountInfoForToken:@"token" block:^(CTFUser *user) {
+        XCTAssertNotNil(user, @"");
+    }];
+}
+
+- (void)testThatMethodShouldReturnNilInformationForIncorrectToken {
+    [_accounts accountInfoForToken:Nil block:^(CTFUser *user) {
+        XCTAssertNil(user, @"");
+    }];
+}
 
 @end
