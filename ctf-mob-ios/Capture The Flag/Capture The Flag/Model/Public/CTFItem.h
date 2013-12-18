@@ -12,7 +12,7 @@ typedef enum {
     CTFItemTypePistol,
     CTFItemTypeAmmo
 } CTFItemType;
-#warning [tsu] write tests
+
 @interface CTFItem : _CTFItem {}
 
 @end

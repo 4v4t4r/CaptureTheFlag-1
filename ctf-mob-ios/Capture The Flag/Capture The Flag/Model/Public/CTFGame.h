@@ -12,7 +12,7 @@ typedef enum {
     GameTypeFrags,
     GameTypeTime
 } GameType;
-#warning [tsu] write tests
+
 @interface CTFGame : _CTFGame {}
 
 @end

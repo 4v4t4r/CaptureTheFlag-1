@@ -40,6 +40,11 @@
 		6D0FAA26185F9EBA0084F505 /* ArrayDataSourceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0FAA25185F9EBA0084F505 /* ArrayDataSourceTests.m */; };
 		6D0FAA2918610A8B0084F505 /* CTFProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0FAA2818610A8B0084F505 /* CTFProfileViewController.m */; };
 		6D0FAA2B18610AF80084F505 /* CTFProfileViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0FAA2A18610AF80084F505 /* CTFProfileViewControllerTests.m */; };
+		6D0FAA2D1861F5320084F505 /* CTFItemTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0FAA2C1861F5320084F505 /* CTFItemTests.m */; };
+		6D0FAA2F1861F5A00084F505 /* CTFUserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0FAA2E1861F5A00084F505 /* CTFUserTests.m */; };
+		6D0FAA311861F5D30084F505 /* CTFMapTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0FAA301861F5D30084F505 /* CTFMapTests.m */; };
+		6D0FAA331861F6080084F505 /* CTFGameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0FAA321861F6080084F505 /* CTFGameTests.m */; };
+		6D0FAA351861F66A0084F505 /* CTFCharacterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0FAA341861F66A0084F505 /* CTFCharacterTests.m */; };
 		6D1825D7184A36120039FD92 /* CTFAPICredentialsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D1825D6184A36120039FD92 /* CTFAPICredentialsTests.m */; };
 		6D65DE05185EE07C00C76A90 /* CTFJoinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D65DE04185EE07C00C76A90 /* CTFJoinViewController.m */; };
 		6D65DE08185EE20400C76A90 /* CTFJoinGameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D65DE07185EE20400C76A90 /* CTFJoinGameCell.m */; };
@@ -140,6 +145,11 @@
 		6D0FAA2718610A8B0084F505 /* CTFProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFProfileViewController.h; sourceTree = "<group>"; };
 		6D0FAA2818610A8B0084F505 /* CTFProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFProfileViewController.m; sourceTree = "<group>"; };
 		6D0FAA2A18610AF80084F505 /* CTFProfileViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFProfileViewControllerTests.m; sourceTree = "<group>"; };
+		6D0FAA2C1861F5320084F505 /* CTFItemTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFItemTests.m; sourceTree = "<group>"; };
+		6D0FAA2E1861F5A00084F505 /* CTFUserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFUserTests.m; sourceTree = "<group>"; };
+		6D0FAA301861F5D30084F505 /* CTFMapTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFMapTests.m; sourceTree = "<group>"; };
+		6D0FAA321861F6080084F505 /* CTFGameTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFGameTests.m; sourceTree = "<group>"; };
+		6D0FAA341861F66A0084F505 /* CTFCharacterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFCharacterTests.m; sourceTree = "<group>"; };
 		6D1825D6184A36120039FD92 /* CTFAPICredentialsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFAPICredentialsTests.m; sourceTree = "<group>"; };
 		6D65DE03185EE07C00C76A90 /* CTFJoinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFJoinViewController.h; sourceTree = "<group>"; };
 		6D65DE04185EE07C00C76A90 /* CTFJoinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFJoinViewController.m; sourceTree = "<group>"; };
@@ -324,7 +334,12 @@
 			children = (
 				6D0733171861E05500E244C5 /* BaseModelTest.h */,
 				6D0733151861E02D00E244C5 /* BaseModelTest.m */,
+				6D0FAA341861F66A0084F505 /* CTFCharacterTests.m */,
+				6D0FAA321861F6080084F505 /* CTFGameTests.m */,
+				6D0FAA2C1861F5320084F505 /* CTFItemTests.m */,
+				6D0FAA301861F5D30084F505 /* CTFMapTests.m */,
 				6D0715B4184E8318002C3023 /* CTFSessionTests.m */,
+				6D0FAA2E1861F5A00084F505 /* CTFUserTests.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -797,20 +812,25 @@
 			buildActionMask = 2147483647;
 			files = (
 				6D0733161861E02D00E244C5 /* BaseModelTest.m in Sources */,
+				6D0FAA331861F6080084F505 /* CTFGameTests.m in Sources */,
 				6DA1319B1861846100290917 /* CTFAPIRKConfiguratorTests.m in Sources */,
 				6D1825D7184A36120039FD92 /* CTFAPICredentialsTests.m in Sources */,
+				6D0FAA2D1861F5320084F505 /* CTFItemTests.m in Sources */,
 				6D0715BD184FD965002C3023 /* Model.xcdatamodeld in Sources */,
 				6DE0FCCD182C030700800C09 /* CTFAPICredentials_Validator_Tests.m in Sources */,
+				6D0FAA311861F5D30084F505 /* CTFMapTests.m in Sources */,
 				6DA131A7186199C900290917 /* CTFAPIRKConfigurator_Descriptors_Tests.m in Sources */,
 				6DE0FCD0182C582300800C09 /* CTFLoginViewControllerTests.m in Sources */,
 				6DE0FCD4182C5ABD00800C09 /* CTFRegisterViewControllerTests.m in Sources */,
 				6D0D8795184CF111002904AE /* CTFAPIConnectionTests.m in Sources */,
+				6D0FAA351861F66A0084F505 /* CTFCharacterTests.m in Sources */,
 				6DA131A4186190C900290917 /* CTFAPIRKConfigurator_Mappings_Tests.m in Sources */,
 				6D0FAA26185F9EBA0084F505 /* ArrayDataSourceTests.m in Sources */,
 				6D0D87AB184D3488002904AE /* CTFAPILocalCredentialsStoreTests.m in Sources */,
 				6D0D8797184CF3FD002904AE /* CTFAPIAccountsTests.m in Sources */,
 				6D0FAA2B18610AF80084F505 /* CTFProfileViewControllerTests.m in Sources */,
 				6D0715B5184E8318002C3023 /* CTFSessionTests.m in Sources */,
+				6D0FAA2F1861F5A00084F505 /* CTFUserTests.m in Sources */,
 				6D0FAA22185F9B6D0084F505 /* CTFJoinViewControllerTests.m in Sources */,
 				6D0D87A3184D2FB5002904AE /* CTFAPILocalCredentialsTests.m in Sources */,
 				6D9CBE6A183AB4BB000FE071 /* CTFMainViewControllerTests.m in Sources */,

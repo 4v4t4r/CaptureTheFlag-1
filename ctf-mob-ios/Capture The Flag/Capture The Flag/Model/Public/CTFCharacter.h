@@ -6,7 +6,7 @@ typedef enum {
     CTFCharacterTypeCommandos,
     CTFCharacterTypeSpy
 } CTFCharacterType;
-#warning [tsu] write tests
+
 @interface CTFCharacter : _CTFCharacter {}
 
 @end
