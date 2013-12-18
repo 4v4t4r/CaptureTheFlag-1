@@ -9,7 +9,7 @@
 #import <CoreData/CoreData.h>
 
 @interface CustomManagedObject : NSManagedObject
-
+#warning [tsu] write tests
 + (instancetype)createObject;
 
 + (NSFetchRequest *)fetchRequestWithPredicate:(NSPredicate *)predicate;

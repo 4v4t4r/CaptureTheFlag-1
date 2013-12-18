@@ -1,7 +1,7 @@
 #import "_CTFUser.h"
 
 @interface CTFUser : _CTFUser {}
-
+#warning [tsu] write tests
 @end
 
 @interface CTFUser (CoreDataGeneratedAccessors)
