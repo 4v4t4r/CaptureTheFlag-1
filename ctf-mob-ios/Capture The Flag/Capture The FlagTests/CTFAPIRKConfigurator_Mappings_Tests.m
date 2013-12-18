@@ -37,6 +37,45 @@
     [super tearDown];
 }
 
+
+#pragma mark - Factory
+- (void)testFactoryShouldReturnNilMappingWhenMappingNotExists {
+    RKEntityMapping *mapping = [self.configurator entityMappingFromClass:[NSObject class]];
+    XCTAssertNil(mapping, @"");
+}
+
+- (void)testFactoryShouldReturnMappingForCharacter {
+    Class aClass = [CTFCharacter class];
+    RKEntityMapping *mapping = [self.configurator entityMappingFromClass:aClass];
+    XCTAssertEqualObjects(mapping.entity.name, NSStringFromClass(aClass), @"");
+}
+
+- (void)testFactoryShouldReturnMappingForGame {
+    Class aClass = [CTFGame class];
+    RKEntityMapping *mapping = [self.configurator entityMappingFromClass:aClass];
+    XCTAssertEqualObjects(mapping.entity.name, NSStringFromClass(aClass), @"");
+}
+
+- (void)testFactoryShouldReturnMappingForItem {
+    Class aClass = [CTFItem class];
+    RKEntityMapping *mapping = [self.configurator entityMappingFromClass:aClass];
+    XCTAssertEqualObjects(mapping.entity.name, NSStringFromClass(aClass), @"");
+}
+
+- (void)testFactoryShouldReturnMappingForMap {
+    Class aClass = [CTFMap class];
+    RKEntityMapping *mapping = [self.configurator entityMappingFromClass:aClass];
+    XCTAssertEqualObjects(mapping.entity.name, NSStringFromClass(aClass), @"");
+}
+
+- (void)testFactoryShouldReturnMappingForUser {
+    Class aClass = [CTFUser class];
+    RKEntityMapping *mapping = [self.configurator entityMappingFromClass:aClass];
+    XCTAssertEqualObjects(mapping.entity.name, NSStringFromClass(aClass), @"");
+}
+
+
+#pragma mark - Mappings
 - (void)testUserMapping {
     id parsedJSON = [RKTestFixture parsedObjectWithContentsOfFixture:@"user-response.json"];
     
