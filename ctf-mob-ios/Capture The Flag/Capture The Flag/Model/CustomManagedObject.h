@@ -9,6 +9,7 @@
 #import <CoreData/CoreData.h>
 
 @interface CustomManagedObject : NSManagedObject
+#warning [tsu] before writing test we should think about if this class is necessary.
 #warning [tsu] write tests
 + (instancetype)createObject;
 

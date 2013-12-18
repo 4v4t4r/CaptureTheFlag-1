@@ -27,11 +27,13 @@
 
 - (void)_configureMapView {
     MapViewAnnotation *annotation = [[MapViewAnnotation alloc] initWithTitle:_game.name andCoordinate:_game.map.locationCoordinates.coordinate];
+    [_mapView removeAnnotations:_mapView.annotations];
     [_mapView addAnnotation:annotation];
 }
 
 - (void)setGame:(CTFGame *)game {
     _game = game;
+    [self _configureMapView];
 }
 
 

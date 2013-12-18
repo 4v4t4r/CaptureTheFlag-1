@@ -33,7 +33,7 @@ static NSString * const scope = @"read+write";
     if (!username || !password ) {
         return;
     }
-#warning [tsu] set official path and test with server when available
+
     /// Run if validated
     NSDictionary *parameters = @{@"client_id": client_id,
                                  @"client_secret": client_secret,
