@@ -28,6 +28,7 @@
 		6D0715BC184FD965002C3023 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6DE99137183A9F9E005F3DB1 /* Model.xcdatamodeld */; };
 		6D0715BD184FD965002C3023 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6DE99137183A9F9E005F3DB1 /* Model.xcdatamodeld */; };
 		6D0715CF18531651002C3023 /* character-response.json in Resources */ = {isa = PBXBuildFile; fileRef = 6D0715CE18531651002C3023 /* character-response.json */; };
+		6D0733161861E02D00E244C5 /* BaseModelTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0733151861E02D00E244C5 /* BaseModelTest.m */; };
 		6D0D8795184CF111002904AE /* CTFAPIConnectionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0D8794184CF111002904AE /* CTFAPIConnectionTests.m */; };
 		6D0D8797184CF3FD002904AE /* CTFAPIAccountsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0D8796184CF3FD002904AE /* CTFAPIAccountsTests.m */; };
 		6D0D879B184D26BC002904AE /* STKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0D879A184D26BC002904AE /* STKeychain.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -121,6 +122,8 @@
 		6D0715B4184E8318002C3023 /* CTFSessionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFSessionTests.m; sourceTree = "<group>"; };
 		6D0715BA184FCD35002C3023 /* user-response.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "user-response.json"; sourceTree = "<group>"; };
 		6D0715CE18531651002C3023 /* character-response.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "character-response.json"; sourceTree = "<group>"; };
+		6D0733151861E02D00E244C5 /* BaseModelTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseModelTest.m; sourceTree = "<group>"; };
+		6D0733171861E05500E244C5 /* BaseModelTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseModelTest.h; sourceTree = "<group>"; };
 		6D0D8794184CF111002904AE /* CTFAPIConnectionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFAPIConnectionTests.m; sourceTree = "<group>"; };
 		6D0D8796184CF3FD002904AE /* CTFAPIAccountsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFAPIAccountsTests.m; sourceTree = "<group>"; };
 		6D0D8799184D26BC002904AE /* STKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STKeychain.h; sourceTree = "<group>"; };
@@ -319,6 +322,8 @@
 		6D163E5F183BF62100BC4F84 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				6D0733171861E05500E244C5 /* BaseModelTest.h */,
+				6D0733151861E02D00E244C5 /* BaseModelTest.m */,
 				6D0715B4184E8318002C3023 /* CTFSessionTests.m */,
 			);
 			name = Model;
@@ -791,6 +796,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D0733161861E02D00E244C5 /* BaseModelTest.m in Sources */,
 				6DA1319B1861846100290917 /* CTFAPIRKConfiguratorTests.m in Sources */,
 				6D1825D7184A36120039FD92 /* CTFAPICredentialsTests.m in Sources */,
 				6D0715BD184FD965002C3023 /* Model.xcdatamodeld in Sources */,

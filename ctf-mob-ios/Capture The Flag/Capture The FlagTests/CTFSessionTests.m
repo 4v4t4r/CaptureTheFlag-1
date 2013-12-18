@@ -6,29 +6,15 @@
 //  Copyright (c) 2013 Tomasz Szulc. All rights reserved.
 //
 
-#import <XCTest/XCTest.h>
-#import "CoreDataService.h"
+#import "BaseModelTest.h"
 #import "CTFSession.h"
 #import "CTFUser.h"
 
-@interface CTFSessionTests : XCTestCase
+@interface CTFSessionTests : BaseModelTest
 
 @end
 
 @implementation CTFSessionTests
-
-- (void)setUp
-{
-    [super setUp];
-    CoreDataService *service = [[CoreDataService alloc] initForUnitTesting];
-    [CoreDataService setSharedInstance:service];
-}
-
-- (void)tearDown
-{
-    [CoreDataService setSharedInstance:nil];
-    [super tearDown];
-}
 
 - (void)testShouldInitWithToken {
     NSString *token = @"123456789";
