@@ -27,10 +27,29 @@
     [super tearDown];
 }
 
+
+#pragma mark - /api/users/
+- (void)testUsersPOSTRequestDescriptor {
+    RKRequestDescriptor *descriptor = [self.configurator usersPOSTRequestDescriptor];
+    XCTAssertEqual(descriptor.method, RKRequestMethodPOST, @"");
+    XCTAssertEqualObjects(descriptor.objectClass, [CTFUser class], @"");
+    XCTAssertNil(descriptor.rootKeyPath, @"");
+}
+
+- (void)testUsersPOSTResponseDescriptor {
+    RKResponseDescriptor *descriptor = [self.configurator usersPOSTResponseDescriptor];
+    XCTAssertEqual(descriptor.method, RKRequestMethodPOST, @"");
+    XCTAssertNil(descriptor.keyPath, @"");
+    XCTAssertEqualObjects(descriptor.pathPattern, @"/api/users/", @"");
+}
+
+
+#pragma mark - /api/profile
 - (void)testProfileResponseDescriptor {
     RKResponseDescriptor *descriptor = [self.configurator profileResponseDescriptor];
     XCTAssertEqual(descriptor.method, RKRequestMethodGET, @"");
-    XCTAssertEqualObjects(descriptor.pathPattern, @"profile", @"");
+    XCTAssertNil(descriptor.keyPath, @"");
+    XCTAssertEqualObjects(descriptor.pathPattern, @"/api/profile", @"");
 }
 
 @end

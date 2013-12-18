@@ -11,7 +11,7 @@
 
 @implementation CTFAPIRKConfigurator (Descriptors)
 
-#pragma mark api/users/POST
+#pragma mark api/users/ (POST)
 - (RKRequestDescriptor *)usersPOSTRequestDescriptor {
     
     RKEntityMapping *mapping = [self entityMappingFromClass:[CTFUser class]];
@@ -36,12 +36,12 @@
 
 
 
-#pragma mark - Response Descriptors
+#pragma mark - api/profile (GET)
 - (RKResponseDescriptor *)profileResponseDescriptor {
     RKResponseDescriptor *response =
     [RKResponseDescriptor responseDescriptorWithMapping:[self entityMappingFromClass:[CTFUser class]]
                                                  method:RKRequestMethodGET
-                                            pathPattern:@"profile"
+                                            pathPattern:@"/api/profile"
                                                 keyPath:nil
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     return response;
