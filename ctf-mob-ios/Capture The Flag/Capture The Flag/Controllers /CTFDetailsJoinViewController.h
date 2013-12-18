@@ -7,10 +7,12 @@
 //
 
 #import "CTFViewController.h"
+@import MapKit;
 
 @class CTFGame;
-
-@interface CTFDetailsJoinViewController : CTFViewController
+#warning [tsu] write tests
+@interface CTFDetailsJoinViewController : CTFViewController <MKMapViewDelegate>
+@property (weak, nonatomic) IBOutlet MKMapView *mapView;
 
 - (void)setGame:(CTFGame *)game;
 

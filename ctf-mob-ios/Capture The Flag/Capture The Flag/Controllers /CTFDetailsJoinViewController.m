@@ -11,13 +11,6 @@
 #import "CTFMap.h"
 #import "MapViewAnnotation.h"
 
-@import MapKit;
-
-@interface CTFDetailsJoinViewController () <MKMapViewDelegate>
-@property (weak, nonatomic) IBOutlet MKMapView *mapView;
-
-@end
-
 @implementation CTFDetailsJoinViewController {
     CTFGame *_game;
 }

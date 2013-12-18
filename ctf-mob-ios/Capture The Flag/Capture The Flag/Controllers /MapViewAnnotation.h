@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 @import MapKit;
-
+#warning [tsu] write tests
 @interface MapViewAnnotation : NSObject <MKAnnotation>
 
 @property (nonatomic, copy) NSString *title;

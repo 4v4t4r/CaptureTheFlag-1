@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#warning [tsu] write tests
 @interface CTFJoinGameCell : UITableViewCell
 @property (nonatomic, weak) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *distanceLabel;

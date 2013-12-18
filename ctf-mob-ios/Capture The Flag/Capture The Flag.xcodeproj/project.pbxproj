@@ -278,6 +278,35 @@
 			name = Fixtures;
 			sourceTree = "<group>";
 		};
+		6D07330E1861C39700E244C5 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				6D0FAA21185F9B6D0084F505 /* CTFJoinViewControllerTests.m */,
+				6DE0FCCF182C582200800C09 /* CTFLoginViewControllerTests.m */,
+				6D9CBE69183AB4BB000FE071 /* CTFMainViewControllerTests.m */,
+				6D0FAA2A18610AF80084F505 /* CTFProfileViewControllerTests.m */,
+				6DE0FCD3182C5ABD00800C09 /* CTFRegisterViewControllerTests.m */,
+				6D0733101861C46D00E244C5 /* Other */,
+				6D07330F1861C42100E244C5 /* Views */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		6D07330F1861C42100E244C5 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		6D0733101861C46D00E244C5 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				6D0FAA25185F9EBA0084F505 /* ArrayDataSourceTests.m */,
+			);
+			name = Other;
+			sourceTree = "<group>";
+		};
 		6D0D8798184D26AF002904AE /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -291,7 +320,6 @@
 			isa = PBXGroup;
 			children = (
 				6D0715B4184E8318002C3023 /* CTFSessionTests.m */,
-				6D0FAA25185F9EBA0084F505 /* ArrayDataSourceTests.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -311,18 +339,6 @@
 				6DA131A3186190C900290917 /* CTFAPIRKConfigurator_Mappings_Tests.m */,
 			);
 			name = API;
-			sourceTree = "<group>";
-		};
-		6D54EBA9182EB05E002A6357 /* UI Tests */ = {
-			isa = PBXGroup;
-			children = (
-				6DE0FCCF182C582200800C09 /* CTFLoginViewControllerTests.m */,
-				6DE0FCD3182C5ABD00800C09 /* CTFRegisterViewControllerTests.m */,
-				6D9CBE69183AB4BB000FE071 /* CTFMainViewControllerTests.m */,
-				6D0FAA21185F9B6D0084F505 /* CTFJoinViewControllerTests.m */,
-				6D0FAA2A18610AF80084F505 /* CTFProfileViewControllerTests.m */,
-			);
-			name = "UI Tests";
 			sourceTree = "<group>";
 		};
 		6D54EBB7182EB657002A6357 /* API */ = {
@@ -377,10 +393,10 @@
 				6DB609AD185488870094E37D /* CTFViewController.m */,
 				6DB609AE185488870094E37D /* CTFViewControllerProtocol.h */,
 				6DB609B3185488960094E37D /* Storyboards */,
-				6D65DE03185EE07C00C76A90 /* CTFJoinViewController.h */,
-				6D65DE04185EE07C00C76A90 /* CTFJoinViewController.m */,
 				6D65DE0A185EF32800C76A90 /* CTFDetailsJoinViewController.h */,
 				6D65DE0B185EF32800C76A90 /* CTFDetailsJoinViewController.m */,
+				6D65DE03185EE07C00C76A90 /* CTFJoinViewController.h */,
+				6D65DE04185EE07C00C76A90 /* CTFJoinViewController.m */,
 				6DB609A8185488870094E37D /* CTFMainViewController.h */,
 				6DB609A9185488870094E37D /* CTFMainViewController.m */,
 				6DB609A6185488870094E37D /* CTFLoginViewController.h */,
@@ -527,9 +543,9 @@
 			isa = PBXGroup;
 			children = (
 				6D0715CD1853153E002C3023 /* Fixtures */,
+				6D07330E1861C39700E244C5 /* Controllers */,
 				6D1825DB184A4A2A0039FD92 /* API */,
 				6D163E5F183BF62100BC4F84 /* Model */,
-				6D54EBA9182EB05E002A6357 /* UI Tests */,
 				6DFD1951182ACF0D00542227 /* Supporting Files */,
 			);
 			path = "Capture The FlagTests";
