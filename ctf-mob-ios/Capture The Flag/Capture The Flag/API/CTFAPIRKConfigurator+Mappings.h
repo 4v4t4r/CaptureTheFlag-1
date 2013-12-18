@@ -9,7 +9,12 @@
 #import "CTFAPIRKConfigurator.h"
 
 @interface CTFAPIRKConfigurator (Mappings)
-#warning [tsu] add description
+/**
+ @define Method returns RKEntityMapping for given class.
+ @abstract Returns EntityMapping for entity class, otherwise nil.
+ @discussion 
+ @param aClass Class of entity object.
+ */
 - (RKEntityMapping *)entityMappingFromClass:(Class)aClass;
 
 @end
