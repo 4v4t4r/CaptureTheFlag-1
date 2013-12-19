@@ -34,6 +34,14 @@
 "view.login.alert.cant_store_credentials.message" = "Something goes wrong with Keychain during login process. Please try again";
 
 
+/* Wrong credentials */
+/* title */
+"view.login.alert.wrong_credentials.title" = "Wrong credentials";
+
+/* message */
+"view.login.alert.wrong_credentials.message" = "Check username and password and try again";
+
+
 
 /* REGISTER */
 /* Title of navigation bar */

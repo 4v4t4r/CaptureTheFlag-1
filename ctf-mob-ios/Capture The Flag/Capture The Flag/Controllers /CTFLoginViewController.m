@@ -101,7 +101,13 @@
                 }
             } else {
                 [_activityIndicator stopAnimating];
-#warning [tsu] need implementation of UIAlertView which shows appropriate alert that user can't login... Need some error handling
+                UIAlertView *alert =
+                [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"view.login.alert.wrong_credentials.title", nil)
+                                           message:NSLocalizedString(@"view.login.alert.wrong_credentials.message", nil)
+                                          delegate:nil
+                                 cancelButtonTitle:NSLocalizedString(@"button.OK", nil)
+                                 otherButtonTitles:nil, nil];
+                [alert show];
             }
         }];
     } else {
