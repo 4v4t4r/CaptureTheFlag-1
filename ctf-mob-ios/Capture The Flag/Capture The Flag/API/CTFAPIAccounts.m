@@ -9,6 +9,7 @@
 #import "CTFAPIAccounts.h"
 #import "CTFAPIConnection.h"
 #import "CTFUser.h"
+#import "CoreDataService.h"
 
 static NSString * const client_id = @"94f5481b9ac440230663";
 static NSString * const client_secret = @"660e440fbe257bcfaadea794acd41230c18fe4d0";
@@ -58,7 +59,9 @@ static NSString * const scope = @"read+write";
     }
     
     /// prepare user object
-    CTFUser *user = [CTFUser createObject];
+    CTFUser *user =
+    [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([CTFUser class])
+                                  inManagedObjectContext:[CoreDataService sharedInstance].managedObjectContext];
     user.username = username;
     user.password = password;
     user.email = email;
@@ -67,7 +70,6 @@ static NSString * const scope = @"read+write";
                          parameters:nil
                             success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
                                 block(YES);
-#warning [tsu] dodac 400 i sprawdzic czy przyjdzie w success.
                             } failure:^(RKObjectRequestOperation *operation, NSError *error) {
                                 block(NO);
                             }];

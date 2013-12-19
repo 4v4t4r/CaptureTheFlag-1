@@ -74,7 +74,6 @@
             _successAlert = alertView;
             [_successAlert show];
         } else {
-#warning [tsu] think about error codes. What code will be returned (400?) if user already exists? There will be need to add handling for server error codes in response descriptors. Maybe block should be improved.
             _failureAlert = alertView;
             [_failureAlert show];
         }

@@ -2,7 +2,7 @@
 // Make changes to CTFCharacter.h instead.
 
 #import <CoreData/CoreData.h>
-#import "CustomManagedObject.h"
+
 
 extern const struct CTFCharacterAttributes {
 	__unsafe_unretained NSString *health;
@@ -32,7 +32,7 @@ extern const struct CTFCharacterFetchedProperties {
 @interface CTFCharacterID : NSManagedObjectID {}
 @end
 
-@interface _CTFCharacter : CustomManagedObject {}
+@interface _CTFCharacter : NSManagedObject {}
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;

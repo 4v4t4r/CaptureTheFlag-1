@@ -16,7 +16,9 @@
 @implementation CTFMapTests
 
 - (void)testThatMapShouldExists {
-    CTFMap *map = [CTFMap createObject];
+    CTFMap *map =
+    [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([CTFMap class])
+                                  inManagedObjectContext:self.service.managedObjectContext];
     XCTAssertNotNil(map, @"");
 }
 

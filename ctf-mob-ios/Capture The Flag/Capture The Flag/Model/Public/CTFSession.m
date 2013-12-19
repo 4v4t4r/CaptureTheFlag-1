@@ -1,5 +1,5 @@
 #import "CTFSession.h"
-
+#import "CoreDataService.h"
 
 @interface CTFSession ()
 
@@ -26,7 +26,8 @@ static CTFSession *sharedInstance = nil;
     if (!token)
         return nil;
     
-    self = [CTFSession createObject];
+    self = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([CTFSession class])
+                                         inManagedObjectContext:[CoreDataService sharedInstance].managedObjectContext];
     if (self) {
         _token = token;
     }

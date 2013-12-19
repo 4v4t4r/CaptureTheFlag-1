@@ -16,7 +16,9 @@
 @implementation CTFGameTests
 
 - (void)testThatGameShouldExists {
-    CTFGame *game = [CTFGame createObject];
+    CTFGame *game =
+    [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([CTFGame class])
+                                  inManagedObjectContext:self.service.managedObjectContext];
     XCTAssertNotNil(game, @"");
 }
 

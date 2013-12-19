@@ -2,7 +2,7 @@
 // Make changes to CTFItem.h instead.
 
 #import <CoreData/CoreData.h>
-#import "CustomManagedObject.h"
+
 
 extern const struct CTFItemAttributes {
 	__unsafe_unretained NSString *desc;
@@ -30,7 +30,7 @@ extern const struct CTFItemFetchedProperties {
 @interface CTFItemID : NSManagedObjectID {}
 @end
 
-@interface _CTFItem : CustomManagedObject {}
+@interface _CTFItem : NSManagedObject {}
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;

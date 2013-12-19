@@ -2,7 +2,7 @@
 // Make changes to CTFSession.h instead.
 
 #import <CoreData/CoreData.h>
-#import "CustomManagedObject.h"
+
 
 extern const struct CTFSessionAttributes {
 	__unsafe_unretained NSString *token;
@@ -22,7 +22,7 @@ extern const struct CTFSessionFetchedProperties {
 @interface CTFSessionID : NSManagedObjectID {}
 @end
 
-@interface _CTFSession : CustomManagedObject {}
+@interface _CTFSession : NSManagedObject {}
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;

@@ -16,7 +16,9 @@
 @implementation CTFUserTests
 
 - (void)testThatUserShouldExists {
-    CTFUser *user = [CTFUser createObject];
+    CTFUser *user =
+    [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([CTFUser class])
+                                  inManagedObjectContext:self.service.managedObjectContext];
     XCTAssertNotNil(user, @"");
 }
 

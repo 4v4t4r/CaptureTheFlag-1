@@ -18,6 +18,8 @@
 #import "CTFAPILocalCredentialsStore.h"
 #import "CTFAPILocalCredentials.h"
 
+#import "CoreDataService.h"
+
 @interface CTFLoginViewController ()
 
 @end
@@ -71,7 +73,10 @@
                 /// Configure game object with token and logged user
                 CTFSession *session = [[CTFSession alloc] initWithToken:token];
             
-                CTFUser *user = [CTFUser createObject];
+                CTFUser *user =
+                [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([CTFUser class])
+                                              inManagedObjectContext:[CoreDataService sharedInstance].managedObjectContext];
+
                 user.username = username;
                 session.currentUser = user;
                 

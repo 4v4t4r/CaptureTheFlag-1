@@ -12,6 +12,7 @@
 #import "CTFGame.h"
 #import "CTFMap.h"
 #import "ArrayDataSource.h"
+#import "CoreDataService.h"
 
 @interface CTFJoinViewController ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -36,14 +37,18 @@
     }];
 }
 
-#warning [tsu] implement!
 - (NSArray *)_prepareContent {
     NSMutableArray *content = [NSMutableArray new];
     
-    CTFGame *game = [CTFGame createObject];
+    CTFGame *game =
+    [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([CTFGame class])
+                                  inManagedObjectContext:[CoreDataService sharedInstance].managedObjectContext];
+
     game.name = @"Potyczka na Jasnych Bł.";
 
-    CTFMap *map = [CTFMap createObject];
+    CTFMap *map =
+    [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([CTFMap class])
+                                  inManagedObjectContext:[CoreDataService sharedInstance].managedObjectContext];
     map.createdBy = @"tomkowz";
     map.location = @[@(53.43485), @(14.566391)];
     game.map = map;

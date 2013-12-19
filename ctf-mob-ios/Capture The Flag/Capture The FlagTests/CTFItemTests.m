@@ -15,7 +15,9 @@
 @implementation CTFItemTests
 
 - (void)testThatItemShouldBeNotNil {
-    CTFItem *item = [CTFItem createObject];
+    CTFItem *item =
+    [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([CTFItem class])
+                                  inManagedObjectContext:self.service.managedObjectContext];
     XCTAssertNotNil(item, @"");
 }
 

@@ -2,7 +2,7 @@
 // Make changes to CTFMap.h instead.
 
 #import <CoreData/CoreData.h>
-#import "CustomManagedObject.h"
+
 
 extern const struct CTFMapAttributes {
 	__unsafe_unretained NSString *createdBy;
@@ -36,7 +36,7 @@ extern const struct CTFMapFetchedProperties {
 @interface CTFMapID : NSManagedObjectID {}
 @end
 
-@interface _CTFMap : CustomManagedObject {}
+@interface _CTFMap : NSManagedObject {}
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;

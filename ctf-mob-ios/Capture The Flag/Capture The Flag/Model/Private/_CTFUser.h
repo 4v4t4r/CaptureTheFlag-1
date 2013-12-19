@@ -2,7 +2,7 @@
 // Make changes to CTFUser.h instead.
 
 #import <CoreData/CoreData.h>
-#import "CustomManagedObject.h"
+
 
 extern const struct CTFUserAttributes {
 	__unsafe_unretained NSString *email;
@@ -38,7 +38,7 @@ extern const struct CTFUserFetchedProperties {
 @interface CTFUserID : NSManagedObjectID {}
 @end
 
-@interface _CTFUser : CustomManagedObject {}
+@interface _CTFUser : NSManagedObject {}
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;

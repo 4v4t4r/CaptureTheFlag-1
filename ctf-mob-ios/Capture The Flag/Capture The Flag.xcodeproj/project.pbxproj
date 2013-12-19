@@ -93,7 +93,6 @@
 		6DE0FCD0182C582300800C09 /* CTFLoginViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE0FCCF182C582200800C09 /* CTFLoginViewControllerTests.m */; };
 		6DE0FCD4182C5ABD00800C09 /* CTFRegisterViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE0FCD3182C5ABD00800C09 /* CTFRegisterViewControllerTests.m */; };
 		6DE9913C183AA00E005F3DB1 /* CoreDataService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE9913B183AA00E005F3DB1 /* CoreDataService.m */; };
-		6DE99141183AA128005F3DB1 /* CustomManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE99140183AA128005F3DB1 /* CustomManagedObject.m */; };
 		6DFD192C182ACF0C00542227 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DFD192B182ACF0C00542227 /* Foundation.framework */; };
 		6DFD192E182ACF0C00542227 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DFD192D182ACF0C00542227 /* CoreGraphics.framework */; };
 		6DFD1930182ACF0C00542227 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DFD192F182ACF0C00542227 /* UIKit.framework */; };
@@ -233,8 +232,6 @@
 		6DE99138183A9F9E005F3DB1 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		6DE9913A183AA00E005F3DB1 /* CoreDataService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataService.h; sourceTree = "<group>"; };
 		6DE9913B183AA00E005F3DB1 /* CoreDataService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataService.m; sourceTree = "<group>"; };
-		6DE9913F183AA128005F3DB1 /* CustomManagedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomManagedObject.h; sourceTree = "<group>"; };
-		6DE99140183AA128005F3DB1 /* CustomManagedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomManagedObject.m; sourceTree = "<group>"; };
 		6DFD1928182ACF0C00542227 /* Capture The Flag.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Capture The Flag.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DFD192B182ACF0C00542227 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6DFD192D182ACF0C00542227 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -489,8 +486,6 @@
 				6DE99137183A9F9E005F3DB1 /* Model.xcdatamodeld */,
 				6DE9913A183AA00E005F3DB1 /* CoreDataService.h */,
 				6DE9913B183AA00E005F3DB1 /* CoreDataService.m */,
-				6DE9913F183AA128005F3DB1 /* CustomManagedObject.h */,
-				6DE99140183AA128005F3DB1 /* CustomManagedObject.m */,
 				6DB609DB1854A11A0094E37D /* Public */,
 				6DB609D01854A11A0094E37D /* _Private (Mogenerator) */,
 			);
@@ -798,7 +793,6 @@
 				6D65DE1F185F0DB100C76A90 /* _CTFMap.m in Sources */,
 				6DB609E71854A11A0094E37D /* _CTFGame.m in Sources */,
 				6DB609E91854A11A0094E37D /* _CTFSession.m in Sources */,
-				6DE99141183AA128005F3DB1 /* CustomManagedObject.m in Sources */,
 				6DA131971861842100290917 /* CTFAPIRKConfigurator.m in Sources */,
 				6DFD193C182ACF0C00542227 /* CTFAppDelegate.m in Sources */,
 				6DB609EA1854A11A0094E37D /* _CTFUser.m in Sources */,

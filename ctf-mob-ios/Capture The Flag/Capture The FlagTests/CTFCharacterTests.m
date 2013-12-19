@@ -16,7 +16,9 @@
 @implementation CTFCharacterTests
 
 - (void)testThatCharacterExists {
-    CTFCharacter *character = [CTFCharacter createObject];
+    CTFCharacter *character =
+    [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([CTFCharacter class])
+                                  inManagedObjectContext:self.service.managedObjectContext];
     XCTAssertNotNil(character, @"");
 }
 

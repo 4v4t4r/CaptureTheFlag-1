@@ -43,7 +43,9 @@
 
 - (void)testShouldSetCurrentUser {
     CTFSession *session = [[CTFSession alloc] initWithToken:@"abc"];
-    CTFUser *user = [CTFUser createObject];
+    CTFUser *user =
+    [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([CTFUser class])
+                                  inManagedObjectContext:self.service.managedObjectContext];
     user.username = @"username";
     
     [session setCurrentUser:user];

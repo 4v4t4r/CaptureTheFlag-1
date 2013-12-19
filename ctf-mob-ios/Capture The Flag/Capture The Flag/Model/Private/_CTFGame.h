@@ -2,7 +2,7 @@
 // Make changes to CTFGame.h instead.
 
 #import <CoreData/CoreData.h>
-#import "CustomManagedObject.h"
+
 
 extern const struct CTFGameAttributes {
 	__unsafe_unretained NSString *createdDate;
@@ -40,7 +40,7 @@ extern const struct CTFGameFetchedProperties {
 @interface CTFGameID : NSManagedObjectID {}
 @end
 
-@interface _CTFGame : CustomManagedObject {}
+@interface _CTFGame : NSManagedObject {}
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
