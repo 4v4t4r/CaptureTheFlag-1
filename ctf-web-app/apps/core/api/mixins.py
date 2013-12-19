@@ -1,8 +1,13 @@
 import warnings
 from django.http import Http404
+from rest_framework.permissions import DjangoModelPermissionsOrAnonReadOnly, IsAuthenticated
 from rest_framework.response import Response
 
 __author__ = 'mkr'
+
+
+class ModelPermissionsMixin(object):
+    permission_classes = (IsAuthenticated, DjangoModelPermissionsOrAnonReadOnly,)
 
 
 class RetrieveModelMixin(object):
