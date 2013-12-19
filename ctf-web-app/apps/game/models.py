@@ -1,4 +1,3 @@
-from django.db import models
 from model_utils import Choices
 from django.utils.translation import ugettext as _
 
@@ -16,23 +15,26 @@ class Game(object):
         (1, 'TIME_BASED', _('Time based')),
     )
 
-    name = models.CharField(max_length=50)
-    description = models.CharField(max_length=200)
-    status = models.IntegerField(choices=STATUS, default=STATUS.CREATED)
-    start_time = models.DateField()
-    max_players = models.IntegerField()
-    type = models.IntegerField(choices=TYPE, default=TYPE.FRAG_BASED)
-    players = None
-    items = None
-    map = None
+    def __init__(self, name=None, description=None, status=STATUS.CREATED, start_time=None, max_players=0,
+                 type=TYPE.FRAG_BASED, players=None, items=None, map=None):
+        self.name = name
+        self.description = description
+        self.status = status
+        self.start_time = start_time
+        self.max_players = max_players
+        self.type = type
+        self.players = players
+        self.items = items
+        self.map = map
 
 
 class Map(object):
-    name = models.CharField(max_length=50)
-    description = models.CharField(max_length=200)
-    location = None
-    radius = models.IntegerField()
-    author = None
+    def __init__(self, name=None, description=None, location=None, radius=None, author=None):
+        self.name = name
+        self.description = description
+        self.location = location
+        self.radius = radius
+        self.author = author
 
 
 class Item(object):
@@ -46,8 +48,9 @@ class Item(object):
         (6, 'AMMO', _('Ammo')),
     )
 
-    name = models.CharField(max_length=50)
-    description = models.CharField(max_length=200)
-    type = models.IntegerField(choices=TYPE)
-    location = None
-    value = None
+    def __init__(self, name=None, description=None, type=None, location=None, value=None):
+        self.name = name
+        self.description = description
+        self.type = type
+        self.location = location
+        self.value = value
