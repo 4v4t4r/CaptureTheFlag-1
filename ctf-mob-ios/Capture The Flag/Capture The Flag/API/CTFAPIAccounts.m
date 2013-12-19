@@ -60,13 +60,14 @@ static NSString * const scope = @"read+write";
     /// prepare user object
     CTFUser *user = [CTFUser createObject];
     user.username = username;
-    user.nick = username;
     user.password = password;
     user.email = email;
     
-    [_connection.manager postObject:user path:@"api/users/" parameters:nil
+    [_connection.manager postObject:user path:@"/api/registration/"
+                         parameters:nil
                             success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
                                 block(YES);
+#warning [tsu] dodac 400 i sprawdzic czy przyjdzie w success.
                             } failure:^(RKObjectRequestOperation *operation, NSError *error) {
                                 block(NO);
                             }];

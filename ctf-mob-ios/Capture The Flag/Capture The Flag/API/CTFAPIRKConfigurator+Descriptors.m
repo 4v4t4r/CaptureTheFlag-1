@@ -13,7 +13,6 @@
 
 #pragma mark api/users/ (POST)
 - (RKRequestDescriptor *)usersPOSTRequestDescriptor {
-    
     RKEntityMapping *mapping = [self entityMappingFromClass:[CTFUser class]];
 
     RKRequestDescriptor *descriptor =
@@ -28,7 +27,7 @@
     RKResponseDescriptor *response =
     [RKResponseDescriptor responseDescriptorWithMapping:[self entityMappingFromClass:[CTFUser class]]
                                                  method:RKRequestMethodPOST
-                                            pathPattern:@"/api/users/"
+                                            pathPattern:@"/api/registration/"
                                                 keyPath:nil
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     return response;

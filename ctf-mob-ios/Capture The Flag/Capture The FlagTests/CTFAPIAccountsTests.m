@@ -149,6 +149,24 @@
     [mockClient verify];
 }
 
+- (void)testThatRegistrationRequestIsCalledToCorrectPath {
+    id mockManager = [OCMockObject mockForClass:[RKObjectManager class]];
+    [[mockManager expect] postObject:[OCMArg isNotNil]
+                                path:@"/api/registration/"
+                          parameters:nil
+                             success:[OCMArg isNotNil]
+                             failure:[OCMArg isNotNil]];
+    
+    CTFAPIConnection *connection = [[CTFAPIConnection alloc] initWithManager:mockManager];
+    
+    _accounts = [[CTFAPIAccounts alloc] initWithConnection:connection];
+    [_accounts signUpWithUsername:@"username" email:@"email" password:@"password" block:^(BOOL success) {
+        
+    }];
+    
+    [mockManager verify];
+}
+
 
 - (void)testBlockShouldReturnYesIfSuccess {
     id mockClient = [OCMockObject mockForClass:[AFHTTPClient class]];

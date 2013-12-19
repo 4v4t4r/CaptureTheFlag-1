@@ -11,7 +11,7 @@
 @interface CTFAPIRKConfigurator (Descriptors)
 
 /**
- api/users/
+ api/registration/
  */
 - (RKRequestDescriptor *)usersPOSTRequestDescriptor;
 - (RKResponseDescriptor *)usersPOSTResponseDescriptor;

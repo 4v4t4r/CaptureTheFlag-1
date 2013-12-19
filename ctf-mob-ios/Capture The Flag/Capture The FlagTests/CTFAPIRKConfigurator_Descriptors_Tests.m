@@ -28,19 +28,19 @@
 }
 
 
-#pragma mark - /api/users/
-- (void)testUsersPOSTRequestDescriptor {
+#pragma mark - /api/registration/
+- (void)testRegistrationPOSTRequestDescriptor {
     RKRequestDescriptor *descriptor = [self.configurator usersPOSTRequestDescriptor];
     XCTAssertEqual(descriptor.method, RKRequestMethodPOST, @"");
     XCTAssertEqualObjects(descriptor.objectClass, [CTFUser class], @"");
     XCTAssertNil(descriptor.rootKeyPath, @"");
 }
 
-- (void)testUsersPOSTResponseDescriptor {
+- (void)testRegistrationPOSTResponseDescriptor {
     RKResponseDescriptor *descriptor = [self.configurator usersPOSTResponseDescriptor];
     XCTAssertEqual(descriptor.method, RKRequestMethodPOST, @"");
     XCTAssertNil(descriptor.keyPath, @"");
-    XCTAssertEqualObjects(descriptor.pathPattern, @"/api/users/", @"");
+    XCTAssertEqualObjects(descriptor.pathPattern, @"/api/registration/", @"");
 }
 
 
