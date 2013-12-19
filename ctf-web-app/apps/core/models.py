@@ -1,3 +1,4 @@
+from model_utils import Choices
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
@@ -21,10 +22,10 @@ class PortalUser(AbstractUser):
 
 
 class Character(models.Model):
-    CHARACTER_TYPES = (
-        (0, _('Private')),
-        (1, _('Medic')),
-        (2, _('Commandos')),
+    CHARACTER_TYPES = Choices(
+        (0, 'PRIVATE',  _('Private')),
+        (1, 'MEDIC', _('Medic')),
+        (2, 'COMMANDOS', _('Commandos')),
     )
 
     user = models.ForeignKey("PortalUser", related_name="characters")

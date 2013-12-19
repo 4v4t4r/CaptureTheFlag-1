@@ -47,6 +47,7 @@ INSTALLED_APPS = (
 
     # 'apps.es',
     'apps.core',
+    'apps.game',
 )
 
 MIDDLEWARE_CLASSES = (
