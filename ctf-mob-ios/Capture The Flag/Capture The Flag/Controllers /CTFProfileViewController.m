@@ -7,18 +7,25 @@
 //
 
 #import "CTFProfileViewController.h"
+#import "CTFAPIAccounts.h"
+#import "CTFSession.h"
+#import "CTFAPIConnection.h"
 
 @interface CTFProfileViewController ()
 
 @end
 
-@implementation CTFProfileViewController
+@implementation CTFProfileViewController {
+    CTFAPIAccounts *_accounts;
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    
+    _accounts = [[CTFAPIAccounts alloc] initWithConnection:[CTFAPIConnection sharedConnection]];
+    [_accounts accountInfoForToken:[CTFSession sharedInstance].token block:^(CTFUser *user) {
+        NSLog(@"user = %@", user);
+    }];
 }
 
 - (void)localizeUI {
