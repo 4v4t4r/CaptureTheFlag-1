@@ -9,9 +9,7 @@
 #import "CTFAPIRKConfigurator.h"
 #import "CTFAPIRKConfigurator+Descriptors.h"
 
-@implementation CTFAPIRKConfigurator {
-    RKObjectManager *_manager;
-}
+@implementation CTFAPIRKConfigurator
 
 - (id)initWithManager:(RKObjectManager *)manager {
     if (!manager)
@@ -31,12 +29,6 @@
     
     /// api/profile
     [_manager addResponseDescriptor:[self profileResponseDescriptor]];
-}
-
-
-#pragma mark - Accessors for categories
-- (RKObjectManager *)manager {
-    return _manager;
 }
 
 @end

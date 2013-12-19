@@ -8,10 +8,7 @@
 
 #import "MapViewAnnotation.h"
 
-@implementation MapViewAnnotation {
-    NSString *_title;
-    CLLocationCoordinate2D _coordinate;
-}
+@implementation MapViewAnnotation
 
 - (id)initWithTitle:(NSString *)title andCoordinate:(CLLocationCoordinate2D)c2d {
     self = [super init];

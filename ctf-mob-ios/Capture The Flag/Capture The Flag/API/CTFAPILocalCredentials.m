@@ -9,10 +9,6 @@
 #import "CTFAPILocalCredentials.h"
 #import "STKeychain.h"
 @implementation CTFAPILocalCredentials
-{
-    NSString *_username;
-    NSString *_password;
-}
 
 - (instancetype)initWithUsername:(NSString *)username password:(NSString *)password {
     
@@ -26,15 +22,6 @@
         _password = password;
     }
     return self;
-}
-
-#pragma mark - Accessors
-- (NSString *)username {
-    return _username;
-}
-
-- (NSString *)password {
-    return _password;
 }
 
 @end

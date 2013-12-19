@@ -8,9 +8,7 @@
 
 #import "CTFAPIConnection.h"
 
-@implementation CTFAPIConnection {
-    RKObjectManager *_manager;
-}
+@implementation CTFAPIConnection
 
 static CTFAPIConnection *_sharedConnection = nil;
 + (void)setSharedConnection:(CTFAPIConnection *)connection {
@@ -29,11 +27,6 @@ static CTFAPIConnection *_sharedConnection = nil;
         _manager = manager;
     }
     return self;
-}
-
-#pragma mark - Accessors
-- (RKObjectManager *)manager {
-    return _manager;
 }
 
 @end
