@@ -8,6 +8,7 @@
 
 #import "CTFAPIRKConfigurator+Descriptors.h"
 #import "CTFAPIRKConfigurator+Mappings.h"
+#import "CTFUser.h"
 
 @implementation CTFAPIRKConfigurator (Descriptors)
 

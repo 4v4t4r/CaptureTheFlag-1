@@ -7,6 +7,11 @@
 //
 
 #import "CTFAPIRKConfigurator+Mappings.h"
+#import "CTFCharacter.h"
+#import "CTFGame.h"
+#import "CTFItem.h"
+#import "CTFMap.h"
+#import "CTFUser.h"
 
 @implementation CTFAPIRKConfigurator (Mappings)
 

@@ -7,14 +7,14 @@
 //
 
 #import "CTFAppDelegate.h"
-#import "CoreDataService.h"
 #import "CTFLoginViewController.h"
 
 #import "CTFAPIConnection.h"
 #import "CTFAPIRKConfigurator.h"
+#import "CTFAPILocalCredentialsStore.h"
 
 #import "STKeychain.h"
-#import "CTFAPILocalCredentialsStore.h"
+#import "CoreDataService.h"
 
 @implementation CTFAppDelegate
 

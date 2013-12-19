@@ -197,7 +197,6 @@
 		6DB609AB185488870094E37D /* CTFRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFRegisterViewController.m; sourceTree = "<group>"; };
 		6DB609AC185488870094E37D /* CTFViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFViewController.h; sourceTree = "<group>"; };
 		6DB609AD185488870094E37D /* CTFViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFViewController.m; sourceTree = "<group>"; };
-		6DB609AE185488870094E37D /* CTFViewControllerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFViewControllerProtocol.h; sourceTree = "<group>"; };
 		6DB609B4185488CE0094E37D /* CTFAPIAccounts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFAPIAccounts.h; sourceTree = "<group>"; };
 		6DB609B5185488CE0094E37D /* CTFAPIAccounts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFAPIAccounts.m; sourceTree = "<group>"; };
 		6DB609B6185488CE0094E37D /* CTFAPIConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFAPIConnection.h; sourceTree = "<group>"; };
@@ -417,7 +416,6 @@
 			children = (
 				6DB609AC185488870094E37D /* CTFViewController.h */,
 				6DB609AD185488870094E37D /* CTFViewController.m */,
-				6DB609AE185488870094E37D /* CTFViewControllerProtocol.h */,
 				6DB609B3185488960094E37D /* Storyboards */,
 				6D65DE0A185EF32800C76A90 /* CTFDetailsJoinViewController.h */,
 				6D65DE0B185EF32800C76A90 /* CTFDetailsJoinViewController.m */,

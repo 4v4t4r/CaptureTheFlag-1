@@ -8,6 +8,7 @@
 
 #import "CTFAPILocalCredentials.h"
 #import "STKeychain.h"
+
 @implementation CTFAPILocalCredentials
 
 - (instancetype)initWithUsername:(NSString *)username password:(NSString *)password {

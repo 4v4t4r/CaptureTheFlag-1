@@ -8,9 +8,9 @@
 
 #import "CTFRegisterViewController.h"
 
+#import "CTFAPIAccounts.h"
 #import "CTFAPIConnection.h"
 #import "CTFAPILocalCredentialsValidator.h"
-#import "CTFAPIAccounts.h"
 
 @interface CTFRegisterViewController () <UIAlertViewDelegate>
 @end

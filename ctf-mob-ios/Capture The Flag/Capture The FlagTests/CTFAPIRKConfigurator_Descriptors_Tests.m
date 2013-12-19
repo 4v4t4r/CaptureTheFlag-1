@@ -9,6 +9,7 @@
 #import "CTFAPIRKConfiguratorTests.h"
 #import "CTFAPIRKConfigurator.h"
 #import "CTFAPIRKConfigurator+Descriptors.h"
+#import "CTFUser.h"
 
 @interface CTFAPIRKConfigurator_Descriptors_Tests : CTFAPIRKConfiguratorTests
 

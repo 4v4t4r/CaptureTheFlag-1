@@ -11,18 +11,13 @@
 #import "CTFSession.h"
 #import "CTFUser.h"
 
-#import "CTFAPILocalCredentialsValidator.h"
 #import "CTFAPIAccounts.h"
 #import "CTFAPIConnection.h"
-
-#import "CTFAPILocalCredentialsStore.h"
 #import "CTFAPILocalCredentials.h"
+#import "CTFAPILocalCredentialsStore.h"
+#import "CTFAPILocalCredentialsValidator.h"
 
 #import "CoreDataService.h"
-
-@interface CTFLoginViewController ()
-
-@end
 
 @implementation CTFLoginViewController {
     CTFAPIAccounts *_accounts;

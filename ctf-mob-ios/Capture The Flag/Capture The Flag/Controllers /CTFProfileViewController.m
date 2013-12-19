@@ -8,12 +8,8 @@
 
 #import "CTFProfileViewController.h"
 #import "CTFAPIAccounts.h"
-#import "CTFSession.h"
 #import "CTFAPIConnection.h"
-
-@interface CTFProfileViewController ()
-
-@end
+#import "CTFSession.h"
 
 @implementation CTFProfileViewController {
     CTFAPIAccounts *_accounts;

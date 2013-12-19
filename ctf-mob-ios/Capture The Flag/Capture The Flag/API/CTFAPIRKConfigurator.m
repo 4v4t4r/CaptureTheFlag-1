@@ -14,7 +14,7 @@
 - (id)initWithManager:(RKObjectManager *)manager {
     if (!manager)
         return nil;
-    
+
     self = [super init];
     if (self) {
         _manager = manager;
