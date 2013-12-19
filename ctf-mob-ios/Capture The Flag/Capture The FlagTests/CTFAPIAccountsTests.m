@@ -58,6 +58,26 @@
     [mockClient verify];
 }
 
+- (void)testThatAccessTokenRequestIsCalledToCorrectPath {
+    id mockClient = [OCMockObject mockForClass:[AFHTTPClient class]];
+
+    [[mockClient expect] postPath:@"/oauth2/access_token"
+                       parameters:[OCMArg isNotNil]
+                          success:[OCMArg isNotNil]
+                          failure:[OCMArg isNotNil]];
+    
+    RKObjectManager *manager = [[RKObjectManager alloc] init];
+    manager.HTTPClient = mockClient;
+    
+    CTFAPIConnection *connection = [[CTFAPIConnection alloc] initWithManager:manager];
+    _accounts = [[CTFAPIAccounts alloc] initWithConnection:connection];
+    [_accounts signInWithUsername:@"username" andPassword:@"password" withBlock:^(NSString *token) {
+        
+    }];
+    
+    [mockClient verify];
+}
+
 - (void)testTokenInBlockShouldBeNotNil {
     id mockClient = [OCMockObject mockForClass:[AFHTTPClient class]];
     

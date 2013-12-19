@@ -40,7 +40,7 @@ static NSString * const scope = @"read+write";
                                  @"grant_type": @"password",
                                  @"username": username,
                                  @"password": password};
-    [_connection.manager.HTTPClient postPath:@"oauth2/access_token" parameters:parameters
+    [_connection.manager.HTTPClient postPath:@"/oauth2/access_token" parameters:parameters
                                     success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                         NSString *token = [responseObject objectForKey:kAccessTokenKey];
                                         if (block)
