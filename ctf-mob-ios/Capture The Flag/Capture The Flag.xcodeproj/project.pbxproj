@@ -47,6 +47,7 @@
 		6D0FAA351861F66A0084F505 /* CTFCharacterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0FAA341861F66A0084F505 /* CTFCharacterTests.m */; };
 		6D0FAA371861F7040084F505 /* MapViewAnnotationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0FAA361861F7040084F505 /* MapViewAnnotationTests.m */; };
 		6D0FAA391863658E0084F505 /* CTFDetailsJoinViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0FAA381863658E0084F505 /* CTFDetailsJoinViewControllerTests.m */; };
+		6D0FAA3B186366710084F505 /* CTFJoinGameCellTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0FAA3A186366710084F505 /* CTFJoinGameCellTests.m */; };
 		6D1825D7184A36120039FD92 /* CTFAPICredentialsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D1825D6184A36120039FD92 /* CTFAPICredentialsTests.m */; };
 		6D65DE05185EE07C00C76A90 /* CTFJoinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D65DE04185EE07C00C76A90 /* CTFJoinViewController.m */; };
 		6D65DE08185EE20400C76A90 /* CTFJoinGameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D65DE07185EE20400C76A90 /* CTFJoinGameCell.m */; };
@@ -153,6 +154,7 @@
 		6D0FAA341861F66A0084F505 /* CTFCharacterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFCharacterTests.m; sourceTree = "<group>"; };
 		6D0FAA361861F7040084F505 /* MapViewAnnotationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewAnnotationTests.m; sourceTree = "<group>"; };
 		6D0FAA381863658E0084F505 /* CTFDetailsJoinViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFDetailsJoinViewControllerTests.m; sourceTree = "<group>"; };
+		6D0FAA3A186366710084F505 /* CTFJoinGameCellTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFJoinGameCellTests.m; sourceTree = "<group>"; };
 		6D1825D6184A36120039FD92 /* CTFAPICredentialsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFAPICredentialsTests.m; sourceTree = "<group>"; };
 		6D65DE03185EE07C00C76A90 /* CTFJoinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFJoinViewController.h; sourceTree = "<group>"; };
 		6D65DE04185EE07C00C76A90 /* CTFJoinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFJoinViewController.m; sourceTree = "<group>"; };
@@ -310,6 +312,7 @@
 		6D07330F1861C42100E244C5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				6D0FAA3A186366710084F505 /* CTFJoinGameCellTests.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -816,6 +819,7 @@
 				6DA1319B1861846100290917 /* CTFAPIRKConfiguratorTests.m in Sources */,
 				6D1825D7184A36120039FD92 /* CTFAPICredentialsTests.m in Sources */,
 				6D0FAA2D1861F5320084F505 /* CTFItemTests.m in Sources */,
+				6D0FAA3B186366710084F505 /* CTFJoinGameCellTests.m in Sources */,
 				6D0715BD184FD965002C3023 /* Model.xcdatamodeld in Sources */,
 				6DE0FCCD182C030700800C09 /* CTFAPICredentials_Validator_Tests.m in Sources */,
 				6D0FAA311861F5D30084F505 /* CTFMapTests.m in Sources */,
