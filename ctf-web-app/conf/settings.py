@@ -45,7 +45,7 @@ INSTALLED_APPS = (
 
     # 'south',
 
-    'apps.es',
+    # 'apps.es',
     'apps.core',
 )
 
@@ -98,3 +98,46 @@ LOCAL_PATHS = (
 STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = 'core.PortalUser'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+        'ctf_file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'logs/ctf.log',
+            'formatter': 'verbose'
+        },
+        'console':{
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        }
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'ctf_file'],
+            'propagate': True,
+            'level': 'DEBUG',
+        },
+        'django.request': {
+            'handlers': ['console', 'ctf_file'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'root': {
+            'handlers': ['console', 'ctf_file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        }
+    }
+}

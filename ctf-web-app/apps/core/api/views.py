@@ -1,3 +1,4 @@
+import logging
 from rest_framework import viewsets
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication, OAuth2Authentication
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
@@ -10,6 +11,8 @@ from apps.core.api.serializers import characters, users
 from apps.core.models import PortalUser, Character
 
 __author__ = 'mkr'
+
+logger = logging.getLogger("root")
 
 
 @api_view(['GET'])
@@ -41,6 +44,8 @@ class PortalUserRegistrationViewSet(CreateModelMixin,
                 if not nick:
                     nick = username
                 data[u'nick'] = nick
+
+        logger.debug("JSON request data: %s", data)
 
         return super(PortalUserRegistrationViewSet, self).get_serializer(instance, data, files, many, partial)
 
