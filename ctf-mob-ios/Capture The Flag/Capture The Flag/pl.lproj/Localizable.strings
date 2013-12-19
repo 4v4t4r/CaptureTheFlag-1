@@ -1,7 +1,14 @@
-/* GENERAL - It's place for general words */
+/**
+ GENERAL
+ */
+
 "button.OK" = "OK";
 
-/* LOGIN */
+
+/**
+ LOGIN VIEW CONTROLLER
+ */
+
 /* Title of navigation bar */
 "view.login.navigation.title" = "Witaj w Capture The Flag";
 
@@ -33,7 +40,6 @@
 /* message */
 "view.login.alert.cant_store_credentials.message" = "Something goes wrong with Keychain during login process. Please try again";
 
-
 /* Wrong credentials */
 /* title */
 "view.login.alert.wrong_credentials.title" = "Wrong credentials";
@@ -42,8 +48,10 @@
 "view.login.alert.wrong_credentials.message" = "Check username and password and try again";
 
 
+/**
+ REGISTER VIEW CONTROLLER
+ */
 
-/* REGISTER */
 /* Title of navigation bar */
 "view.register.navigation.title" = "Create Account";
 
@@ -74,6 +82,7 @@
 /* Success, registered */
 "view.register.label.status.registered" = "Success!";
 
+/* Register Alert */
 /* Alert title */
 "view.register.alert.registration.title" = "Registration";
 
@@ -84,12 +93,18 @@
 "view.register.alert.registration.message.failure" = "Error during registration process. Try again";
 
 
-/* JOIN */
+/**
+ JOIN VIEW CONTROLLER
+ */
+
 /* title of navigation bar */
 "view.join.navigation.title" = "Select game";
 
 
-/* PROFILE */
+/**
+ PROFILE VIEW CONTROLLER
+ */
+
 /* title of navigation bar */
 "view.profile.navigation.title" = "Profile";
 
