@@ -10,7 +10,7 @@
 @import MapKit;
 
 @class CTFGame;
-#warning [tsu] write tests
+
 @interface CTFDetailsJoinViewController : CTFViewController <MKMapViewDelegate>
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 
