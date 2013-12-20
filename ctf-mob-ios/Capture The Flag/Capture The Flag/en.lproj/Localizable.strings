@@ -5,47 +5,6 @@
 "button.OK" = "OK";
 
 
-/**
- LOGIN VIEW CONTROLLER
- */
-
-/* Title of navigation bar */
-"view.login.navigation.title" = "Witaj w Capture The Flag";
-
-/* Username placeholder */
-"view.login.textField.username.placeholder" = "Nazwa użytkownika";
-
-/* Password placeholder */
-"view.login.textField.password.placeholder" = "Hasło";
-
-/* Log in button */
-"view.login.button.login.title" = "Zaloguj się";
-
-/* Register button */
-"view.login.button.register.title" = "Nowy w CTF? Zarejestruj się";
-
-/* Logged successfuly */
-"view.login.label.status.logged" = "Success!";
-
-/* Wrong credentials */
-"view.login.label.status.wrong_credentials" = "Wrong credentials. Try again";
-
-/* Empty fields */
-"view.login.label.status.empty_field" = "One of fields is empty";
-
-/* Error during storing credentials */
-/* title */
-"view.login.alert.cant_store_credentials.title" = "Can't login";
-
-/* message */
-"view.login.alert.cant_store_credentials.message" = "Something goes wrong with Keychain during login process. Please try again";
-
-/* Wrong credentials */
-/* title */
-"view.login.alert.wrong_credentials.title" = "Wrong credentials";
-
-/* message */
-"view.login.alert.wrong_credentials.message" = "Check username and password and try again";
 
 
 /** 

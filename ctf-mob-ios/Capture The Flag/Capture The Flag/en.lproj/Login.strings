@@ -1,0 +1,37 @@
+/* Title of navigation bar */
+"navigation.title" = "Witaj w Capture The Flag";
+
+/* Username placeholder */
+"textField.username.placeholder" = "Nazwa użytkownika";
+
+/* Password placeholder */
+"textField.password.placeholder" = "Hasło";
+
+/* Log in button */
+"button.login.title" = "Zaloguj się";
+
+/* Register button */
+"button.register.title" = "Nowy w CTF? Zarejestruj się";
+
+/* Logged successfuly */
+"label.status.logged" = "Success!";
+
+/* Wrong credentials */
+"label.status.wrong_credentials" = "Wrong credentials. Try again";
+
+/* Empty fields */
+"label.status.empty_field" = "One of fields is empty";
+
+/* Error during storing credentials */
+/* title */
+"alert.cant_store_credentials.title" = "Can't login";
+
+/* message */
+"alert.cant_store_credentials.message" = "Something goes wrong with Keychain during login process. Please try again";
+
+/* Wrong credentials */
+/* title */
+"alert.wrong_credentials.title" = "Wrong credentials";
+
+/* message */
+"alert.wrong_credentials.message" = "Check username and password and try again";

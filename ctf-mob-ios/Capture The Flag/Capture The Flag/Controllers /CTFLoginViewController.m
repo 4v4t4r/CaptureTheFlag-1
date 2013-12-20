@@ -63,7 +63,7 @@
             
             if (token) {
                 [_activityIndicator stopAnimating];
-                _statusLabel.text = NSLocalizedString(@"view.login.label.status.logged", nil);
+                _statusLabel.text = NSLocalizedStringFromTable(@"label.status.logged", @"Login", @"");
 
                 /// Configure game object with token and logged user
                 CTFSession *session = [[CTFSession alloc] initWithToken:token];
@@ -95,8 +95,8 @@
                     }];
                 } else {
                     UIAlertView *alertView =
-                    [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"view.login.alert.cant_store_credentials.title", nil)
-                                               message:NSLocalizedString(@"view.login.alert.cant_store_credentials.message", nil)
+                    [[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"alert.cant_store_credentials.title", @"Login", @"")
+                                               message:NSLocalizedStringFromTable(@"alert.cant_store_credentials.message", @"Login", @"")
                                               delegate:Nil
                                      cancelButtonTitle:NSLocalizedString(@"button.OK", nil)
                                      otherButtonTitles:nil, nil];
@@ -105,8 +105,8 @@
             } else {
                 [_activityIndicator stopAnimating];
                 UIAlertView *alert =
-                [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"view.login.alert.wrong_credentials.title", nil)
-                                           message:NSLocalizedString(@"view.login.alert.wrong_credentials.message", nil)
+                [[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"alert.wrong_credentials.title", @"Login", @"")
+                                           message:NSLocalizedStringFromTable(@"alert.wrong_credentials.message", @"Login", @"")
                                           delegate:nil
                                  cancelButtonTitle:NSLocalizedString(@"button.OK", nil)
                                  otherButtonTitles:nil, nil];
@@ -114,7 +114,7 @@
             }
         }];
     } else {
-        _statusLabel.text = NSLocalizedString(@"view.login.label.status.wrong_credentials", nil);
+        _statusLabel.text = NSLocalizedStringFromTable(@"label.status.wrong_credentials", @"Login", @"");
     }
 }
 
@@ -157,11 +157,11 @@
 
 #pragma mark - CTFViewControllerProtocol
 - (void)localizeUI {
-    self.navigationItem.title = NSLocalizedString(@"view.login.navigation.title", nil);
-    _usernameTF.placeholder = NSLocalizedString(@"view.login.textField.username.placeholder", nil);
-    _passwordTF.placeholder = NSLocalizedString(@"view.login.textField.password.placeholder", nil);
-    [_loginBtn setTitle:NSLocalizedString(@"view.login.button.login.title", nil) forState:UIControlStateNormal];
-    [_registerBtn setTitle:NSLocalizedString(@"view.login.button.register.title", nil) forState:UIControlStateNormal];
+    self.navigationItem.title = NSLocalizedStringFromTable(@"navigation.title", @"Login", @"");
+    _usernameTF.placeholder = NSLocalizedStringFromTable(@"textField.username.placeholder", @"Login", @"");
+    _passwordTF.placeholder = NSLocalizedStringFromTable(@"textField.password.placeholder", @"Login", @"");
+    [_loginBtn setTitle:NSLocalizedStringFromTable(@"button.login.title", @"Login", @"") forState:UIControlStateNormal];
+    [_registerBtn setTitle:NSLocalizedStringFromTable(@"button.register.title", @"Login", @"") forState:UIControlStateNormal];
 }
 
 @end

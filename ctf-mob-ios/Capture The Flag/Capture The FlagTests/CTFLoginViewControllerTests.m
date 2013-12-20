@@ -71,6 +71,28 @@
 }
 
 
+#pragma mark - Localization
+- (void)testThatNavigationItemTitleShouldBeSet {
+    XCTAssertEqualObjects(vc.navigationItem.title, NSLocalizedStringFromTable(@"navigation.title", @"Login", @""), @"");
+}
+
+- (void)testThatUserNameTextFieldPlaceholderShouldBeSet {
+    XCTAssertEqualObjects(vc.usernameTF.placeholder, NSLocalizedStringFromTable(@"textField.username.placeholder", @"Login", @""), @"");
+}
+
+- (void)testThatPasswordTextFieldPlaceholderShouldBeSet {
+    XCTAssertEqualObjects(vc.passwordTF.placeholder, NSLocalizedStringFromTable(@"textField.password.placeholder", @"Login", @""), @"");
+}
+
+- (void)testThatLoginButtonTitleShouldBeSet {
+    XCTAssertEqualObjects(vc.loginBtn.titleLabel.text, NSLocalizedStringFromTable(@"button.login.title", @"Login", @""), @"");
+}
+
+- (void)testThatRegisterButtonTitleShouldBeSet {
+    XCTAssertEqualObjects(vc.registerBtn.titleLabel.text, NSLocalizedStringFromTable(@"button.register.title", @"Login", @""), @"");
+}
+
+
 #pragma mark - Actions
 - (void)testLoginButtonAction
 {
