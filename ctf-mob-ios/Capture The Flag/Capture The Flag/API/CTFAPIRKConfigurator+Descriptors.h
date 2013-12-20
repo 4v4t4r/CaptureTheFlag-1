@@ -13,13 +13,19 @@
 /**
  api/registration/
  */
-- (RKRequestDescriptor *)usersPOSTRequestDescriptor;
-- (RKResponseDescriptor *)usersPOSTResponseDescriptor;
+- (RKRequestDescriptor *)registrationPOSTRequestDescriptor;
+- (RKResponseDescriptor *)registrationPOSTResponseDescriptor;
 
 
 /**
  api/profile
  */
 - (RKResponseDescriptor *)profileResponseDescriptor;
+
+
+/**
+ api/users
+ */
+- (RKRequestDescriptor *)usersPATCHRequestDescriptor;
 
 @end

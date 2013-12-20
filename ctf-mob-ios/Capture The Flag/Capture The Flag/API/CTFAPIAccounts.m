@@ -94,7 +94,26 @@ static NSString * const scope = @"read+write";
      } failure:^(RKObjectRequestOperation *operation, NSError *error) {
          block(nil);
      }];
+}
+
+- (void)updateInfoForUser:(CTFUser *)user block:(UpdateBlock)block {
+    if (!user) {
+        block(NO);
+        return;
+    }
+    static NSString * const base = @"api/users";
+    NSString *userIdString = [NSString stringWithFormat:@"%d", [user.userId integerValue]];
+    NSString *path = [NSString stringWithFormat:@"%@/%@", base, userIdString];
     
+    [[CTFAPIConnection sharedConnection].manager
+     patchObject:user
+     path:path
+     parameters:nil
+     success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+         block(YES);
+     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+         block(NO);
+     }];
 }
 
 @end

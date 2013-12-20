@@ -48,7 +48,6 @@
     XCTAssertNotNil(_vc.emailTextField, @"");
 }
 
-
 #pragma mark - Localization
 - (void)testNavigationItemTitleShouldBeSet {
     XCTAssertEqualObjects(_vc.navigationItem.title, NSLocalizedString(@"view.profile.navigation.title", nil), @"");
@@ -69,5 +68,6 @@
 - (void)testThatEmailTextFieldIsLocalized {
     XCTAssertEqualObjects(_vc.emailTextField.placeholder, NSLocalizedString(@"view.profile.textField.email.placeholder", nil), @"");
 }
+
 
 @end

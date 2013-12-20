@@ -14,6 +14,7 @@
 typedef void (^TokenBlock)(NSString *token);
 typedef void (^SignUpBlock)(BOOL success);
 typedef void (^ProfileBlock)(CTFUser *user);
+typedef void (^UpdateBlock)(BOOL success);
 
 @interface CTFAPIAccounts : NSObject
 
@@ -54,5 +55,7 @@ typedef void (^ProfileBlock)(CTFUser *user);
  @param block ProfileBlock called after server response
  */
 - (void)accountInfoForToken:(NSString *)token block:(ProfileBlock)block;
+
+- (void)updateInfoForUser:(CTFUser *)user block:(UpdateBlock)block;
 
 @end

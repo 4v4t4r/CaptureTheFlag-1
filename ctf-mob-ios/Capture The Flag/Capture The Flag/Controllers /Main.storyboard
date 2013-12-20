@@ -198,7 +198,11 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Profile" id="v0d-u8-5Pa">
-                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="save" id="lv6-aD-Ng2"/>
+                        <barButtonItem key="rightBarButtonItem" title="Update" style="done" id="lv6-aD-Ng2">
+                            <connections>
+                                <action selector="updateProfile:" destination="YzZ-wa-xwm" id="gkb-Td-ff1"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="emailTextField" destination="1gH-Vp-GpS" id="chr-C1-2Q3"/>

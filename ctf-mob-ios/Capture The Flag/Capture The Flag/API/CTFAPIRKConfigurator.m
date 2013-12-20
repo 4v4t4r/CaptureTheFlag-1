@@ -23,12 +23,15 @@
 }
 
 - (void)configure {
-    /// api/users/
-    [_manager addRequestDescriptor:[self usersPOSTRequestDescriptor]];
-    [_manager addResponseDescriptor:[self usersPOSTResponseDescriptor]];
+    /// api/registration/
+    [_manager addRequestDescriptor:[self registrationPOSTRequestDescriptor]];
+    [_manager addResponseDescriptor:[self registrationPOSTResponseDescriptor]];
     
     /// api/profile
     [_manager addResponseDescriptor:[self profileResponseDescriptor]];
+    
+    /// api/users/{id}
+    [_manager addRequestDescriptor:[self usersPATCHRequestDescriptor]];
 }
 
 - (void)authorizeRequestsWithToken:(NSString *)token {
