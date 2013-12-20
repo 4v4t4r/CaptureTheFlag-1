@@ -81,15 +81,16 @@ static NSString * const scope = @"read+write";
         return;
     }
     
+    __block CTFUser *user = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([CTFUser class]) inManagedObjectContext:[CoreDataService sharedInstance].managedObjectContext];
+    
     [[CTFAPIConnection sharedConnection].manager
-      getObject:nil path:@"api/profile"
+      getObject:user path:@"api/profile"
      parameters:nil
       success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-         CTFUser *object = nil;
          NSArray *array = mappingResult.array;
          if (array.count)
-             object = (CTFUser *)mappingResult.array[0];
-         block(object);
+             user = (CTFUser *)mappingResult.array[0];
+         block(user);
      } failure:^(RKObjectRequestOperation *operation, NSError *error) {
          block(nil);
      }];
