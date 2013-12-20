@@ -12,26 +12,42 @@
 
 @end
 
-@implementation CTFProfileViewControllerTests
-
-- (void)setUp
-{
-    [super setUp];
-    // Put setup code here; it will be run once, before the first test case.
+@implementation CTFProfileViewControllerTests {
+    UIStoryboard *_storyboard;
+    CTFProfileViewController *_vc;
 }
 
-- (void)tearDown
-{
-    // Put teardown code here; it will be run once, after the last test case.
+- (void)setUp {
+    [super setUp];
+    _storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+    _vc = [_storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([CTFProfileViewController class])];
+    [_vc view];
+}
+
+- (void)tearDown {
+    _storyboard = nil;
+    _vc = nil;
     [super tearDown];
 }
 
 - (void)testNavigationItemTitleShouldBeSet {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-    CTFProfileViewController *vc = [storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([CTFProfileViewController class])];
-    [vc view];
-    
-    XCTAssertEqualObjects(vc.navigationItem.title, NSLocalizedString(@"view.profile.navigation.title", nil), @"");
+    XCTAssertEqualObjects(_vc.navigationItem.title, NSLocalizedString(@"view.profile.navigation.title", nil), @"");
+}
+
+- (void)testThatViewShouldHasFirstNameTextField {
+    XCTAssertNotNil(_vc.firstNameTextField, @"");
+}
+
+- (void)testThatViewShouldHasLastNameTextField {
+    XCTAssertNotNil(_vc.lastNameTextField, @"");
+}
+
+- (void)testThatViewShouldHasNickTextField {
+    XCTAssertNotNil(_vc.nickTextField, @"");
+}
+
+- (void)testThatViewShouldHasEmailTextField {
+    XCTAssertNotNil(_vc.emailTextField, @"");
 }
 
 @end
