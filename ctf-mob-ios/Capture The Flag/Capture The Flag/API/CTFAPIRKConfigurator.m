@@ -31,4 +31,8 @@
     [_manager addResponseDescriptor:[self profileResponseDescriptor]];
 }
 
+- (void)authorizeRequestsWithToken:(NSString *)token {
+    [_manager.HTTPClient setDefaultHeader:@"Authorization" value:[NSString stringWithFormat:@"Bearer %@",token]];
+}
+
 @end

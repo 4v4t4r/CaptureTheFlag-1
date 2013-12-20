@@ -16,7 +16,7 @@
 #import "CTFAPILocalCredentials.h"
 #import "CTFAPILocalCredentialsStore.h"
 #import "CTFAPILocalCredentialsValidator.h"
-
+#import "CTFAPIRKConfigurator.h"
 #import "CoreDataService.h"
 
 @implementation CTFLoginViewController {
@@ -68,6 +68,9 @@
                 /// Configure game object with token and logged user
                 CTFSession *session = [[CTFSession alloc] initWithToken:token];
             
+                CTFAPIRKConfigurator *configurator = [[CTFAPIRKConfigurator alloc] initWithManager:[CTFAPIConnection sharedConnection].manager];
+                [configurator authorizeRequestsWithToken:token];
+                
                 CTFUser *user =
                 [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([CTFUser class])
                                               inManagedObjectContext:[CoreDataService sharedInstance].managedObjectContext];

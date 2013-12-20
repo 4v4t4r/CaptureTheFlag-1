@@ -81,10 +81,9 @@ static NSString * const scope = @"read+write";
         return;
     }
     
-    NSDictionary *parameters = @{@"token" : token};
-     [[CTFAPIConnection sharedConnection].manager
-      getObject:nil path:@"api/profile/"
-      parameters:parameters
+    [[CTFAPIConnection sharedConnection].manager
+      getObject:nil path:@"api/profile"
+     parameters:nil
       success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
          CTFUser *object = nil;
          NSArray *array = mappingResult.array;

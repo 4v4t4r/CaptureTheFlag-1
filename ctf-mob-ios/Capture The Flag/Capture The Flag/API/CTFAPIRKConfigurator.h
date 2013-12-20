@@ -11,8 +11,9 @@
 @interface CTFAPIRKConfigurator : NSObject
 
 @property (nonatomic, readonly) RKObjectManager *manager;
-
+#warning [tsu] add descriptions for methods
 - (id)initWithManager:(RKObjectManager *)manager;
 - (void)configure;
+- (void)authorizeRequestsWithToken:(NSString *)token;
 
 @end
