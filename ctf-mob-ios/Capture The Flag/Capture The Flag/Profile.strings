@@ -1,0 +1,14 @@
+/* title of navigation bar */
+"navigationItem.title" = "Profile";
+
+/* firstName text field */
+"textField.firstName.placeholder" = "First Name";
+
+/* lastName text field */
+"textField.lastName.placeholder" = "Last Name";
+
+/* nick text field */
+"textField.nick.placeholder" = "Nick";
+
+/* email text field */
+"textField.email.placeholder" = "Email address";

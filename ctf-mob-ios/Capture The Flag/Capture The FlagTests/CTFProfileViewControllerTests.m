@@ -50,23 +50,23 @@
 
 #pragma mark - Localization
 - (void)testNavigationItemTitleShouldBeSet {
-    XCTAssertEqualObjects(_vc.navigationItem.title, NSLocalizedString(@"view.profile.navigation.title", nil), @"");
+    XCTAssertEqualObjects(_vc.navigationItem.title, NSLocalizedStringFromTable(@"navigationItem.title", @"Profile", nil), @"");
 }
 
 - (void)testThatFirstNameTextFieldIsLocalized {
-    XCTAssertEqualObjects(_vc.firstNameTextField.placeholder, NSLocalizedString(@"view.profile.textField.firstName.placeholder", nil), @"");
+    XCTAssertEqualObjects(_vc.firstNameTextField.placeholder, NSLocalizedStringFromTable(@"textField.firstName.placeholder", @"Profile", nil), @"");
 }
 
 - (void)testThatLastNameTextFieldIsLocalzied {
-    XCTAssertEqualObjects(_vc.lastNameTextField.placeholder, NSLocalizedString(@"view.profile.textField.lastName.placeholder", nil), @"");
+    XCTAssertEqualObjects(_vc.lastNameTextField.placeholder, NSLocalizedStringFromTable(@"textField.lastName.placeholder", @"Profile", nil), @"");
 }
 
 - (void)testThatNickTextFieldIsLocalized {
-    XCTAssertEqualObjects(_vc.nickTextField.placeholder, NSLocalizedString(@"view.profile.textField.nick.placeholder", nil), @"");
+    XCTAssertEqualObjects(_vc.nickTextField.placeholder, NSLocalizedStringFromTable(@"textField.nick.placeholder", @"Profile", nil), @"");
 }
 
 - (void)testThatEmailTextFieldIsLocalized {
-    XCTAssertEqualObjects(_vc.emailTextField.placeholder, NSLocalizedString(@"view.profile.textField.email.placeholder", nil), @"");
+    XCTAssertEqualObjects(_vc.emailTextField.placeholder, NSLocalizedStringFromTable(@"textField.email.placeholder", @"Profile", nil), @"");
 }
 
 

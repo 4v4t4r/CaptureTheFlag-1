@@ -25,18 +25,5 @@
  PROFILE VIEW CONTROLLER
  */
 
-/* title of navigation bar */
-"view.profile.navigation.title" = "Profile";
 
-/* firstName text field */
-"view.profile.textField.firstName.placeholder" = "First Name";
-
-/* lastName text field */
-"view.profile.textField.lastName.placeholder" = "Last Name";
-
-/* nick text field */
-"view.profile.textField.nick.placeholder" = "Nick";
-
-/* email text field */
-"view.profile.textField.email.placeholder" = "Email address";
 

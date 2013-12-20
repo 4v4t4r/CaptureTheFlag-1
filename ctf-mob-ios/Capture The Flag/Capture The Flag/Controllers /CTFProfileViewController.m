@@ -33,11 +33,11 @@
 }
 
 - (void)localizeUI {
-    self.navigationItem.title = NSLocalizedString(@"view.profile.navigation.title", nil);
-    self.firstNameTextField.placeholder = NSLocalizedString(@"view.profile.textField.firstName.placeholder", nil);
-    self.lastNameTextField.placeholder = NSLocalizedString(@"view.profile.textField.lastName.placeholder", nil);
-    self.nickTextField.placeholder = NSLocalizedString(@"view.profile.textField.nick.placeholder", nil);
-    self.emailTextField.placeholder = NSLocalizedString(@"view.profile.textField.email.placeholder", nil);
+    self.navigationItem.title = NSLocalizedStringFromTable(@"navigationItem.title", @"Profile", nil);
+    self.firstNameTextField.placeholder = NSLocalizedStringFromTable(@"textField.firstName.placeholder", @"Profile", nil);
+    self.lastNameTextField.placeholder = NSLocalizedStringFromTable(@"textField.lastName.placeholder", @"Profile", nil);
+    self.nickTextField.placeholder = NSLocalizedStringFromTable(@"textField.nick.placeholder", @"Profile", nil);
+    self.emailTextField.placeholder = NSLocalizedStringFromTable(@"textField.email.placeholder", @"Profile", nil);
 }
 
 - (IBAction)updateProfile:(id)sender {

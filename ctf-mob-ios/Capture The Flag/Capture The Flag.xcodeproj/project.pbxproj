@@ -50,6 +50,7 @@
 		6D0FAA3B186366710084F505 /* CTFJoinGameCellTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0FAA3A186366710084F505 /* CTFJoinGameCellTests.m */; };
 		6D0FAA3E1864FE010084F505 /* Login.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D0FAA401864FE010084F505 /* Login.strings */; };
 		6D0FAA44186502D30084F505 /* Register.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D0FAA46186502D30084F505 /* Register.strings */; };
+		6D0FAA481865053A0084F505 /* Profile.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D0FAA471865053A0084F505 /* Profile.strings */; };
 		6D1825D7184A36120039FD92 /* CTFAPICredentialsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D1825D6184A36120039FD92 /* CTFAPICredentialsTests.m */; };
 		6D65DE05185EE07C00C76A90 /* CTFJoinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D65DE04185EE07C00C76A90 /* CTFJoinViewController.m */; };
 		6D65DE08185EE20400C76A90 /* CTFJoinGameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D65DE07185EE20400C76A90 /* CTFJoinGameCell.m */; };
@@ -159,6 +160,7 @@
 		6D0FAA3A186366710084F505 /* CTFJoinGameCellTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFJoinGameCellTests.m; sourceTree = "<group>"; };
 		6D0FAA3F1864FE010084F505 /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = en.lproj/Login.strings; sourceTree = "<group>"; };
 		6D0FAA45186502D30084F505 /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = en.lproj/Register.strings; sourceTree = "<group>"; };
+		6D0FAA471865053A0084F505 /* Profile.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Profile.strings; sourceTree = "<group>"; };
 		6D1825D6184A36120039FD92 /* CTFAPICredentialsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFAPICredentialsTests.m; sourceTree = "<group>"; };
 		6D65DE03185EE07C00C76A90 /* CTFJoinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFJoinViewController.h; sourceTree = "<group>"; };
 		6D65DE04185EE07C00C76A90 /* CTFJoinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFJoinViewController.m; sourceTree = "<group>"; };
@@ -563,6 +565,7 @@
 				6DFD1937182ACF0C00542227 /* main.m */,
 				6DFD1939182ACF0C00542227 /* Capture The Flag-Prefix.pch */,
 				6D65DE13185F05A900C76A90 /* BLStream.gpx */,
+				6D0FAA471865053A0084F505 /* Profile.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -672,6 +675,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D0FAA481865053A0084F505 /* Profile.strings in Resources */,
 				6D65DE14185F05A900C76A90 /* BLStream.gpx in Resources */,
 				6D0FAA44186502D30084F505 /* Register.strings in Resources */,
 				6D9BE08A1854AF870036172C /* LoginAndRegister.storyboard in Resources */,
