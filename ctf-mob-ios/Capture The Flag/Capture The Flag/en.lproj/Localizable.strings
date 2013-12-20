@@ -11,45 +11,6 @@
  REGISTER VIEW CONTROLLER
  */
 
-/* Title of navigation bar */
-"view.register.navigation.title" = "Create Account";
-
-/* email address placeholder */
-"view.register.textField.email.placeholder" = "Email Address";
-
-/* Username placeholder */
-"view.register.textField.username.placeholder" = "Username (min. 6 characters long)";
-
-/* Password placeholder */
-"view.register.textField.password.placeholder" = "Password (min. 6 characters long)";
-
-/* Re-Password placeholder */
-"view.register.textField.re-password.placeholder" = "Re-password";
-
-/* Register button */
-"view.register.button.register.title" = "Register";
-
-/* Different passwords */
-"view.register.label.status.different_password" = "Password aren't the same";
-
-/* Wrong credentials */
-"view.register.label.status.wrong_credentials" = "Wrong credentials. Try again";
-
-/* Empty fields */
-"view.register.label.status.empty_field" = "One of fields is empty";
-
-/* Success, registered */
-"view.register.label.status.registered" = "Success!";
-
-/* Register Alert */
-/* Alert title */
-"view.register.alert.registration.title" = "Registration";
-
-/* Registration success */
-"view.register.alert.registration.message.success" = "Your account has been created";
-
-/* Registration failed */
-"view.register.alert.registration.message.failure" = "Error during registration process. Try again";
 
 
 /** 

@@ -16,20 +16,20 @@
 @implementation CTFRegisterViewControllerTests
 {
     UIStoryboard *storyboard;
-    CTFRegisterViewController *vc;
+    CTFRegisterViewController *_vc;
 }
 
 - (void)setUp
 {
     [super setUp];
     storyboard = [UIStoryboard storyboardWithName:@"LoginAndRegister" bundle:nil];
-    vc = [storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([CTFRegisterViewController class])];
-    [vc view];
+    _vc = [storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([CTFRegisterViewController class])];
+    [_vc view];
 }
 
 - (void)tearDown
 {
-    vc = nil;
+    _vc = nil;
     storyboard = nil;
     [super tearDown];
 }
@@ -41,46 +41,68 @@
 
 - (void)testViewControllerShouldExists
 {
-    XCTAssertNotNil(vc, @"");
+    XCTAssertNotNil(_vc, @"");
 }
 
 
 #pragma mark - Outlets
 - (void)testEmailTextFieldShouldExists
 {
-    XCTAssertNotNil(vc.emailTF, @"");
+    XCTAssertNotNil(_vc.emailTF, @"");
 }
 
 - (void)testUsernameTextFieldShouldExists
 {
-    XCTAssertNotNil(vc.usernameTF, @"");
+    XCTAssertNotNil(_vc.usernameTF, @"");
 }
 
 - (void)testPasswordTextFieldShouldExists
 {
-    XCTAssertNotNil(vc.passwordTF, @"");
+    XCTAssertNotNil(_vc.passwordTF, @"");
 }
 
 - (void)testRePasswordTextFieldShouldExists
 {
-    XCTAssertNotNil(vc.rePasswordTF, @"");
+    XCTAssertNotNil(_vc.rePasswordTF, @"");
 }
 
 - (void)testRegisterButtonShouldExists
 {
-    XCTAssertNotNil(vc.registerBtn, @"");
+    XCTAssertNotNil(_vc.registerBtn, @"");
 }
 
 - (void)testSatusLabelShouldExists
 {
-    XCTAssertNotNil(vc.statusLabel, @"");
+    XCTAssertNotNil(_vc.statusLabel, @"");
+}
+
+
+#pragma mark - Localization
+- (void)testThatNavigationItemTitleIsSet {
+    XCTAssertEqualObjects(_vc.navigationItem.title, NSLocalizedStringFromTable(@"navigationItem.title", @"Register", @""), @"");
+}
+
+- (void)testThatEmailTextFieldPlaceholderIsSet {
+    XCTAssertEqualObjects(_vc.emailTF.placeholder, NSLocalizedStringFromTable(@"textField.email.placeholder", @"Register", @""), @"");
+}
+
+- (void)testthatUserNameTextFieldPlaceholderIsSet {
+    XCTAssertEqualObjects(_vc.usernameTF.placeholder, NSLocalizedStringFromTable(@"textField.username.placeholder", @"Register", @""), @"");
+}
+
+- (void)testThatPasswordTextFieldPlaceholderIsSet {
+    XCTAssertEqualObjects(_vc.passwordTF.placeholder, NSLocalizedStringFromTable(@"textField.password.placeholder", @"Register", @""), @"");
+}
+
+- (void)testthatRePasswordTextFieldPlaceholderIsSet {
+    XCTAssertEqualObjects(_vc.rePasswordTF.placeholder, NSLocalizedStringFromTable(@"textField.re-password.placeholder", @"Register", @""), @"");
 }
 
 
 #pragma mark - Actions
 - (void)testRegisterButtonAction
 {
-    NSString *action = [vc.registerBtn actionsForTarget:vc forControlEvent:UIControlEventTouchUpInside][0];
+    NSString *action = [_vc.registerBtn actionsForTarget:_vc forControlEvent:UIControlEventTouchUpInside][0];
     XCTAssertEqualObjects(action, @"registerPressed", @"");
 }
 

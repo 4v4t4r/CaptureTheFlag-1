@@ -1,0 +1,39 @@
+/* Title of navigation bar */
+"navigationItem.title" = "Create Account";
+
+/* email address placeholder */
+"textField.email.placeholder" = "Email Address";
+
+/* Username placeholder */
+"textField.username.placeholder" = "Username (min. 6 characters long)";
+
+/* Password placeholder */
+"textField.password.placeholder" = "Password (min. 6 characters long)";
+
+/* Re-Password placeholder */
+"textField.re-password.placeholder" = "Re-password";
+
+/* Register button */
+"button.register.title" = "Register";
+
+/* Different passwords */
+"label.status.different_password" = "Password aren't the same";
+
+/* Wrong credentials */
+"label.status.wrong_credentials" = "Wrong credentials. Try again";
+
+/* Empty fields */
+"label.status.empty_field" = "One of fields is empty";
+
+/* Success, registered */
+"label.status.registered" = "Success!";
+
+/* Register Alert */
+/* Alert title */
+"alert.registration.title" = "Registration";
+
+/* Registration success */
+"alert.registration.message.success" = "Your account has been created";
+
+/* Registration failed */
+"alert.registration.message.failure" = "Error during registration process. Try again";

@@ -47,7 +47,7 @@
 
 - (IBAction)registerPressed {
     if (![_passwordTF.text isEqualToString:_rePasswordTF.text]) {
-        _statusLabel.text = NSLocalizedString(@"view.register.label.status.different_password", nil);
+        _statusLabel.text = NSLocalizedStringFromTable(@"label.status.different_password", @"Register", nil);
         return;
     }
     [self _setUIEnabled:NO];
@@ -55,12 +55,12 @@
     _accounts = [[CTFAPIAccounts alloc] initWithConnection:[CTFAPIConnection sharedConnection]];
     [_accounts signUpWithUsername:_usernameTF.text email:_emailTF.text password:_passwordTF.text block:^(BOOL success) {
         
-        NSString *title = NSLocalizedString(@"view.register.alert.registration.title", nil);
+        NSString *title = NSLocalizedStringFromTable(@"alert.registration.title", @"Register", nil);
         NSString *message = @"";
         if (success) {
-            message = NSLocalizedString(@"view.register.alert.registration.message.success", nil);
+            message = NSLocalizedStringFromTable(@"alert.registration.message.success", @"Register", nil);
         } else {
-            message = NSLocalizedString(@"view.register.alert.registration.message.failure", nil);
+            message = NSLocalizedStringFromTable(@"alert.registration.message.failure", @"Register", nil);
         }
         UIAlertView *alertView =
         [[UIAlertView alloc] initWithTitle:title
@@ -131,12 +131,12 @@
 
 #pragma mark - CTFViewControllerProtocol
 - (void)localizeUI {
-    self.navigationItem.title = NSLocalizedString(@"view.register.navigation.title", nil);
-    _emailTF.placeholder = NSLocalizedString(@"view.register.textField.email.placeholder", nil);
-    _usernameTF.placeholder = NSLocalizedString(@"view.register.textField.username.placeholder", nil);
-    _passwordTF.placeholder = NSLocalizedString(@"view.register.textField.password.placeholder", nil);
-    _rePasswordTF.placeholder = NSLocalizedString(@"view.register.textField.re-password.placeholder", nil);
-    [_registerBtn setTitle:NSLocalizedString(@"view.register.button.register.title", nil) forState:UIControlStateNormal];
+    self.navigationItem.title = NSLocalizedStringFromTable(@"navigationItem.title", @"Register", @"");
+    _emailTF.placeholder = NSLocalizedStringFromTable(@"textField.email.placeholder", @"Register", @"");
+    _usernameTF.placeholder = NSLocalizedStringFromTable(@"textField.username.placeholder", @"Register", @"");
+    _passwordTF.placeholder = NSLocalizedStringFromTable(@"textField.password.placeholder", @"Register", @"");
+    _rePasswordTF.placeholder = NSLocalizedStringFromTable(@"textField.re-password.placeholder", @"Register", @"");
+    [_registerBtn setTitle:NSLocalizedStringFromTable(@"button.register.title", @"Register", @"") forState:UIControlStateNormal];
 }
 
 @end

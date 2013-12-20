@@ -49,6 +49,7 @@
 		6D0FAA391863658E0084F505 /* CTFDetailsJoinViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0FAA381863658E0084F505 /* CTFDetailsJoinViewControllerTests.m */; };
 		6D0FAA3B186366710084F505 /* CTFJoinGameCellTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0FAA3A186366710084F505 /* CTFJoinGameCellTests.m */; };
 		6D0FAA3E1864FE010084F505 /* Login.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D0FAA401864FE010084F505 /* Login.strings */; };
+		6D0FAA44186502D30084F505 /* Register.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D0FAA46186502D30084F505 /* Register.strings */; };
 		6D1825D7184A36120039FD92 /* CTFAPICredentialsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D1825D6184A36120039FD92 /* CTFAPICredentialsTests.m */; };
 		6D65DE05185EE07C00C76A90 /* CTFJoinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D65DE04185EE07C00C76A90 /* CTFJoinViewController.m */; };
 		6D65DE08185EE20400C76A90 /* CTFJoinGameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D65DE07185EE20400C76A90 /* CTFJoinGameCell.m */; };
@@ -157,7 +158,7 @@
 		6D0FAA381863658E0084F505 /* CTFDetailsJoinViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFDetailsJoinViewControllerTests.m; sourceTree = "<group>"; };
 		6D0FAA3A186366710084F505 /* CTFJoinGameCellTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFJoinGameCellTests.m; sourceTree = "<group>"; };
 		6D0FAA3F1864FE010084F505 /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = en.lproj/Login.strings; sourceTree = "<group>"; };
-		6D0FAA411864FE040084F505 /* pl */ = {isa = PBXFileReference; lastKnownFileType = file; name = pl; path = pl.lproj/Login.strings; sourceTree = "<group>"; };
+		6D0FAA45186502D30084F505 /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = en.lproj/Register.strings; sourceTree = "<group>"; };
 		6D1825D6184A36120039FD92 /* CTFAPICredentialsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFAPICredentialsTests.m; sourceTree = "<group>"; };
 		6D65DE03185EE07C00C76A90 /* CTFJoinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFJoinViewController.h; sourceTree = "<group>"; };
 		6D65DE04185EE07C00C76A90 /* CTFJoinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFJoinViewController.m; sourceTree = "<group>"; };
@@ -555,6 +556,7 @@
 			isa = PBXGroup;
 			children = (
 				6D0FAA401864FE010084F505 /* Login.strings */,
+				6D0FAA46186502D30084F505 /* Register.strings */,
 				6D6DF20D182B8B59004A4D58 /* Localizable.strings */,
 				6DFD1933182ACF0C00542227 /* Capture The Flag-Info.plist */,
 				6DFD1934182ACF0C00542227 /* InfoPlist.strings */,
@@ -671,6 +673,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6D65DE14185F05A900C76A90 /* BLStream.gpx in Resources */,
+				6D0FAA44186502D30084F505 /* Register.strings in Resources */,
 				6D9BE08A1854AF870036172C /* LoginAndRegister.storyboard in Resources */,
 				6DFD1944182ACF0C00542227 /* Images.xcassets in Resources */,
 				6D6DF20F182B8B59004A4D58 /* Localizable.strings in Resources */,
@@ -866,9 +869,16 @@
 			isa = PBXVariantGroup;
 			children = (
 				6D0FAA3F1864FE010084F505 /* en */,
-				6D0FAA411864FE040084F505 /* pl */,
 			);
 			name = Login.strings;
+			sourceTree = "<group>";
+		};
+		6D0FAA46186502D30084F505 /* Register.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6D0FAA45186502D30084F505 /* en */,
+			);
+			name = Register.strings;
 			sourceTree = "<group>";
 		};
 		6D6DF20D182B8B59004A4D58 /* Localizable.strings */ = {
