@@ -26,6 +26,10 @@
 
 - (void)localizeUI {
     self.navigationItem.title = NSLocalizedString(@"view.profile.navigation.title", nil);
+    self.firstNameTextField.placeholder = NSLocalizedString(@"view.profile.textField.firstName.placeholder", nil);
+    self.lastNameTextField.placeholder = NSLocalizedString(@"view.profile.textField.lastName.placeholder", nil);
+    self.nickTextField.placeholder = NSLocalizedString(@"view.profile.textField.nick.placeholder", nil);
+    self.emailTextField.placeholder = NSLocalizedString(@"view.profile.textField.email.placeholder", nil);
 }
 
 @end

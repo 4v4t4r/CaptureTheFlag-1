@@ -13,6 +13,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *firstNameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *lastNameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *nickTextField;
-@property (weak, nonatomic) IBOutlet UIView *emailTextField;
+@property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 
 @end
