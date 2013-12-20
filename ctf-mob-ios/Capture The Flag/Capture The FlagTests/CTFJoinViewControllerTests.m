@@ -33,26 +33,28 @@
     [super tearDown];
 }
 
-- (void)testControllerShouldBeDelegateOfTableView {
-    XCTAssertEqualObjects(vc.tableView.delegate, vc, @"");
-}
 
-- (void)testTitleOfViewShouldBeSet {
-    XCTAssertEqualObjects(vc.navigationItem.title, NSLocalizedString(@"view.join.navigation.title", nil), @"");
-}
-
+#pragma mark - Outlets
 - (void)testTableViewShouldNotBeNil {
     XCTAssertNotNil(vc.tableView, @"");
 }
 
-
-#pragma mark - Data Source tests
 - (void)testDataSourceShouldBeNotNil {
     XCTAssertNotNil(vc.dataSource, @"");
+}
+
+- (void)testControllerShouldBeDelegateOfTableView {
+    XCTAssertEqualObjects(vc.tableView.delegate, vc, @"");
 }
 
 - (void)testTableViewDataSourceShouldBeEqualToArrayDataSource {
     XCTAssertEqualObjects(vc.tableView.dataSource, vc.dataSource, @"");
 }
+
+#pragma mark - Localization
+- (void)testTitleOfViewShouldBeSet {
+    XCTAssertEqualObjects(vc.navigationItem.title, NSLocalizedStringFromTable(@"navigationItem.title", @"Join", nil), @"");
+}
+
 
 @end

@@ -77,7 +77,7 @@
 
 #pragma mark - CTFViewControllerProtocol
 - (void)localizeUI {
-    self.navigationItem.title = NSLocalizedString(@"view.join.navigation.title", nil);
+    self.navigationItem.title = NSLocalizedStringFromTable(@"navigationItem.title", @"Join", nil);
 }
 
 

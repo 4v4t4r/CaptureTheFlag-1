@@ -1,29 +1,4 @@
 /**
  GENERAL
  */
-
 "button.OK" = "OK";
-
-
-
-
-/** 
- REGISTER VIEW CONTROLLER
- */
-
-
-
-/** 
- JOIN VIEW CONTROLLER
- */
-
-/* title of navigation bar */
-"view.join.navigation.title" = "Select game";
-
-
-/** 
- PROFILE VIEW CONTROLLER
- */
-
-
-
