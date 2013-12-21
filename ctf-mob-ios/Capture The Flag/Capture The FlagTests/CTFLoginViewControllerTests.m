@@ -71,6 +71,16 @@
 }
 
 
+#pragma mark - Delegates
+- (void)testThatUserNameTextFieldShouldHasDelegate {
+    XCTAssertEqualObjects(vc.usernameTF.delegate, vc, @"");
+}
+
+- (void)testThatPasswordTextFieldShouldHasDelegate {
+    XCTAssertEqualObjects(vc.passwordTF.delegate, vc, @"");
+}
+
+
 #pragma mark - Localization
 - (void)testThatNavigationItemTitleShouldBeSet {
     XCTAssertEqualObjects(vc.navigationItem.title, NSLocalizedStringFromTable(@"navigation.title", @"Login", @""), @"");

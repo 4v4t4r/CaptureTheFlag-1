@@ -119,11 +119,6 @@
     }
 }
 
-- (void)_configureTextFields {
-    [_usernameTF addTarget:self action:@selector(textFieldDidChange) forControlEvents:UIControlEventEditingChanged];
-    [_passwordTF addTarget:self action:@selector(textFieldDidChange) forControlEvents:UIControlEventEditingChanged];
-}
-
 - (void)_fillTextFieldIfNecessary {
     CTFAPILocalCredentials *credentials = [[CTFAPILocalCredentialsStore sharedInstance] getCredentials];
     if (credentials) {
@@ -131,6 +126,11 @@
         [_passwordTF setText:credentials.password];
     }
     [self textFieldDidChange];
+}
+
+- (void)_configureTextFields {
+    [_usernameTF addTarget:self action:@selector(textFieldDidChange) forControlEvents:UIControlEventEditingChanged];
+    [_passwordTF addTarget:self action:@selector(textFieldDidChange) forControlEvents:UIControlEventEditingChanged];
 }
 
 - (void)textFieldDidChange {
