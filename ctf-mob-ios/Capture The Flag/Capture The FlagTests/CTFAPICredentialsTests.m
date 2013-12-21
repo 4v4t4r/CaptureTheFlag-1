@@ -129,10 +129,22 @@
     XCTAssertEqual(emailNil, CredentialsValidationResultFailure, @"");
 }
 
-- (void)testThatUpdateCredentialsShouldReturnIncorrectWhenFirstNameIsEmpty {
+- (void)testThatUpdateCredentialsShouldReturnThatEmailIsIncorrect {
     CredentialsValidationResult result =
     [CTFAPIUserDataValidator validateUserCredentialsForUpdateWithFirstName:@"" lastName:@"someting" nick:@"something" emailAddress:@"something"];
+    XCTAssertEqual(result, CredentialsValidationResultIncorrectEmailAddress, @"");
+}
+
+- (void)testThatUpdateCredentialsShouldReturnThatFirstNameIsIncorrect {
+    CredentialsValidationResult result =
+    [CTFAPIUserDataValidator validateUserCredentialsForUpdateWithFirstName:@"Tomasz 9" lastName:@"someting" nick:@"something" emailAddress:@"something"];
     XCTAssertEqual(result, CredentialsValidationResultIncorrectFirstName, @"");
+}
+
+- (void)testThatUpdateCredentialsShouldReturnThatLastNameIsIncorrect {
+    CredentialsValidationResult result =
+    [CTFAPIUserDataValidator validateUserCredentialsForUpdateWithFirstName:@"Tomasz" lastName:@"someting #!@#" nick:@"something" emailAddress:@"something"];
+    XCTAssertEqual(result, CredentialsValidationResultIncorrectLastName, @"");
 }
 
 @end
