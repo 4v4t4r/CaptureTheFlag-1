@@ -10,7 +10,7 @@
 
 #import "CTFAPIAccounts.h"
 #import "CTFAPIConnection.h"
-#import "CTFAPILocalCredentialsValidator.h"
+#import "CTFAPIUserDataValidator.h"
 
 @interface CTFRegisterViewController () <UIAlertViewDelegate>
 @end
@@ -101,7 +101,7 @@
 - (void)textFieldDidChange {
     BOOL registrationEnabled = NO;
     CredentialsValidationResult result =
-    [CTFAPILocalCredentialsValidator validateSignUpCredentialsWithUsername:_usernameTF.text
+    [CTFAPIUserDataValidator validateSignUpCredentialsWithUsername:_usernameTF.text
                                              emailAddress:_emailTF.text
                                                  password:_passwordTF.text
                                                rePassword:_rePasswordTF.text];

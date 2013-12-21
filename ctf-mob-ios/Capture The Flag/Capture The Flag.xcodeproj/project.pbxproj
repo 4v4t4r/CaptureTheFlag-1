@@ -81,8 +81,7 @@
 		6DB609B2185488870094E37D /* CTFViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB609AD185488870094E37D /* CTFViewController.m */; };
 		6DB609C2185488CE0094E37D /* CTFAPIAccounts.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB609B5185488CE0094E37D /* CTFAPIAccounts.m */; };
 		6DB609C3185488CE0094E37D /* CTFAPIConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB609B7185488CE0094E37D /* CTFAPIConnection.m */; };
-		6DB609C4185488CE0094E37D /* CTFAPILocalCredentialsValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB609B9185488CE0094E37D /* CTFAPILocalCredentialsValidator.m */; };
-		6DB609C5185488CE0094E37D /* CTFAPILocalCredentialsValidator+Validator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB609BB185488CE0094E37D /* CTFAPILocalCredentialsValidator+Validator.m */; };
+		6DB609C4185488CE0094E37D /* CTFAPIUserDataValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB609B9185488CE0094E37D /* CTFAPIUserDataValidator.m */; };
 		6DB609C7185488CE0094E37D /* CTFAPILocalCredentials.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB609BF185488CE0094E37D /* CTFAPILocalCredentials.m */; };
 		6DB609C8185488CE0094E37D /* CTFAPILocalCredentialsStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB609C1185488CE0094E37D /* CTFAPILocalCredentialsStore.m */; };
 		6DB609E61854A11A0094E37D /* _CTFCharacter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB609D21854A11A0094E37D /* _CTFCharacter.m */; };
@@ -95,7 +94,17 @@
 		6DB609ED1854A11A0094E37D /* CTFItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB609E11854A11A0094E37D /* CTFItem.m */; };
 		6DB609EE1854A11A0094E37D /* CTFSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB609E31854A11A0094E37D /* CTFSession.m */; };
 		6DB609EF1854A11A0094E37D /* CTFUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB609E51854A11A0094E37D /* CTFUser.m */; };
-		6DE0FCCD182C030700800C09 /* CTFAPICredentials_Validator_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE0FCCC182C030700800C09 /* CTFAPICredentials_Validator_Tests.m */; };
+		6DD8D9A418664E330033D573 /* TSStringValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD8D99D18664E330033D573 /* TSStringValidator.m */; };
+		6DD8D9A518664E330033D573 /* TSStringValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD8D99D18664E330033D573 /* TSStringValidator.m */; };
+		6DD8D9A618664E330033D573 /* TSStringValidatorEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD8D99F18664E330033D573 /* TSStringValidatorEngine.m */; };
+		6DD8D9A718664E330033D573 /* TSStringValidatorEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD8D99F18664E330033D573 /* TSStringValidatorEngine.m */; };
+		6DD8D9A818664E330033D573 /* TSStringValidatorItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD8D9A118664E330033D573 /* TSStringValidatorItem.m */; };
+		6DD8D9A918664E330033D573 /* TSStringValidatorItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD8D9A118664E330033D573 /* TSStringValidatorItem.m */; };
+		6DD8D9AA18664E330033D573 /* TSStringValidatorPattern.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD8D9A318664E330033D573 /* TSStringValidatorPattern.m */; };
+		6DD8D9AB18664E330033D573 /* TSStringValidatorPattern.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD8D9A318664E330033D573 /* TSStringValidatorPattern.m */; };
+		6DD8D9AE186652740033D573 /* CTFAPIUserDataValidator+RegexpPatterns.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD8D9AD186652740033D573 /* CTFAPIUserDataValidator+RegexpPatterns.m */; };
+		6DD8D9AF186652740033D573 /* CTFAPIUserDataValidator+RegexpPatterns.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD8D9AD186652740033D573 /* CTFAPIUserDataValidator+RegexpPatterns.m */; };
+		6DE0FCCD182C030700800C09 /* CTFAPIUserDataValidator_RegexpPatterns_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE0FCCC182C030700800C09 /* CTFAPIUserDataValidator_RegexpPatterns_Tests.m */; };
 		6DE0FCD0182C582300800C09 /* CTFLoginViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE0FCCF182C582200800C09 /* CTFLoginViewControllerTests.m */; };
 		6DE0FCD4182C5ABD00800C09 /* CTFRegisterViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE0FCD3182C5ABD00800C09 /* CTFRegisterViewControllerTests.m */; };
 		6DE9913C183AA00E005F3DB1 /* CoreDataService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE9913B183AA00E005F3DB1 /* CoreDataService.m */; };
@@ -208,10 +217,8 @@
 		6DB609B5185488CE0094E37D /* CTFAPIAccounts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFAPIAccounts.m; sourceTree = "<group>"; };
 		6DB609B6185488CE0094E37D /* CTFAPIConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFAPIConnection.h; sourceTree = "<group>"; };
 		6DB609B7185488CE0094E37D /* CTFAPIConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFAPIConnection.m; sourceTree = "<group>"; };
-		6DB609B8185488CE0094E37D /* CTFAPILocalCredentialsValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFAPILocalCredentialsValidator.h; sourceTree = "<group>"; };
-		6DB609B9185488CE0094E37D /* CTFAPILocalCredentialsValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFAPILocalCredentialsValidator.m; sourceTree = "<group>"; };
-		6DB609BA185488CE0094E37D /* CTFAPILocalCredentialsValidator+Validator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CTFAPILocalCredentialsValidator+Validator.h"; sourceTree = "<group>"; };
-		6DB609BB185488CE0094E37D /* CTFAPILocalCredentialsValidator+Validator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CTFAPILocalCredentialsValidator+Validator.m"; sourceTree = "<group>"; };
+		6DB609B8185488CE0094E37D /* CTFAPIUserDataValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFAPIUserDataValidator.h; sourceTree = "<group>"; };
+		6DB609B9185488CE0094E37D /* CTFAPIUserDataValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFAPIUserDataValidator.m; sourceTree = "<group>"; };
 		6DB609BE185488CE0094E37D /* CTFAPILocalCredentials.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFAPILocalCredentials.h; sourceTree = "<group>"; };
 		6DB609BF185488CE0094E37D /* CTFAPILocalCredentials.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFAPILocalCredentials.m; sourceTree = "<group>"; };
 		6DB609C0185488CE0094E37D /* CTFAPILocalCredentialsStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFAPILocalCredentialsStore.h; sourceTree = "<group>"; };
@@ -236,7 +243,17 @@
 		6DB609E31854A11A0094E37D /* CTFSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFSession.m; sourceTree = "<group>"; };
 		6DB609E41854A11A0094E37D /* CTFUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFUser.h; sourceTree = "<group>"; };
 		6DB609E51854A11A0094E37D /* CTFUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFUser.m; sourceTree = "<group>"; };
-		6DE0FCCC182C030700800C09 /* CTFAPICredentials_Validator_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFAPICredentials_Validator_Tests.m; sourceTree = "<group>"; };
+		6DD8D99C18664E330033D573 /* TSStringValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSStringValidator.h; sourceTree = "<group>"; };
+		6DD8D99D18664E330033D573 /* TSStringValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSStringValidator.m; sourceTree = "<group>"; };
+		6DD8D99E18664E330033D573 /* TSStringValidatorEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSStringValidatorEngine.h; sourceTree = "<group>"; };
+		6DD8D99F18664E330033D573 /* TSStringValidatorEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSStringValidatorEngine.m; sourceTree = "<group>"; };
+		6DD8D9A018664E330033D573 /* TSStringValidatorItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSStringValidatorItem.h; sourceTree = "<group>"; };
+		6DD8D9A118664E330033D573 /* TSStringValidatorItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSStringValidatorItem.m; sourceTree = "<group>"; };
+		6DD8D9A218664E330033D573 /* TSStringValidatorPattern.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSStringValidatorPattern.h; sourceTree = "<group>"; };
+		6DD8D9A318664E330033D573 /* TSStringValidatorPattern.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSStringValidatorPattern.m; sourceTree = "<group>"; };
+		6DD8D9AC186652740033D573 /* CTFAPIUserDataValidator+RegexpPatterns.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CTFAPIUserDataValidator+RegexpPatterns.h"; sourceTree = "<group>"; };
+		6DD8D9AD186652740033D573 /* CTFAPIUserDataValidator+RegexpPatterns.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CTFAPIUserDataValidator+RegexpPatterns.m"; sourceTree = "<group>"; };
+		6DE0FCCC182C030700800C09 /* CTFAPIUserDataValidator_RegexpPatterns_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFAPIUserDataValidator_RegexpPatterns_Tests.m; sourceTree = "<group>"; };
 		6DE0FCCF182C582200800C09 /* CTFLoginViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFLoginViewControllerTests.m; sourceTree = "<group>"; };
 		6DE0FCD3182C5ABD00800C09 /* CTFRegisterViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFRegisterViewControllerTests.m; sourceTree = "<group>"; };
 		6DE99138183A9F9E005F3DB1 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
@@ -362,7 +379,7 @@
 				6D0D8796184CF3FD002904AE /* CTFAPIAccountsTests.m */,
 				6D0D8794184CF111002904AE /* CTFAPIConnectionTests.m */,
 				6D1825D6184A36120039FD92 /* CTFAPICredentialsTests.m */,
-				6DE0FCCC182C030700800C09 /* CTFAPICredentials_Validator_Tests.m */,
+				6DE0FCCC182C030700800C09 /* CTFAPIUserDataValidator_RegexpPatterns_Tests.m */,
 				6D0D87A2184D2FB5002904AE /* CTFAPILocalCredentialsTests.m */,
 				6D0D87AA184D3488002904AE /* CTFAPILocalCredentialsStoreTests.m */,
 				6DA131A5186197C900290917 /* CTFAPIRKConfiguratorTests.h */,
@@ -376,6 +393,7 @@
 		6D54EBB7182EB657002A6357 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				6DD8D99B18664E330033D573 /* TSStringValidator */,
 				6DB609B4185488CE0094E37D /* CTFAPIAccounts.h */,
 				6DB609B5185488CE0094E37D /* CTFAPIAccounts.m */,
 				6DB609B6185488CE0094E37D /* CTFAPIConnection.h */,
@@ -384,10 +402,10 @@
 				6DB609BF185488CE0094E37D /* CTFAPILocalCredentials.m */,
 				6DB609C0185488CE0094E37D /* CTFAPILocalCredentialsStore.h */,
 				6DB609C1185488CE0094E37D /* CTFAPILocalCredentialsStore.m */,
-				6DB609B8185488CE0094E37D /* CTFAPILocalCredentialsValidator.h */,
-				6DB609B9185488CE0094E37D /* CTFAPILocalCredentialsValidator.m */,
-				6DB609BA185488CE0094E37D /* CTFAPILocalCredentialsValidator+Validator.h */,
-				6DB609BB185488CE0094E37D /* CTFAPILocalCredentialsValidator+Validator.m */,
+				6DB609B8185488CE0094E37D /* CTFAPIUserDataValidator.h */,
+				6DB609B9185488CE0094E37D /* CTFAPIUserDataValidator.m */,
+				6DD8D9AC186652740033D573 /* CTFAPIUserDataValidator+RegexpPatterns.h */,
+				6DD8D9AD186652740033D573 /* CTFAPIUserDataValidator+RegexpPatterns.m */,
 				6DA131951861842100290917 /* CTFAPIRKConfigurator.h */,
 				6DA131961861842100290917 /* CTFAPIRKConfigurator.m */,
 				6DA1319C186189D300290917 /* CTFAPIRKConfigurator+Descriptors.h */,
@@ -490,6 +508,22 @@
 			);
 			path = Public;
 			sourceTree = "<group>";
+		};
+		6DD8D99B18664E330033D573 /* TSStringValidator */ = {
+			isa = PBXGroup;
+			children = (
+				6DD8D99C18664E330033D573 /* TSStringValidator.h */,
+				6DD8D99D18664E330033D573 /* TSStringValidator.m */,
+				6DD8D99E18664E330033D573 /* TSStringValidatorEngine.h */,
+				6DD8D99F18664E330033D573 /* TSStringValidatorEngine.m */,
+				6DD8D9A018664E330033D573 /* TSStringValidatorItem.h */,
+				6DD8D9A118664E330033D573 /* TSStringValidatorItem.m */,
+				6DD8D9A218664E330033D573 /* TSStringValidatorPattern.h */,
+				6DD8D9A318664E330033D573 /* TSStringValidatorPattern.m */,
+			);
+			name = TSStringValidator;
+			path = "Capture The Flag/TSStringValidator/TSStringValidator/TSStringValidator/API Classes";
+			sourceTree = SOURCE_ROOT;
 		};
 		6DE99127183A99D5005F3DB1 /* Model */ = {
 			isa = PBXGroup;
@@ -784,7 +818,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6DB609C5185488CE0094E37D /* CTFAPILocalCredentialsValidator+Validator.m in Sources */,
 				6DA1319E186189D300290917 /* CTFAPIRKConfigurator+Descriptors.m in Sources */,
 				6DB609B0185488870094E37D /* CTFMainViewController.m in Sources */,
 				6DB609C2185488CE0094E37D /* CTFAPIAccounts.m in Sources */,
@@ -793,6 +826,7 @@
 				6DA131A118618B4B00290917 /* CTFAPIRKConfigurator+Mappings.m in Sources */,
 				6DB609B1185488870094E37D /* CTFRegisterViewController.m in Sources */,
 				6D65DE0C185EF32800C76A90 /* CTFDetailsJoinViewController.m in Sources */,
+				6DD8D9A418664E330033D573 /* TSStringValidator.m in Sources */,
 				6DB609C8185488CE0094E37D /* CTFAPILocalCredentialsStore.m in Sources */,
 				6DB609C3185488CE0094E37D /* CTFAPIConnection.m in Sources */,
 				6D65DE08185EE20400C76A90 /* CTFJoinGameCell.m in Sources */,
@@ -800,24 +834,28 @@
 				6DB609EE1854A11A0094E37D /* CTFSession.m in Sources */,
 				6DB609AF185488870094E37D /* CTFLoginViewController.m in Sources */,
 				6D0715BC184FD965002C3023 /* Model.xcdatamodeld in Sources */,
+				6DD8D9AE186652740033D573 /* CTFAPIUserDataValidator+RegexpPatterns.m in Sources */,
 				6D65DE11185F012000C76A90 /* MapViewAnnotation.m in Sources */,
 				6DE9913C183AA00E005F3DB1 /* CoreDataService.m in Sources */,
 				6DB609EC1854A11A0094E37D /* CTFGame.m in Sources */,
 				6DB609EB1854A11A0094E37D /* CTFCharacter.m in Sources */,
 				6DB609EF1854A11A0094E37D /* CTFUser.m in Sources */,
-				6DB609C4185488CE0094E37D /* CTFAPILocalCredentialsValidator.m in Sources */,
+				6DB609C4185488CE0094E37D /* CTFAPIUserDataValidator.m in Sources */,
 				6DB609E81854A11A0094E37D /* _CTFItem.m in Sources */,
 				6D0D879B184D26BC002904AE /* STKeychain.m in Sources */,
 				6D65DE05185EE07C00C76A90 /* CTFJoinViewController.m in Sources */,
 				6D65DE1F185F0DB100C76A90 /* _CTFMap.m in Sources */,
 				6DB609E71854A11A0094E37D /* _CTFGame.m in Sources */,
+				6DD8D9A618664E330033D573 /* TSStringValidatorEngine.m in Sources */,
 				6DB609E91854A11A0094E37D /* _CTFSession.m in Sources */,
 				6DA131971861842100290917 /* CTFAPIRKConfigurator.m in Sources */,
+				6DD8D9AA18664E330033D573 /* TSStringValidatorPattern.m in Sources */,
 				6DFD193C182ACF0C00542227 /* CTFAppDelegate.m in Sources */,
 				6DB609EA1854A11A0094E37D /* _CTFUser.m in Sources */,
 				6DB609E61854A11A0094E37D /* _CTFCharacter.m in Sources */,
 				6DFD1938182ACF0C00542227 /* main.m in Sources */,
 				6D65DE19185F0C5200C76A90 /* CTFMap.m in Sources */,
+				6DD8D9A818664E330033D573 /* TSStringValidatorItem.m in Sources */,
 				6DB609C7185488CE0094E37D /* CTFAPILocalCredentials.m in Sources */,
 				6DB609ED1854A11A0094E37D /* CTFItem.m in Sources */,
 			);
@@ -831,27 +869,32 @@
 				6D0FAA331861F6080084F505 /* CTFGameTests.m in Sources */,
 				6DA1319B1861846100290917 /* CTFAPIRKConfiguratorTests.m in Sources */,
 				6D1825D7184A36120039FD92 /* CTFAPICredentialsTests.m in Sources */,
+				6DD8D9A918664E330033D573 /* TSStringValidatorItem.m in Sources */,
 				6D0FAA2D1861F5320084F505 /* CTFItemTests.m in Sources */,
 				6D0FAA3B186366710084F505 /* CTFJoinGameCellTests.m in Sources */,
 				6D0715BD184FD965002C3023 /* Model.xcdatamodeld in Sources */,
-				6DE0FCCD182C030700800C09 /* CTFAPICredentials_Validator_Tests.m in Sources */,
+				6DE0FCCD182C030700800C09 /* CTFAPIUserDataValidator_RegexpPatterns_Tests.m in Sources */,
 				6D0FAA311861F5D30084F505 /* CTFMapTests.m in Sources */,
 				6DA131A7186199C900290917 /* CTFAPIRKConfigurator_Descriptors_Tests.m in Sources */,
 				6DE0FCD0182C582300800C09 /* CTFLoginViewControllerTests.m in Sources */,
+				6DD8D9A518664E330033D573 /* TSStringValidator.m in Sources */,
 				6D0FAA371861F7040084F505 /* MapViewAnnotationTests.m in Sources */,
 				6DE0FCD4182C5ABD00800C09 /* CTFRegisterViewControllerTests.m in Sources */,
 				6D0D8795184CF111002904AE /* CTFAPIConnectionTests.m in Sources */,
+				6DD8D9AF186652740033D573 /* CTFAPIUserDataValidator+RegexpPatterns.m in Sources */,
 				6D0FAA351861F66A0084F505 /* CTFCharacterTests.m in Sources */,
 				6DA131A4186190C900290917 /* CTFAPIRKConfigurator_Mappings_Tests.m in Sources */,
 				6D0FAA26185F9EBA0084F505 /* ArrayDataSourceTests.m in Sources */,
 				6D0FAA391863658E0084F505 /* CTFDetailsJoinViewControllerTests.m in Sources */,
 				6D0D87AB184D3488002904AE /* CTFAPILocalCredentialsStoreTests.m in Sources */,
+				6DD8D9AB18664E330033D573 /* TSStringValidatorPattern.m in Sources */,
 				6D0D8797184CF3FD002904AE /* CTFAPIAccountsTests.m in Sources */,
 				6D0FAA2B18610AF80084F505 /* CTFProfileViewControllerTests.m in Sources */,
 				6D0715B5184E8318002C3023 /* CTFSessionTests.m in Sources */,
 				6D0FAA2F1861F5A00084F505 /* CTFUserTests.m in Sources */,
 				6D0FAA22185F9B6D0084F505 /* CTFJoinViewControllerTests.m in Sources */,
 				6D0D87A3184D2FB5002904AE /* CTFAPILocalCredentialsTests.m in Sources */,
+				6DD8D9A718664E330033D573 /* TSStringValidatorEngine.m in Sources */,
 				6D9CBE6A183AB4BB000FE071 /* CTFMainViewControllerTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -963,6 +1006,21 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/Capture The Flag/TSStringValidator/TSStringValidator/TSStringValidator/API Classes\"",
+					"\"${PODS_ROOT}/Headers\"",
+					"\"${PODS_ROOT}/Headers/AFNetworking\"",
+					"\"${PODS_ROOT}/Headers/OCMock\"",
+					"\"${PODS_ROOT}/Headers/RestKit\"",
+					"\"${PODS_ROOT}/Headers/RestKit/RestKit\"",
+					"\"${PODS_ROOT}/Headers/RestKit/RestKit/CoreData\"",
+					"\"${PODS_ROOT}/Headers/RestKit/RestKit/Network\"",
+					"\"${PODS_ROOT}/Headers/RestKit/RestKit/ObjectMapping\"",
+					"\"${PODS_ROOT}/Headers/RestKit/RestKit/Support\"",
+					"\"${PODS_ROOT}/Headers/RestKit/RestKit/Testing\"",
+					"\"${PODS_ROOT}/Headers/SOCKit\"",
+					"\"${PODS_ROOT}/Headers/TransitionKit\"",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -997,6 +1055,21 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/Capture The Flag/TSStringValidator/TSStringValidator/TSStringValidator/API Classes\"",
+					"\"${PODS_ROOT}/Headers\"",
+					"\"${PODS_ROOT}/Headers/AFNetworking\"",
+					"\"${PODS_ROOT}/Headers/OCMock\"",
+					"\"${PODS_ROOT}/Headers/RestKit\"",
+					"\"${PODS_ROOT}/Headers/RestKit/RestKit\"",
+					"\"${PODS_ROOT}/Headers/RestKit/RestKit/CoreData\"",
+					"\"${PODS_ROOT}/Headers/RestKit/RestKit/Network\"",
+					"\"${PODS_ROOT}/Headers/RestKit/RestKit/ObjectMapping\"",
+					"\"${PODS_ROOT}/Headers/RestKit/RestKit/Support\"",
+					"\"${PODS_ROOT}/Headers/RestKit/RestKit/Testing\"",
+					"\"${PODS_ROOT}/Headers/SOCKit\"",
+					"\"${PODS_ROOT}/Headers/TransitionKit\"",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -1011,7 +1084,23 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Capture The Flag/Capture The Flag-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/Capture The Flag/TSStringValidator/TSStringValidator/TSStringValidator/API Classes\"",
+					"\"${PODS_ROOT}/Headers\"",
+					"\"${PODS_ROOT}/Headers/AFNetworking\"",
+					"\"${PODS_ROOT}/Headers/OCMock\"",
+					"\"${PODS_ROOT}/Headers/RestKit\"",
+					"\"${PODS_ROOT}/Headers/RestKit/RestKit\"",
+					"\"${PODS_ROOT}/Headers/RestKit/RestKit/CoreData\"",
+					"\"${PODS_ROOT}/Headers/RestKit/RestKit/Network\"",
+					"\"${PODS_ROOT}/Headers/RestKit/RestKit/ObjectMapping\"",
+					"\"${PODS_ROOT}/Headers/RestKit/RestKit/Support\"",
+					"\"${PODS_ROOT}/Headers/RestKit/RestKit/Testing\"",
+					"\"${PODS_ROOT}/Headers/SOCKit\"",
+					"\"${PODS_ROOT}/Headers/TransitionKit\"",
+				);
 				INFOPLIST_FILE = "Capture The Flag/Capture The Flag-Info.plist";
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1025,7 +1114,23 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Capture The Flag/Capture The Flag-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/Capture The Flag/TSStringValidator/TSStringValidator/TSStringValidator/API Classes\"",
+					"\"${PODS_ROOT}/Headers\"",
+					"\"${PODS_ROOT}/Headers/AFNetworking\"",
+					"\"${PODS_ROOT}/Headers/OCMock\"",
+					"\"${PODS_ROOT}/Headers/RestKit\"",
+					"\"${PODS_ROOT}/Headers/RestKit/RestKit\"",
+					"\"${PODS_ROOT}/Headers/RestKit/RestKit/CoreData\"",
+					"\"${PODS_ROOT}/Headers/RestKit/RestKit/Network\"",
+					"\"${PODS_ROOT}/Headers/RestKit/RestKit/ObjectMapping\"",
+					"\"${PODS_ROOT}/Headers/RestKit/RestKit/Support\"",
+					"\"${PODS_ROOT}/Headers/RestKit/RestKit/Testing\"",
+					"\"${PODS_ROOT}/Headers/SOCKit\"",
+					"\"${PODS_ROOT}/Headers/TransitionKit\"",
+				);
 				INFOPLIST_FILE = "Capture The Flag/Capture The Flag-Info.plist";
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1050,6 +1155,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"\"$(SRCROOT)/Capture The Flag/TSStringValidator/TSStringValidator/TSStringValidator/API Classes\"",
 				);
 				INFOPLIST_FILE = "Capture The FlagTests/Capture The FlagTests-Info.plist";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
@@ -1075,6 +1181,7 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(BUILT_PRODUCTS_DIR)/../../Headers",
+					"\"$(SRCROOT)/Capture The Flag/TSStringValidator/TSStringValidator/TSStringValidator/API Classes\"",
 				);
 				INFOPLIST_FILE = "Capture The FlagTests/Capture The FlagTests-Info.plist";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";

@@ -15,7 +15,7 @@
 #import "CTFAPIConnection.h"
 #import "CTFAPILocalCredentials.h"
 #import "CTFAPILocalCredentialsStore.h"
-#import "CTFAPILocalCredentialsValidator.h"
+#import "CTFAPIUserDataValidator.h"
 #import "CTFAPIRKConfigurator.h"
 #import "CoreDataService.h"
 
@@ -51,7 +51,7 @@
     NSString *password = _passwordTF.text;
     
     CredentialsValidationResult result =
-    [CTFAPILocalCredentialsValidator validateSignInCredentialsWithUsername:username password:password];
+    [CTFAPIUserDataValidator validateSignInCredentialsWithUsername:username password:password];
     
     if (result == CredentialsValidationResultOK) {
         [_activityIndicator startAnimating];
@@ -135,7 +135,7 @@
 
 - (void)textFieldDidChange {
     CredentialsValidationResult result =
-    [CTFAPILocalCredentialsValidator validateSignInCredentialsWithUsername:_usernameTF.text password:_passwordTF.text];
+    [CTFAPIUserDataValidator validateSignInCredentialsWithUsername:_usernameTF.text password:_passwordTF.text];
     
     [_loginBtn setEnabled:(result == CredentialsValidationResultOK)];
 }

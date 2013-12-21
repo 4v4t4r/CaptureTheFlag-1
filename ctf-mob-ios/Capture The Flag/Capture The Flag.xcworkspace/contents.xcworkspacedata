@@ -5,9 +5,6 @@
       location = "group:Capture The Flag.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Capture The Flag/TSStringValidator/TSStringValidator/TSStringValidator.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:Pods/Pods.xcodeproj">
    </FileRef>
 </Workspace>
