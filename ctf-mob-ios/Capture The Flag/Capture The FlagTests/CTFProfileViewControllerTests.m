@@ -52,6 +52,25 @@
     XCTAssertNotNil(_vc.updateButton, @"");
 }
 
+
+#pragma mark - Delegate 
+- (void)testThatFirstNameTextFieldHasDelegate {
+    XCTAssertEqualObjects(_vc.firstNameTextField.delegate, _vc, @"");
+}
+
+- (void)testThatLastNameTextFieldHasDelegate {
+    XCTAssertEqualObjects(_vc.lastNameTextField.delegate, _vc, @"");
+}
+
+- (void)testThatNickTextFieldHasDelegate {
+    XCTAssertEqualObjects(_vc.nickTextField.delegate, _vc, @"");
+}
+
+- (void)testThatEmailTextFieldHasDelegate {
+    XCTAssertEqualObjects(_vc.emailTextField.delegate, _vc, @"");
+}
+
+
 #pragma mark - Localization
 - (void)testNavigationItemTitleShouldBeSet {
     XCTAssertEqualObjects(_vc.navigationItem.title, NSLocalizedStringFromTable(@"navigationItem.title", @"Profile", nil), @"");

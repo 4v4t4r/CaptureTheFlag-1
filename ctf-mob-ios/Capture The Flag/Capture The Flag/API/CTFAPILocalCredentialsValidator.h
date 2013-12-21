@@ -13,10 +13,14 @@ typedef enum {
     CredentialsValidationResultFailure,
     CredentialsValidationResultOK,
     
-    CredentialsValidationResultWrongUsername,
-    CredentialsValidationResultWrongEmailAddress,
+    CredentialsValidationResultIncorrectUsername,
+    CredentialsValidationResultIncorrectEmailAddress,
+    CredentialsValidationResultIncorrectPassword,
+    CredentialsValidationResultIncorrectFirstName,
+    CredentialsValidationResultIncorrectLastName,
+    CredentialsValidationResultIncorrectNick,
+    
     CredentialsValidationResultDifferentPasswords,
-    CredentialsValidationResultWrongPassword
 } CredentialsValidationResult;
 
 @interface CTFAPILocalCredentialsValidator : NSObject
@@ -45,5 +49,7 @@ typedef enum {
  */
 + (CredentialsValidationResult)validateSignInCredentialsWithUsername:(NSString *)username
                                                             password:(NSString *)password;
+
++ (CredentialsValidationResult)validateUserCredentialsForUpdateWithFirstName:(NSString *)firstName lastName:(NSString *)lastName nick:(NSString *)nick emailAddress:(NSString *)email;
 
 @end

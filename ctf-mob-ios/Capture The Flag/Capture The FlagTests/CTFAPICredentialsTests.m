@@ -16,7 +16,7 @@
 @implementation CTFAPICredentialsTests
 
 
-#pragma mark - SignUp
+#pragma mark - validateSignUpCredentialsWithUsername:emailAddress:password:rePassword:
 - (void)testSignUpCredentialsShouldBeValid {
     CredentialsValidationResult result =
     [CTFAPILocalCredentialsValidator validateSignUpCredentialsWithUsername:@"login111"
@@ -32,7 +32,7 @@
                                              emailAddress:@"login@login.com"
                                                  password:@"password"
                                                rePassword:@"password"];
-    XCTAssertEqual(result, CredentialsValidationResultWrongUsername, @"");
+    XCTAssertEqual(result, CredentialsValidationResultIncorrectUsername, @"");
 }
 
 - (void)testSignUpCredentialsShouldNotPassBecauseOfWrongEmailAddress {
@@ -41,7 +41,7 @@
                                              emailAddress:@"this is not an email"
                                                  password:@"password"
                                                rePassword:@"password"];
-    XCTAssertEqual(result, CredentialsValidationResultWrongEmailAddress, @"");
+    XCTAssertEqual(result, CredentialsValidationResultIncorrectEmailAddress, @"");
 }
 
 - (void)testSignUpCredentialsShouldNotPassBecauseOfDifferentPasswords {
@@ -59,7 +59,7 @@
                                              emailAddress:@"login@login.com"
                                                  password:@"pass1"
                                                rePassword:@"pass1"];
-    XCTAssertEqual(result, CredentialsValidationResultWrongPassword, @"");
+    XCTAssertEqual(result, CredentialsValidationResultIncorrectPassword, @"");
 }
 
 - (void)testSignUpCredentialsShouldNotPassBecauseOfEmptyValue {
@@ -72,7 +72,7 @@
 }
 
 
-#pragma mark - SignIn
+#pragma mark - validateSignInCredentialsWithUsername:password:
 - (void)testSignInCredentialsShouldBeValid {
     CredentialsValidationResult result =
     [CTFAPILocalCredentialsValidator validateSignInCredentialsWithUsername:@"login123" password:@"password123"];
@@ -82,13 +82,13 @@
 - (void)testSignInCredentialsShouldNotPassBecauseOfWrongUsername {
     CredentialsValidationResult result =
     [CTFAPILocalCredentialsValidator validateSignInCredentialsWithUsername:@"l o g i n " password:@"password123"];
-    XCTAssertEqual(result, CredentialsValidationResultWrongUsername, @"");
+    XCTAssertEqual(result, CredentialsValidationResultIncorrectUsername, @"");
 }
 
 - (void)testSignInCredentialsShouldNotPassBecauseOfWrongPassword {
     CredentialsValidationResult result =
     [CTFAPILocalCredentialsValidator validateSignInCredentialsWithUsername:@"login123" password:@"pass1"];
-    XCTAssertEqual(result, CredentialsValidationResultWrongPassword, @"Password should be too short");
+    XCTAssertEqual(result, CredentialsValidationResultIncorrectPassword, @"Password should be too short");
 }
 
 - (void)testSignInCredentialsShouldNotPassBecauseOfEmptyValue {
@@ -96,6 +96,43 @@
     [CTFAPILocalCredentialsValidator validateSignInCredentialsWithUsername:@"" password:nil];
     
     XCTAssertEqual(result, CredentialsValidationResultFailure, @"");
+}
+
+
+#pragma mark - validateUserCredentialsForUpdateWithFirstName:lastName:nick:emailAddress:
+- (void)testThatUpdateCredentialsShouldBeValid {
+    CredentialsValidationResult result = [CTFAPILocalCredentialsValidator validateUserCredentialsForUpdateWithFirstName:@"username" lastName:@"lastname" nick:@"thisisnick" emailAddress:@"email@address.com"];
+    XCTAssertEqual(result, CredentialsValidationResultOK, @"");
+}
+
+- (void)testThatUpdateCredentialsShouldReturnFailureWhenFirstNameIsNil {
+    CredentialsValidationResult firstNameNil =
+    [CTFAPILocalCredentialsValidator validateUserCredentialsForUpdateWithFirstName:nil lastName:@"" nick:@"" emailAddress:@""];
+    XCTAssertEqual(firstNameNil, CredentialsValidationResultFailure, @"");
+}
+
+- (void)testThatUpdateCredentialsShouldReturnFailureWhenLastNameIsNil {
+    CredentialsValidationResult lastNameNil =
+    [CTFAPILocalCredentialsValidator validateUserCredentialsForUpdateWithFirstName:@"" lastName:nil nick:@"" emailAddress:@""];
+    XCTAssertEqual(lastNameNil, CredentialsValidationResultFailure, @"");
+}
+
+- (void)testThatUpdateCredentialsShouldReturnFailureWhenNickIsIn {
+    CredentialsValidationResult nickNil =
+    [CTFAPILocalCredentialsValidator validateUserCredentialsForUpdateWithFirstName:@"" lastName:@"" nick:nil emailAddress:@""];
+    XCTAssertEqual(nickNil, CredentialsValidationResultFailure, @"");
+}
+
+- (void)testThatUpdateCredentialsShouldReturnFailureWhenEmailIsNil {
+    CredentialsValidationResult emailNil =
+    [CTFAPILocalCredentialsValidator validateUserCredentialsForUpdateWithFirstName:@"" lastName:@"" nick:@"" emailAddress:nil];
+    XCTAssertEqual(emailNil, CredentialsValidationResultFailure, @"");
+}
+
+- (void)testThatUpdateCredentialsShouldReturnIncorrectWhenFirstNameIsEmpty {
+    CredentialsValidationResult result =
+    [CTFAPILocalCredentialsValidator validateUserCredentialsForUpdateWithFirstName:@"" lastName:@"someting" nick:@"something" emailAddress:@"something"];
+    XCTAssertEqual(result, CredentialsValidationResultIncorrectFirstName, @"");
 }
 
 @end

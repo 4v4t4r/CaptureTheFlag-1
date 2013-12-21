@@ -12,33 +12,45 @@
 #import "CTFSession.h"
 #import "CTFUser.h"
 
+@interface CTFProfileViewController () <UITextFieldDelegate>
+
+@end
+
 @implementation CTFProfileViewController {
     CTFAPIAccounts *_accounts;
     CTFUser *_user;
 }
 
-- (void)viewDidLoad
-{
+- (void)_configureTextFields {
+    SEL action = @selector(testFieldDidChange);
+    UIControlEvents events = UIControlEventEditingChanged;
+    
+    [_firstNameTextField addTarget:self action:action forControlEvents:events];
+    [_lastNameTextField addTarget:self action:action forControlEvents:events];
+    [_nickTextField addTarget:self action:action forControlEvents:events];
+    [_emailTextField addTarget:self action:action forControlEvents:events];
+}
+
+- (void)testFieldDidChange {
+//    CredentialsValidationResult result =
+//    [CTFAPILocalCredentialsValidator validateSignInCredentialsWithUsername:_usernameTF.text password:_passwordTF.text];
+//    
+//    [_loginBtn setEnabled:(result == CredentialsValidationResultOK)];
+}
+
+- (void)viewDidLoad {
     [super viewDidLoad];
+    [self _configureTextFields];
     _accounts = [[CTFAPIAccounts alloc] initWithConnection:[CTFAPIConnection sharedConnection]];
     [_accounts accountInfoForToken:[CTFSession sharedInstance].token block:^(CTFUser *user) {
         if (user) {
             _user = user;
-            self.firstNameTextField.text = user.firstName;
-            self.lastNameTextField.text = user.lastName;
-            self.nickTextField.text = user.nick ? : user.username;
-            self.emailTextField.text = user.email;
+            _firstNameTextField.text = user.firstName;
+            _lastNameTextField.text = user.lastName;
+            _nickTextField.text = user.nick ? : user.username;
+            _emailTextField.text = user.email;
         }
     }];
-}
-
-- (void)localizeUI {
-    self.navigationItem.title = NSLocalizedStringFromTable(@"navigationItem.title", @"Profile", nil);
-    self.firstNameTextField.placeholder = NSLocalizedStringFromTable(@"textField.firstName.placeholder", @"Profile", nil);
-    self.lastNameTextField.placeholder = NSLocalizedStringFromTable(@"textField.lastName.placeholder", @"Profile", nil);
-    self.nickTextField.placeholder = NSLocalizedStringFromTable(@"textField.nick.placeholder", @"Profile", nil);
-    self.emailTextField.placeholder = NSLocalizedStringFromTable(@"textField.email.placeholder", @"Profile", nil);
-    self.updateButton.title = NSLocalizedStringFromTable(@"button.update.title", @"Profile", nil);
 }
 
 - (IBAction)updateProfile:(id)sender {
@@ -54,5 +66,19 @@
     _user.nick = self.nickTextField.text;
     _user.email = self.emailTextField.text;
 }
+
+
+#pragma mark - CTFViewControllerProtocol
+- (void)localizeUI {
+    self.navigationItem.title = NSLocalizedStringFromTable(@"navigationItem.title", @"Profile", nil);
+    _firstNameTextField.placeholder = NSLocalizedStringFromTable(@"textField.firstName.placeholder", @"Profile", nil);
+    _lastNameTextField.placeholder = NSLocalizedStringFromTable(@"textField.lastName.placeholder", @"Profile", nil);
+    _nickTextField.placeholder = NSLocalizedStringFromTable(@"textField.nick.placeholder", @"Profile", nil);
+    _emailTextField.placeholder = NSLocalizedStringFromTable(@"textField.email.placeholder", @"Profile", nil);
+    _updateButton.title = NSLocalizedStringFromTable(@"button.update.title", @"Profile", nil);
+}
+
+
+#pragma mark - UITextFieldDelegate
 
 @end

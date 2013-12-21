@@ -159,8 +159,8 @@
 		6D0FAA361861F7040084F505 /* MapViewAnnotationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewAnnotationTests.m; sourceTree = "<group>"; };
 		6D0FAA381863658E0084F505 /* CTFDetailsJoinViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFDetailsJoinViewControllerTests.m; sourceTree = "<group>"; };
 		6D0FAA3A186366710084F505 /* CTFJoinGameCellTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFJoinGameCellTests.m; sourceTree = "<group>"; };
-		6D0FAA3F1864FE010084F505 /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = en.lproj/Login.strings; sourceTree = "<group>"; };
-		6D0FAA45186502D30084F505 /* en */ = {isa = PBXFileReference; lastKnownFileType = file; name = en; path = en.lproj/Register.strings; sourceTree = "<group>"; };
+		6D0FAA3F1864FE010084F505 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Login.strings; sourceTree = "<group>"; };
+		6D0FAA45186502D30084F505 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Register.strings; sourceTree = "<group>"; };
 		6D0FAA471865053A0084F505 /* Profile.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Profile.strings; sourceTree = "<group>"; };
 		6D0FAA491865062A0084F505 /* Join.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Join.strings; sourceTree = "<group>"; };
 		6D1825D6184A36120039FD92 /* CTFAPICredentialsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFAPICredentialsTests.m; sourceTree = "<group>"; };

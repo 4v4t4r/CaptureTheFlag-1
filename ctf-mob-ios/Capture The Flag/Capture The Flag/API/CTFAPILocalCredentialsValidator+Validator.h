@@ -24,6 +24,7 @@ typedef enum
 } ValidationResult;
 
 @interface CTFAPILocalCredentialsValidator (Validator)
+#warning [tsu] There should be parameter which says you if value can be empty. Maybe there should be class with such attribute
 /**
  @define Method validate credential with type.
  @abstract Return ValidationResultOK if value is correct typed, otherwise return ValidationResultWrongCredentials
