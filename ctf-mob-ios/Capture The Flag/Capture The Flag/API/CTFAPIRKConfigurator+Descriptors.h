@@ -27,5 +27,6 @@
  api/users
  */
 - (RKRequestDescriptor *)usersPATCHRequestDescriptor;
+- (RKResponseDescriptor *)usersPATCHResponseDescriptor;
 
 @end

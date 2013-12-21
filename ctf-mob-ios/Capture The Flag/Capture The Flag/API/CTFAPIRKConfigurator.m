@@ -32,6 +32,7 @@
     
     /// api/users/{id}
     [_manager addRequestDescriptor:[self usersPATCHRequestDescriptor]];
+    [_manager addResponseDescriptor:[self usersPATCHResponseDescriptor]];
 }
 
 - (void)authorizeRequestsWithToken:(NSString *)token {

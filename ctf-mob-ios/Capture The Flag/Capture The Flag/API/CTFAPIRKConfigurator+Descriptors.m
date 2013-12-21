@@ -59,4 +59,14 @@
     return descriptor;
 }
 
+- (RKResponseDescriptor *)usersPATCHResponseDescriptor {
+    RKResponseDescriptor *descriptor =
+    [RKResponseDescriptor responseDescriptorWithMapping:[self entityMappingFromClass:[CTFUser class]]
+                                                 method:RKRequestMethodPATCH
+                                            pathPattern:@"/api/users/:id/"
+                                                keyPath:nil
+                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    return descriptor;
+}
+
 @end

@@ -103,7 +103,7 @@ static NSString * const scope = @"read+write";
     }
     static NSString * const base = @"api/users";
     NSString *userIdString = [NSString stringWithFormat:@"%d", [user.userId integerValue]];
-    NSString *path = [NSString stringWithFormat:@"%@/%@", base, userIdString];
+    NSString *path = [NSString stringWithFormat:@"%@/%@/", base, userIdString];
     
     [[CTFAPIConnection sharedConnection].manager
      patchObject:user

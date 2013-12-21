@@ -54,12 +54,19 @@
 }
 
 
-#pragma mark - /api/users/{id}
+#pragma mark - /api/users/{id}/
 - (void)testUsersPATCHRequestDescriptor {
     RKRequestDescriptor *descriptor = [self.configurator usersPATCHRequestDescriptor];
     XCTAssertEqual(descriptor.method, RKRequestMethodPATCH, @"");
     XCTAssertEqualObjects(descriptor.objectClass, [CTFUser class], @"");
     XCTAssertNil(descriptor.rootKeyPath, @"");
+}
+
+- (void)testUsersPATCHResponseDescriptor {
+    RKResponseDescriptor *descriptor = [self.configurator usersPATCHResponseDescriptor];
+    XCTAssertEqual(descriptor.method, RKRequestMethodPATCH, @"");
+    XCTAssertNil(descriptor.keyPath, @"");
+    XCTAssertEqualObjects(descriptor.pathPattern, @"/api/users/:id/", @"");
 }
 
 @end
