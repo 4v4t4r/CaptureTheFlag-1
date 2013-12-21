@@ -10,6 +10,7 @@
 #import "CTFAPIConnection.h"
 #import "CTFUser.h"
 #import "CoreDataService.h"
+#import "CTFSession.h"
 
 static NSString * const client_id = @"94f5481b9ac440230663";
 static NSString * const client_secret = @"660e440fbe257bcfaadea794acd41230c18fe4d0";
@@ -104,6 +105,7 @@ static NSString * const scope = @"read+write";
     static NSString * const base = @"api/users";
     NSString *userIdString = [NSString stringWithFormat:@"%d", [user.userId integerValue]];
     NSString *path = [NSString stringWithFormat:@"%@/%@/", base, userIdString];
+    user.password = [CTFSession sharedInstance].fixedPassword;
     
     [[CTFAPIConnection sharedConnection].manager
      patchObject:user

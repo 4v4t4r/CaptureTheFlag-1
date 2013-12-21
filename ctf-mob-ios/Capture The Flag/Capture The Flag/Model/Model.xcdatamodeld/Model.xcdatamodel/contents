@@ -42,6 +42,7 @@
         <relationship name="game" optional="YES" transient="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CTFGame" inverseName="map" inverseEntity="CTFGame" syncable="YES"/>
     </entity>
     <entity name="CTFSession" representedClassName="CTFSession" syncable="YES">
+        <attribute name="fixedPassword" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="token" optional="YES" attributeType="String" syncable="YES">
             <userInfo>
                 <entry key="mogenerator.readonly" value="YES"/>

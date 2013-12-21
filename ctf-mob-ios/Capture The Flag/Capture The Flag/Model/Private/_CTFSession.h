@@ -5,6 +5,7 @@
 
 
 extern const struct CTFSessionAttributes {
+	__unsafe_unretained NSString *fixedPassword;
 	__unsafe_unretained NSString *token;
 } CTFSessionAttributes;
 
@@ -19,6 +20,7 @@ extern const struct CTFSessionFetchedProperties {
 
 
 
+
 @interface CTFSessionID : NSManagedObjectID {}
 @end
 
@@ -27,6 +29,16 @@ extern const struct CTFSessionFetchedProperties {
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
 - (CTFSessionID*)objectID;
+
+
+
+
+
+@property (nonatomic, strong) NSString* fixedPassword;
+
+
+
+//- (BOOL)validateFixedPassword:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -57,6 +69,12 @@ extern const struct CTFSessionFetchedProperties {
 @end
 
 @interface _CTFSession (CoreDataGeneratedPrimitiveAccessors)
+
+
+- (NSString*)primitiveFixedPassword;
+- (void)setPrimitiveFixedPassword:(NSString*)value;
+
+
 
 
 - (NSString*)primitiveToken;

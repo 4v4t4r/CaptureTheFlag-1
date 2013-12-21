@@ -4,6 +4,7 @@
 #import "_CTFSession.h"
 
 const struct CTFSessionAttributes CTFSessionAttributes = {
+	.fixedPassword = @"fixedPassword",
 	.token = @"token",
 };
 
@@ -43,6 +44,13 @@ const struct CTFSessionFetchedProperties CTFSessionFetchedProperties = {
 
 	return keyPaths;
 }
+
+
+
+
+@dynamic fixedPassword;
+
+
 
 
 
