@@ -18,82 +18,109 @@
 
 @implementation CTFAPIUserDataValidator_RegexpPatterns_Tests
 
-#pragma mark - UsernamePattern
-- (void)testUsernameLength
-{
-    XCTAssert([self validUsername:@"login"] == StringValidationResultFailure, @"");
-    XCTAssert([self validUsername:@"loginn"] == StringValidationResultOK, @"");
-    XCTAssert([self validUsername:@"qwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklmnbvkk"] == StringValidationResultFailure, @"");
-}
-
-- (void)testUsernameCharacters
-{
-    XCTAssert([self validUsername:@"login1"] == StringValidationResultOK, @"");
-    XCTAssert([self validUsername:@"123456"] == StringValidationResultOK, @"");
-    XCTAssert([self validUsername:@"_123456"] == StringValidationResultFailure, @"");
-    XCTAssert([self validUsername:@"_123d5_"] == StringValidationResultFailure, @"");
-    XCTAssert([self validUsername:@"valid!@__l"] == StringValidationResultFailure, @"");
-}
-
-- (StringValidationResult)validUsername:(NSString *)username
-{
+- (StringValidationResult)resultForPattern:(TSStringValidatorPattern *)pattern string:(NSString *)string {
     TSStringValidator *validator = [TSStringValidator new];
-    TSStringValidatorPattern *pattern = [CTFAPIUserDataValidator usernamePattern];
     [validator addPattern:pattern];
-    TSStringValidatorItem *item = [TSStringValidatorItem itemWithString:username patternIdentifier:pattern.identifier allowsEmpty:NO];
+    TSStringValidatorItem *item = [TSStringValidatorItem itemWithString:string patternIdentifier:pattern.identifier allowsEmpty:NO];
     
     return [validator validateItem:item];
 }
 
-
-#pragma mark - PasswordPattern
-- (void)testPasswordLength
-{
-    XCTAssert([self validPassword:@"abc"] == StringValidationResultFailure, @"");
-    XCTAssert([self validPassword:@"ancdefgv"] == StringValidationResultOK, @"");
-    XCTAssert([self validPassword:@"qwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklmnbvkk"] == StringValidationResultFailure, @"");
+- (StringValidationResult)validUsername:(NSString *)string {
+    return [self resultForPattern:[CTFAPIUserDataValidator usernamePattern] string:string];
 }
 
-- (void)testPasswordCharacters
-{
-    XCTAssert([self validPassword:@"goodPass123!@#avc:)"] == StringValidationResultOK, @"");
-    XCTAssert([self validPassword:@"goodPassButWeak"] == StringValidationResultOK, @"");
-    XCTAssert([self validPassword:@"§1234567890-="] == StringValidationResultOK, @"");
-    XCTAssert([self validPassword:@"!@#$$%%^&*())"] == StringValidationResultOK, @"");
-    XCTAssert([self validPassword:@"this is not a password"] == StringValidationResultFailure, @"");
+- (StringValidationResult)validPassword:(NSString *)string {
+    return [self resultForPattern:[CTFAPIUserDataValidator passwordPattern] string:string];
 }
 
-- (StringValidationResult)validPassword:(NSString *)password
-{
-    TSStringValidator *validator = [TSStringValidator new];
-    TSStringValidatorPattern *pattern = [CTFAPIUserDataValidator passwordPattern];
-    [validator addPattern:pattern];
-    TSStringValidatorItem *item = [TSStringValidatorItem itemWithString:password patternIdentifier:pattern.identifier allowsEmpty:NO];
+- (StringValidationResult)validEmail:(NSString *)string {
+    return [self resultForPattern:[CTFAPIUserDataValidator emailPattern] string:string];
+}
 
-    return [validator validateItem:item];
+- (StringValidationResult)validName:(NSString *)string {
+    return [self resultForPattern:[CTFAPIUserDataValidator namePattern] string:string];
+}
+
+- (StringValidationResult)validNick:(NSString *)string {
+    return [self resultForPattern:[CTFAPIUserDataValidator nickPattern] string:string];
+}
+
+#pragma mark +usernamePattern
+- (void)testThatUsernameIsTooShort {
+    XCTAssertEqual([self validUsername:@"login"], StringValidationResultFailure, @"");
+}
+
+- (void)testThatUsernameIsOk {
+    XCTAssertEqual([self validUsername:@"loginn"], StringValidationResultOK, @"");
+}
+
+- (void)testThatUsernameIsTooLong {
+    XCTAssertEqual([self validUsername:@"qwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklmnbvkk"], StringValidationResultFailure, @"");
+}
+
+- (void)testThatUsernameCanHasSomeSpecialCharacters {
+    XCTAssertEqual([self validUsername:@"login1"], StringValidationResultOK, @"");
+    XCTAssertEqual([self validUsername:@"123456"], StringValidationResultOK, @"");
+    XCTAssertEqual([self validUsername:@"_123456"], StringValidationResultFailure, @"");
+    XCTAssertEqual([self validUsername:@"_123d5_"], StringValidationResultFailure, @"");
+    XCTAssertEqual([self validUsername:@"valid!@__l"], StringValidationResultFailure, @"");
 }
 
 
-#pragma mark - EmailPattern
-- (void)testEmailCharacters
-{
-    XCTAssert([self validEmail:@"abc@abcd.pl"] == StringValidationResultOK, @"");
-    XCTAssert([self validEmail:@"abc.abcd@abc.abcd.pl"] == StringValidationResultOK, @"");
-
-    XCTAssert([self validEmail:@".%@.-.pl"] == StringValidationResultFailure, @"");
-    XCTAssert([self validEmail:@"@.pl"] == StringValidationResultFailure, @"");
-    XCTAssert([self validEmail:@".pl"] == StringValidationResultFailure, @"");
-    XCTAssert([self validEmail:@"a.pl"] == StringValidationResultFailure, @"");
-    XCTAssert([self validEmail:@"abc@abc"] == StringValidationResultFailure, @"");
+#pragma mark +passwordPattern
+- (void)testThatPasswordIsTooShort {
+    XCTAssertEqual([self validPassword:@"abc"], StringValidationResultFailure, @"");
 }
 
-- (StringValidationResult)validEmail:(NSString *)email
-{
-    TSStringValidator *validator = [TSStringValidator new];
-    TSStringValidatorPattern *pattern = [CTFAPIUserDataValidator emailPattern];
-    [validator addPattern:pattern];
-    TSStringValidatorItem *item = [TSStringValidatorItem itemWithString:email patternIdentifier:pattern.identifier allowsEmpty:NO];
-    
-    return [validator validateItem:item];}
+- (void)testThatPasswordIsOK {
+    XCTAssertEqual([self validPassword:@"ancdefgv"], StringValidationResultOK, @"");
+}
+
+- (void)testThatPasswordIsTooLong {
+    XCTAssertEqual([self validPassword:@"qwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklmnbvkk"], StringValidationResultFailure, @"");
+}
+
+- (void)testThatPasswordCanHasSomeSpecialCharacters {
+    XCTAssertEqual([self validPassword:@"goodPass123!@#avc:)"], StringValidationResultOK, @"");
+    XCTAssertEqual([self validPassword:@"goodPassButWeak"], StringValidationResultOK, @"");
+    XCTAssertEqual([self validPassword:@"§1234567890-="], StringValidationResultOK, @"");
+    XCTAssertEqual([self validPassword:@"!@#$$%%^&*())"], StringValidationResultOK, @"");
+    XCTAssertEqual([self validPassword:@"this is not a password"], StringValidationResultFailure, @"");
+}
+
+
+#pragma mark +emailPattern
+- (void)testThatEmailIsOK {
+    XCTAssertEqual([self validEmail:@"abc@abcd.pl"], StringValidationResultOK, @"");
+    XCTAssertEqual([self validEmail:@"abc.abcd@abc.abcd.pl"], StringValidationResultOK, @"");
+}
+
+- (void)testThatEmailCanNotBeShortAndHasWrongStructure {
+    XCTAssertEqual([self validEmail:@".%@.-.pl"], StringValidationResultFailure, @"");
+    XCTAssertEqual([self validEmail:@"@.pl"], StringValidationResultFailure, @"");
+    XCTAssertEqual([self validEmail:@".pl"], StringValidationResultFailure, @"");
+    XCTAssertEqual([self validEmail:@"a.pl"], StringValidationResultFailure, @"");
+    XCTAssertEqual([self validEmail:@"abc@abc"], StringValidationResultFailure, @"");
+}
+
+
+#pragma mark +namePattern
+- (void)testThatNameIsOK {
+    XCTAssertEqual([self validName:@"Tomasz"], StringValidationResultOK, @"");
+    XCTAssertEqual([self validName:@"Cing Ciang"], StringValidationResultOK, @"");
+}
+
+- (void)testThatNameIsNotCorrect {
+    XCTAssertEqual([self validName:@"Tomasz9993332"], StringValidationResultFailure, @"");
+    XCTAssertEqual([self validName:@"Tom.#aasd"], StringValidationResultFailure, @"");
+}
+
+
+#pragma mark +nickPattern
+- (void)testThatNickIsOK {
+    XCTAssertEqual([self validNick:@"This is a nick"], StringValidationResultOK, @"");
+    XCTAssertEqual([self validNick:@"Mordor5"], StringValidationResultOK, @"");
+}
 
 @end

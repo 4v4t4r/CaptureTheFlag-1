@@ -9,6 +9,7 @@
 #import "CTFProfileViewController.h"
 #import "CTFAPIAccounts.h"
 #import "CTFAPIConnection.h"
+#import "CTFAPIUserDataValidator.h"
 #import "CTFSession.h"
 #import "CTFUser.h"
 
@@ -19,6 +20,15 @@
 @implementation CTFProfileViewController {
     CTFAPIAccounts *_accounts;
     CTFUser *_user;
+}
+
+- (void)_configureTapBackground {
+    UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(_backgroundTapped)];
+    [self.view addGestureRecognizer:gesture];
+}
+
+- (void)_backgroundTapped {
+    [self.view endEditing:YES];
 }
 
 - (void)_configureTextFields {
@@ -32,14 +42,24 @@
 }
 
 - (void)testFieldDidChange {
-//    CredentialsValidationResult result =
-//    [CTFAPILocalCredentialsValidator validateSignInCredentialsWithUsername:_usernameTF.text password:_passwordTF.text];
-//    
-//    [_loginBtn setEnabled:(result == CredentialsValidationResultOK)];
+    CredentialsValidationResult result =
+    [CTFAPIUserDataValidator validateUserCredentialsForUpdateWithFirstName:_firstNameTextField.text
+                                                                  lastName:_lastNameTextField.text
+                                                                      nick:_nickTextField.text
+                                                              emailAddress:_emailTextField.text];
+    
+    BOOL updatedFields = (![_firstNameTextField.text isEqualToString:_user.firstName] ||
+                          ![_lastNameTextField.text isEqualToString:_user.lastName] ||
+                          ![_nickTextField.text isEqualToString:_user.nick] ||
+                          ![_emailTextField.text isEqualToString:_user.email]);
+    
+    
+    [_updateButton setEnabled:((result == CredentialsValidationResultOK) && updatedFields)];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self _configureTapBackground];
     [self _configureTextFields];
     _accounts = [[CTFAPIAccounts alloc] initWithConnection:[CTFAPIConnection sharedConnection]];
     [_accounts accountInfoForToken:[CTFSession sharedInstance].token block:^(CTFUser *user) {

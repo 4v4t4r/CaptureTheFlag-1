@@ -106,6 +106,9 @@ static NSString * const scope = @"read+write";
     NSString *userIdString = [NSString stringWithFormat:@"%d", [user.userId integerValue]];
     NSString *path = [NSString stringWithFormat:@"%@/%@/", base, userIdString];
     user.password = [CTFSession sharedInstance].fixedPassword;
+    if (user.nick.length == 0) {
+        user.nick = user.username;
+    }
     
     [[CTFAPIConnection sharedConnection].manager
      patchObject:user

@@ -210,7 +210,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Profile" id="v0d-u8-5Pa">
-                        <barButtonItem key="rightBarButtonItem" title="Update" style="done" id="lv6-aD-Ng2">
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="Update" style="done" id="lv6-aD-Ng2">
                             <connections>
                                 <action selector="updateProfile:" destination="YzZ-wa-xwm" id="gkb-Td-ff1"/>
                             </connections>

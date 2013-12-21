@@ -32,7 +32,7 @@
 }
 
 + (TSStringValidatorPattern *)nickPattern {
-    NSString *regexp = @"([a-zA-Z]+\\s?)+";
+    NSString *regexp = @"[\\S ]*";
     return [TSStringValidatorPattern patternWithString:regexp identifier:@"nick"];
 }
 
