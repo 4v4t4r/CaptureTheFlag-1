@@ -209,6 +209,7 @@
                         <outlet property="firstNameTextField" destination="Eu6-8x-cWs" id="ERY-dx-heZ"/>
                         <outlet property="lastNameTextField" destination="ur3-bB-GYX" id="HNb-6g-u5h"/>
                         <outlet property="nickTextField" destination="hPz-yO-8f0" id="rha-Ud-whR"/>
+                        <outlet property="updateButton" destination="lv6-aD-Ng2" id="6mx-CJ-YF2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aht-rU-Reo" userLabel="First Responder" sceneMemberID="firstResponder"/>

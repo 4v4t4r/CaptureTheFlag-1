@@ -32,20 +32,24 @@
 
 
 #pragma mark - Outlets
-- (void)testThatViewShouldHasFirstNameTextField {
+- (void)testThatFirstNameTextFieldShouldBeNotNil {
     XCTAssertNotNil(_vc.firstNameTextField, @"");
 }
 
-- (void)testThatViewShouldHasLastNameTextField {
+- (void)testThatLastNameTextFieldShouldBeNotNil {
     XCTAssertNotNil(_vc.lastNameTextField, @"");
 }
 
-- (void)testThatViewShouldHasNickTextField {
+- (void)testThatNickTextFieldShouldBeNotNil {
     XCTAssertNotNil(_vc.nickTextField, @"");
 }
 
-- (void)testThatViewShouldHasEmailTextField {
+- (void)testThatEmailTextFieldShouldBeNotNil {
     XCTAssertNotNil(_vc.emailTextField, @"");
+}
+
+- (void)testThatUpdateButtonShouldBeNotNil {
+    XCTAssertNotNil(_vc.updateButton, @"");
 }
 
 #pragma mark - Localization
@@ -69,5 +73,8 @@
     XCTAssertEqualObjects(_vc.emailTextField.placeholder, NSLocalizedStringFromTable(@"textField.email.placeholder", @"Profile", nil), @"");
 }
 
+- (void)testThatUpdateButtonFieldIsLocalized {
+    XCTAssertEqualObjects(_vc.updateButton.title, NSLocalizedStringFromTable(@"button.update.title", @"Profile", nil), @"");
+}
 
 @end

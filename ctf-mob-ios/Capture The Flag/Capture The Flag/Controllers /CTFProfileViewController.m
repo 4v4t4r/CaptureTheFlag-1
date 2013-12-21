@@ -38,6 +38,7 @@
     self.lastNameTextField.placeholder = NSLocalizedStringFromTable(@"textField.lastName.placeholder", @"Profile", nil);
     self.nickTextField.placeholder = NSLocalizedStringFromTable(@"textField.nick.placeholder", @"Profile", nil);
     self.emailTextField.placeholder = NSLocalizedStringFromTable(@"textField.email.placeholder", @"Profile", nil);
+    self.updateButton.title = NSLocalizedStringFromTable(@"button.update.title", @"Profile", nil);
 }
 
 - (IBAction)updateProfile:(id)sender {

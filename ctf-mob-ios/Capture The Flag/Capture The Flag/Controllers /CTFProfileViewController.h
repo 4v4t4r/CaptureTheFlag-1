@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *lastNameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *nickTextField;
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *updateButton;
 
 - (IBAction)updateProfile:(id)sender;
 

@@ -12,3 +12,6 @@
 
 /* email text field */
 "textField.email.placeholder" = "Email address";
+
+/* update button title */
+"button.update.title" = "Update";
