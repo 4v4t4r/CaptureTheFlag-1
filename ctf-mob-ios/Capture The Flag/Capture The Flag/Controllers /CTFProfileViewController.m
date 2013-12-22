@@ -91,6 +91,7 @@
 #pragma mark - CTFViewControllerProtocol
 - (void)localizeUI {
     self.navigationItem.title = NSLocalizedStringFromTable(@"navigationItem.title", @"Profile", nil);
+    _yourProfileSectionLabel.text = NSLocalizedStringFromTable(@"label.yourProfile.text", @"Profile", @"");
     _firstNameTextField.placeholder = NSLocalizedStringFromTable(@"textField.firstName.placeholder", @"Profile", nil);
     _lastNameTextField.placeholder = NSLocalizedStringFromTable(@"textField.lastName.placeholder", @"Profile", nil);
     _nickTextField.placeholder = NSLocalizedStringFromTable(@"textField.nick.placeholder", @"Profile", nil);

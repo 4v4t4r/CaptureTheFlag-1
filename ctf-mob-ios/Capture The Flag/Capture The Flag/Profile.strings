@@ -1,6 +1,9 @@
 /* title of navigation bar */
 "navigationItem.title" = "Profile";
 
+/* your profile label */
+"label.yourProfile.text" = "Your profile";
+
 /* firstName text field */
 "textField.firstName.placeholder" = "First Name";
 

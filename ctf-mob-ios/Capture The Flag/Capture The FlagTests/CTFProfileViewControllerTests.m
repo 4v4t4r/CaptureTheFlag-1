@@ -52,6 +52,10 @@
     XCTAssertNotNil(_vc.updateButton, @"");
 }
 
+- (void)testThatYourProfileLabelShouldNotBeNil {
+    XCTAssertNotNil(_vc.yourProfileSectionLabel, @"");
+}
+
 
 #pragma mark - Delegate 
 - (void)testThatFirstNameTextFieldHasDelegate {
@@ -94,6 +98,10 @@
 
 - (void)testThatUpdateButtonFieldIsLocalized {
     XCTAssertEqualObjects(_vc.updateButton.title, NSLocalizedStringFromTable(@"button.update.title", @"Profile", nil), @"");
+}
+
+- (void)testThatYourProfileLabelIsLocalized {
+    XCTAssertEqualObjects(_vc.yourProfileSectionLabel.text, NSLocalizedStringFromTable(@"label.yourProfile.text", @"Profile", @""));
 }
 
 @end

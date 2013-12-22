@@ -10,6 +10,7 @@
 
 @interface CTFProfileViewController : CTFViewController
 
+@property (weak, nonatomic) IBOutlet UILabel *yourProfileSectionLabel;
 @property (weak, nonatomic) IBOutlet UITextField *firstNameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *lastNameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *nickTextField;
