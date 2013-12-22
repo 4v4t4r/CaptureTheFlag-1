@@ -52,4 +52,8 @@
     XCTAssertEqualObjects(_vc.tableView.dataSource, _vc, @"");
 }
 
+#pragma mark - Localization
+- (void)testThatNavigationItemTitleIsLocalized {
+    XCTAssertEqualObjects(_vc.navigationItem.title, NSLocalizedStringFromTable(@"navigationItem.title", @"BrowseCharacters", @""), @"");
+}
 @end

@@ -98,6 +98,7 @@
 		6DC2402818671E5800054EA1 /* CTFBrowseCharactersViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC2402718671E5800054EA1 /* CTFBrowseCharactersViewControllerTests.m */; };
 		6DC2402B1867217F00054EA1 /* CTFNoCharactersCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC2402A1867217F00054EA1 /* CTFNoCharactersCell.m */; };
 		6DC2402D186721D800054EA1 /* CTFNoCharactersCellTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC2402C186721D800054EA1 /* CTFNoCharactersCellTests.m */; };
+		6DC2402F1867251600054EA1 /* BrowseCharacters.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6DC2402E1867251600054EA1 /* BrowseCharacters.strings */; };
 		6DD8D9A418664E330033D573 /* TSStringValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD8D99D18664E330033D573 /* TSStringValidator.m */; };
 		6DD8D9A518664E330033D573 /* TSStringValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD8D99D18664E330033D573 /* TSStringValidator.m */; };
 		6DD8D9A618664E330033D573 /* TSStringValidatorEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD8D99F18664E330033D573 /* TSStringValidatorEngine.m */; };
@@ -253,6 +254,7 @@
 		6DC240291867217F00054EA1 /* CTFNoCharactersCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFNoCharactersCell.h; sourceTree = "<group>"; };
 		6DC2402A1867217F00054EA1 /* CTFNoCharactersCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFNoCharactersCell.m; sourceTree = "<group>"; };
 		6DC2402C186721D800054EA1 /* CTFNoCharactersCellTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFNoCharactersCellTests.m; sourceTree = "<group>"; };
+		6DC2402E1867251600054EA1 /* BrowseCharacters.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = BrowseCharacters.strings; sourceTree = "<group>"; };
 		6DD8D99C18664E330033D573 /* TSStringValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSStringValidator.h; sourceTree = "<group>"; };
 		6DD8D99D18664E330033D573 /* TSStringValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSStringValidator.m; sourceTree = "<group>"; };
 		6DD8D99E18664E330033D573 /* TSStringValidatorEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSStringValidatorEngine.h; sourceTree = "<group>"; };
@@ -608,11 +610,12 @@
 		6DFD1932182ACF0C00542227 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				6DC2402E1867251600054EA1 /* BrowseCharacters.strings */,
 				6D0FAA491865062A0084F505 /* Join.strings */,
+				6D6DF20D182B8B59004A4D58 /* Localizable.strings */,
 				6D0FAA401864FE010084F505 /* Login.strings */,
 				6D0FAA471865053A0084F505 /* Profile.strings */,
 				6D0FAA46186502D30084F505 /* Register.strings */,
-				6D6DF20D182B8B59004A4D58 /* Localizable.strings */,
 				6DFD1933182ACF0C00542227 /* Capture The Flag-Info.plist */,
 				6DFD1934182ACF0C00542227 /* InfoPlist.strings */,
 				6DFD1937182ACF0C00542227 /* main.m */,
@@ -735,6 +738,7 @@
 				6D6DF20F182B8B59004A4D58 /* Localizable.strings in Resources */,
 				6D0FAA3E1864FE010084F505 /* Login.strings in Resources */,
 				6D9BE08B1854AF870036172C /* Main.storyboard in Resources */,
+				6DC2402F1867251600054EA1 /* BrowseCharacters.strings in Resources */,
 				6D0FAA4A1865062A0084F505 /* Join.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
