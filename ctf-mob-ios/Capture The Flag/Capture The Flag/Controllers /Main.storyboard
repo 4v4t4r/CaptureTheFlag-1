@@ -226,6 +226,9 @@
                                 <state key="normal" title="Browse characters">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <segue destination="xYk-23-xqu" kind="push" id="msT-KH-Mkr"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -251,6 +254,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aht-rU-Reo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2016" y="760"/>
+        </scene>
+        <!--Browse Characters View Controller - Characters-->
+        <scene sceneID="q9M-sG-vxW">
+            <objects>
+                <viewController storyboardIdentifier="CTFBrowseCharactersViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="xYk-23-xqu" customClass="CTFBrowseCharactersViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="oYt-Z8-JBZ"/>
+                        <viewControllerLayoutGuide type="bottom" id="qSz-8z-sHt"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="cix-sk-SGn">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Characters" id="bTC-W2-Qeq"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="u8Q-Oo-dZP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2491" y="763"/>
         </scene>
         <!--Details Join View Controller - Game title-->
         <scene sceneID="ygo-O9-n9f">
