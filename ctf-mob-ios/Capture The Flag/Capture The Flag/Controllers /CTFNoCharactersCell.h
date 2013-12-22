@@ -10,4 +10,7 @@
 
 @interface CTFNoCharactersCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+
+- (void)configure;
+
 @end

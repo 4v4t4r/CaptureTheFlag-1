@@ -7,13 +7,14 @@
 //
 
 #import "CTFProfileViewController.h"
+#import "CTFBrowseCharactersViewController.h"
 #import "CTFAPIAccounts.h"
 #import "CTFAPIConnection.h"
 #import "CTFAPIUserDataValidator.h"
 #import "CTFSession.h"
 #import "CTFUser.h"
 
-@interface CTFProfileViewController () <UITextFieldDelegate>
+@interface CTFProfileViewController ()
 
 @end
 
@@ -62,6 +63,7 @@
     [self _configureTapBackground];
     [self _configureTextFields];
     _accounts = [[CTFAPIAccounts alloc] initWithConnection:[CTFAPIConnection sharedConnection]];
+#warning [tsu] there should be some activity indicator and blocked buttons
     [_accounts accountInfoForToken:[CTFSession sharedInstance].token block:^(CTFUser *user) {
         if (user) {
             _user = user;
@@ -87,6 +89,13 @@
     _user.email = self.emailTextField.text;
 }
 
+#pragma mark - Segue
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"ProfileToCharacters"]) {
+        CTFBrowseCharactersViewController *vc = segue.destinationViewController;
+        [vc setCharacters:_user.characters.objectEnumerator.allObjects];
+    }
+}
 
 #pragma mark - CTFViewControllerProtocol
 - (void)localizeUI {
@@ -101,8 +110,5 @@
     _charactersSectionLabel.text = NSLocalizedStringFromTable(@"label.characters.text", @"Profile", @"");
     [_browseCharactersButton setTitle:NSLocalizedStringFromTable(@"button.browseCharacters.title", @"Profile", @"") forState:UIControlStateNormal];
 }
-
-
-#pragma mark - UITextFieldDelegate
 
 @end

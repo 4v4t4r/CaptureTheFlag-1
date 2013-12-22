@@ -1,2 +1,15 @@
 /* navigation item title */
 "navigationItem.title" = "Characters";
+
+/*****************************
+ No Characters Cell
+ *****************************/
+
+/* no characters cell title */
+"cell.noCharacters.label.title" = "No characters here. Tap + to create.";
+
+
+/*****************************
+ Character Cell
+ *****************************/
+"cell.character.label.level" = "Level %@";

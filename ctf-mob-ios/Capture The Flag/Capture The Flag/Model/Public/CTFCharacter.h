@@ -8,5 +8,5 @@ typedef enum {
 } CTFCharacterType;
 
 @interface CTFCharacter : _CTFCharacter {}
-
+@property (readonly, nonatomic) NSString *typeString;
 @end

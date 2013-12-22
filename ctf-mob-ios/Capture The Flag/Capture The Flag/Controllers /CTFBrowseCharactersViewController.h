@@ -11,4 +11,6 @@
 @interface CTFBrowseCharactersViewController : CTFViewController <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
+- (void)setCharacters:(NSArray *)characters;
+
 @end

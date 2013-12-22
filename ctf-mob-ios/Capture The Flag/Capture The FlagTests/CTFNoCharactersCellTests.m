@@ -47,4 +47,9 @@
     XCTAssertNotNil(cell.titleLabel, @"");
 }
 
+- (void)testThatTitleLabelIsLocalizedAfterConfiguration {
+    [cell configure];
+    XCTAssertEqualObjects(cell.titleLabel.text, NSLocalizedStringFromTable(@"cell.noCharacters.label.title", @"BrowseCharacters", @""), @"");
+}
+
 @end

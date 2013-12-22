@@ -99,6 +99,8 @@
 		6DC2402B1867217F00054EA1 /* CTFNoCharactersCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC2402A1867217F00054EA1 /* CTFNoCharactersCell.m */; };
 		6DC2402D186721D800054EA1 /* CTFNoCharactersCellTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC2402C186721D800054EA1 /* CTFNoCharactersCellTests.m */; };
 		6DC2402F1867251600054EA1 /* BrowseCharacters.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6DC2402E1867251600054EA1 /* BrowseCharacters.strings */; };
+		6DC2403218672AF000054EA1 /* CTFCharacterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC2403118672AF000054EA1 /* CTFCharacterCell.m */; };
+		6DC2403418672B4100054EA1 /* CTFCharacterCellTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC2403318672B4100054EA1 /* CTFCharacterCellTests.m */; };
 		6DD8D9A418664E330033D573 /* TSStringValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD8D99D18664E330033D573 /* TSStringValidator.m */; };
 		6DD8D9A518664E330033D573 /* TSStringValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD8D99D18664E330033D573 /* TSStringValidator.m */; };
 		6DD8D9A618664E330033D573 /* TSStringValidatorEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD8D99F18664E330033D573 /* TSStringValidatorEngine.m */; };
@@ -255,6 +257,9 @@
 		6DC2402A1867217F00054EA1 /* CTFNoCharactersCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFNoCharactersCell.m; sourceTree = "<group>"; };
 		6DC2402C186721D800054EA1 /* CTFNoCharactersCellTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFNoCharactersCellTests.m; sourceTree = "<group>"; };
 		6DC2402E1867251600054EA1 /* BrowseCharacters.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = BrowseCharacters.strings; sourceTree = "<group>"; };
+		6DC2403018672AF000054EA1 /* CTFCharacterCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFCharacterCell.h; sourceTree = "<group>"; };
+		6DC2403118672AF000054EA1 /* CTFCharacterCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFCharacterCell.m; sourceTree = "<group>"; };
+		6DC2403318672B4100054EA1 /* CTFCharacterCellTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFCharacterCellTests.m; sourceTree = "<group>"; };
 		6DD8D99C18664E330033D573 /* TSStringValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSStringValidator.h; sourceTree = "<group>"; };
 		6DD8D99D18664E330033D573 /* TSStringValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSStringValidator.m; sourceTree = "<group>"; };
 		6DD8D99E18664E330033D573 /* TSStringValidatorEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSStringValidatorEngine.h; sourceTree = "<group>"; };
@@ -350,6 +355,7 @@
 			children = (
 				6D0FAA3A186366710084F505 /* CTFJoinGameCellTests.m */,
 				6DC2402C186721D800054EA1 /* CTFNoCharactersCellTests.m */,
+				6DC2403318672B4100054EA1 /* CTFCharacterCellTests.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -437,6 +443,8 @@
 				6D65DE07185EE20400C76A90 /* CTFJoinGameCell.m */,
 				6DC240291867217F00054EA1 /* CTFNoCharactersCell.h */,
 				6DC2402A1867217F00054EA1 /* CTFNoCharactersCell.m */,
+				6DC2403018672AF000054EA1 /* CTFCharacterCell.h */,
+				6DC2403118672AF000054EA1 /* CTFCharacterCell.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -857,6 +865,7 @@
 				6DB609AF185488870094E37D /* CTFLoginViewController.m in Sources */,
 				6D0715BC184FD965002C3023 /* Model.xcdatamodeld in Sources */,
 				6DD8D9AE186652740033D573 /* CTFAPIUserDataValidator+RegexpPatterns.m in Sources */,
+				6DC2403218672AF000054EA1 /* CTFCharacterCell.m in Sources */,
 				6D65DE11185F012000C76A90 /* MapViewAnnotation.m in Sources */,
 				6DE9913C183AA00E005F3DB1 /* CoreDataService.m in Sources */,
 				6DB609EC1854A11A0094E37D /* CTFGame.m in Sources */,
@@ -900,6 +909,7 @@
 				6D0FAA311861F5D30084F505 /* CTFMapTests.m in Sources */,
 				6DA131A7186199C900290917 /* CTFAPIRKConfigurator_Descriptors_Tests.m in Sources */,
 				6DE0FCD0182C582300800C09 /* CTFLoginViewControllerTests.m in Sources */,
+				6DC2403418672B4100054EA1 /* CTFCharacterCellTests.m in Sources */,
 				6DC2402818671E5800054EA1 /* CTFBrowseCharactersViewControllerTests.m in Sources */,
 				6DD8D9A518664E330033D573 /* TSStringValidator.m in Sources */,
 				6D0FAA371861F7040084F505 /* MapViewAnnotationTests.m in Sources */,
