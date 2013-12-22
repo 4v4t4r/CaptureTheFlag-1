@@ -97,6 +97,9 @@
     _nickTextField.placeholder = NSLocalizedStringFromTable(@"textField.nick.placeholder", @"Profile", nil);
     _emailTextField.placeholder = NSLocalizedStringFromTable(@"textField.email.placeholder", @"Profile", nil);
     _updateButton.title = NSLocalizedStringFromTable(@"button.update.title", @"Profile", nil);
+    
+    _charactersSectionLabel.text = NSLocalizedStringFromTable(@"label.characters.text", @"Profile", @"");
+    [_browseCharactersButton setTitle:NSLocalizedStringFromTable(@"button.browseCharacters.title", @"Profile", @"") forState:UIControlStateNormal];
 }
 
 

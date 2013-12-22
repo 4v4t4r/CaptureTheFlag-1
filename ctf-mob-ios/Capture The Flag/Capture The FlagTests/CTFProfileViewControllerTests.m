@@ -56,6 +56,14 @@
     XCTAssertNotNil(_vc.yourProfileSectionLabel, @"");
 }
 
+- (void)testThatCharactersSectionLabelExists {
+    XCTAssertNotNil(_vc.charactersSectionLabel, @"");
+}
+
+- (void)testThatBrowseCharactersButtonExists {
+    XCTAssertNotNil(_vc.browseCharactersButton, @"");
+}
+
 
 #pragma mark - Delegate 
 - (void)testThatFirstNameTextFieldHasDelegate {
@@ -73,7 +81,6 @@
 - (void)testThatEmailTextFieldHasDelegate {
     XCTAssertEqualObjects(_vc.emailTextField.delegate, _vc, @"");
 }
-
 
 #pragma mark - Localization
 - (void)testNavigationItemTitleShouldBeSet {
@@ -102,6 +109,14 @@
 
 - (void)testThatYourProfileLabelIsLocalized {
     XCTAssertEqualObjects(_vc.yourProfileSectionLabel.text, NSLocalizedStringFromTable(@"label.yourProfile.text", @"Profile", @""));
+}
+
+- (void)testThatCharactersSectionLabelIsLocalized {
+    XCTAssertEqualObjects(_vc.charactersSectionLabel.text, NSLocalizedStringFromTable(@"label.characters.text", @"Profile", @""), @"");
+}
+
+- (void)testThatBrowseCharactersButtonIsLocalized {
+    XCTAssertEqualObjects(_vc.browseCharactersButton.titleLabel.text, NSLocalizedStringFromTable(@"button.browseCharacters.title", @"Profile", @""), @"");
 }
 
 @end

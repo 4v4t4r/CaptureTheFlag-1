@@ -18,3 +18,9 @@
 
 /* update button title */
 "button.update.title" = "Update";
+
+/* characters section label */
+"label.characters.text" = "Characters";
+
+/* browse characters button */
+"button.browseCharacters.title" = "Browse characters";

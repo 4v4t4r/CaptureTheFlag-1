@@ -17,6 +17,9 @@
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *updateButton;
 
+@property (weak, nonatomic) IBOutlet UILabel *charactersSectionLabel;
+@property (weak, nonatomic) IBOutlet UIButton *browseCharactersButton;
+
 - (IBAction)updateProfile:(id)sender;
 
 @end
