@@ -28,25 +28,11 @@
         return CredentialsValidationResultDifferentPasswords;
     }
     
-    /// Configure validator
-    TSStringValidator *validator = [TSStringValidator new];
-    TSStringValidatorPattern *usernamePattern = [self usernamePattern];
-    TSStringValidatorPattern *emailPattern = [self emailPattern];
-    TSStringValidatorPattern *passwordPattern = [self passwordPattern];
-    
-    [validator addPattern:usernamePattern];
-    [validator addPattern:emailPattern];
-    [validator addPattern:passwordPattern];
-    
-    /// Add items to validate
-    TSStringValidatorItem *usernameItem = [TSStringValidatorItem itemWithString:username patternIdentifier:usernamePattern.identifier allowsEmpty:NO];
-    TSStringValidatorItem *emailAddressItem = [TSStringValidatorItem itemWithString:emailAddress patternIdentifier:emailPattern.identifier allowsEmpty:NO];
-    TSStringValidatorItem *passwordItem = [TSStringValidatorItem itemWithString:password patternIdentifier:passwordPattern.identifier allowsEmpty:NO];
-    
     /// Validate
-    StringValidationResult usernameResult = [validator validateItem:usernameItem];
-    StringValidationResult emailResult = [validator validateItem:emailAddressItem];
-    StringValidationResult passwordResult = [validator validateItem:passwordItem];
+    TSStringValidator *validator = [TSStringValidator new];
+    StringValidationResult usernameResult = [validator validateString:username withPattern:[self usernamePattern].patternString allowsEmpty:NO];
+    StringValidationResult emailResult = [validator validateString:emailAddress withPattern:[self emailPattern].patternString allowsEmpty:NO];
+    StringValidationResult passwordResult = [validator validateString:password withPattern:[self passwordPattern].patternString allowsEmpty:NO];
     
     /// If fields are empty
     if (usernameResult == StringValidationResultEmptyField ||
@@ -78,23 +64,11 @@
         return CredentialsValidationResultFailure;
     }
     
-    /// Configure validator
-    TSStringValidator *validator = [TSStringValidator new];
-    TSStringValidatorPattern *usernamePattern = [self usernamePattern];
-    TSStringValidatorPattern *passwordPattern = [self passwordPattern];
-    
-    [validator addPattern:usernamePattern];
-    [validator addPattern:passwordPattern];
-    
-    /// Add items to validate
-    TSStringValidatorItem *usernameItem = [TSStringValidatorItem itemWithString:username patternIdentifier:usernamePattern.identifier allowsEmpty:NO];
-    TSStringValidatorItem *passwordItem = [TSStringValidatorItem itemWithString:password patternIdentifier:passwordPattern.identifier allowsEmpty:NO];
-    
     /// Validate
-    StringValidationResult usernameResult = [validator validateItem:usernameItem];
-    StringValidationResult passwordResult = [validator validateItem:passwordItem];
+    TSStringValidator *validator = [TSStringValidator new];
+    StringValidationResult usernameResult = [validator validateString:username withPattern:[self usernamePattern].patternString allowsEmpty:NO];
+    StringValidationResult passwordResult = [validator validateString:password withPattern:[self passwordPattern].patternString allowsEmpty:NO];
 
-    
     CredentialsValidationResult result = CredentialsValidationResultOK;
     
     if (usernameResult != StringValidationResultOK) {
@@ -112,27 +86,14 @@
         return CredentialsValidationResultFailure;
     }
     
-    /// Configure validator
+    /// Validate
     TSStringValidator *validator = [TSStringValidator new];
     TSStringValidatorPattern *namePattern = [self namePattern];
-    TSStringValidatorPattern *nickPattern = [self nickPattern];
-    TSStringValidatorPattern *emailPattern = [self emailPattern];
     
-    [validator addPattern:namePattern];
-    [validator addPattern:nickPattern];
-    [validator addPattern:emailPattern];
-
-    /// Add items to validate
-    TSStringValidatorItem *firstNameItem = [TSStringValidatorItem itemWithString:firstName patternIdentifier:namePattern.identifier];
-    TSStringValidatorItem *lastNameItem = [TSStringValidatorItem itemWithString:lastName patternIdentifier:namePattern.identifier];
-    TSStringValidatorItem *nickItem = [TSStringValidatorItem itemWithString:nick patternIdentifier:nickPattern.identifier];
-    TSStringValidatorItem *emailItem = [TSStringValidatorItem itemWithString:email patternIdentifier:emailPattern.identifier allowsEmpty:NO];
-    
-    /// Validate
-    StringValidationResult firstNameResult = [validator validateItem:firstNameItem];
-    StringValidationResult lastNameResult = [validator validateItem:lastNameItem];
-    StringValidationResult nickResult = [validator validateItem:nickItem];
-    StringValidationResult emailResult = [validator validateItem:emailItem];
+    StringValidationResult firstNameResult = [validator validateString:firstName withPattern:namePattern.patternString allowsEmpty:YES];
+    StringValidationResult lastNameResult = [validator validateString:lastName withPattern:namePattern.patternString allowsEmpty:YES];
+    StringValidationResult nickResult = [validator validateString:nick withPattern:[self nickPattern].patternString allowsEmpty:YES];
+    StringValidationResult emailResult = [validator validateString:email withPattern:[self emailPattern].patternString allowsEmpty:NO];
     
     CredentialsValidationResult result = CredentialsValidationResultOK;
     
