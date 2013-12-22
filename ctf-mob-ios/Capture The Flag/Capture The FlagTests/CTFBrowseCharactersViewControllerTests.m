@@ -37,4 +37,19 @@
     XCTAssertNotNil(_vc, @"");
 }
 
+
+#pragma mark - Outlets
+- (void)testThatTableViewExists {
+    XCTAssertNotNil(_vc.tableView, @"");
+}
+
+#pragma mark - Delegate and Datasource
+- (void)testThatTableViewHasDelegate {
+    XCTAssertEqualObjects(_vc.tableView.delegate, _vc, @"");
+}
+
+- (void)testThatTableViewHasDataSource {
+    XCTAssertEqualObjects(_vc.tableView.dataSource, _vc, @"");
+}
+
 @end

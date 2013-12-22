@@ -9,5 +9,6 @@
 #import "CTFViewController.h"
 
 @interface CTFBrowseCharactersViewController : CTFViewController
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end

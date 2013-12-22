@@ -96,6 +96,8 @@
 		6DB609EF1854A11A0094E37D /* CTFUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DB609E51854A11A0094E37D /* CTFUser.m */; };
 		6DC2402618671E3D00054EA1 /* CTFBrowseCharactersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC2402518671E3D00054EA1 /* CTFBrowseCharactersViewController.m */; };
 		6DC2402818671E5800054EA1 /* CTFBrowseCharactersViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC2402718671E5800054EA1 /* CTFBrowseCharactersViewControllerTests.m */; };
+		6DC2402B1867217F00054EA1 /* CTFNoCharactersCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC2402A1867217F00054EA1 /* CTFNoCharactersCell.m */; };
+		6DC2402D186721D800054EA1 /* CTFNoCharactersCellTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DC2402C186721D800054EA1 /* CTFNoCharactersCellTests.m */; };
 		6DD8D9A418664E330033D573 /* TSStringValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD8D99D18664E330033D573 /* TSStringValidator.m */; };
 		6DD8D9A518664E330033D573 /* TSStringValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD8D99D18664E330033D573 /* TSStringValidator.m */; };
 		6DD8D9A618664E330033D573 /* TSStringValidatorEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD8D99F18664E330033D573 /* TSStringValidatorEngine.m */; };
@@ -248,6 +250,9 @@
 		6DC2402418671E3D00054EA1 /* CTFBrowseCharactersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFBrowseCharactersViewController.h; sourceTree = "<group>"; };
 		6DC2402518671E3D00054EA1 /* CTFBrowseCharactersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFBrowseCharactersViewController.m; sourceTree = "<group>"; };
 		6DC2402718671E5800054EA1 /* CTFBrowseCharactersViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFBrowseCharactersViewControllerTests.m; sourceTree = "<group>"; };
+		6DC240291867217F00054EA1 /* CTFNoCharactersCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTFNoCharactersCell.h; sourceTree = "<group>"; };
+		6DC2402A1867217F00054EA1 /* CTFNoCharactersCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFNoCharactersCell.m; sourceTree = "<group>"; };
+		6DC2402C186721D800054EA1 /* CTFNoCharactersCellTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFNoCharactersCellTests.m; sourceTree = "<group>"; };
 		6DD8D99C18664E330033D573 /* TSStringValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSStringValidator.h; sourceTree = "<group>"; };
 		6DD8D99D18664E330033D573 /* TSStringValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSStringValidator.m; sourceTree = "<group>"; };
 		6DD8D99E18664E330033D573 /* TSStringValidatorEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSStringValidatorEngine.h; sourceTree = "<group>"; };
@@ -342,6 +347,7 @@
 			isa = PBXGroup;
 			children = (
 				6D0FAA3A186366710084F505 /* CTFJoinGameCellTests.m */,
+				6DC2402C186721D800054EA1 /* CTFNoCharactersCellTests.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -427,6 +433,8 @@
 			children = (
 				6D65DE06185EE20400C76A90 /* CTFJoinGameCell.h */,
 				6D65DE07185EE20400C76A90 /* CTFJoinGameCell.m */,
+				6DC240291867217F00054EA1 /* CTFNoCharactersCell.h */,
+				6DC2402A1867217F00054EA1 /* CTFNoCharactersCell.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -828,6 +836,7 @@
 			files = (
 				6DA1319E186189D300290917 /* CTFAPIRKConfigurator+Descriptors.m in Sources */,
 				6DB609B0185488870094E37D /* CTFMainViewController.m in Sources */,
+				6DC2402B1867217F00054EA1 /* CTFNoCharactersCell.m in Sources */,
 				6DB609C2185488CE0094E37D /* CTFAPIAccounts.m in Sources */,
 				6D0FAA2918610A8B0084F505 /* CTFProfileViewController.m in Sources */,
 				6D0FAA20185F8E5D0084F505 /* ArrayDataSource.m in Sources */,
@@ -881,6 +890,7 @@
 				6DD8D9A918664E330033D573 /* TSStringValidatorItem.m in Sources */,
 				6D0FAA2D1861F5320084F505 /* CTFItemTests.m in Sources */,
 				6D0FAA3B186366710084F505 /* CTFJoinGameCellTests.m in Sources */,
+				6DC2402D186721D800054EA1 /* CTFNoCharactersCellTests.m in Sources */,
 				6D0715BD184FD965002C3023 /* Model.xcdatamodeld in Sources */,
 				6DE0FCCD182C030700800C09 /* CTFAPIUserDataValidator_RegexpPatterns_Tests.m in Sources */,
 				6D0FAA311861F5D30084F505 /* CTFMapTests.m in Sources */,
