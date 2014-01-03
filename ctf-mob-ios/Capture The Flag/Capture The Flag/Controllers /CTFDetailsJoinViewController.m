@@ -19,8 +19,6 @@
 {
     [super viewDidLoad];
     
-    _mapView.delegate = self;
-    
     self.navigationItem.title = _game.name;
     [self _configureMapView];
 }
