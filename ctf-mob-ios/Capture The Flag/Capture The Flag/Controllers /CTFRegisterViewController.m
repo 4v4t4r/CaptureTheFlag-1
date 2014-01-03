@@ -29,13 +29,6 @@
     [self _configureTextFields];
 }
 
-- (void)viewDidUnload {
-    _successAlert = nil;
-    _failureAlert = nil;
-    _accounts = nil;
-    [super viewDidUnload];
-}
-
 - (void)_configureTapBackground {
     UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(_backgroundTapped)];
     [self.view addGestureRecognizer:gesture];
