@@ -8,6 +8,22 @@
 
 #import <XCTest/XCTest.h>
 #import "CTFLoginViewController.h"
+#import <JRSwizzle/JRSwizzle.h>
+
+static NSString * const kFillTextFieldIfNecesaryCalled = @"FillTextFieldIfNecessary";
+
+@interface CTFLoginViewController (Swizzle)
+- (void)_fillTextFieldIfNecessary_swizzle;
+@end
+
+@implementation CTFLoginViewController (Swizzle)
+
+- (void)_fillTextFieldIfNecessary_swizzle {
+    [[NSNotificationCenter defaultCenter] postNotificationName:kFillTextFieldIfNecesaryCalled object:nil];
+}
+
+@end
+
 
 @interface CTFLoginViewControllerTests : XCTestCase
 
@@ -17,11 +33,13 @@
 {
     UIStoryboard *storyboard;
     CTFLoginViewController *vc;
+    BOOL notificationPosted;
 }
 
 - (void)setUp
 {
     [super setUp];
+    notificationPosted = NO;
     storyboard = [UIStoryboard storyboardWithName:@"LoginAndRegister" bundle:nil];
     vc = [storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([CTFLoginViewController class])];
     [vc view];
@@ -29,6 +47,7 @@
 
 - (void)tearDown
 {
+    notificationPosted = NO;
     vc = nil;
     storyboard = nil;
     [super tearDown];
@@ -115,6 +134,23 @@
 - (void)testToRegisterSegue
 {
     XCTAssertTrue([vc shouldPerformSegueWithIdentifier:@"ToRegisterSegue" sender:vc], @"");
+}
+
+
+#pragma mark - fillTextFieldsIfNecessary
+- (void)fillTextFieldsIfNecessaryCalled {
+    notificationPosted = YES;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)testThatFillTextFieldsIfNecessaryCalledInViewWillAppear {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fillTextFieldsIfNecessaryCalled) name:kFillTextFieldIfNecesaryCalled object:nil];
+    [[vc class] jr_swizzleMethod:NSSelectorFromString(@"_fillTextFieldIfNecessary") withMethod:@selector(_fillTextFieldIfNecessary_swizzle) error:nil];
+    [vc viewWillAppear:NO];
+    
+    if (!notificationPosted) {
+        XCTFail(@"method _fillTextFieldsIfNecessary should be called");
+    }
 }
 
 @end

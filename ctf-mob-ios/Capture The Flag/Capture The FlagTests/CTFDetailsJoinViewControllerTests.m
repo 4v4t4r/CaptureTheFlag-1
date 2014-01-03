@@ -40,6 +40,7 @@ static NSString * const kConfigurationMapViewCalled = @"configurationMapViewEvok
 - (void)setUp
 {
     [super setUp];
+    notificationPosted = NO;
     storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     vc = [storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([CTFDetailsJoinViewController class])];
     [vc view];
@@ -49,6 +50,7 @@ static NSString * const kConfigurationMapViewCalled = @"configurationMapViewEvok
 {
     vc = nil;
     storyboard = nil;
+    notificationPosted = NO;
     [super tearDown];
 }
 
@@ -58,7 +60,6 @@ static NSString * const kConfigurationMapViewCalled = @"configurationMapViewEvok
 }
 
 - (void)testThatViewDidLoadConfigureMapView {
-    notificationPosted = NO;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(configurationMapViewCalled) name:kConfigurationMapViewCalled object:nil];
     [[vc class] jr_swizzleMethod:NSSelectorFromString(@"_configureMapView") withMethod:@selector(_configureMapView_swizzle) error:nil];
     [vc viewDidLoad];
