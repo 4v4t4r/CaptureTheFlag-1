@@ -22,7 +22,9 @@ class PortalUserSerializer(serializers.ModelSerializer):
             # todo: add logger in this place
             raise e
 
-        obj.set_password(obj.password)
+        if getattr(self, "password_was_set", False):
+            obj.set_password(obj.password)
+
         player_group.user_set.add(obj)
         obj.save()
 

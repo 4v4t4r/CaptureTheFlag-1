@@ -61,6 +61,17 @@ class PortalUserViewSet(mixins.ModelPermissionsMixin,
     model = PortalUser
     ignore_fields = ["password"]
 
+    def get_serializer(self, instance=None, data=None,
+                       files=None, many=False, partial=False):
+        password_was_set = data and "password" in data
+
+        logger.debug("JSON request data: %s", data)
+
+        serializer = super(PortalUserViewSet, self).get_serializer(instance, data, files, many, partial)
+        setattr(serializer, "password_was_set", password_was_set)
+
+        return serializer
+
 
 class CharacterViewSet(mixins.ModelPermissionsMixin,
                        viewsets.ModelViewSet):
