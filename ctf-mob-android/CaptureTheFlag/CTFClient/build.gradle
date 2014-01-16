@@ -1,13 +1,13 @@
 buildscript {
     repositories {
         mavenCentral()
-        maven {
-            url 'https://oss.sonatype.org/content/repositories/snapshots/'
-        }
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+        maven { url 'https://github.com/Goddchen/mvn-repo/raw/master/' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:0.7.+'
         classpath 'com.squareup.gradle:gradle-android-test-plugin:0.9.1-SNAPSHOT'
+        classpath 'com.android:volley:1.0'
     }
 }
 apply plugin: 'android'
@@ -16,9 +16,8 @@ apply plugin: 'android-test'
 
 repositories {
     mavenCentral()
-    maven {
-        url 'https://oss.sonatype.org/content/repositories/snapshots/'
-    }
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+    maven { url 'https://github.com/Goddchen/mvn-repo/raw/master/' }
 }
 
 android {
@@ -53,13 +52,14 @@ android {
 dependencies {
     compile 'com.android.support:support-v4:18.0.0'
     compile 'com.google.code.gson:gson:2.2.4'
+    compile 'com.android:volley:1.0'
     compile fileTree(dir: 'libs', include: '*.jar')
 
-    testCompile 'junit:junit:4.10'
+    testCompile 'junit:junit:4.11'
     testCompile 'org.robolectric:robolectric:2.1.+'
     testCompile 'com.squareup:fest-android:1.0.+'
     testCompile 'com.google.code.gson:gson:2.2.4'
-    instrumentTestCompile 'junit:junit:4.10'
+    instrumentTestCompile 'junit:junit:4.11'
     instrumentTestCompile 'org.robolectric:robolectric:2.3-SNAPSHOT'
     instrumentTestCompile 'com.squareup:fest-android:1.0.+'
 }

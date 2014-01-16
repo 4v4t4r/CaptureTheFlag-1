@@ -1,10 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.blstream.ctfclient.activities.LoginActivity">
+    tools:context="com.blstream.ctfclient.activities.RegisterActivity">
 
     <!-- Login progress -->
     <LinearLayout
-        android:id="@+id/login_status"
+        android:id="@+id/register_status"
         android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,18 +20,18 @@
             android:layout_marginBottom="8dp" />
 
         <TextView
-            android:id="@+id/login_status_message"
+            android:id="@+id/register_status_message"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:fontFamily="sans-serif-light"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:text="@string/login_progress_signing_in" />
+            android:text="@string/register_progress" />
     </LinearLayout>
 
     <!-- Login form -->
     <ScrollView
-        android:id="@+id/login_form"
+        android:id="@+id/register_form"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -39,13 +40,22 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/user_name_login"
+                android:id="@+id/user_name"
                 android:singleLine="true"
                 android:maxLines="1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:hint="@string/prompt_user_name"
+                android:inputType="text"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/email"
+                android:singleLine="true"
+                android:maxLines="1"
                 android:inputType="textEmailAddress"
-                android:hint="@string/prompt_user_name" />
+                android:hint="@string/prompt_email"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
 
             <EditText
                 android:id="@+id/password"
@@ -59,32 +69,24 @@
                 android:imeActionId="@+id/login"
                 android:imeOptions="actionUnspecified" />
 
-            <Button
-                android:id="@+id/sign_in_button"
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/repeat_password"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/action_sign_in_register"
-                android:paddingLeft="32dp"
-                android:paddingRight="32dp"
-                android:layout_gravity="right" />
+                android:hint="@string/prompt_repeat_password"
+                android:inputType="textPassword"
+                android:imeActionLabel="@string/action_sign_in_short"
+                android:imeActionId="@+id/login"
+                android:imeOptions="actionUnspecified" />,
 
-            <TextView
+            <Button
                 android:id="@+id/register_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/or"
-                android:paddingLeft="32dp"
-                android:paddingRight="32dp"
-                android:layout_gravity="right" />
-
-            <Button
-                android:id="@+id/create_new_account_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Create New Account"
+                android:text="@string/action_register"
                 android:paddingLeft="32dp"
                 android:paddingRight="32dp"
                 android:layout_gravity="right" />

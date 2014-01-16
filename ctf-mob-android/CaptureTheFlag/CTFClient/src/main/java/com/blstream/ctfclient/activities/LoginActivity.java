@@ -1,38 +1,53 @@
-package com.blstream.ctfclient;
+package com.blstream.ctfclient.activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+import com.blstream.ctfclient.constants.CTFConstants;
+import com.blstream.ctfclient.R;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Activity which displays a login screen to the user, offering registration as
  * well.
  */
 public class LoginActivity extends Activity {
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello",
-            "bar@example.com:world"
-    };
 
     /**
-     * The default email to populate the email field with.
+     * The default username to populate the username field with.
      */
-    public static final String EXTRA_EMAIL = "com.example.android.authenticatordemo.extra.EMAIL";
+    public static final String EXTRA_USERNAME = "com.example.android.authenticatordemo.extra.USERNAME";
 
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -40,11 +55,11 @@ public class LoginActivity extends Activity {
     private UserLoginTask mAuthTask = null;
 
     // Values for email and password at the time of the login attempt.
-    private String mEmail;
+    private String mUserName;
     private String mPassword;
 
     // UI references.
-    private EditText mEmailView;
+    private EditText mUserNameView;
     private EditText mPasswordView;
     private View mLoginFormView;
     private View mLoginStatusView;
@@ -57,9 +72,9 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.activity_login);
 
         // Set up the login form.
-        mEmail = getIntent().getStringExtra(EXTRA_EMAIL);
-        mEmailView = (EditText) findViewById(R.id.email);
-        mEmailView.setText(mEmail);
+        mUserName = getIntent().getStringExtra(EXTRA_USERNAME);
+        mUserNameView = (EditText) findViewById(R.id.user_name_login);
+        mUserNameView.setText(mUserName);
 
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -83,6 +98,14 @@ public class LoginActivity extends Activity {
                 attemptLogin();
             }
         });
+
+	    findViewById(R.id.create_new_account_button).setOnClickListener(new View.OnClickListener() {
+		    @Override
+		    public void onClick(View v) {
+			    Intent myIntent = new Intent(getBaseContext(), RegisterActivity.class);
+			    startActivity(myIntent);
+		    }
+	    });
     }
 
 
@@ -104,11 +127,11 @@ public class LoginActivity extends Activity {
         }
 
         // Reset errors.
-        mEmailView.setError(null);
+        mUserNameView.setError(null);
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        mEmail = mEmailView.getText().toString();
+        mUserName = mUserNameView.getText().toString();
         mPassword = mPasswordView.getText().toString();
 
         boolean cancel = false;
@@ -125,14 +148,14 @@ public class LoginActivity extends Activity {
             cancel = true;
         }
 
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(mEmail)) {
-            mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
+        // Check for a valid username.
+        if (TextUtils.isEmpty(mUserName)) {
+            mUserNameView.setError(getString(R.string.error_field_required));
+            focusView = mUserNameView;
             cancel = true;
-        } else if (!mEmail.contains("@")) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
+        } else if (mUserName.length() < 4) {
+            mUserNameView.setError(getString(R.string.error_invalid_username));
+            focusView = mUserNameView;
             cancel = true;
         }
 
@@ -197,25 +220,45 @@ public class LoginActivity extends Activity {
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
+	        try {
+		        HttpClient client = new DefaultHttpClient();
+		        HttpPost post = new HttpPost("http://78.133.154.39:8888/oauth2/access_token/");
 
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
+	                List<NameValuePair> nameValuePairs = new ArrayList<>();
+			nameValuePairs.add(new BasicNameValuePair(CTFConstants.CLIENT_ID_PARAM_NAME, CTFConstants.CLIENT_ID));
+			nameValuePairs.add(new BasicNameValuePair(CTFConstants.CLIENT_SECRET_PARAM_NAME, CTFConstants.CLIENT_SECRET));
+			nameValuePairs.add(new BasicNameValuePair(CTFConstants.GRANT_TYPE_PARAM_NAME, CTFConstants.GrantType.PASSWORD.getValue()));
+			nameValuePairs.add(new BasicNameValuePair(CTFConstants.SCOPE_PARAM_NAME, CTFConstants.Scope.READ_AND_WRITE.getValue()));
+			nameValuePairs.add(new BasicNameValuePair(CTFConstants.USERNAME_PARAM_NAME, mUserNameView.getText().toString()));
+		        nameValuePairs.add(new BasicNameValuePair(CTFConstants.PASSWORD_PARAM_NAME, mPasswordView.getText().toString()));
+		        post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
+		        HttpResponse response = client.execute(post);
+		        HttpEntity results = response.getEntity();
+		        String result =  EntityUtils.toString(results);
+		        Log.d(RegisterActivity.class.getSimpleName(), result);
 
-            // TODO: register the new account here.
-            return true;
+		        try {
+			        JSONObject jsonObject = new JSONObject(result);
+			        String token = jsonObject.getString(CTFConstants.ACCESS_TOKEN_KEY_NAME);
+
+			        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+			        SharedPreferences.Editor editor = settings.edit();
+			        editor.putString(CTFConstants.ACCESS_TOKEN_KEY_NAME, token);
+			        editor.commit();
+
+		        } catch (JSONException e) {
+			        e.printStackTrace();
+		        }
+
+	        } catch (UnsupportedEncodingException e) {
+		        e.printStackTrace();
+	        } catch (ClientProtocolException e) {
+		        e.printStackTrace();
+	        } catch (IOException e) {
+		        e.printStackTrace();
+	        }
+	        return true;
         }
 
         @Override
@@ -224,7 +267,9 @@ public class LoginActivity extends Activity {
             showProgress(false);
 
             if (success) {
-                finish();
+	            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+	            String token = sharedPreferences.getString(CTFConstants.ACCESS_TOKEN_KEY_NAME, "");
+	            Log.d("MY", "token: " + token);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
