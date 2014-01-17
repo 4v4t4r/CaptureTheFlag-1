@@ -25,4 +25,7 @@
     <string name="error_field_required">This field is required</string>
     <string name="or">OR</string>
 
+    <string name="generic_error">Could not connect to the server.</string>
+    <string name="generic_server_down">Timeout: could not connect to the server.</string>
+    <string name="no_internet">No Internet. Please, check Internet Connection</string>
 </resources>

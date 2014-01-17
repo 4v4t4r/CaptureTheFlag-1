@@ -97,6 +97,12 @@ public class CTF extends Application {
 		}
 	}
 
+	public void cancelPendingRequests(){
+		if(mRequestQueue != null){
+			mRequestQueue.cancelAll(TAG);
+		}
+	}
+
 	public String getURL(String params) {
 		StringBuilder url = new StringBuilder(CTFConstants.PROTOCOL);
 		url.append("://").append(CTFConstants.HOST).append(":").append(CTFConstants.PORT);

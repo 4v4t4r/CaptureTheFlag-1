@@ -8,7 +8,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
@@ -16,21 +15,16 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.blstream.ctfclient.CTF;
 import com.blstream.ctfclient.R;
 import com.blstream.ctfclient.model.dto.User;
+import com.blstream.ctfclient.network.ErrorHelper;
+import com.blstream.ctfclient.network.requests.RegisterRequest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
-
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 /**
  * Created by Rafal on 10.01.14.
@@ -232,6 +226,27 @@ public class RegisterActivity extends Activity{
 		}
 	}
 
+	private Response.ErrorListener createRegisterErrorListener() {
+		return new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError volleyError) {
+				Toast.makeText(getApplicationContext(), ErrorHelper.getMessage(volleyError, getApplicationContext()),
+						Toast.LENGTH_LONG).show();
+				finish();
+			}
+		};
+	}
+
+	private Response.Listener<String> createRegisterSuccessListener() {
+		return new Response.Listener<String>() {
+			@Override
+			public void onResponse(String response) {
+				Toast.makeText(getApplicationContext(), "User created.", Toast.LENGTH_LONG).show();
+				finish();
+			}
+		};
+	}
+
 	/**
 	 * Represents an asynchronous login/registration task used to authenticate
 	 * the user.
@@ -239,24 +254,15 @@ public class RegisterActivity extends Activity{
 	public class UserRegisterTask extends AsyncTask<Void, Void, Boolean> {
 		@Override
 		protected Boolean doInBackground(Void... params) {
-			try {
-				HttpClient client = new DefaultHttpClient();
-				HttpPost post = new HttpPost("http://78.133.154.39:8888/api/registration/");
-				post.setEntity(new StringEntity(getUserDataAsJson()));
-				post.setHeader("Accept", "application/json");
-				post.setHeader("Content-type", "application/json; charset=UTF-8");
-				HttpResponse response = client.execute(post);
-				HttpEntity results = response.getEntity();
-				String result =  EntityUtils.toString(results);
-				Log.d(RegisterActivity.class.getSimpleName(), result);
+			RegisterRequest request = new RegisterRequest(
+					Request.Method.POST,
+					CTF.getInstance().getURL(RegisterRequest.URL_REQUEST),
+					getUserDataAsJson(),
+					createRegisterSuccessListener(),
+					createRegisterErrorListener()
+			);
 
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			} catch (ClientProtocolException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			CTF.getInstance().addToRequestQueue(request);
 			return true;
 		}
 
@@ -276,7 +282,7 @@ public class RegisterActivity extends Activity{
 			showProgress(false);
 
 			if (success) {
-				Toast.makeText(getApplicationContext(), "finish execute thread", Toast.LENGTH_LONG).show();
+				//
 			} else {
 				mPasswordView.setError(getString(R.string.error_incorrect_password));
 				mPasswordView.requestFocus();
@@ -289,4 +295,5 @@ public class RegisterActivity extends Activity{
 			showProgress(false);
 		}
 	}
+
 }

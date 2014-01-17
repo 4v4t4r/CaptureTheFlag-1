@@ -18,25 +18,17 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.blstream.ctfclient.CTF;
 import com.blstream.ctfclient.constants.CTFConstants;
 import com.blstream.ctfclient.R;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
+import com.blstream.ctfclient.network.ErrorHelper;
+import com.blstream.ctfclient.network.requests.TokenRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Activity which displays a login screen to the user, offering registration as
@@ -220,56 +212,26 @@ public class LoginActivity extends Activity {
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
         @Override
         protected Boolean doInBackground(Void... params) {
-	        try {
-		        HttpClient client = new DefaultHttpClient();
-		        HttpPost post = new HttpPost("http://78.133.154.39:8888/oauth2/access_token/");
+	        TokenRequest request = new TokenRequest(
+			        Request.Method.POST,
+			        CTF.getInstance().getURL(TokenRequest.URL_REQUEST),
+			        mUserNameView.getText().toString(),
+			        mPasswordView.getText().toString(),
+			        createTokenSuccessListener(),
+			        createTokenErrorListener());
 
-	                List<NameValuePair> nameValuePairs = new ArrayList<>();
-			nameValuePairs.add(new BasicNameValuePair(CTFConstants.CLIENT_ID_PARAM_NAME, CTFConstants.CLIENT_ID));
-			nameValuePairs.add(new BasicNameValuePair(CTFConstants.CLIENT_SECRET_PARAM_NAME, CTFConstants.CLIENT_SECRET));
-			nameValuePairs.add(new BasicNameValuePair(CTFConstants.GRANT_TYPE_PARAM_NAME, CTFConstants.GrantType.PASSWORD.getValue()));
-			nameValuePairs.add(new BasicNameValuePair(CTFConstants.SCOPE_PARAM_NAME, CTFConstants.Scope.READ_AND_WRITE.getValue()));
-			nameValuePairs.add(new BasicNameValuePair(CTFConstants.USERNAME_PARAM_NAME, mUserNameView.getText().toString()));
-		        nameValuePairs.add(new BasicNameValuePair(CTFConstants.PASSWORD_PARAM_NAME, mPasswordView.getText().toString()));
-		        post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-		        HttpResponse response = client.execute(post);
-		        HttpEntity results = response.getEntity();
-		        String result =  EntityUtils.toString(results);
-		        Log.d(RegisterActivity.class.getSimpleName(), result);
-
-		        try {
-			        JSONObject jsonObject = new JSONObject(result);
-			        String token = jsonObject.getString(CTFConstants.ACCESS_TOKEN_KEY_NAME);
-
-			        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-			        SharedPreferences.Editor editor = settings.edit();
-			        editor.putString(CTFConstants.ACCESS_TOKEN_KEY_NAME, token);
-			        editor.commit();
-
-		        } catch (JSONException e) {
-			        e.printStackTrace();
-		        }
-
-	        } catch (UnsupportedEncodingException e) {
-		        e.printStackTrace();
-	        } catch (ClientProtocolException e) {
-		        e.printStackTrace();
-	        } catch (IOException e) {
-		        e.printStackTrace();
-	        }
+	        CTF.getInstance().addToRequestQueue(request);
 	        return true;
         }
 
-        @Override
+	@Override
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
             showProgress(false);
 
             if (success) {
-	            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-	            String token = sharedPreferences.getString(CTFConstants.ACCESS_TOKEN_KEY_NAME, "");
-	            Log.d("MY", "token: " + token);
+//	            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+//	            String token = sharedPreferences.getString(CTFConstants.ACCESS_TOKEN_KEY_NAME, "");
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
@@ -282,4 +244,38 @@ public class LoginActivity extends Activity {
             showProgress(false);
         }
     }
+
+	private Response.ErrorListener createTokenErrorListener() {
+		return new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError volleyError) {
+				Toast.makeText(getApplicationContext(), ErrorHelper.getMessage(volleyError, getApplicationContext()),
+						Toast.LENGTH_LONG).show();
+			}
+		};
+	}
+
+	private Response.Listener<String> createTokenSuccessListener() {
+		return new Response.Listener<String>() {
+			@Override
+			public void onResponse(String result) {
+				Log.d(RegisterActivity.class.getSimpleName(), result);
+				try {
+					JSONObject jsonObject = new JSONObject(result);
+					String token = jsonObject.getString(CTFConstants.ACCESS_TOKEN_KEY_NAME);
+
+					SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+					SharedPreferences.Editor editor = settings.edit();
+					editor.putString(CTFConstants.ACCESS_TOKEN_KEY_NAME, token);
+					editor.commit();
+					Toast.makeText(getApplicationContext(), "Your token: " + token, Toast.LENGTH_SHORT).show();
+
+					Intent myIntent = new Intent(getBaseContext(), MainActivity.class);
+					startActivity(myIntent);
+				} catch (JSONException e) {
+					Log.e(RegisterActivity.class.getSimpleName(), "JSONException", e);
+				}
+			}
+		};
+	}
 }

@@ -1,16 +1,21 @@
 package com.blstream.ctfclient.activities;
 
 import android.app.Activity;
-import android.app.ActionBar;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.blstream.ctfclient.CTF;
 import com.blstream.ctfclient.R;
+import com.blstream.ctfclient.network.requests.CTFRequest;
+import org.json.JSONObject;
 
 public class MainActivity extends Activity {
 
@@ -61,6 +66,29 @@ public class MainActivity extends Activity {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             return rootView;
         }
+
+	    @Override
+	    public void onViewCreated(View view, Bundle savedInstanceState) {
+		    super.onViewCreated(view, savedInstanceState);
+		    CTFRequest request = new CTFRequest(
+				    Request.Method.GET,
+				    CTF.getInstance().getURL(CTFRequest.PARAM_USERS),
+				    new JSONObject(),
+				    new Response.Listener<JSONObject>(){
+					    @Override
+					    public void onResponse(JSONObject jsonObject) {
+						    Log.d(MainActivity.class.getSimpleName(), "response: " + jsonObject.toString());
+					    }
+				    },
+				    new Response.ErrorListener(){
+					    @Override
+					    public void onErrorResponse(VolleyError volleyError) {
+						    Log.d(MainActivity.class.getSimpleName(), "Error");
+					    }
+				    }
+				    );
+		    CTF.getInstance().addToRequestQueue(request);
+	    }
     }
 
 }

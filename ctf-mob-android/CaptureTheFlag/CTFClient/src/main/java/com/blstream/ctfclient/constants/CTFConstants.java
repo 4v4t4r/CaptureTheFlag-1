@@ -11,6 +11,8 @@ public class CTFConstants {
 	public static final String GRANT_TYPE_PARAM_NAME = "grant_type";
 	public static final String SCOPE_PARAM_NAME = "scope";
 	public static final String USERNAME_PARAM_NAME = "username";
+	public static final String ERROR_PARAM_NAME = "error";
+	public static final String EMAIL_PARAM_NAME = "email";
 	public static final String PASSWORD_PARAM_NAME = "password";
 
 	public static final String PROTOCOL = "http";
