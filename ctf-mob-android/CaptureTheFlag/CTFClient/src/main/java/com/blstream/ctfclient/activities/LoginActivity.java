@@ -19,14 +19,16 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.blstream.ctfclient.CTF;
-import com.blstream.ctfclient.constants.CTFConstants;
 import com.blstream.ctfclient.R;
+import com.blstream.ctfclient.constants.CTFConstants;
 import com.blstream.ctfclient.network.ErrorHelper;
 import com.blstream.ctfclient.network.requests.TokenRequest;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -91,13 +93,13 @@ public class LoginActivity extends Activity {
             }
         });
 
-	    findViewById(R.id.create_new_account_button).setOnClickListener(new View.OnClickListener() {
-		    @Override
-		    public void onClick(View v) {
-			    Intent myIntent = new Intent(getBaseContext(), RegisterActivity.class);
-			    startActivity(myIntent);
-		    }
-	    });
+        findViewById(R.id.create_new_account_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(getBaseContext(), RegisterActivity.class);
+                startActivity(myIntent);
+            }
+        });
     }
 
 
@@ -212,26 +214,24 @@ public class LoginActivity extends Activity {
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
         @Override
         protected Boolean doInBackground(Void... params) {
-	        TokenRequest request = new TokenRequest(
-			        Request.Method.POST,
-			        CTF.getInstance().getURL(TokenRequest.URL_REQUEST),
-			        mUserNameView.getText().toString(),
-			        mPasswordView.getText().toString(),
-			        createTokenSuccessListener(),
-			        createTokenErrorListener());
+            TokenRequest request = new TokenRequest(
+                    Request.Method.POST,
+                    CTF.getInstance().getURL(TokenRequest.URL_REQUEST),
+                    mUserNameView.getText().toString(),
+                    mPasswordView.getText().toString(),
+                    createTokenSuccessListener(),
+                    createTokenErrorListener());
 
-	        CTF.getInstance().addToRequestQueue(request);
-	        return true;
+            CTF.getInstance().addToRequestQueue(request);
+            return true;
         }
 
-	@Override
+        @Override
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
-            showProgress(false);
 
             if (success) {
-//	            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-//	            String token = sharedPreferences.getString(CTFConstants.ACCESS_TOKEN_KEY_NAME, "");
+                //
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
@@ -245,37 +245,39 @@ public class LoginActivity extends Activity {
         }
     }
 
-	private Response.ErrorListener createTokenErrorListener() {
-		return new Response.ErrorListener() {
-			@Override
-			public void onErrorResponse(VolleyError volleyError) {
-				Toast.makeText(getApplicationContext(), ErrorHelper.getMessage(volleyError, getApplicationContext()),
-						Toast.LENGTH_LONG).show();
-			}
-		};
-	}
+    private Response.ErrorListener createTokenErrorListener() {
+        return new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                showProgress(false);
+                Toast.makeText(getApplicationContext(), ErrorHelper.getMessage(volleyError, getApplicationContext()),
+                        Toast.LENGTH_LONG).show();
+            }
+        };
+    }
 
-	private Response.Listener<String> createTokenSuccessListener() {
-		return new Response.Listener<String>() {
-			@Override
-			public void onResponse(String result) {
-				Log.d(RegisterActivity.class.getSimpleName(), result);
-				try {
-					JSONObject jsonObject = new JSONObject(result);
-					String token = jsonObject.getString(CTFConstants.ACCESS_TOKEN_KEY_NAME);
+    private Response.Listener<String> createTokenSuccessListener() {
+        return new Response.Listener<String>() {
+            @Override
+            public void onResponse(String result) {
+                showProgress(false);
+                Log.d(LoginActivity.class.getSimpleName(), result);
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    String token = jsonObject.getString(CTFConstants.ACCESS_TOKEN_KEY_NAME);
 
-					SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-					SharedPreferences.Editor editor = settings.edit();
-					editor.putString(CTFConstants.ACCESS_TOKEN_KEY_NAME, token);
-					editor.commit();
-					Toast.makeText(getApplicationContext(), "Your token: " + token, Toast.LENGTH_SHORT).show();
+                    SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putString(CTFConstants.ACCESS_TOKEN_KEY_NAME, token);
+                    editor.commit();
+                    Toast.makeText(getApplicationContext(), "Your token: " + token, Toast.LENGTH_SHORT).show();
 
-					Intent myIntent = new Intent(getBaseContext(), MainActivity.class);
-					startActivity(myIntent);
-				} catch (JSONException e) {
-					Log.e(RegisterActivity.class.getSimpleName(), "JSONException", e);
-				}
-			}
-		};
-	}
+                    Intent myIntent = new Intent(getBaseContext(), MainActivity.class);
+                    startActivity(myIntent);
+                } catch (JSONException e) {
+                    Log.e(LoginActivity.class.getSimpleName(), "JSONException", e);
+                }
+            }
+        };
+    }
 }

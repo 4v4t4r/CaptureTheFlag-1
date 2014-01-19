@@ -1,7 +1,7 @@
 package com.blstream.ctfclient.network;
 
 import android.content.Context;
-import android.util.Log;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
 import com.android.volley.NetworkResponse;
@@ -10,106 +10,125 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.blstream.ctfclient.R;
-import com.blstream.ctfclient.constants.CTFConstants;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import org.json.JSONArray;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by Rafal on 17.01.14.
  */
 public class ErrorHelper {
 
-	/**
-	 * Returns appropriate message which is to be displayed to the user
-	 * against the specified error object.
-	 *
-	 * @param error
-	 * @param context
-	 * @return
-	 */
-	public static String getMessage(Object error, Context context) {
-		if (error instanceof TimeoutError) {
-			return context.getResources().getString(R.string.generic_server_down);
-		}
-		else if (isServerProblem(error)) {
-			return handleServerError(error, context);
-		}
-		else if (isNetworkProblem(error)) {
-			return context.getResources().getString(R.string.no_internet);
-		}
-		return context.getResources().getString(R.string.generic_error);
-	}
+    public static final String KEY_INVALID_USERNAME = "username";
+    public static final String KEY_INVALID_EMAIL = "email";
+    public static final String KEY_ERROR = "error";
 
-	/**
-	 * Determines whether the error is related to network
-	 * @param error
-	 * @return
-	 */
-	private static boolean isNetworkProblem(Object error) {
-		return (error instanceof NetworkError) || (error instanceof NoConnectionError);
-	}
-	/**
-	 * Determines whether the error is related to server
-	 * @param error
-	 * @return
-	 */
-	private static boolean isServerProblem(Object error) {
-		return (error instanceof ServerError) || (error instanceof AuthFailureError);
-	}
-	/**
-	 * Handles the server error, tries to determine whether to show a stock message or to
-	 * show a message retrieved from the server.
-	 *
-	 * @param err
-	 * @param context
-	 * @return
-	 */
-	private static String handleServerError(Object err, Context context) {
-		VolleyError error = (VolleyError) err;
+    /**
+     * Returns appropriate message which is to be displayed to the user
+     * against the specified error object.
+     *
+     * @param error
+     * @param context
+     * @return
+     */
+    public static String getMessage(Object error, Context context) {
+        if (error instanceof TimeoutError) {
+            return context.getResources().getString(R.string.generic_server_down);
+        } else if (isServerProblem(error)) {
+            return handleServerError(error, context);
+        } else if (isNetworkProblem(error)) {
+            return context.getResources().getString(R.string.no_internet);
+        }
+        return context.getResources().getString(R.string.generic_error);
+    }
 
-		NetworkResponse response = error.networkResponse;
+    /**
+     * Determines whether the error is related to network
+     *
+     * @param error
+     * @return
+     */
+    private static boolean isNetworkProblem(Object error) {
+        return (error instanceof NetworkError) || (error instanceof NoConnectionError);
+    }
 
-		if (response != null) {
-			switch (response.statusCode) {
-			case 400:
-			case 404:
-			case 422:
-			case 401:
-				try {
-					// server might return error like this { "error": "Some error occured" }
-					// Use "Gson" to parse the result
-					HashMap<String, String> result = new Gson().fromJson(new String(response.data),
-							new TypeToken<Map<String, String>>() {
-							}.getType());
+    /**
+     * Determines whether the error is related to server
+     *
+     * @param error
+     * @return
+     */
+    private static boolean isServerProblem(Object error) {
+        return (error instanceof ServerError) || (error instanceof AuthFailureError);
+    }
 
-					if (result != null && result.containsKey(CTFConstants.ERROR_PARAM_NAME)) {
-						return result.get(CTFConstants.ERROR_PARAM_NAME);
-					}
-					if (result != null && result.containsKey(CTFConstants.USERNAME_PARAM_NAME)) {
-						Log.d("Volley", "result.get(CTFConstants.USERNAME_PARAM_NAME): " + result.get(CTFConstants
-								.USERNAME_PARAM_NAME));
-						JSONArray jsonArray = new JSONArray(result.get(CTFConstants.USERNAME_PARAM_NAME));
-						return (String)jsonArray.get(0);
-					}
-					if (result != null && result.containsKey(CTFConstants.EMAIL_PARAM_NAME)) {
-						return result.get(CTFConstants.USERNAME_PARAM_NAME);
-					}
+    /**
+     * Handles the server error, tries to determine whether to show a stock message or to
+     * show a message retrieved from the server.
+     *
+     * @param err
+     * @param context
+     * @return
+     */
+    private static String handleServerError(Object err, Context context) {
+        VolleyError error = (VolleyError) err;
 
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				// invalid request
-				return error.getMessage();
+        NetworkResponse response = error.networkResponse;
 
-			default:
-				return context.getResources().getString(R.string.generic_server_down);
-			}
-		}
-		return context.getResources().getString(R.string.generic_error);
-	}
+        if (response != null) {
+            switch (response.statusCode) {
+                case 400:
+                case 404:
+                case 422:
+                case 401:
+                    try {
+                        String resultString = new String(response.data);
+                        JSONObject jsonObject = new JSONObject(resultString);
+
+                        String message = null;
+                        if (getMessageFromArray(jsonObject, KEY_INVALID_USERNAME) != null) {
+                            message = getMessageFromArray(jsonObject, KEY_INVALID_USERNAME);
+                        } else if (getMessageFromArray(jsonObject, KEY_INVALID_EMAIL) != null) {
+                            message = getMessageFromArray(jsonObject, KEY_INVALID_EMAIL);
+                        } else if (getMessage(jsonObject, KEY_ERROR) != null) {
+                            message = getMessage(jsonObject, KEY_ERROR);
+                        }
+                        return message;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    // invalid request
+                    return error.getMessage();
+
+                default:
+                    return context.getResources().getString(R.string.generic_server_down);
+            }
+        }
+        return context.getResources().getString(R.string.generic_error);
+    }
+
+    private static String getMessage(JSONObject jsonObject, String key) {
+        String message = null;
+        try {
+            message = (String) jsonObject.get(key);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return message;
+    }
+
+    private static String getMessageFromArray(JSONObject jsonObject, String key) {
+        String message = null;
+        try {
+            JSONArray jsonArray = (JSONArray) jsonObject.get(key);
+            if (jsonArray != null) {
+                message = (String) jsonArray.get(0);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return message;
+    }
 
 }

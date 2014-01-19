@@ -7,54 +7,54 @@ import com.google.gson.annotations.SerializedName;
  */
 public class Character {
 
-	@SerializedName("type")
-	private int type;
-	@SerializedName("total_time")
-	private int totalTime;
-	@SerializedName("total_score")
-	private int totalScore;
-	@SerializedName("health")
-	private float health;
-	@SerializedName("level")
-	private int level;
+    @SerializedName("type")
+    private int type;
+    @SerializedName("total_time")
+    private int totalTime;
+    @SerializedName("total_score")
+    private int totalScore;
+    @SerializedName("health")
+    private float health;
+    @SerializedName("level")
+    private int level;
 
-	public int getType() {
-		return type;
-	}
+    public int getType() {
+        return type;
+    }
 
-	public void setType(int type) {
-		this.type = type;
-	}
+    public void setType(int type) {
+        this.type = type;
+    }
 
-	public int getTotalTime() {
-		return totalTime;
-	}
+    public int getTotalTime() {
+        return totalTime;
+    }
 
-	public void setTotalTime(int totalTime) {
-		this.totalTime = totalTime;
-	}
+    public void setTotalTime(int totalTime) {
+        this.totalTime = totalTime;
+    }
 
-	public int getTotalScore() {
-		return totalScore;
-	}
+    public int getTotalScore() {
+        return totalScore;
+    }
 
-	public void setTotalScore(int totalScore) {
-		this.totalScore = totalScore;
-	}
+    public void setTotalScore(int totalScore) {
+        this.totalScore = totalScore;
+    }
 
-	public float getHealth() {
-		return health;
-	}
+    public float getHealth() {
+        return health;
+    }
 
-	public void setHealth(float health) {
-		this.health = health;
-	}
+    public void setHealth(float health) {
+        this.health = health;
+    }
 
-	public int getLevel() {
-		return level;
-	}
+    public int getLevel() {
+        return level;
+    }
 
-	public void setLevel(int level) {
-		this.level = level;
-	}
+    public void setLevel(int level) {
+        this.level = level;
+    }
 }
