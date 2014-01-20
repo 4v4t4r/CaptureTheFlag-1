@@ -24,7 +24,7 @@ public class CTFConstants {
 
     public enum GrantType {
 
-        PASSWORD("password");
+        PASSWORD("password"), TOKEN("token");
 
         private String type;
 

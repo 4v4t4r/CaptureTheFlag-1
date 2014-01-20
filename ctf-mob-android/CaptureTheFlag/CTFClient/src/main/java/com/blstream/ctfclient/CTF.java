@@ -15,7 +15,7 @@ import com.blstream.ctfclient.constants.CTFConstants;
  */
 public class CTF extends Application {
 
-    private final static String TAG = CTF.class.getSimpleName();
+    public final static String TAG = CTF.class.getSimpleName();
     private static Context mContext = null;
     private static RequestQueue requestQueue;
     /**

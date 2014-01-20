@@ -1,6 +1,7 @@
 package com.blstream.ctfclient.network;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -9,6 +10,7 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
+import com.blstream.ctfclient.CTF;
 import com.blstream.ctfclient.R;
 
 import org.json.JSONArray;
@@ -23,6 +25,7 @@ public class ErrorHelper {
     public static final String KEY_INVALID_USERNAME = "username";
     public static final String KEY_INVALID_EMAIL = "email";
     public static final String KEY_ERROR = "error";
+    public static final String KEY_DETAILS = "details";
 
     /**
      * Returns appropriate message which is to be displayed to the user
@@ -93,10 +96,12 @@ public class ErrorHelper {
                             message = getMessageFromArray(jsonObject, KEY_INVALID_EMAIL);
                         } else if (getMessage(jsonObject, KEY_ERROR) != null) {
                             message = getMessage(jsonObject, KEY_ERROR);
+                        } else if (getMessage(jsonObject, KEY_DETAILS) != null){
+                            message = getMessage(jsonObject, KEY_DETAILS);
                         }
                         return message;
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        Log.e(CTF.TAG, "Exception", e);
                     }
                     // invalid request
                     return error.getMessage();
@@ -113,7 +118,7 @@ public class ErrorHelper {
         try {
             message = (String) jsonObject.get(key);
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.e(CTF.TAG, "JSONException", e);
         }
         return message;
     }
@@ -126,7 +131,7 @@ public class ErrorHelper {
                 message = (String) jsonArray.get(0);
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.e(CTF.TAG, "JSONException", e);
         }
         return message;
     }

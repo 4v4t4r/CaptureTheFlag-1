@@ -1,24 +1,12 @@
 package com.blstream.ctfclient.activities;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.blstream.ctfclient.CTF;
 import com.blstream.ctfclient.R;
-import com.blstream.ctfclient.network.ErrorHelper;
-import com.blstream.ctfclient.network.requests.CTFRequest;
-
-import org.json.JSONObject;
+import com.blstream.ctfclient.fragments.UsersFragment;
 
 public class MainActivity extends Activity {
 
@@ -28,16 +16,12 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
-                    .commit();
+            getFragmentManager().beginTransaction().add(R.id.container, new UsersFragment()).commit();
         }
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
@@ -53,46 +37,6 @@ public class MainActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            return rootView;
-        }
-
-        @Override
-        public void onViewCreated(View view, Bundle savedInstanceState) {
-            super.onViewCreated(view, savedInstanceState);
-            CTFRequest request = new CTFRequest(
-                    Request.Method.GET,
-                    CTF.getInstance().getURL(CTFRequest.PARAM_USERS),
-                    null,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject jsonObject) {
-                            Log.d(MainActivity.class.getSimpleName(), "response: " + jsonObject.toString());
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError volleyError) {
-                            Log.d(MainActivity.class.getSimpleName(), "Error");
-                            Log.d(MainActivity.class.getSimpleName(), ErrorHelper.getMessage(volleyError, CTF.getStaticApplicationContext()));
-                        }
-                    }
-            );
-            CTF.getInstance().addToRequestQueue(request);
-        }
     }
 
 }

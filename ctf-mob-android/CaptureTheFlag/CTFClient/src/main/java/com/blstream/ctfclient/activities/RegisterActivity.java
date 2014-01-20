@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -227,6 +228,12 @@ public class RegisterActivity extends Activity {
         }
     }
 
+    private void startLoginActivity() {
+        Intent myIntent = new Intent(getBaseContext(), LoginActivity.class);
+        myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(myIntent);
+    }
+
     private Response.ErrorListener createRegisterErrorListener() {
         return new Response.ErrorListener() {
             @Override
@@ -234,7 +241,7 @@ public class RegisterActivity extends Activity {
                 showProgress(false);
                 Toast.makeText(getApplicationContext(), ErrorHelper.getMessage(volleyError, getApplicationContext()),
                         Toast.LENGTH_LONG).show();
-                finish();
+                startLoginActivity();
             }
         };
     }
@@ -244,8 +251,8 @@ public class RegisterActivity extends Activity {
             @Override
             public void onResponse(String response) {
                 showProgress(false);
-                Toast.makeText(getApplicationContext(), "User created.", Toast.LENGTH_LONG).show();
-                finish();
+                Toast.makeText(getApplicationContext(), "User created:\n\n" + response, Toast.LENGTH_LONG).show();
+                startLoginActivity();
             }
         };
     }
@@ -257,16 +264,18 @@ public class RegisterActivity extends Activity {
     public class UserRegisterTask extends AsyncTask<Void, Void, Boolean> {
         @Override
         protected Boolean doInBackground(Void... params) {
-            RegisterRequest request = new RegisterRequest(
-                    Request.Method.POST,
-                    CTF.getInstance().getURL(RegisterRequest.URL_REQUEST),
-                    getUserDataAsJson(),
-                    createRegisterSuccessListener(),
-                    createRegisterErrorListener()
-            );
-
-            CTF.getInstance().addToRequestQueue(request);
+            CTF.getInstance().addToRequestQueue(getRegisterRequest());
             return true;
+        }
+
+        private RegisterRequest getRegisterRequest() {
+            return new RegisterRequest(
+                            Request.Method.POST,
+                            CTF.getInstance().getURL(RegisterRequest.URL_REQUEST),
+                            getUserDataAsJson(),
+                            createRegisterSuccessListener(),
+                            createRegisterErrorListener()
+                    );
         }
 
         private String getUserDataAsJson() {

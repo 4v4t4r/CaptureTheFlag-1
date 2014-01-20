@@ -15,4 +15,16 @@ public enum CharacterType {
     public int getType() {
         return type;
     }
+
+    public static String getCharacterTypeNameForValue(Object value){
+        CharacterType[] values = values();
+        String enumValue = null;
+        for(CharacterType eachValue : values){
+            enumValue = eachValue.toString();
+            if( enumValue.equals(value)){
+                return eachValue.name();
+            }
+        }
+        return enumValue;
+    }
 }

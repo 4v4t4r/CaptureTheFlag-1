@@ -1,7 +1,5 @@
 package com.blstream.ctfclient.network.requests;
 
-import android.util.Log;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -56,7 +54,6 @@ public class RegisterRequest extends Request<String> {
         } catch (UnsupportedEncodingException e) {
             parsed = new String(networkResponse.data);
         }
-        Log.d("RegisterActivity", "parsed: " + parsed);
         return Response.success(parsed, HttpHeaderParser.parseCacheHeaders(networkResponse));
     }
 

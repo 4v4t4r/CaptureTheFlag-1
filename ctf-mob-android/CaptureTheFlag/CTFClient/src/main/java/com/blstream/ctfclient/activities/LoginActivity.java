@@ -97,6 +97,7 @@ public class LoginActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(getBaseContext(), RegisterActivity.class);
+                myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(myIntent);
             }
         });
@@ -116,6 +117,7 @@ public class LoginActivity extends Activity {
      * errors are presented and no actual login attempt is made.
      */
     public void attemptLogin() {
+        findViewById(R.id.sign_in_button).setEnabled(false);
         if (mAuthTask != null) {
             return;
         }
@@ -245,6 +247,12 @@ public class LoginActivity extends Activity {
         }
     }
 
+    private void clearForm() {
+        findViewById(R.id.sign_in_button).setEnabled(true);
+        ((EditText)findViewById(R.id.password)).setText("");
+        ((EditText)findViewById(R.id.user_name_login)).setText("");
+    }
+
     private Response.ErrorListener createTokenErrorListener() {
         return new Response.ErrorListener() {
             @Override
@@ -252,6 +260,7 @@ public class LoginActivity extends Activity {
                 showProgress(false);
                 Toast.makeText(getApplicationContext(), ErrorHelper.getMessage(volleyError, getApplicationContext()),
                         Toast.LENGTH_LONG).show();
+                clearForm();
             }
         };
     }
@@ -261,23 +270,30 @@ public class LoginActivity extends Activity {
             @Override
             public void onResponse(String result) {
                 showProgress(false);
-                Log.d(LoginActivity.class.getSimpleName(), result);
+                clearForm();
                 try {
                     JSONObject jsonObject = new JSONObject(result);
                     String token = jsonObject.getString(CTFConstants.ACCESS_TOKEN_KEY_NAME);
-
-                    SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                    SharedPreferences.Editor editor = settings.edit();
-                    editor.putString(CTFConstants.ACCESS_TOKEN_KEY_NAME, token);
-                    editor.commit();
+                    saveToken(token);
                     Toast.makeText(getApplicationContext(), "Your token: " + token, Toast.LENGTH_SHORT).show();
-
-                    Intent myIntent = new Intent(getBaseContext(), MainActivity.class);
-                    startActivity(myIntent);
+                    startMainActivity();
                 } catch (JSONException e) {
-                    Log.e(LoginActivity.class.getSimpleName(), "JSONException", e);
+                    Log.e(CTF.TAG, "JSONException", e);
                 }
             }
         };
+    }
+
+    private void startMainActivity() {
+        Intent myIntent = new Intent(getBaseContext(), MainActivity.class);
+        myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(myIntent);
+    }
+
+    private void saveToken(String token) {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(CTFConstants.ACCESS_TOKEN_KEY_NAME, token);
+        editor.commit();
     }
 }
