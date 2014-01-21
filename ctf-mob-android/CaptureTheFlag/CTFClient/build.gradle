@@ -51,7 +51,6 @@ dependencies {
     compile 'com.google.android.gms:play-services:3.1.+'
     compile 'com.intellij:annotations:+@jar'
     compile 'com.google.code.gson:gson:2.2.4'
-    compile project(':volley')
     compile fileTree(dir: 'libs', include: '*.jar')
 
     testCompile 'junit:junit:4.11'
