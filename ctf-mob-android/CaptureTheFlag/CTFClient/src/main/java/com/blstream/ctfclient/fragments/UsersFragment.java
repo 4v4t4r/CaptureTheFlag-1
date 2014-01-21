@@ -1,6 +1,7 @@
 package com.blstream.ctfclient.fragments;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.blstream.ctfclient.CTF;
 import com.blstream.ctfclient.R;
+import com.blstream.ctfclient.activities.LoginActivity;
 import com.blstream.ctfclient.model.dto.Character;
 import com.blstream.ctfclient.model.dto.User;
 import com.blstream.ctfclient.model.enums.CharacterType;
@@ -59,6 +61,8 @@ public class UsersFragment extends Fragment {
                 Toast.makeText(CTF.getStaticApplicationContext(),
                         ErrorHelper.getMessage(volleyError, CTF.getStaticApplicationContext()),
                         Toast.LENGTH_LONG).show();
+                Intent myIntent = new Intent(CTF.getStaticApplicationContext(), LoginActivity.class);
+                startActivity(myIntent);
             }
         };
     }

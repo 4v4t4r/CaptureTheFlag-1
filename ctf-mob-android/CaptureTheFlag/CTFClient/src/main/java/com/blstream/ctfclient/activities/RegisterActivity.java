@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
@@ -252,6 +253,7 @@ public class RegisterActivity extends Activity {
             public void onResponse(String response) {
                 showProgress(false);
                 Toast.makeText(getApplicationContext(), "User created:\n\n" + response, Toast.LENGTH_LONG).show();
+                Log.d(CTF.TAG, "response: " + response);
                 startLoginActivity();
             }
         };

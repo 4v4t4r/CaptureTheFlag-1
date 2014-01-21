@@ -25,7 +25,7 @@ public class ErrorHelper {
     public static final String KEY_INVALID_USERNAME = "username";
     public static final String KEY_INVALID_EMAIL = "email";
     public static final String KEY_ERROR = "error";
-    public static final String KEY_DETAILS = "details";
+    public static final String KEY_DETAIL = "detail";
 
     /**
      * Returns appropriate message which is to be displayed to the user
@@ -96,8 +96,8 @@ public class ErrorHelper {
                             message = getMessageFromArray(jsonObject, KEY_INVALID_EMAIL);
                         } else if (getMessage(jsonObject, KEY_ERROR) != null) {
                             message = getMessage(jsonObject, KEY_ERROR);
-                        } else if (getMessage(jsonObject, KEY_DETAILS) != null){
-                            message = getMessage(jsonObject, KEY_DETAILS);
+                        } else if (getMessage(jsonObject, KEY_DETAIL) != null){
+                            message = getMessage(jsonObject, KEY_DETAIL);
                         }
                         return message;
                     } catch (Exception e) {
@@ -118,7 +118,7 @@ public class ErrorHelper {
         try {
             message = (String) jsonObject.get(key);
         } catch (JSONException e) {
-            Log.e(CTF.TAG, "JSONException", e);
+            Log.d(CTF.TAG, "JSONException", e);
         }
         return message;
     }
@@ -131,7 +131,7 @@ public class ErrorHelper {
                 message = (String) jsonArray.get(0);
             }
         } catch (JSONException e) {
-            Log.e(CTF.TAG, "JSONException", e);
+            Log.d(CTF.TAG, "JSONException", e);
         }
         return message;
     }
