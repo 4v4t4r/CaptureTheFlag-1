@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		23DDBB161891AAD1003D6444 /* GcovTestObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 23DDBB111891A97C003D6444 /* GcovTestObserver.m */; };
 		6D071593184E59B8002C3023 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D0D87A8184D32AD002904AE /* SystemConfiguration.framework */; };
 		6D071595184E59EF002C3023 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D071594184E59EF002C3023 /* MobileCoreServices.framework */; };
 		6D0715B5184E8318002C3023 /* CTFSessionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D0715B4184E8318002C3023 /* CTFSessionTests.m */; };
@@ -145,6 +146,7 @@
 
 /* Begin PBXFileReference section */
 		0575C0B261A543468AFC452D /* Pods/Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
+		23DDBB111891A97C003D6444 /* GcovTestObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GcovTestObserver.m; sourceTree = "<group>"; };
 		6D071594184E59EF002C3023 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		6D0715B4184E8318002C3023 /* CTFSessionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFSessionTests.m; sourceTree = "<group>"; };
 		6D0715BA184FCD35002C3023 /* user-response.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "user-response.json"; sourceTree = "<group>"; };
@@ -650,6 +652,7 @@
 			children = (
 				6DFD1952182ACF0D00542227 /* Capture The FlagTests-Info.plist */,
 				6DFD1953182ACF0D00542227 /* InfoPlist.strings */,
+				23DDBB111891A97C003D6444 /* GcovTestObserver.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -907,6 +910,7 @@
 				6D0715BD184FD965002C3023 /* Model.xcdatamodeld in Sources */,
 				6DE0FCCD182C030700800C09 /* CTFAPIUserDataValidator_RegexpPatterns_Tests.m in Sources */,
 				6D0FAA311861F5D30084F505 /* CTFMapTests.m in Sources */,
+				23DDBB161891AAD1003D6444 /* GcovTestObserver.m in Sources */,
 				6DA131A7186199C900290917 /* CTFAPIRKConfigurator_Descriptors_Tests.m in Sources */,
 				6DE0FCD0182C582300800C09 /* CTFLoginViewControllerTests.m in Sources */,
 				6DC2403418672B4100054EA1 /* CTFCharacterCellTests.m in Sources */,
@@ -1114,6 +1118,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Capture The Flag/Capture The Flag-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -1143,6 +1149,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Capture The Flag/Capture The Flag-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -1176,6 +1184,8 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 				);
+				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Capture The Flag/Capture The Flag-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1204,6 +1214,8 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 				);
+				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
+				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Capture The Flag/Capture The Flag-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
