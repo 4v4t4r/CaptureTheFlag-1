@@ -68,6 +68,7 @@
 		6D6DF20F182B8B59004A4D58 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D6DF20D182B8B59004A4D58 /* Localizable.strings */; };
 		6D837BE718930251002A0B74 /* CTFCharacter+UnitTesting.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D837BE618930251002A0B74 /* CTFCharacter+UnitTesting.m */; };
 		6D837BE918930316002A0B74 /* CTFCharacter.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D837BE818930316002A0B74 /* CTFCharacter.strings */; };
+		6D837BED1893065C002A0B74 /* CTFMap+UnitTesting.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D837BEC1893065C002A0B74 /* CTFMap+UnitTesting.m */; };
 		6D9BE0871854AF320036172C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D9BE0861854AF320036172C /* libPods.a */; };
 		6D9BE08A1854AF870036172C /* LoginAndRegister.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D9BE0881854AF870036172C /* LoginAndRegister.storyboard */; };
 		6D9BE08B1854AF870036172C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D9BE0891854AF870036172C /* Main.storyboard */; };
@@ -205,6 +206,8 @@
 		6D837BE518930251002A0B74 /* CTFCharacter+UnitTesting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CTFCharacter+UnitTesting.h"; sourceTree = "<group>"; };
 		6D837BE618930251002A0B74 /* CTFCharacter+UnitTesting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CTFCharacter+UnitTesting.m"; sourceTree = "<group>"; };
 		6D837BE818930316002A0B74 /* CTFCharacter.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = CTFCharacter.strings; sourceTree = "<group>"; };
+		6D837BEB1893065C002A0B74 /* CTFMap+UnitTesting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CTFMap+UnitTesting.h"; sourceTree = "<group>"; };
+		6D837BEC1893065C002A0B74 /* CTFMap+UnitTesting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CTFMap+UnitTesting.m"; sourceTree = "<group>"; };
 		6D9BE0861854AF320036172C /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
 		6D9BE0881854AF870036172C /* LoginAndRegister.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LoginAndRegister.storyboard; sourceTree = "<group>"; };
 		6D9BE0891854AF870036172C /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
@@ -388,6 +391,7 @@
 		6D163E5F183BF62100BC4F84 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				6D837BEA18930640002A0B74 /* Test Categories */,
 				6D0733171861E05500E244C5 /* BaseModelTest.h */,
 				6D0733151861E02D00E244C5 /* BaseModelTest.m */,
 				6D0FAA341861F66A0084F505 /* CTFCharacterTests.m */,
@@ -396,8 +400,6 @@
 				6D0FAA301861F5D30084F505 /* CTFMapTests.m */,
 				6D0715B4184E8318002C3023 /* CTFSessionTests.m */,
 				6D0FAA2E1861F5A00084F505 /* CTFUserTests.m */,
-				6D837BE518930251002A0B74 /* CTFCharacter+UnitTesting.h */,
-				6D837BE618930251002A0B74 /* CTFCharacter+UnitTesting.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -467,6 +469,17 @@
 				6D0FAA1F185F8E5D0084F505 /* ArrayDataSource.m */,
 			);
 			name = Other;
+			sourceTree = "<group>";
+		};
+		6D837BEA18930640002A0B74 /* Test Categories */ = {
+			isa = PBXGroup;
+			children = (
+				6D837BE518930251002A0B74 /* CTFCharacter+UnitTesting.h */,
+				6D837BE618930251002A0B74 /* CTFCharacter+UnitTesting.m */,
+				6D837BEB1893065C002A0B74 /* CTFMap+UnitTesting.h */,
+				6D837BEC1893065C002A0B74 /* CTFMap+UnitTesting.m */,
+			);
+			name = "Test Categories";
 			sourceTree = "<group>";
 		};
 		6DB609A51854886A0094E37D /* Controllers */ = {
@@ -909,6 +922,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D837BED1893065C002A0B74 /* CTFMap+UnitTesting.m in Sources */,
 				6D0733161861E02D00E244C5 /* BaseModelTest.m in Sources */,
 				6D0FAA331861F6080084F505 /* CTFGameTests.m in Sources */,
 				6DA1319B1861846100290917 /* CTFAPIRKConfiguratorTests.m in Sources */,
