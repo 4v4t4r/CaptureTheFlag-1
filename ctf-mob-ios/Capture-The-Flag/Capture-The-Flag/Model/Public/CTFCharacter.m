@@ -11,21 +11,22 @@
     NSString *typeString = @"";
     switch ([self.type integerValue]) {
         case 0:
-            typeString = @"Private";
+            typeString = NSLocalizedStringFromTable(@"type.private", @"CTFCharacter", @"");
             break;
-
+            
         case 1:
-            typeString = @"Medic";
+            typeString = NSLocalizedStringFromTable(@"type.medic", @"CTFCharacter", @"");
             break;
             
         case 2:
-            typeString = @"Commandos";
+            typeString = NSLocalizedStringFromTable(@"type.commandos", @"CTFCharacter", @"");
             break;
             
         case 3:
-            typeString = @"Spy";
+            typeString = NSLocalizedStringFromTable(@"type.spy", @"CTFCharacter", @"");
             break;
     }
+    
     return typeString;
 }
 

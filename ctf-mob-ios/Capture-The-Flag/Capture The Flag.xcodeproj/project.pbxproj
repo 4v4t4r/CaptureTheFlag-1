@@ -66,6 +66,8 @@
 		6D65DE23185F203F00C76A90 /* game-response.json in Resources */ = {isa = PBXBuildFile; fileRef = 6D65DE22185F203F00C76A90 /* game-response.json */; };
 		6D65DE25185F27A700C76A90 /* item-response.json in Resources */ = {isa = PBXBuildFile; fileRef = 6D65DE24185F27A700C76A90 /* item-response.json */; };
 		6D6DF20F182B8B59004A4D58 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D6DF20D182B8B59004A4D58 /* Localizable.strings */; };
+		6D837BE718930251002A0B74 /* CTFCharacter+UnitTesting.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D837BE618930251002A0B74 /* CTFCharacter+UnitTesting.m */; };
+		6D837BE918930316002A0B74 /* CTFCharacter.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6D837BE818930316002A0B74 /* CTFCharacter.strings */; };
 		6D9BE0871854AF320036172C /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D9BE0861854AF320036172C /* libPods.a */; };
 		6D9BE08A1854AF870036172C /* LoginAndRegister.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D9BE0881854AF870036172C /* LoginAndRegister.storyboard */; };
 		6D9BE08B1854AF870036172C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D9BE0891854AF870036172C /* Main.storyboard */; };
@@ -200,6 +202,9 @@
 		6D65DE22185F203F00C76A90 /* game-response.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "game-response.json"; sourceTree = "<group>"; };
 		6D65DE24185F27A700C76A90 /* item-response.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "item-response.json"; sourceTree = "<group>"; };
 		6D6DF20E182B8B59004A4D58 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6D837BE518930251002A0B74 /* CTFCharacter+UnitTesting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CTFCharacter+UnitTesting.h"; sourceTree = "<group>"; };
+		6D837BE618930251002A0B74 /* CTFCharacter+UnitTesting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CTFCharacter+UnitTesting.m"; sourceTree = "<group>"; };
+		6D837BE818930316002A0B74 /* CTFCharacter.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = CTFCharacter.strings; sourceTree = "<group>"; };
 		6D9BE0861854AF320036172C /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
 		6D9BE0881854AF870036172C /* LoginAndRegister.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LoginAndRegister.storyboard; sourceTree = "<group>"; };
 		6D9BE0891854AF870036172C /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
@@ -391,6 +396,8 @@
 				6D0FAA301861F5D30084F505 /* CTFMapTests.m */,
 				6D0715B4184E8318002C3023 /* CTFSessionTests.m */,
 				6D0FAA2E1861F5A00084F505 /* CTFUserTests.m */,
+				6D837BE518930251002A0B74 /* CTFCharacter+UnitTesting.h */,
+				6D837BE618930251002A0B74 /* CTFCharacter+UnitTesting.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -629,6 +636,7 @@
 				6D0FAA46186502D30084F505 /* Register.strings */,
 				6DFD1933182ACF0C00542227 /* Capture The Flag-Info.plist */,
 				6DFD1934182ACF0C00542227 /* InfoPlist.strings */,
+				6D837BE818930316002A0B74 /* CTFCharacter.strings */,
 				6DFD1937182ACF0C00542227 /* main.m */,
 				6DFD1939182ACF0C00542227 /* Capture The Flag-Prefix.pch */,
 				6D65DE13185F05A900C76A90 /* BLStream.gpx */,
@@ -742,6 +750,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6D837BE918930316002A0B74 /* CTFCharacter.strings in Resources */,
 				6D0FAA481865053A0084F505 /* Profile.strings in Resources */,
 				6D65DE14185F05A900C76A90 /* BLStream.gpx in Resources */,
 				6D0FAA44186502D30084F505 /* Register.strings in Resources */,
@@ -908,6 +917,7 @@
 				6D0FAA2D1861F5320084F505 /* CTFItemTests.m in Sources */,
 				6D0FAA3B186366710084F505 /* CTFJoinGameCellTests.m in Sources */,
 				6DC2402D186721D800054EA1 /* CTFNoCharactersCellTests.m in Sources */,
+				6D837BE718930251002A0B74 /* CTFCharacter+UnitTesting.m in Sources */,
 				6D0715BD184FD965002C3023 /* Model.xcdatamodeld in Sources */,
 				6DE0FCCD182C030700800C09 /* CTFAPIUserDataValidator_RegexpPatterns_Tests.m in Sources */,
 				6D0FAA311861F5D30084F505 /* CTFMapTests.m in Sources */,
