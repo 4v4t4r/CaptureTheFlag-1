@@ -46,6 +46,37 @@
     return [self resultForPattern:[CTFAPIUserDataValidator nickPattern] string:string];
 }
 
+#pragma mark - Regexps
+- (void)testThatEmailRegexpIsUsedInEmailPattern {
+    TSStringValidatorPattern *pattern = [CTFAPIUserDataValidator emailPattern];
+    XCTAssertEqualObjects(pattern.patternString, emailRegexp, @"");
+    XCTAssertEqualObjects(pattern.identifier, emailIdentifier, @"");
+}
+
+- (void)testThatUsernameRegexpIsUsedInUsernamePattern {
+    TSStringValidatorPattern *pattern = [CTFAPIUserDataValidator usernamePattern];
+    XCTAssertEqualObjects(pattern.patternString, usernameRegexp, @"");
+    XCTAssertEqualObjects(pattern.identifier, usernameIdentifier, @"");
+}
+
+- (void)testThatPasswordRegexpIsUsedInPasswordPattern {
+    TSStringValidatorPattern *pattern = [CTFAPIUserDataValidator passwordPattern];
+    XCTAssertEqualObjects(pattern.patternString, passwordRegexp, @"");
+    XCTAssertEqualObjects(pattern.identifier, passwordIdentifier, @"");
+}
+
+- (void)testThatNameRegexpIsUsedInPasswordPattern {
+    TSStringValidatorPattern *pattern = [CTFAPIUserDataValidator namePattern];
+    XCTAssertEqualObjects(pattern.patternString, nameRegexp, @"");
+    XCTAssertEqualObjects(pattern.identifier, nameIdentifier, @"");
+}
+
+- (void)testThatNickRegexpIsUsedInPasswordPattern {
+    TSStringValidatorPattern *pattern = [CTFAPIUserDataValidator nickPattern];
+    XCTAssertEqualObjects(pattern.patternString, nickRegexp, @"");
+    XCTAssertEqualObjects(pattern.identifier, nickIdentifier, @"");
+}
+
 #pragma mark +usernamePattern
 - (void)testThatUsernameIsTooShort {
     XCTAssertEqual([self validUsername:@"login"], StringValidationResultFailure, @"");

@@ -9,31 +9,38 @@
 #import "CTFAPIUserDataValidator+RegexpPatterns.h"
 #import "TSStringValidatorPattern.h"
 
+NSString *const emailRegexp = @"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$";
+NSString *const usernameRegexp = @"[a-zA-Z0-9@.+-]{6,50}";
+NSString *const passwordRegexp = @"\\S{6,50}";
+NSString *const nameRegexp = @"([a-zA-Z]+\\s?)+";
+NSString *const nickRegexp = @"[\\S ]*";
+
+NSString *const emailIdentifier = @"email";
+NSString *const usernameIdentifier = @"username";
+NSString *const passwordIdentifier = @"password";
+NSString *const nameIdentifier = @"name";
+NSString *const nickIdentifier = @"nick";
+
 @implementation CTFAPIUserDataValidator (RegexpPatterns)
 
 + (TSStringValidatorPattern *)emailPattern {
-    NSString *regexp = @"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$";
-    return [TSStringValidatorPattern patternWithString:regexp identifier:@"email"];
+    return [TSStringValidatorPattern patternWithString:emailRegexp identifier:emailIdentifier];
 }
 
 + (TSStringValidatorPattern *)usernamePattern {
-    NSString *regexp = @"[a-zA-Z0-9@.+-]{6,50}";
-    return [TSStringValidatorPattern patternWithString:regexp identifier:@"username"];
+    return [TSStringValidatorPattern patternWithString:usernameRegexp identifier:usernameIdentifier];
 }
 
 + (TSStringValidatorPattern *)passwordPattern {
-    NSString *regexp = @"\\S{6,50}";
-    return [TSStringValidatorPattern patternWithString:regexp identifier:@"password"];
+    return [TSStringValidatorPattern patternWithString:passwordRegexp identifier:passwordIdentifier];
 }
 
 + (TSStringValidatorPattern *)namePattern {
-    NSString *regexp = @"([a-zA-Z]+\\s?)+";
-    return [TSStringValidatorPattern patternWithString:regexp identifier:@"name"];
+    return [TSStringValidatorPattern patternWithString:nameRegexp identifier:nameIdentifier];
 }
 
 + (TSStringValidatorPattern *)nickPattern {
-    NSString *regexp = @"[\\S ]*";
-    return [TSStringValidatorPattern patternWithString:regexp identifier:@"nick"];
+    return [TSStringValidatorPattern patternWithString:nickRegexp identifier:nickIdentifier];
 }
 
 @end

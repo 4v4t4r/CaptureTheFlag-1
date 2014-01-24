@@ -10,6 +10,18 @@
 
 @class TSStringValidatorPattern;
 
+extern NSString *const emailRegexp;
+extern NSString *const usernameRegexp;
+extern NSString *const passwordRegexp;
+extern NSString *const nameRegexp;
+extern NSString *const nickRegexp;
+
+extern NSString *const emailIdentifier;
+extern NSString *const usernameIdentifier;
+extern NSString *const passwordIdentifier;
+extern NSString *const nameIdentifier;
+extern NSString *const nickIdentifier;
+
 @interface CTFAPIUserDataValidator (RegexpPatterns)
 
 + (TSStringValidatorPattern *)emailPattern;
