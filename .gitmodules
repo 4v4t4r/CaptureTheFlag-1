@@ -1,3 +1,6 @@
 [submodule "ctf-mob-ios/Capture The Flag/Capture The Flag/TSStringValidator"]
 	path = ctf-mob-ios/Capture The Flag/Capture The Flag/TSStringValidator
 	url = https://github.com/tomkowz/TSStringValidator.git
+[submodule "ctf-mob-ios/Externals/TSStringValidator"]
+	path = ctf-mob-ios/Externals/TSStringValidator
+	url = http://github.com/tomkowz/TSStringValidator

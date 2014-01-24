@@ -550,7 +550,7 @@
 				6DD8D9A318664E330033D573 /* TSStringValidatorPattern.m */,
 			);
 			name = TSStringValidator;
-			path = "Capture The Flag/TSStringValidator/TSStringValidator/TSStringValidator/API Classes";
+			path = "../Externals/TSStringValidator/TSStringValidator/TSStringValidator/API Classes";
 			sourceTree = SOURCE_ROOT;
 		};
 		6DE99127183A99D5005F3DB1 /* Model */ = {
