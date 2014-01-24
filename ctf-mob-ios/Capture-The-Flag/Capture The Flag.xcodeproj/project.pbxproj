@@ -614,7 +614,8 @@
 				6DFD1932182ACF0C00542227 /* Supporting Files */,
 				6DFD1943182ACF0C00542227 /* Images.xcassets */,
 			);
-			path = "Capture The Flag";
+			name = "Capture The Flag";
+			path = "Capture-The-Flag";
 			sourceTree = "<group>";
 		};
 		6DFD1932182ACF0C00542227 /* Supporting Files */ = {
@@ -1121,7 +1122,7 @@
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
 				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Capture The Flag/Capture The Flag-Prefix.pch";
+				GCC_PREFIX_HEADER = "Capture-The-Flag/Capture The Flag-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					"\"${PODS_ROOT}/Headers\"",
 					"\"${PODS_ROOT}/Headers/AFNetworking\"",
@@ -1136,7 +1137,7 @@
 					"\"${PODS_ROOT}/Headers/SOCKit\"",
 					"\"${PODS_ROOT}/Headers/TransitionKit\"",
 				);
-				INFOPLIST_FILE = "Capture The Flag/Capture The Flag-Info.plist";
+				INFOPLIST_FILE = "Capture-The-Flag/Capture The Flag-Info.plist";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -1152,7 +1153,7 @@
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
 				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Capture The Flag/Capture The Flag-Prefix.pch";
+				GCC_PREFIX_HEADER = "Capture-The-Flag/Capture The Flag-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					"\"${PODS_ROOT}/Headers\"",
 					"\"${PODS_ROOT}/Headers/AFNetworking\"",
@@ -1167,7 +1168,7 @@
 					"\"${PODS_ROOT}/Headers/SOCKit\"",
 					"\"${PODS_ROOT}/Headers/TransitionKit\"",
 				);
-				INFOPLIST_FILE = "Capture The Flag/Capture The Flag-Info.plist";
+				INFOPLIST_FILE = "Capture-The-Flag/Capture The Flag-Info.plist";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -1187,7 +1188,7 @@
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
 				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Capture The Flag/Capture The Flag-Prefix.pch";
+				GCC_PREFIX_HEADER = "Capture-The-Flag/Capture The Flag-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -1217,7 +1218,7 @@
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
 				GCC_INSTRUMENT_PROGRAM_FLOW_ARCS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Capture The Flag/Capture The Flag-Prefix.pch";
+				GCC_PREFIX_HEADER = "Capture-The-Flag/Capture The Flag-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
