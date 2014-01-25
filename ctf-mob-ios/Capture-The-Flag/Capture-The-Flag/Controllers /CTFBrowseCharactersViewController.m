@@ -15,11 +15,6 @@
     NSArray *_characters;
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-}
-
 #pragma mark - External methods
 - (void)setCharacters:(NSArray *)characters {
     _characters = characters;
