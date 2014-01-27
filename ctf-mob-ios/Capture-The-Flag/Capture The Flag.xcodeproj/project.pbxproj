@@ -116,6 +116,7 @@
 		6DD8D9AE186652740033D573 /* CTFAPIUserDataValidator+RegexpPatterns.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD8D9AD186652740033D573 /* CTFAPIUserDataValidator+RegexpPatterns.m */; };
 		6DD8D9AF186652740033D573 /* CTFAPIUserDataValidator+RegexpPatterns.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD8D9AD186652740033D573 /* CTFAPIUserDataValidator+RegexpPatterns.m */; };
 		6DDBBEA41896E846000837CB /* CTFLoginViewController+UnitTesting.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDBBEA31896E846000837CB /* CTFLoginViewController+UnitTesting.m */; };
+		6DDBBEA718970871000837CB /* CTFUser+UnitTesting.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DDBBEA618970871000837CB /* CTFUser+UnitTesting.m */; };
 		6DE0FCCD182C030700800C09 /* CTFAPIUserDataValidator_RegexpPatterns_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE0FCCC182C030700800C09 /* CTFAPIUserDataValidator_RegexpPatterns_Tests.m */; };
 		6DE0FCD0182C582300800C09 /* CTFLoginViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE0FCCF182C582200800C09 /* CTFLoginViewControllerTests.m */; };
 		6DE0FCD4182C5ABD00800C09 /* CTFRegisterViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DE0FCD3182C5ABD00800C09 /* CTFRegisterViewControllerTests.m */; };
@@ -283,6 +284,8 @@
 		6DD8D9AD186652740033D573 /* CTFAPIUserDataValidator+RegexpPatterns.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CTFAPIUserDataValidator+RegexpPatterns.m"; sourceTree = "<group>"; };
 		6DDBBEA21896E846000837CB /* CTFLoginViewController+UnitTesting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CTFLoginViewController+UnitTesting.h"; sourceTree = "<group>"; };
 		6DDBBEA31896E846000837CB /* CTFLoginViewController+UnitTesting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CTFLoginViewController+UnitTesting.m"; sourceTree = "<group>"; };
+		6DDBBEA518970871000837CB /* CTFUser+UnitTesting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CTFUser+UnitTesting.h"; sourceTree = "<group>"; };
+		6DDBBEA618970871000837CB /* CTFUser+UnitTesting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CTFUser+UnitTesting.m"; sourceTree = "<group>"; };
 		6DE0FCCC182C030700800C09 /* CTFAPIUserDataValidator_RegexpPatterns_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFAPIUserDataValidator_RegexpPatterns_Tests.m; sourceTree = "<group>"; };
 		6DE0FCCF182C582200800C09 /* CTFLoginViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFLoginViewControllerTests.m; sourceTree = "<group>"; };
 		6DE0FCD3182C5ABD00800C09 /* CTFRegisterViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTFRegisterViewControllerTests.m; sourceTree = "<group>"; };
@@ -482,6 +485,8 @@
 				6D837BE618930251002A0B74 /* CTFCharacter+UnitTesting.m */,
 				6D837BEB1893065C002A0B74 /* CTFMap+UnitTesting.h */,
 				6D837BEC1893065C002A0B74 /* CTFMap+UnitTesting.m */,
+				6DDBBEA518970871000837CB /* CTFUser+UnitTesting.h */,
+				6DDBBEA618970871000837CB /* CTFUser+UnitTesting.m */,
 			);
 			name = "Test Categories";
 			sourceTree = "<group>";
@@ -940,6 +945,7 @@
 				6D0FAA331861F6080084F505 /* CTFGameTests.m in Sources */,
 				6DA1319B1861846100290917 /* CTFAPIRKConfiguratorTests.m in Sources */,
 				6D1825D7184A36120039FD92 /* CTFAPICredentialsTests.m in Sources */,
+				6DDBBEA718970871000837CB /* CTFUser+UnitTesting.m in Sources */,
 				6DD8D9A918664E330033D573 /* TSStringValidatorItem.m in Sources */,
 				6D0FAA2D1861F5320084F505 /* CTFItemTests.m in Sources */,
 				6D0FAA3B186366710084F505 /* CTFJoinGameCellTests.m in Sources */,

@@ -12,6 +12,8 @@
 #import "CTFAPIConnection.h"
 #import "CTFAPIAccounts.h"
 #import "CTFUser.h"
+#import "CTFUser+UnitTesting.h"
+#import "CoreDataService.h"
 
 @interface CTFAPIAccountsTests : XCTestCase
 
@@ -242,6 +244,73 @@
     [_accounts accountInfoForToken:Nil block:^(CTFUser *user) {
         XCTAssertNil(user, @"");
     }];
+}
+
+
+#pragma mark - updateInfoForUser
+- (void)testThatBlockShouldReturnNoIfUserIsNil {
+    CTFAPIAccounts *acc = [[CTFAPIAccounts alloc] initWithConnection:[CTFAPIConnection new]];
+    __block BOOL evoked = NO;
+    [acc updateInfoForUser:nil block:^(BOOL success) {
+        XCTAssertFalse(success, @"");
+        evoked = YES;
+    }];
+    
+    if (!evoked) {
+        XCTFail(@"Should evoke");
+    }
+}
+
+- (void)testThatSuccessBlockShouldBeCalledWhenUpdatingUserInfo {
+    NSEntityDescription *entity = [NSEntityDescription entityForName:NSStringFromClass([CTFUser class]) inManagedObjectContext:[CoreDataService sharedInstance].managedObjectContext];
+    CTFUser *user = [[CTFUser alloc] initWithEntity:entity insertIntoManagedObjectContext:[CoreDataService sharedInstance].managedObjectContext userId:@(10)];
+    
+    __block BOOL evoked = NO;
+    void (^customBlock)(BOOL) = ^(BOOL success) {
+        XCTAssertTrue(success, @"");
+        evoked = YES;
+    };
+    
+    id managerMock = [OCMockObject mockForClass:[RKObjectManager class]];
+    [[[managerMock expect] andDo:^(NSInvocation *invocation) {
+        void(^success)(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) = nil;
+        [invocation getArgument:&success atIndex:5];
+        success(nil, nil);
+    }] patchObject:OCMOCK_ANY path:OCMOCK_ANY parameters:nil success:OCMOCK_ANY failure:OCMOCK_ANY];
+    
+    CTFAPIConnection *connection = [[CTFAPIConnection alloc] initWithManager:managerMock];
+    CTFAPIAccounts *accounts = [[CTFAPIAccounts alloc] initWithConnection:connection];
+    [accounts updateInfoForUser:user block:customBlock];
+    
+    if (!evoked) {
+        XCTFail(@"Should be evoked");
+    }
+}
+
+- (void)testThatFailureBlockShouldBeCalledWhenUpdatingUserInfo {
+    NSEntityDescription *entity = [NSEntityDescription entityForName:NSStringFromClass([CTFUser class]) inManagedObjectContext:[CoreDataService sharedInstance].managedObjectContext];
+    CTFUser *user = [[CTFUser alloc] initWithEntity:entity insertIntoManagedObjectContext:[CoreDataService sharedInstance].managedObjectContext userId:@(10)];
+    
+    __block BOOL evoked = NO;
+    void (^customBlock)(BOOL) = ^(BOOL success) {
+        XCTAssertFalse(success, @"");
+        evoked = YES;
+    };
+    
+    id managerMock = [OCMockObject mockForClass:[RKObjectManager class]];
+    [[[managerMock expect] andDo:^(NSInvocation *invocation) {
+        void(^failure)(RKObjectRequestOperation *operation, NSError *error) = nil;
+        [invocation getArgument:&failure atIndex:6];
+        failure(nil, nil);
+    }] patchObject:OCMOCK_ANY path:OCMOCK_ANY parameters:nil success:OCMOCK_ANY failure:OCMOCK_ANY];
+    
+    CTFAPIConnection *connection = [[CTFAPIConnection alloc] initWithManager:managerMock];
+    CTFAPIAccounts *accounts = [[CTFAPIAccounts alloc] initWithConnection:connection];
+    [accounts updateInfoForUser:user block:customBlock];
+    
+    if (!evoked) {
+        XCTFail(@"Should be evoked");
+    }
 }
 
 @end

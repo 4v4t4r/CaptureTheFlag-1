@@ -110,7 +110,7 @@ static NSString * const scope = @"read+write";
         user.nick = user.username;
     }
     
-    [[CTFAPIConnection sharedConnection].manager
+    [_connection.manager
      patchObject:user
      path:path
      parameters:nil
