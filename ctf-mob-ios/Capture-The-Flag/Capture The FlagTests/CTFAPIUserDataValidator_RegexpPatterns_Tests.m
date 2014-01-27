@@ -47,6 +47,26 @@
 }
 
 #pragma mark - Regexps
+- (void)testThatEmailPatternIsNotNil {
+    XCTAssertNotNil([CTFAPIUserDataValidator emailPattern], @"");
+}
+
+- (void)testThatUsernamePatternIsNotNil {
+    XCTAssertNotNil([CTFAPIUserDataValidator usernamePattern], @"");
+}
+
+- (void)testThatPasswordPatternIsNotNil {
+    XCTAssertNotNil([CTFAPIUserDataValidator passwordPattern], @"");
+}
+
+- (void)testThatNamePatternIsNotNil {
+    XCTAssertNotNil([CTFAPIUserDataValidator namePattern], @"");
+}
+
+- (void)testThatNickPatternIsNotNil {
+    XCTAssertNotNil([CTFAPIUserDataValidator nickPattern], @"");
+}
+
 - (void)testThatEmailRegexpIsUsedInEmailPattern {
     TSStringValidatorPattern *pattern = [CTFAPIUserDataValidator emailPattern];
     XCTAssertEqualObjects(pattern.patternString, emailRegexp, @"");
