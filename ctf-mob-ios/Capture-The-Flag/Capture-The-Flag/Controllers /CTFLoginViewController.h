@@ -10,14 +10,4 @@
 
 @interface CTFLoginViewController : CTFViewController <UITextFieldDelegate>
 
-#pragma mark - Outlets
-@property (weak, nonatomic) IBOutlet UITextField *usernameTF;
-@property (weak, nonatomic) IBOutlet UITextField *passwordTF;
-@property (weak, nonatomic) IBOutlet UIButton *loginBtn;
-@property (weak, nonatomic) IBOutlet UIButton *registerBtn;
-@property (weak, nonatomic) IBOutlet UILabel *statusLabel;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
-
--(IBAction)loginPressed;
-
 @end

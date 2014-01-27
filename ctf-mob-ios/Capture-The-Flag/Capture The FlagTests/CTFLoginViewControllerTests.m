@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import "CTFLoginViewController.h"
+#import "CTFLoginViewController+UnitTesting.h"
 #import <JRSwizzle/JRSwizzle.h>
 
 static NSString * const kFillTextFieldIfNecesaryCalled = @"FillTextFieldIfNecessary";

@@ -19,6 +19,19 @@
 #import "CTFAPIRKConfigurator.h"
 #import "CoreDataService.h"
 
+@interface CTFLoginViewController ()
+
+@property (weak, nonatomic) IBOutlet UITextField *usernameTF;
+@property (weak, nonatomic) IBOutlet UITextField *passwordTF;
+@property (weak, nonatomic) IBOutlet UIButton *loginBtn;
+@property (weak, nonatomic) IBOutlet UIButton *registerBtn;
+@property (weak, nonatomic) IBOutlet UILabel *statusLabel;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+
+-(IBAction)loginPressed;
+
+@end
+
 @implementation CTFLoginViewController {
     CTFAPIAccounts *_accounts;
 }
