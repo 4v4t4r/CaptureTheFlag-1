@@ -16,6 +16,7 @@ import com.android.volley.VolleyError;
 import com.blstream.ctfclient.CTF;
 import com.blstream.ctfclient.R;
 import com.blstream.ctfclient.activities.LoginActivity;
+import com.blstream.ctfclient.activities.MapActivity;
 import com.blstream.ctfclient.model.dto.Character;
 import com.blstream.ctfclient.model.dto.User;
 import com.blstream.ctfclient.model.enums.CharacterType;
@@ -31,10 +32,19 @@ import org.json.JSONException;
  */
 public class UsersFragment extends Fragment {
 
+    private View.OnClickListener btnMapListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent myIntent = new Intent(CTF.getStaticApplicationContext(), MapActivity.class);
+            startActivity(myIntent);
+        }
+    };
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_users, container, false);
+        rootView.findViewById(R.id.map_btn).setOnClickListener(btnMapListener);
         return rootView;
     }
 

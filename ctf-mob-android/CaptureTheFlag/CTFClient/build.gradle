@@ -2,6 +2,7 @@ buildscript {
     repositories {
         mavenCentral()
         maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+        maven { url 'https://github.com/Goddchen/mvn-repo/raw/master/' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:0.7.+'
@@ -15,6 +16,7 @@ apply plugin: 'android-test'
 repositories {
     mavenCentral()
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+    maven { url 'https://github.com/Goddchen/mvn-repo/raw/master/' }
 }
 
 android {
@@ -47,8 +49,9 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:19.0.0'
-    compile 'com.google.android.gms:play-services:3.1.+'
+    compile 'com.android.support:support-v4:19.0.1'
+    compile 'com.google.android.gms:play-services:4.+'
+    compile 'com.android:volley:1.0'
     compile 'com.intellij:annotations:+@jar'
     compile 'com.google.code.gson:gson:2.2.4'
     compile fileTree(dir: 'libs', include: '*.jar')
