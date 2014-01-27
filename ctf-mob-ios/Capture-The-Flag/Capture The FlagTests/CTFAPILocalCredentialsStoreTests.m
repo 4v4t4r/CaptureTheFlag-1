@@ -60,6 +60,12 @@
     [mockKeychain verify];
 }
 
+- (void)testShouldNotStoreNilCredentials {
+    CTFAPILocalCredentialsStore *store = [[CTFAPILocalCredentialsStore alloc] initWithKeychain:[STKeychain new]];
+    BOOL stored = [store storeCredentials:nil];
+    XCTAssertFalse(stored, @"");
+}
+
 - (void)testShouldGetStoredCredentials {
     id mockKeychain = [OCMockObject mockForClass:[STKeychain class]];
     
@@ -78,6 +84,32 @@
     XCTAssertNotNil(credentials, @"");
     XCTAssertEqualObjects(credentials.username, username, @"");
     XCTAssertEqualObjects(credentials.password, password, @"");
+}
+
+- (void)testThatSTKeychainShouldReturnErrorInStoreCredentials {
+    id mockKeychain = [OCMockObject mockForClass:[STKeychain class]];
+    CTFAPILocalCredentialsStore *store = [[CTFAPILocalCredentialsStore alloc] initWithKeychain:mockKeychain];
+    id mockError = [OCMockObject niceMockForClass:[NSError class]];
+    [[mockError expect] localizedDescription];
+    
+    [[[mockKeychain stub] andReturnValue:OCMOCK_VALUE((BOOL){NO})] storeUsername:OCMOCK_ANY andPassword:OCMOCK_ANY forServiceName:OCMOCK_ANY updateExisting:YES error:[OCMArg setTo:mockError]];
+    
+    CTFAPILocalCredentials *credentials = [[CTFAPILocalCredentials alloc] initWithUsername:@"ABC" password:@"PASS"];
+    
+    [store storeCredentials:credentials];
+    [mockError verify];
+}
+
+- (void)testThatSTKeychainReturnsErrorInGetCredentials {
+    id mockKeychain = [OCMockObject mockForClass:[STKeychain class]];
+
+    CTFAPILocalCredentialsStore *store = [[CTFAPILocalCredentialsStore alloc] initWithKeychain:mockKeychain];
+    id mockError = [OCMockObject niceMockForClass:[NSError class]];
+    [[mockError expect] localizedDescription];
+    
+    [[[mockKeychain stub] andReturn:nil] getPasswordForUsername:OCMOCK_ANY andServiceName:OCMOCK_ANY error:[OCMArg setTo:mockError]];
+    [store getCredentials];
+    [mockError verify];
 }
 
 @end
