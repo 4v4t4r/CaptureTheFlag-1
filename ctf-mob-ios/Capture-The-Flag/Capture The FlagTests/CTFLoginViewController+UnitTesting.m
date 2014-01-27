@@ -10,4 +10,11 @@
 
 @implementation CTFLoginViewController (UnitTesting)
 
+@dynamic usernameTF;
+@dynamic passwordTF;
+@dynamic loginBtn;
+@dynamic registerBtn;
+@dynamic statusLabel;
+@dynamic activityIndicator;
+
 @end
