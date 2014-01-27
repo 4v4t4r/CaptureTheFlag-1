@@ -1,14 +1,17 @@
 package com.blstream.ctfclient.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.blstream.ctfclient.CTF;
 import com.blstream.ctfclient.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 
 /**
@@ -17,6 +20,7 @@ import com.google.android.gms.maps.MapFragment;
 public class MapActivity extends Activity {
 
     final int RQS_GooglePlayServices = 1;
+    private GoogleMap googleMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,13 +33,26 @@ public class MapActivity extends Activity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.map, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.menu_legalnotices:
+                String LicenseInfo = GooglePlayServicesUtil.getOpenSourceSoftwareLicenseInfo(
+                        getApplicationContext());
+                AlertDialog.Builder LicenseDialog = new AlertDialog.Builder(MapActivity.this);
+                LicenseDialog.setTitle("Legal Notices");
+                LicenseDialog.setMessage(LicenseInfo);
+                LicenseDialog.show();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -44,7 +61,6 @@ public class MapActivity extends Activity {
     protected void onResume() {
         super.onResume();
         checkGooglePlayServices();
-
     }
 
     private void checkGooglePlayServices() {
