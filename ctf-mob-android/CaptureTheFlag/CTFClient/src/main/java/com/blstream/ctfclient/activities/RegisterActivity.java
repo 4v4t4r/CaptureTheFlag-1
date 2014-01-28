@@ -54,7 +54,7 @@ public class RegisterActivity extends Activity {
     // UI references.
     private EditText mEmailView;
     private EditText mPasswordView;
-    private EditText mRepeatPassword;
+    private EditText mRepeatPasswordView;
     private EditText mUserName;
     private View mRegisterFormView;
     private View mRegisterStatusView;
@@ -84,7 +84,7 @@ public class RegisterActivity extends Activity {
                 return false;
             }
         });
-        mRepeatPassword = (EditText) findViewById(R.id.repeat_password);
+        mRepeatPasswordView = (EditText) findViewById(R.id.repeat_password);
 
         mRegisterFormView = findViewById(R.id.register_form);
         mRegisterStatusView = findViewById(R.id.register_status);
@@ -120,13 +120,13 @@ public class RegisterActivity extends Activity {
         mUserName.setError(null);
         mEmailView.setError(null);
         mPasswordView.setError(null);
-        mRepeatPassword.setError(null);
+        mRepeatPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
         mName = mUserName.getText().toString();
         mEmail = mEmailView.getText().toString();
         mPassword = mPasswordView.getText().toString();
-        mRepeat = mRepeatPassword.getText().toString();
+        mRepeat = mRepeatPasswordView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -142,38 +142,40 @@ public class RegisterActivity extends Activity {
             cancel = true;
         }
 
+        // Check for a valid email address.
+        if (TextUtils.isEmpty(mEmail)) {
+            mEmailView.setError(getString(R.string.error_field_required));
+
+            if(focusView == null) focusView = mEmailView;
+            cancel = true;
+        } else if (!mEmail.contains("@")) {
+            mEmailView.setError(getString(R.string.error_invalid_email));
+            if(focusView == null) focusView = mEmailView;
+            cancel = true;
+        }
+
         // Check for a valid password.
         if (TextUtils.isEmpty(mPassword)) {
             mPasswordView.setError(getString(R.string.error_field_required));
-            focusView = mPasswordView;
+            if(focusView == null) focusView = mPasswordView;
             cancel = true;
         } else if (mPassword.length() < 4) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
+            if(focusView == null) focusView = mPasswordView;
             cancel = true;
         }
 
         // Check for a valid repeated password.
         if (TextUtils.isEmpty(mRepeat)) {
-            mRepeatPassword.setError(getString(R.string.error_field_required));
-            focusView = mPasswordView;
+            mRepeatPasswordView.setError(getString(R.string.error_field_required));
+            if(focusView == null) focusView = mRepeatPasswordView;
             cancel = true;
         } else if (!mRepeat.equals(mPassword)) {
-            mRepeatPassword.setError(getString(R.string.error_invalid_repeated_password));
-            focusView = mPasswordView;
+            mRepeatPasswordView.setError(getString(R.string.error_invalid_repeated_password));
+            if(focusView == null) focusView = mRepeatPasswordView;
             cancel = true;
         }
 
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(mEmail)) {
-            mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
-            cancel = true;
-        } else if (!mEmail.contains("@")) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
-            cancel = true;
-        }
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
