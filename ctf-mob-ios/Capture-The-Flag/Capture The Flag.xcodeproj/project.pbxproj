@@ -544,7 +544,7 @@
 				6DB609DA1854A11A0094E37D /* _CTFUser.m */,
 			);
 			name = "_Private (Mogenerator)";
-			path = Private;
+			path = ../../../Externals/Private;
 			sourceTree = "<group>";
 		};
 		6DB609DB1854A11A0094E37D /* Public */ = {
