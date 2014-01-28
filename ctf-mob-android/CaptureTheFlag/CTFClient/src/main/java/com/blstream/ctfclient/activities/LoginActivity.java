@@ -103,7 +103,6 @@ public class LoginActivity extends Activity {
         });
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -159,6 +158,7 @@ public class LoginActivity extends Activity {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
             focusView.requestFocus();
+            findViewById(R.id.sign_in_button).setEnabled(true);
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.

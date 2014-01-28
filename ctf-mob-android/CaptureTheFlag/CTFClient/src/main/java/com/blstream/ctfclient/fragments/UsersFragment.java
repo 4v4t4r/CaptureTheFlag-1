@@ -2,7 +2,9 @@ package com.blstream.ctfclient.fragments;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,7 @@ import com.blstream.ctfclient.CTF;
 import com.blstream.ctfclient.R;
 import com.blstream.ctfclient.activities.LoginActivity;
 import com.blstream.ctfclient.activities.MapActivity;
+import com.blstream.ctfclient.constants.CTFConstants;
 import com.blstream.ctfclient.model.dto.Character;
 import com.blstream.ctfclient.model.dto.User;
 import com.blstream.ctfclient.model.enums.CharacterType;
@@ -41,11 +44,21 @@ public class UsersFragment extends Fragment {
     };
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_users, container, false);
         rootView.findViewById(R.id.map_btn).setOnClickListener(btnMapListener);
+        rootView.findViewById(R.id.clear_token_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clearToken();
+            }
+        });
         return rootView;
+    }
+
+    private void clearToken() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(CTF.getStaticApplicationContext());
+        sharedPreferences.edit().remove(CTFConstants.ACCESS_TOKEN_KEY_NAME).apply();
     }
 
     @Override
