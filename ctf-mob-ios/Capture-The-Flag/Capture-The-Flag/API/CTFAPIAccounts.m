@@ -82,12 +82,12 @@ static NSString * const scope = @"read+write";
         return;
     }
     
-    __block CTFUser *user = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([CTFUser class]) inManagedObjectContext:[CoreDataService sharedInstance].managedObjectContext];
-    
-    [[CTFAPIConnection sharedConnection].manager
-      getObject:user path:@"api/profile"
+    __block CTFUser *user = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([CTFUser class])
+                                                          inManagedObjectContext:[CoreDataService sharedInstance].managedObjectContext];
+    [_connection.manager
+     getObject:user path:@"api/profile"
      parameters:nil
-      success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+     success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
          NSArray *array = mappingResult.array;
          if (array.count)
              user = (CTFUser *)mappingResult.array[0];
@@ -105,7 +105,6 @@ static NSString * const scope = @"read+write";
     static NSString * const base = @"api/users";
     NSString *userIdString = [NSString stringWithFormat:@"%d", [user.userId integerValue]];
     NSString *path = [NSString stringWithFormat:@"%@/%@/", base, userIdString];
-    user.password = [CTFSession sharedInstance].fixedPassword;
     if (user.nick.length == 0) {
         user.nick = user.username;
     }

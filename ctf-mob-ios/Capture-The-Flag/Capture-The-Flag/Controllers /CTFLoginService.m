@@ -39,7 +39,6 @@
             if (token) {
                 /// Configure game object with token and logged user
                 CTFSession *session = [[CTFSession alloc] initWithToken:token];
-                session.fixedPassword = password;
                 
                 CTFAPIRKConfigurator *configurator = [[CTFAPIRKConfigurator alloc] initWithManager:[CTFAPIConnection sharedConnection].manager];
                 [configurator authorizeRequestsWithToken:token];
