@@ -11,14 +11,15 @@
 #import "CTFAPIAccounts.h"
 #import "CTFAPIConnection.h"
 #import "CTFAPIUserDataValidator.h"
+#import "CTFRegisterService.h"
 
 @interface CTFRegisterViewController () <UIAlertViewDelegate>
 @end
 
 @implementation CTFRegisterViewController {
-    CTFAPIAccounts *_accounts;
     UIAlertView *_successAlert;
     UIAlertView *_failureAlert;
+    CTFRegisterService *_registerService;
 }
 
 #pragma mark - Lifecycle
@@ -39,41 +40,62 @@
 }
 
 - (IBAction)registerPressed {
-    if (![_passwordTF.text isEqualToString:_rePasswordTF.text]) {
-        _statusLabel.text = NSLocalizedStringFromTable(@"label.status.different_password", @"Register", nil);
-        return;
+    if (!_registerService) {
+        CTFAPIAccounts *accounts = [[CTFAPIAccounts alloc] initWithConnection:[CTFAPIConnection sharedConnection]];
+        _registerService = [[CTFRegisterService alloc] initWithAccounts:accounts];
     }
-    [self _setUIEnabled:NO];
-    [_activityIndicator startAnimating];
-    _accounts = [[CTFAPIAccounts alloc] initWithConnection:[CTFAPIConnection sharedConnection]];
-    [_accounts signUpWithUsername:_usernameTF.text email:_emailTF.text password:_passwordTF.text block:^(BOOL success) {
-        
-        NSString *title = NSLocalizedStringFromTable(@"alert.registration.title", @"Register", nil);
-        NSString *message = @"";
-        if (success) {
-            message = NSLocalizedStringFromTable(@"alert.registration.message.success", @"Register", nil);
-        } else {
-            message = NSLocalizedStringFromTable(@"alert.registration.message.failure", @"Register", nil);
+    
+    [_registerService registerWithUsername:_usernameTF.text password:_passwordTF.text rePassword:_rePasswordTF.text email:_emailTF.text responseBlock:^(RegisterState state) {
+        switch (state) {
+            case RegisterStateDifferentPasswords: {
+                _statusLabel.text = NSLocalizedStringFromTable(@"label.status.different_password", @"Register", nil);
+                break;
+            }
+                
+            case RegisterStateInProgress: {
+                [self _setUIEnabled:NO];
+                [_activityIndicator startAnimating];
+                break;
+            }
+                
+            case RegisterStateSuccessful: {
+                NSString *message = NSLocalizedStringFromTable(@"alert.registration.message.success", @"Register", nil);
+                [self updateUIAfterRegistration];
+                [self showRegisterAlertViewWithMessage:message success:YES];
+                break;
+            }
+                
+            case RegisterStateFailure: {
+                NSString *message = NSLocalizedStringFromTable(@"alert.registration.message.failure", @"Register", nil);
+                [self updateUIAfterRegistration];
+                [self showRegisterAlertViewWithMessage:message success:NO];
+                break;
+            }
         }
-        UIAlertView *alertView =
-        [[UIAlertView alloc] initWithTitle:title
-                                   message:message
-                                  delegate:Nil
-                         cancelButtonTitle:NSLocalizedString(@"button.OK", nil)
-                         otherButtonTitles:nil, nil];
-        alertView.delegate = self;
-        
-        if (success) {
-            _successAlert = alertView;
-            [_successAlert show];
-        } else {
-            _failureAlert = alertView;
-            [_failureAlert show];
-        }
-        
-        [_activityIndicator stopAnimating];
-        [self _setUIEnabled:YES];
     }];
+}
+
+- (void)showRegisterAlertViewWithMessage:(NSString *)message success:(BOOL)success {
+    UIAlertView *alertView =
+    [[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"alert.registration.title", @"Register", nil)
+                               message:message
+                              delegate:Nil
+                     cancelButtonTitle:NSLocalizedString(@"button.OK", nil)
+                     otherButtonTitles:nil, nil];
+    alertView.delegate = self;
+    
+    if (success) {
+        _successAlert = alertView;
+        [_successAlert show];
+    } else {
+        _failureAlert = alertView;
+        [_failureAlert show];
+    }
+}
+
+- (void)updateUIAfterRegistration {
+    [_activityIndicator stopAnimating];
+    [self _setUIEnabled:YES];
 }
 
 - (void)_setUIEnabled:(BOOL)state {
