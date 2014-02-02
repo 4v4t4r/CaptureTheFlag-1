@@ -41,3 +41,4 @@ xcuserdata/*
 *.xccheckout
 xcuserdata
 Pods
+ctf-mob-ios/Externals/Private
