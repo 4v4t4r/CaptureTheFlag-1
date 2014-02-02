@@ -219,25 +219,33 @@
 
 #pragma mark - accountInfoForToken:block
 - (void)testThatMethodShouldReturnProfileInformationForCorrectToken {
-
     id mockManager = [OCMockObject mockForClass:[RKObjectManager class]];
+    
     [[[mockManager expect] andDo:^(NSInvocation *invocation) {
         void(^successBlock)(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) = nil;
-        [invocation getArgument:&successBlock atIndex:4];
-        id mockUser = [OCMockObject mockForClass:[CTFUser class]];
-        successBlock(nil, mockUser);
-    }] getObject:nil
-     path:@"api/profile/"
-     parameters:[OCMArg isNotNil]
-     success:[OCMArg any]
-     failure:[OCMArg any]];
+        [invocation getArgument:&successBlock atIndex:5];
+        id userMock = [OCMockObject mockForClass:[CTFUser class]];
+        id resultMock = [OCMockObject mockForClass:[RKMappingResult class]];
+        [[[resultMock stub] andReturn:@[userMock]] array];
+        successBlock(nil, resultMock);
+    }] getObject:OCMOCK_ANY
+     path:@"api/profile"
+     parameters:[OCMArg isNil]
+     success:OCMOCK_ANY
+     failure:OCMOCK_ANY];
     
     CTFAPIConnection *connection = [[CTFAPIConnection alloc] initWithManager:mockManager];
     CTFAPIAccounts *acc = [[CTFAPIAccounts alloc] initWithConnection:connection];
     
+    __block BOOL blockEvoked = NO;
     [acc accountInfoForToken:@"token" block:^(CTFUser *user) {
+        blockEvoked = YES;
         XCTAssertNotNil(user, @"");
     }];
+    
+    if (!blockEvoked) {
+        XCTFail(@"Block should be evoked");
+    }
 }
 
 - (void)testThatMethodShouldReturnNilInformationForIncorrectToken {
