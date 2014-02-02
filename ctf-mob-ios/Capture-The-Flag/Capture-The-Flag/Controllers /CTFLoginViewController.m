@@ -29,9 +29,7 @@
 
 @end
 
-@implementation CTFLoginViewController {
-    CTFLoginService *_loginService;
-}
+@implementation CTFLoginViewController
 
 - (void)viewDidLoad
 {
@@ -56,12 +54,13 @@
 }
 
 - (IBAction)loginPressed {
-    if (!_loginService) {
-        CTFAPIAccounts *accounts = [[CTFAPIAccounts alloc] initWithConnection:[CTFAPIConnection sharedConnection]];
-        _loginService = [[CTFLoginService alloc] initWithAccounts:accounts];
-    }
-    
-    [_loginService logInWithUsername:_usernameTF.text password:_passwordTF.text responseBlock:^(LoginState state) {
+    CTFAPIAccounts *accounts = [[CTFAPIAccounts alloc] initWithConnection:[CTFAPIConnection sharedConnection]];
+    CTFLoginService *loginService = [[CTFLoginService alloc] initWithAccounts:accounts];
+    [self loginWithLoginService:loginService];
+}
+
+- (void)loginWithLoginService:(CTFLoginService *)service {
+    [service logInWithUsername:_usernameTF.text password:_passwordTF.text responseBlock:^(LoginState state) {
         switch (state) {
             case LoginStateCredentialsNotValid: {
                 _statusLabel.text = NSLocalizedStringFromTable(@"label.status.wrong_credentials", @"Login", @"");
@@ -71,7 +70,6 @@
             case LoginStateInProgress: {
                 [_activityIndicator startAnimating];
                 [self.view endEditing:YES];
-
                 break;
             }
                 
