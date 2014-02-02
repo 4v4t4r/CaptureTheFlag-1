@@ -8,12 +8,12 @@
 
 #import "CoreDataService.h"
 
-@implementation CoreDataService
+@implementation CoreDataService {
+    NSManagedObjectModel *_managedObjectModel;
+}
 
 @synthesize managedObjectContext = _managedObjectContext;
-@synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
-
 
 #pragma mark - Setting singleton
 static CoreDataService *sharedInstance = nil;

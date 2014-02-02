@@ -12,14 +12,9 @@
 @interface CoreDataService : NSObject
 
 @property (readonly, nonatomic) NSManagedObjectContext *managedObjectContext;
-@property (readonly, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
 + (CoreDataService *)sharedInstance;
-
-/** Use it to set sharedInstance of CoreDataService.
- Used to avoid singleton in Unit Testing
- */
 + (void)setSharedInstance:(CoreDataService *)instance;
 
 - (instancetype)init;
