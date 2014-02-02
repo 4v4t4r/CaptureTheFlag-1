@@ -24,28 +24,23 @@ NSString *const nickIdentifier = @"nick";
 @implementation CTFAPIUserDataValidator (RegexpPatterns)
 
 + (TSStringValidatorPattern *)emailPattern {
-    TSStringValidatorPattern *pattern = [TSStringValidatorPattern patternWithString:emailRegexp identifier:emailIdentifier];
-    return pattern;
+    return [TSStringValidatorPattern patternWithString:emailRegexp identifier:emailIdentifier];
 }
 
 + (TSStringValidatorPattern *)usernamePattern {
-    TSStringValidatorPattern *pattern = [TSStringValidatorPattern patternWithString:usernameRegexp identifier:usernameIdentifier];
-    return pattern;
+    return [TSStringValidatorPattern patternWithString:usernameRegexp identifier:usernameIdentifier];
 }
 
 + (TSStringValidatorPattern *)passwordPattern {
-    TSStringValidatorPattern *pattern = [TSStringValidatorPattern patternWithString:passwordRegexp identifier:passwordIdentifier];
-    return pattern;
+    return [TSStringValidatorPattern patternWithString:passwordRegexp identifier:passwordIdentifier];
 }
 
 + (TSStringValidatorPattern *)namePattern {
-    TSStringValidatorPattern *pattern = [TSStringValidatorPattern patternWithString:nameRegexp identifier:nameIdentifier];
-    return pattern;
+    return [TSStringValidatorPattern patternWithString:nameRegexp identifier:nameIdentifier];
 }
 
 + (TSStringValidatorPattern *)nickPattern {
-    TSStringValidatorPattern *pattern = [TSStringValidatorPattern patternWithString:nickRegexp identifier:nickIdentifier];
-    return pattern;
+    return [TSStringValidatorPattern patternWithString:nickRegexp identifier:nickIdentifier];
 }
 
 @end
