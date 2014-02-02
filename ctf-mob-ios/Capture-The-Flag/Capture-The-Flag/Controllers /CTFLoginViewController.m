@@ -8,16 +8,13 @@
 
 #import "CTFLoginViewController.h"
 
-#import "CTFSession.h"
-#import "CTFUser.h"
-
 #import "CTFAPIAccounts.h"
 #import "CTFAPIConnection.h"
 #import "CTFAPILocalCredentials.h"
 #import "CTFAPILocalCredentialsStore.h"
 #import "CTFAPIUserDataValidator.h"
-#import "CTFAPIRKConfigurator.h"
 #import "CoreDataService.h"
+#import "CTFLoginService.h"
 
 @interface CTFLoginViewController ()
 
@@ -33,7 +30,7 @@
 @end
 
 @implementation CTFLoginViewController {
-    CTFAPIAccounts *_accounts;
+    CTFLoginService *_loginService;
 }
 
 - (void)viewDidLoad
@@ -58,65 +55,41 @@
     [self.view endEditing:YES];
 }
 
-- (IBAction)loginPressed
-{
-    NSString *username = _usernameTF.text;
-    NSString *password = _passwordTF.text;
+- (IBAction)loginPressed {
+    if (!_loginService) {
+        CTFAPIAccounts *accounts = [[CTFAPIAccounts alloc] initWithConnection:[CTFAPIConnection sharedConnection]];
+        _loginService = [[CTFLoginService alloc] initWithAccounts:accounts];
+    }
     
-    CredentialsValidationResult result =
-    [CTFAPIUserDataValidator validateSignInCredentialsWithUsername:username password:password];
-    
-    if (result == CredentialsValidationResultOK) {
-        [_activityIndicator startAnimating];
-        [self.view endEditing:YES];
-        
-        /// If successfuly logged to the server token will be provide in response
-        _accounts = [[CTFAPIAccounts alloc] initWithConnection:[CTFAPIConnection sharedConnection]];
-        [_accounts signInWithUsername:username andPassword:password withBlock:^(NSString *token) {
-            
-            if (token) {
+    [_loginService logInWithUsername:_usernameTF.text password:_passwordTF.text responseBlock:^(LoginState state) {
+        switch (state) {
+            case LoginStateCredentialsNotValid: {
+                _statusLabel.text = NSLocalizedStringFromTable(@"label.status.wrong_credentials", @"Login", @"");
+                break;
+            }
+                
+            case LoginStateInProgress: {
+                [_activityIndicator startAnimating];
+                [self.view endEditing:YES];
+
+                break;
+            }
+                
+            case LoginStateSuccessful: {
                 [_activityIndicator stopAnimating];
                 _statusLabel.text = NSLocalizedStringFromTable(@"label.status.logged", @"Login", @"");
-
-                /// Configure game object with token and logged user
-                CTFSession *session = [[CTFSession alloc] initWithToken:token];
-                session.fixedPassword = password;
                 
-                CTFAPIRKConfigurator *configurator = [[CTFAPIRKConfigurator alloc] initWithManager:[CTFAPIConnection sharedConnection].manager];
-                [configurator authorizeRequestsWithToken:token];
+                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                UINavigationController *mainNavigationController = [storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([UINavigationController class])];
+                [self presentViewController:mainNavigationController animated:YES completion:^{
+                    _usernameTF.text = @"";
+                    _passwordTF.text = @"";
+                    _statusLabel.text = @"";
+                }];
+                break;
+            }
                 
-                CTFUser *user =
-                [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass([CTFUser class])
-                                              inManagedObjectContext:[CoreDataService sharedInstance].managedObjectContext];
-
-                user.username = username;
-                session.currentUser = user;
-                
-                [CTFSession setSharedInstance:session];
-                
-                /// Store login and password in the Keychain
-                CTFAPILocalCredentials *credentials = [[CTFAPILocalCredentials alloc] initWithUsername:username password:password];
-                BOOL stored = [[CTFAPILocalCredentialsStore sharedInstance] storeCredentials:credentials];
-                
-                if (stored) {
-                    /// Create new view and show
-                    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                    UINavigationController *mainNavigationController = [storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([UINavigationController class])];
-                    [self presentViewController:mainNavigationController animated:YES completion:^{
-                        _usernameTF.text = @"";
-                        _passwordTF.text = @"";
-                        _statusLabel.text = @"";
-                    }];
-                } else {
-                    UIAlertView *alertView =
-                    [[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"alert.cant_store_credentials.title", @"Login", @"")
-                                               message:NSLocalizedStringFromTable(@"alert.cant_store_credentials.message", @"Login", @"")
-                                              delegate:Nil
-                                     cancelButtonTitle:NSLocalizedString(@"button.OK", nil)
-                                     otherButtonTitles:nil, nil];
-                    [alertView show];
-                }
-            } else {
+            case LoginStateFailure: {
                 [_activityIndicator stopAnimating];
                 UIAlertView *alert =
                 [[UIAlertView alloc] initWithTitle:NSLocalizedStringFromTable(@"alert.wrong_credentials.title", @"Login", @"")
@@ -125,11 +98,10 @@
                                  cancelButtonTitle:NSLocalizedString(@"button.OK", nil)
                                  otherButtonTitles:nil, nil];
                 [alert show];
+                break;
             }
-        }];
-    } else {
-        _statusLabel.text = NSLocalizedStringFromTable(@"label.status.wrong_credentials", @"Login", @"");
-    }
+        }
+    }];
 }
 
 - (void)_fillTextFieldIfNecessary {
