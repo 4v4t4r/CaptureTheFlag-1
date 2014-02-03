@@ -41,7 +41,7 @@
         -->
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyDYfdSldkT14IE2E1UVnz-KvxXkM1xt6hQ"/>
+            android:value="AIzaSyCXmqf0ZHkVH0b1zpcJIS_cxjuW8PAnQxw"/>
 
         <activity
             android:name="com.blstream.ctfclient.activities.SplashActivity"
