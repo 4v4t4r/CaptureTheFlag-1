@@ -7,5 +7,6 @@
     <string name="menu_legalnotices">Legal Notices</string>
     <string name="title_activity_splash">SplashActivity</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_games">GamesActivity</string>
 
 </resources>
