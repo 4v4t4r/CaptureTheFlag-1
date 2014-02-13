@@ -20,6 +20,7 @@ import com.blstream.ctfclient.R;
 import com.blstream.ctfclient.activities.GamesActivity;
 import com.blstream.ctfclient.activities.LoginActivity;
 import com.blstream.ctfclient.activities.MapActivity;
+import com.blstream.ctfclient.activities.MapWebActivity;
 import com.blstream.ctfclient.constants.CTFConstants;
 import com.blstream.ctfclient.model.dto.Character;
 import com.blstream.ctfclient.model.dto.User;
@@ -44,6 +45,14 @@ public class UsersFragment extends Fragment {
         }
     };
 
+    private View.OnClickListener btnMapWebListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent myIntent = new Intent(CTF.getStaticApplicationContext(), MapWebActivity.class);
+            startActivity(myIntent);
+        }
+    };
+
     private View.OnClickListener btnGameListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -56,6 +65,7 @@ public class UsersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_users, container, false);
         rootView.findViewById(R.id.map_btn).setOnClickListener(btnMapListener);
+        rootView.findViewById(R.id.map_web_btn).setOnClickListener(btnMapWebListener);
         rootView.findViewById(R.id.games_btn).setOnClickListener(btnGameListener);
         rootView.findViewById(R.id.clear_token_btn).setOnClickListener(new View.OnClickListener() {
             @Override

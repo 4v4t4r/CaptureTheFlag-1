@@ -71,6 +71,9 @@
             android:name="com.blstream.ctfclient.activities.MapActivity"
             android:label="@string/title_activity_map" />
         <activity
+            android:name="com.blstream.ctfclient.activities.MapWebActivity"
+            android:label="@string/title_activity_map" />
+        <activity
             android:name=".activities.GamesActivity"
             android:label="@string/title_activity_games" >
         </activity>

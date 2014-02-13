@@ -4,6 +4,7 @@ import android.animation.IntEvaluator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DownloadManager;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.graphics.Color;
@@ -12,9 +13,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.Button;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.blstream.ctfclient.CTF;
 import com.blstream.ctfclient.R;
 import com.google.android.gms.common.ConnectionResult;
@@ -30,7 +37,13 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.SphericalUtil;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -120,6 +133,7 @@ public class MapActivity extends Activity {
                 FragmentManager fragmentManager = getFragmentManager();
                 Fragment fragment = fragmentManager.findFragmentById(R.id.map);
                 googleMap = ((MapFragment) fragment).getMap();
+                setDirectionButton();
 
                 // check if map is created successfully or not
                 if (googleMap == null) {
@@ -148,6 +162,91 @@ public class MapActivity extends Activity {
             return false;
         }
         return true;
+    }
+
+    private void setDirectionButton() {
+        Button directionBtn = (Button) findViewById(R.id.direction);
+        directionBtn.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                StringBuilder builder = new StringBuilder("http://maps.googleapis.com/maps/api/directions/json?origin=");
+                builder.append("53.4202").append(",").append("14.5549");
+                builder.append("&destination=");
+                builder.append("53.4295").append(",").append("14.5538");
+                builder.append("&sensor=false&mode=walking");
+                StringRequest stringRequest = new StringRequest(Request.Method.GET, builder.toString(), new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String returnValue) {
+                        drawPolyline(returnValue);
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        Log.e(CTF.TAG, "ERROR", volleyError.getCause());
+                    }
+                });
+                CTF.getInstance().addToRequestQueue(stringRequest);
+            }
+        });
+    }
+
+    private void drawPolyline(String returnValue) {
+        try {
+            JSONObject result = new JSONObject(returnValue);
+            JSONArray routes = null;
+
+            routes = result.getJSONArray("routes");
+
+            long distanceForSegment = routes.getJSONObject(0).getJSONArray("legs").getJSONObject(0).getJSONObject("distance").getInt("value");
+
+            JSONArray steps = routes.getJSONObject(0).getJSONArray("legs")
+                    .getJSONObject(0).getJSONArray("steps");
+
+            List<LatLng> lines = new ArrayList<LatLng>();
+
+            for(int i=0; i < steps.length(); i++) {
+                String polyline = steps.getJSONObject(i).getJSONObject("polyline").getString("points");
+
+                for(LatLng p : decodePolyline(polyline)) {
+                    lines.add(p);
+                }
+            }
+            Polyline polylineToAdd = googleMap.addPolyline(new PolylineOptions().addAll(lines).width(3).color(Color.RED));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private List<LatLng> decodePolyline(String encoded) {
+        List<LatLng> poly = new ArrayList<LatLng>();
+
+        int index = 0, len = encoded.length();
+        int lat = 0, lng = 0;
+
+        while (index < len) {
+            int b, shift = 0, result = 0;
+            do {
+                b = encoded.charAt(index++) - 63;
+                result |= (b & 0x1f) << shift;
+                shift += 5;
+            } while (b >= 0x20);
+            int dlat = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+            lat += dlat;
+
+            shift = 0;
+            result = 0;
+            do {
+                b = encoded.charAt(index++) - 63;
+                result |= (b & 0x1f) << shift;
+                shift += 5;
+            } while (b >= 0x20);
+            int dlng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+            lng += dlng;
+
+            LatLng p = new LatLng((double) lat / 1E5, (double) lng / 1E5);
+            poly.add(p);
+        }
+        return poly;
     }
 
     private void setCenterPointOfMap(LatLng latLng) {
