@@ -17,18 +17,17 @@ class PortalUser(AbstractUser):
 
     class Meta:
         app_label = "core"
-        # db_table = "portal_users"
         swappable = 'AUTH_USER_MODEL'
 
 
 class Character(models.Model):
     CHARACTER_TYPES = Choices(
-        (0, 'PRIVATE',  _('Private')),
+        (0, 'PRIVATE', _('Private')),
         (1, 'MEDIC', _('Medic')),
         (2, 'COMMANDOS', _('Commandos')),
     )
 
-    user = models.ForeignKey("PortalUser", related_name="characters")
+    user = models.ForeignKey(PortalUser, related_name="characters")
     type = models.IntegerField(blank=False, choices=CHARACTER_TYPES, verbose_name=_("Type"))
     total_time = models.IntegerField(blank=False, default=0, verbose_name=_("Total time"))
     total_score = models.IntegerField(blank=False, default=0, verbose_name=_("Total score"))
@@ -37,4 +36,3 @@ class Character(models.Model):
 
     class Meta:
         app_label = "core"
-        # db_table = "characters"

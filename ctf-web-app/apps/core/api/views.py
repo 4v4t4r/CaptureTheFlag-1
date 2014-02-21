@@ -1,6 +1,6 @@
 import logging
 from rest_framework import viewsets
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication, OAuth2Authentication
+from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.mixins import CreateModelMixin, UpdateModelMixin, DestroyModelMixin
 from rest_framework.permissions import IsAuthenticated
@@ -16,7 +16,7 @@ logger = logging.getLogger("root")
 
 
 @api_view(['GET'])
-@authentication_classes((SessionAuthentication, BasicAuthentication, OAuth2Authentication,))
+@authentication_classes((SessionAuthentication, TokenAuthentication,))
 @permission_classes((IsAuthenticated,))
 def profile(request):
     user = request.user
@@ -28,13 +28,13 @@ def profile(request):
     return Response(serializer.data)
 
 
-class PortalUserRegistrationViewSet(CreateModelMixin,
-                                    GenericViewSet):
+class PortalUserRegistrationViewSet(CreateModelMixin, GenericViewSet):
     serializer_class = users.PortalUserSerializer
     model = PortalUser
 
     def get_serializer(self, instance=None, data=None,
                        files=None, many=False, partial=False):
+        password_was_set = data and "password" in data
 
         if data:
             data = data.copy()
@@ -47,7 +47,10 @@ class PortalUserRegistrationViewSet(CreateModelMixin,
 
         logger.debug("JSON request data: %s", data)
 
-        return super(PortalUserRegistrationViewSet, self).get_serializer(instance, data, files, many, partial)
+        serializer = super(PortalUserRegistrationViewSet, self).get_serializer(instance, data, files, many, partial)
+        setattr(serializer, "password_was_set", password_was_set)
+
+        return serializer
 
 
 class PortalUserViewSet(mixins.ModelPermissionsMixin,

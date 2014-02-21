@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 from django.utils.translation import ugettext_lazy as _
 
-BASE_DIR = os.path.dirname(os.path.join(os.path.dirname(__file__), ".."))
+BASE_DIR = os.path.realpath(os.path.join(os.path.dirname(__file__), ".."))
 
 
 # Quick-start development settings - unsuitable for production
@@ -28,6 +28,9 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
+TEMPLATE_DIRS = (
+    os.path.join(BASE_DIR, 'templates')
+)
 
 # Application definition
 
@@ -40,14 +43,14 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     'rest_framework',
-    'provider',
-    'provider.oauth2',
+    'rest_framework.authtoken',
 
-    # 'south',
+    'south',
 
-    # 'apps.es',
+    'haystack',
+
     'apps.core',
-    'apps.game',
+    'apps.ctf',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -61,9 +64,8 @@ MIDDLEWARE_CLASSES = (
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.OAuth2Authentication',
+        'rest_framework.authentication.TokenAuthentication',
     ),
 }
 
@@ -118,7 +120,7 @@ LOGGING = {
             'filename': 'logs/ctf.log',
             'formatter': 'verbose'
         },
-        'console':{
+        'console': {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
             'formatter': 'simple'
@@ -142,3 +144,13 @@ LOGGING = {
         }
     }
 }
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+        'URL': 'http://127.0.0.1:9200/',
+        'INDEX_NAME': 'haystack',
+    },
+}
+
+HAYSTACK_SIGNAL_PROCESSOR = 'apps.core.eshaystack.HaystackRealtimeSignalProcessor'
