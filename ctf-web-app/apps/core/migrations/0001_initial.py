@@ -8,6 +8,18 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
+        # Adding model 'Character'
+        db.create_table(u'core_character', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('user', self.gf('django.db.models.fields.related.ForeignKey')(related_name='characters', to=orm['core.PortalUser'])),
+            ('type', self.gf('django.db.models.fields.IntegerField')()),
+            ('total_time', self.gf('django.db.models.fields.IntegerField')(default=0)),
+            ('total_score', self.gf('django.db.models.fields.IntegerField')(default=0)),
+            ('health', self.gf('django.db.models.fields.DecimalField')(default=1.0, max_digits=3, decimal_places=2)),
+            ('level', self.gf('django.db.models.fields.IntegerField')(default=0)),
+        ))
+        db.send_create_signal('core', ['Character'])
+
         # Adding model 'PortalUser'
         db.create_table(u'core_portaluser', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -43,20 +55,11 @@ class Migration(SchemaMigration):
         ))
         db.create_unique(m2m_table_name, ['portaluser_id', 'permission_id'])
 
-        # Adding model 'Character'
-        db.create_table(u'core_character', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('user', self.gf('django.db.models.fields.related.ForeignKey')(related_name='characters', to=orm['core.PortalUser'])),
-            ('type', self.gf('django.db.models.fields.IntegerField')()),
-            ('total_time', self.gf('django.db.models.fields.IntegerField')(default=0)),
-            ('total_score', self.gf('django.db.models.fields.IntegerField')(default=0)),
-            ('health', self.gf('django.db.models.fields.DecimalField')(default=1.0, max_digits=3, decimal_places=2)),
-            ('level', self.gf('django.db.models.fields.IntegerField')(default=0)),
-        ))
-        db.send_create_signal('core', ['Character'])
-
 
     def backwards(self, orm):
+        # Deleting model 'Character'
+        db.delete_table(u'core_character')
+
         # Deleting model 'PortalUser'
         db.delete_table(u'core_portaluser')
 
@@ -65,9 +68,6 @@ class Migration(SchemaMigration):
 
         # Removing M2M table for field user_permissions on 'PortalUser'
         db.delete_table(db.shorten_name(u'core_portaluser_user_permissions'))
-
-        # Deleting model 'Character'
-        db.delete_table(u'core_character')
 
 
     models = {

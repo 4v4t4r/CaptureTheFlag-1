@@ -11,6 +11,8 @@ class PortalUserSerializer(serializers.ModelSerializer):
 
 
 class CharacterSerializer(serializers.ModelSerializer):
+    user = PortalUserSerializer()
+
     class Meta:
         model = Character
         fields = ('type', 'total_time', 'total_score', 'health', 'level', 'user')

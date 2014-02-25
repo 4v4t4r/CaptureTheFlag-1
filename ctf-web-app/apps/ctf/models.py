@@ -28,7 +28,12 @@ class Item(models.Model):
     value = models.FloatField(verbose_name=_("Value"))
     description = models.TextField(null=True, max_length=255, verbose_name=_("Description"))
 
-    location = models.ForeignKey(Location, verbose_name=_("Location"))
+    # location
+    lat = models.FloatField(verbose_name=_("Latitude"))
+    lon = models.FloatField(verbose_name=_("Longitude"))
+
+    def __unicode__(self):
+        return "%s" % self.name
 
     class Meta:
         app_label = "ctf"
@@ -40,7 +45,13 @@ class Map(models.Model):
     radius = models.FloatField(verbose_name=_("Radius"))
 
     author = models.ForeignKey(PortalUser, null=True, verbose_name=_("Author"))
-    location = models.ForeignKey(Location, verbose_name=_("Location"))
+
+    # location
+    lat = models.FloatField(verbose_name=_("Latitude"))
+    lon = models.FloatField(verbose_name=_("Longitude"))
+
+    def __unicode__(self):
+        return "%s" % self.name
 
     class Meta:
         app_label = "ctf"
@@ -60,15 +71,18 @@ class Game(models.Model):
     )
 
     name = models.CharField(max_length=100, verbose_name=_("Name"))
-    description = models.TextField(null=True, max_length=255, verbose_name=_("Description"))
+    description = models.TextField(null=True, blank=True, max_length=255, verbose_name=_("Description"))
     start_time = models.DateTimeField(verbose_name=_("Start time"))
-    max_players = models.IntegerField(verbose_name=_("Max players"))
+    max_players = models.IntegerField(null=True, blank=True, verbose_name=_("Max players"))
     status = models.IntegerField(choices=GAME_STATUSES, default=GAME_STATUSES.CREATED, verbose_name=_("Status"))
     type = models.IntegerField(choices=GAME_TYPES, default=GAME_TYPES.FRAG_BASED, verbose_name=_("Type"))
     map = models.ForeignKey(Map, verbose_name=_("Map"))
 
     players = models.ManyToManyField(Character, verbose_name=_("Players"))
     items = models.ManyToManyField(Item, verbose_name=_("Items"))
+
+    def __unicode__(self):
+        return "%s" % self.name
 
     class Meta:
         app_label = "ctf"

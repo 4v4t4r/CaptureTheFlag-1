@@ -23,7 +23,8 @@ class Migration(SchemaMigration):
             ('type', self.gf('django.db.models.fields.IntegerField')()),
             ('value', self.gf('django.db.models.fields.FloatField')()),
             ('description', self.gf('django.db.models.fields.TextField')(max_length=255, null=True)),
-            ('location', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['ctf.Location'])),
+            ('lat', self.gf('django.db.models.fields.FloatField')()),
+            ('lon', self.gf('django.db.models.fields.FloatField')()),
         ))
         db.send_create_signal('ctf', ['Item'])
 
@@ -34,7 +35,8 @@ class Migration(SchemaMigration):
             ('description', self.gf('django.db.models.fields.TextField')(max_length=255, null=True)),
             ('radius', self.gf('django.db.models.fields.FloatField')()),
             ('author', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.PortalUser'], null=True)),
-            ('location', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['ctf.Location'])),
+            ('lat', self.gf('django.db.models.fields.FloatField')()),
+            ('lon', self.gf('django.db.models.fields.FloatField')()),
         ))
         db.send_create_signal('ctf', ['Map'])
 
@@ -42,9 +44,9 @@ class Migration(SchemaMigration):
         db.create_table(u'ctf_game', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=100)),
-            ('description', self.gf('django.db.models.fields.TextField')(max_length=255, null=True)),
+            ('description', self.gf('django.db.models.fields.TextField')(max_length=255, null=True, blank=True)),
             ('start_time', self.gf('django.db.models.fields.DateTimeField')()),
-            ('max_players', self.gf('django.db.models.fields.IntegerField')()),
+            ('max_players', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
             ('status', self.gf('django.db.models.fields.IntegerField')(default=0)),
             ('type', self.gf('django.db.models.fields.IntegerField')(default=0)),
             ('map', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['ctf.Map'])),
@@ -140,11 +142,11 @@ class Migration(SchemaMigration):
         },
         'ctf.game': {
             'Meta': {'object_name': 'Game'},
-            'description': ('django.db.models.fields.TextField', [], {'max_length': '255', 'null': 'True'}),
+            'description': ('django.db.models.fields.TextField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'items': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['ctf.Item']", 'symmetrical': 'False'}),
             'map': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['ctf.Map']"}),
-            'max_players': ('django.db.models.fields.IntegerField', [], {}),
+            'max_players': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'players': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['core.Character']", 'symmetrical': 'False'}),
             'start_time': ('django.db.models.fields.DateTimeField', [], {}),
@@ -155,7 +157,8 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'Item'},
             'description': ('django.db.models.fields.TextField', [], {'max_length': '255', 'null': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'location': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['ctf.Location']"}),
+            'lat': ('django.db.models.fields.FloatField', [], {}),
+            'lon': ('django.db.models.fields.FloatField', [], {}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'type': ('django.db.models.fields.IntegerField', [], {}),
             'value': ('django.db.models.fields.FloatField', [], {})
@@ -171,7 +174,8 @@ class Migration(SchemaMigration):
             'author': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['core.PortalUser']", 'null': 'True'}),
             'description': ('django.db.models.fields.TextField', [], {'max_length': '255', 'null': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'location': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['ctf.Location']"}),
+            'lat': ('django.db.models.fields.FloatField', [], {}),
+            'lon': ('django.db.models.fields.FloatField', [], {}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'radius': ('django.db.models.fields.FloatField', [], {})
         }
