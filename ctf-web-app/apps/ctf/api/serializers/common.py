@@ -7,4 +7,4 @@ __author__ = 'mkr'
 class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
-        fields = ('id', 'name', 'type', 'value', 'description')
+        fields = ('id', 'name', 'type', 'value', 'description', 'lat', 'lon')
