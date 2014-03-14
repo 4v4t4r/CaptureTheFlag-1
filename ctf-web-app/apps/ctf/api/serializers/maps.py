@@ -4,7 +4,7 @@ from apps.ctf.models import Map
 __author__ = 'mkr'
 
 
-class MapSerializer(serializers.ModelSerializer):
+class MapSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Map
-        fields = ('id', 'name', 'description', 'radius', 'author', 'lat', 'lon')
+        fields = ('url', 'name', 'description', 'radius', 'author', 'lat', 'lon', 'games')

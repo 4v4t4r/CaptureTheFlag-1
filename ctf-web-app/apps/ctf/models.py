@@ -68,10 +68,9 @@ class Game(models.Model):
     max_players = models.IntegerField(null=True, blank=True, verbose_name=_("Max players"))
     status = models.IntegerField(choices=GAME_STATUSES, default=GAME_STATUSES.CREATED, verbose_name=_("Status"))
     type = models.IntegerField(choices=GAME_TYPES, default=GAME_TYPES.FRAG_BASED, verbose_name=_("Type"))
-    map = models.ForeignKey(Map, verbose_name=_("Map"))
-
-    players = models.ManyToManyField(Character, verbose_name=_("Players"))
-    items = models.ManyToManyField(Item, verbose_name=_("Items"))
+    map = models.ForeignKey(Map, verbose_name=_("Map"), related_name='games')
+    players = models.ManyToManyField(Character, verbose_name=_("Players"), related_name='games')
+    items = models.ManyToManyField(Item, verbose_name=_("Items"), related_name='games')
 
     def __unicode__(self):
         return "%s" % self.name

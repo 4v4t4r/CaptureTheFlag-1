@@ -10,8 +10,8 @@ urlpatterns = patterns(
     url(r'^', include('apps.core.urls')),
     url(r'^', include('apps.ctf.urls')),
 
-    url(r'^api/', include('apps.core.api.urls', namespace='api_core')),
-    url(r'^api/', include('apps.ctf.api.urls', namespace='api_ctf')),
+    url(r'^api/', include('apps.core.api.urls')),
+    url(r'^api/', include('apps.ctf.api.urls')),
 
     url(r'^token/', 'apps.core.api.auth.obtain_auth_token'),
 )

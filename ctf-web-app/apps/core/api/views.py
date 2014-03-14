@@ -6,8 +6,8 @@ from rest_framework.mixins import CreateModelMixin, UpdateModelMixin, DestroyMod
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
-from apps.core.api import mixins
-from apps.core.api.serializers import characters, users
+from apps.core.api import mixins, serializers
+from apps.core.api.serializers import CharacterSerializer
 from apps.core.models import PortalUser, Character
 
 __author__ = 'mkr'
@@ -20,7 +20,7 @@ logger = logging.getLogger("root")
 @permission_classes((IsAuthenticated,))
 def profile(request):
     user = request.user
-    serializer = users.PortalUserSerializer(user)
+    serializer = serializers.PortalUserSerializer(user)
 
     if "password" in serializer.data:
         serializer.data.pop("password")
@@ -29,7 +29,7 @@ def profile(request):
 
 
 class PortalUserRegistrationViewSet(CreateModelMixin, GenericViewSet):
-    serializer_class = users.PortalUserSerializer
+    serializer_class = serializers.PortalUserSerializer
     model = PortalUser
 
     def get_serializer(self, instance=None, data=None,
@@ -60,7 +60,7 @@ class PortalUserViewSet(mixins.ModelPermissionsMixin,
                         mixins.RetrieveModelMixin,
                         mixins.ListModelMixin,
                         GenericViewSet):
-    serializer_class = users.PortalUserSerializer
+    serializer_class = serializers.PortalUserSerializer
     model = PortalUser
     ignore_fields = ["password"]
 
@@ -78,5 +78,5 @@ class PortalUserViewSet(mixins.ModelPermissionsMixin,
 
 class CharacterViewSet(mixins.ModelPermissionsMixin,
                        viewsets.ModelViewSet):
-    serializer_class = characters.CharacterSerializer
+    serializer_class = CharacterSerializer
     model = Character

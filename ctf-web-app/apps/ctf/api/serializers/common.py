@@ -4,7 +4,7 @@ from apps.ctf.models import Item
 __author__ = 'mkr'
 
 
-class ItemSerializer(serializers.ModelSerializer):
+class ItemSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Item
-        fields = ('id', 'name', 'type', 'value', 'description', 'lat', 'lon')
+        fields = ('url', 'name', 'type', 'value', 'description', 'lat', 'lon', 'games')
