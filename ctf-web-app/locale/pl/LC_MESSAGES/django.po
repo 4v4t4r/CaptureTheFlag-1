@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-16 14:46+0100\n"
+"POT-Creation-Date: 2014-03-14 09:17+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,54 +19,162 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 
-#: apps/core/models.py:11
-msgid "Nick"
-msgstr ""
-
-#: apps/core/models.py:24
+#: apps/core/models.py:12
 msgid "Private"
 msgstr ""
 
-#: apps/core/models.py:25
+#: apps/core/models.py:13
 msgid "Medic"
 msgstr ""
 
-#: apps/core/models.py:26
+#: apps/core/models.py:14
 msgid "Commandos"
 msgstr ""
 
-#: apps/core/models.py:27
+#: apps/core/models.py:15
 msgid "Spy"
 msgstr ""
 
-#: apps/core/models.py:31
+#: apps/core/models.py:19 apps/ctf/models.py:19 apps/ctf/models.py:70
 msgid "Type"
 msgstr ""
 
-#: apps/core/models.py:32
+#: apps/core/models.py:20
 msgid "Total time"
 msgstr ""
 
-#: apps/core/models.py:33
+#: apps/core/models.py:21
 msgid "Total score"
 msgstr ""
 
-#: apps/core/models.py:34
+#: apps/core/models.py:22
 msgid "Health"
 msgstr ""
 
-#: apps/core/models.py:35
+#: apps/core/models.py:23
 msgid "Level"
 msgstr ""
 
-#: apps/core/models.py:36
-msgid "Is active"
+#: apps/core/models.py:37
+msgid "Nick"
 msgstr ""
 
-#: ctfapp/settings.py:79
+#: apps/ctf/models.py:9
+msgid "Red flag"
+msgstr ""
+
+#: apps/ctf/models.py:10
+msgid "Blue flag"
+msgstr ""
+
+#: apps/ctf/models.py:11
+msgid "Red base"
+msgstr ""
+
+#: apps/ctf/models.py:12
+msgid "Blue base"
+msgstr ""
+
+#: apps/ctf/models.py:13
+msgid "First aid kit"
+msgstr ""
+
+#: apps/ctf/models.py:14
+msgid "Pistol"
+msgstr ""
+
+#: apps/ctf/models.py:15
+msgid "Ammo"
+msgstr ""
+
+#: apps/ctf/models.py:18 apps/ctf/models.py:35 apps/ctf/models.py:65
+msgid "Name"
+msgstr ""
+
+#: apps/ctf/models.py:20
+msgid "Value"
+msgstr ""
+
+#: apps/ctf/models.py:21 apps/ctf/models.py:36 apps/ctf/models.py:66
+msgid "Description"
+msgstr ""
+
+#: apps/ctf/models.py:24 apps/ctf/models.py:42
+msgid "Latitude"
+msgstr ""
+
+#: apps/ctf/models.py:25 apps/ctf/models.py:43
+msgid "Longitude"
+msgstr ""
+
+#: apps/ctf/models.py:37
+msgid "Radius"
+msgstr ""
+
+#: apps/ctf/models.py:39
+msgid "Author"
+msgstr ""
+
+#: apps/ctf/models.py:54
+msgid "Created"
+msgstr ""
+
+#: apps/ctf/models.py:55
+msgid "In progress"
+msgstr ""
+
+#: apps/ctf/models.py:56
+msgid "On hold"
+msgstr ""
+
+#: apps/ctf/models.py:57
+msgid "Canceled"
+msgstr ""
+
+#: apps/ctf/models.py:61
+msgid "Frag based"
+msgstr ""
+
+#: apps/ctf/models.py:62
+msgid "Time based"
+msgstr ""
+
+#: apps/ctf/models.py:67
+msgid "Start time"
+msgstr ""
+
+#: apps/ctf/models.py:68
+msgid "Max players"
+msgstr ""
+
+#: apps/ctf/models.py:69
+msgid "Status"
+msgstr ""
+
+#: apps/ctf/models.py:71
+msgid "Map"
+msgstr ""
+
+#: apps/ctf/models.py:73
+msgid "Players"
+msgstr ""
+
+#: apps/ctf/models.py:74
+msgid "Items"
+msgstr ""
+
+#: conf/settings.py:88
 msgid "English"
 msgstr ""
 
-#: ctfapp/settings.py:80
+#: conf/settings.py:89
 msgid "Polish"
+msgstr ""
+
+#: templates/base.html:29
+msgid "Home"
+msgstr ""
+
+#: templates/base.html:30
+msgid "About"
 msgstr ""

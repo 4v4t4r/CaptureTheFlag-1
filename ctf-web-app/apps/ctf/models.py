@@ -4,14 +4,6 @@ from django.db import models
 from apps.core.models import PortalUser, Character
 
 
-class Location(models.Model):
-    lat = models.FloatField(verbose_name=_("Latitude"))
-    lon = models.FloatField(verbose_name=_("Longitude"))
-
-    class Meta:
-        app_label = "ctf"
-
-
 class Item(models.Model):
     ITEM_TYPES = Choices(
         (0, 'FLAG_RED', _('Red flag')),
