@@ -29,16 +29,10 @@ class Character(models.Model):
         app_label = "core"
 
 
-class PortalUserManager(UserManager):
-    pass
-
-
 class PortalUser(AbstractUser):
     nick = models.CharField(blank=False, max_length=100, verbose_name=_("Nick"))
     AbstractUser._meta.get_field("email").blank = False
     AbstractUser._meta.get_field("email").null = False
-
-    objects = PortalUserManager()
 
     @transaction.atomic
     def save(self, *args, **kwargs):
