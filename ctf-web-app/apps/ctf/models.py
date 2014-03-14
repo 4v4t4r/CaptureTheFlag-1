@@ -19,6 +19,7 @@ class Item(models.Model):
     type = models.IntegerField(choices=ITEM_TYPES, verbose_name=_("Type"))
     value = models.FloatField(verbose_name=_("Value"))
     description = models.TextField(null=True, max_length=255, verbose_name=_("Description"))
+    game = models.ForeignKey("Game", related_name="items", verbose_name=_("Game"))
 
     # location
     lat = models.FloatField(verbose_name=_("Latitude"))
@@ -70,7 +71,6 @@ class Game(models.Model):
     type = models.IntegerField(choices=GAME_TYPES, default=GAME_TYPES.FRAG_BASED, verbose_name=_("Type"))
     map = models.ForeignKey(Map, verbose_name=_("Map"), related_name='games')
     players = models.ManyToManyField(Character, verbose_name=_("Players"), related_name='games')
-    items = models.ManyToManyField(Item, verbose_name=_("Items"), related_name='games')
 
     def __unicode__(self):
         return "%s" % self.name

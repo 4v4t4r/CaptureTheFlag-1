@@ -7,7 +7,6 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 from apps.core.api import mixins, serializers
-from apps.core.api.serializers import CharacterSerializer
 from apps.core.models import PortalUser, Character
 
 __author__ = 'mkr'
@@ -78,5 +77,5 @@ class PortalUserViewSet(mixins.ModelPermissionsMixin,
 
 class CharacterViewSet(mixins.ModelPermissionsMixin,
                        viewsets.ModelViewSet):
-    serializer_class = CharacterSerializer
+    serializer_class = serializers.CharacterSerializer
     model = Character
