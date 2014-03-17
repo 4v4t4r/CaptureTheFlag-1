@@ -58,7 +58,7 @@ class PortalUser(GeoModel, AbstractUser):
     nick = models.CharField(blank=False, max_length=100, verbose_name=_("Nick"))
 
     device_type = models.IntegerField(blank=True, null=True, choices=DEVICE_TYPES, verbose_name=_("Device type"))
-    device_id = models.IntegerField(blank=True, null=True, max_length=255, verbose_name=_("Device type"))
+    device_id = models.CharField(blank=True, null=True, max_length=255, verbose_name=_("Device type"))
 
     AbstractUser._meta.get_field("email").blank = False
     AbstractUser._meta.get_field("email").null = False

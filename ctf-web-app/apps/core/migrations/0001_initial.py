@@ -37,7 +37,7 @@ class Migration(SchemaMigration):
             ('lon', self.gf('django.db.models.fields.FloatField')(null=True, blank=True)),
             ('nick', self.gf('django.db.models.fields.CharField')(max_length=100)),
             ('device_type', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
-            ('device_id', self.gf('django.db.models.fields.IntegerField')(max_length=255, null=True, blank=True)),
+            ('device_id', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
         ))
         db.send_create_signal('core', ['PortalUser'])
 
@@ -108,7 +108,7 @@ class Migration(SchemaMigration):
         'core.portaluser': {
             'Meta': {'object_name': 'PortalUser'},
             'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
-            'device_id': ('django.db.models.fields.IntegerField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'device_id': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'device_type': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'email': ('django.db.models.fields.EmailField', [], {'max_length': '75'}),
             'first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
