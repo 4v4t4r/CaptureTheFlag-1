@@ -15,8 +15,8 @@ class GeoModelManager(models.Manager):
 class GeoModel(models.Model):
     """ GeoModel object.
     """
-    lat = models.FloatField(verbose_name=_("Latitude"))
-    lon = models.FloatField(verbose_name=_("Longitude"))
+    lat = models.FloatField(null=True, blank=True, verbose_name=_("Latitude"))
+    lon = models.FloatField(null=True, blank=True, verbose_name=_("Longitude"))
 
     @property
     def location(self):
