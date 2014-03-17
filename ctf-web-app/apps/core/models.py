@@ -7,6 +7,21 @@ from django.db import models, transaction
 logger = logging.getLogger('root')
 
 
+class GeoModelManager(models.Manager):
+    """ GeoModel manager class.
+    """
+
+
+class GeoModel(models.Model):
+    """ GeoModel object.
+    """
+    lat = models.FloatField(verbose_name=_("Latitude"))
+    lon = models.FloatField(verbose_name=_("Longitude"))
+
+    class Meta:
+        abstract = True
+
+
 class Character(models.Model):
     CHARACTER_TYPES = Choices(
         (0, 'PRIVATE', _('Private')),
@@ -29,8 +44,18 @@ class Character(models.Model):
         app_label = "core"
 
 
-class PortalUser(AbstractUser):
+class PortalUser(GeoModel, AbstractUser):
+    DEVICE_TYPES = Choices(
+        (0, 'ANDROID', _("Android")),
+        (1, 'WP', _("Windows Phone")),
+        (2, 'IOS', _("iOS")),
+    )
+
     nick = models.CharField(blank=False, max_length=100, verbose_name=_("Nick"))
+
+    device_type = models.IntegerField(blank=True, null=True, choices=DEVICE_TYPES, verbose_name=_("Device type"))
+    device_id = models.IntegerField(blank=True, null=True, max_length=255, verbose_name=_("Device type"))
+
     AbstractUser._meta.get_field("email").blank = False
     AbstractUser._meta.get_field("email").null = False
 

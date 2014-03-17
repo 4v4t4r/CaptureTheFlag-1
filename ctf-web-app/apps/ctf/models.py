@@ -1,10 +1,10 @@
 from model_utils import Choices
 from django.utils.translation import ugettext_lazy as _
 from django.db import models
-from apps.core.models import PortalUser, Character
+from apps.core.models import PortalUser, Character, GeoModel
 
 
-class Item(models.Model):
+class Item(GeoModel):
     ITEM_TYPES = Choices(
         (0, 'FLAG_RED', _('Red flag')),
         (1, 'FLAG_BLUE', _('Blue flag')),
@@ -21,10 +21,6 @@ class Item(models.Model):
     description = models.TextField(null=True, max_length=255, verbose_name=_("Description"))
     game = models.ForeignKey("Game", related_name="items", verbose_name=_("Game"))
 
-    # location
-    lat = models.FloatField(verbose_name=_("Latitude"))
-    lon = models.FloatField(verbose_name=_("Longitude"))
-
     def __unicode__(self):
         return "%s" % self.name
 
@@ -32,16 +28,12 @@ class Item(models.Model):
         app_label = "ctf"
 
 
-class Map(models.Model):
+class Map(GeoModel):
     name = models.CharField(max_length=100, verbose_name=_("Name"))
     description = models.TextField(null=True, max_length=255, verbose_name=_("Description"))
     radius = models.FloatField(verbose_name=_("Radius"))
 
     author = models.ForeignKey(PortalUser, null=True, verbose_name=_("Author"))
-
-    # location
-    lat = models.FloatField(verbose_name=_("Latitude"))
-    lon = models.FloatField(verbose_name=_("Longitude"))
 
     def __unicode__(self):
         return "%s" % self.name
@@ -70,7 +62,12 @@ class Game(models.Model):
     status = models.IntegerField(choices=GAME_STATUSES, default=GAME_STATUSES.CREATED, verbose_name=_("Status"))
     type = models.IntegerField(choices=GAME_TYPES, default=GAME_TYPES.FRAG_BASED, verbose_name=_("Type"))
     map = models.ForeignKey(Map, verbose_name=_("Map"), related_name='games')
-    players = models.ManyToManyField(Character, verbose_name=_("Players"), related_name='games')
+
+    visibility_range = models.FloatField(default=200.00, verbose_name=_("Visibility range"))  # in meters
+    action_range = models.FloatField(default=5.00, verbose_name=_("Action range")) # in meters
+
+    players = models.ManyToManyField(Character, verbose_name=_("Players"), related_name="joined_games")
+    invited_users = models.ManyToManyField(PortalUser, verbose_name=_("Invited users"), related_name="pending_games")
 
     def __unicode__(self):
         return "%s" % self.name

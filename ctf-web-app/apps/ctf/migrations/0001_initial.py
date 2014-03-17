@@ -11,25 +11,25 @@ class Migration(SchemaMigration):
         # Adding model 'Item'
         db.create_table(u'ctf_item', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('lat', self.gf('django.db.models.fields.FloatField')()),
+            ('lon', self.gf('django.db.models.fields.FloatField')()),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=100)),
             ('type', self.gf('django.db.models.fields.IntegerField')()),
             ('value', self.gf('django.db.models.fields.FloatField')()),
             ('description', self.gf('django.db.models.fields.TextField')(max_length=255, null=True)),
             ('game', self.gf('django.db.models.fields.related.ForeignKey')(related_name='items', to=orm['ctf.Game'])),
-            ('lat', self.gf('django.db.models.fields.FloatField')()),
-            ('lon', self.gf('django.db.models.fields.FloatField')()),
         ))
         db.send_create_signal('ctf', ['Item'])
 
         # Adding model 'Map'
         db.create_table(u'ctf_map', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('lat', self.gf('django.db.models.fields.FloatField')()),
+            ('lon', self.gf('django.db.models.fields.FloatField')()),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=100)),
             ('description', self.gf('django.db.models.fields.TextField')(max_length=255, null=True)),
             ('radius', self.gf('django.db.models.fields.FloatField')()),
             ('author', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.PortalUser'], null=True)),
-            ('lat', self.gf('django.db.models.fields.FloatField')()),
-            ('lon', self.gf('django.db.models.fields.FloatField')()),
         ))
         db.send_create_signal('ctf', ['Map'])
 
@@ -43,6 +43,8 @@ class Migration(SchemaMigration):
             ('status', self.gf('django.db.models.fields.IntegerField')(default=0)),
             ('type', self.gf('django.db.models.fields.IntegerField')(default=0)),
             ('map', self.gf('django.db.models.fields.related.ForeignKey')(related_name='games', to=orm['ctf.Map'])),
+            ('visibility_range', self.gf('django.db.models.fields.FloatField')(default=200.0)),
+            ('action_range', self.gf('django.db.models.fields.FloatField')(default=5.0)),
         ))
         db.send_create_signal('ctf', ['Game'])
 
@@ -54,6 +56,15 @@ class Migration(SchemaMigration):
             ('character', models.ForeignKey(orm['core.character'], null=False))
         ))
         db.create_unique(m2m_table_name, ['game_id', 'character_id'])
+
+        # Adding M2M table for field invited_users on 'Game'
+        m2m_table_name = db.shorten_name(u'ctf_game_invited_users')
+        db.create_table(m2m_table_name, (
+            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
+            ('game', models.ForeignKey(orm['ctf.game'], null=False)),
+            ('portaluser', models.ForeignKey(orm['core.portaluser'], null=False))
+        ))
+        db.create_unique(m2m_table_name, ['game_id', 'portaluser_id'])
 
 
     def backwards(self, orm):
@@ -68,6 +79,9 @@ class Migration(SchemaMigration):
 
         # Removing M2M table for field players on 'Game'
         db.delete_table(db.shorten_name(u'ctf_game_players'))
+
+        # Removing M2M table for field invited_users on 'Game'
+        db.delete_table(db.shorten_name(u'ctf_game_invited_users'))
 
 
     models = {
@@ -104,6 +118,8 @@ class Migration(SchemaMigration):
         'core.portaluser': {
             'Meta': {'object_name': 'PortalUser'},
             'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
+            'device_id': ('django.db.models.fields.IntegerField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'device_type': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'email': ('django.db.models.fields.EmailField', [], {'max_length': '75'}),
             'first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'groups': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Group']"}),
@@ -113,6 +129,8 @@ class Migration(SchemaMigration):
             'is_superuser': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'last_login': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
             'last_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
+            'lat': ('django.db.models.fields.FloatField', [], {}),
+            'lon': ('django.db.models.fields.FloatField', [], {}),
             'nick': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'password': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
             'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Permission']"}),
@@ -120,15 +138,18 @@ class Migration(SchemaMigration):
         },
         'ctf.game': {
             'Meta': {'object_name': 'Game'},
+            'action_range': ('django.db.models.fields.FloatField', [], {'default': '5.0'}),
             'description': ('django.db.models.fields.TextField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'invited_users': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'pending_games'", 'symmetrical': 'False', 'to': "orm['core.PortalUser']"}),
             'map': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'games'", 'to': "orm['ctf.Map']"}),
             'max_players': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'players': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'games'", 'symmetrical': 'False', 'to': "orm['core.Character']"}),
+            'players': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'joined_games'", 'symmetrical': 'False', 'to': "orm['core.Character']"}),
             'start_time': ('django.db.models.fields.DateTimeField', [], {}),
             'status': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
-            'type': ('django.db.models.fields.IntegerField', [], {'default': '0'})
+            'type': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
+            'visibility_range': ('django.db.models.fields.FloatField', [], {'default': '200.0'})
         },
         'ctf.item': {
             'Meta': {'object_name': 'Item'},
