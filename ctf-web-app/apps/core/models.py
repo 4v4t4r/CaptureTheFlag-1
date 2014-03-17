@@ -1,7 +1,7 @@
 import logging
 from model_utils import Choices
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth.models import AbstractUser, UserManager
+from django.contrib.auth.models import AbstractUser
 from django.db import models, transaction
 
 logger = logging.getLogger('root')
@@ -17,6 +17,10 @@ class GeoModel(models.Model):
     """
     lat = models.FloatField(verbose_name=_("Latitude"))
     lon = models.FloatField(verbose_name=_("Longitude"))
+
+    @property
+    def location(self):
+        return '%s,%s' % (self.lat, self.lon)
 
     class Meta:
         abstract = True
