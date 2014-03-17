@@ -32,3 +32,13 @@ DATABASES = {
         'PORT': 'DB_PORT',
     }
 }
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+        'URL': 'http://ctf:9200/',
+        'INDEX_NAME': 'haystack',
+    },
+}
+
+HAYSTACK_SIGNAL_PROCESSOR = 'apps.core.eshaystack.HaystackRealtimeSignalProcessor'
