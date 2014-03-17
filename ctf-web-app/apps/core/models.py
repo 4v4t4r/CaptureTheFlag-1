@@ -1,4 +1,5 @@
 import logging
+from django.contrib.gis.geos import Point
 from model_utils import Choices
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import AbstractUser
@@ -20,7 +21,7 @@ class GeoModel(models.Model):
 
     @property
     def location(self):
-        return '%s,%s' % (self.lat, self.lon)
+        return Point(longitude=self.lon, latitude=self.lat)
 
     class Meta:
         abstract = True
