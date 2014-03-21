@@ -26,20 +26,3 @@ Run below commands:
 How to run?
 -----------
 ToDo
-
-Curl example commands
----------------------
-
-User registration:
-
-::
-
-    curl -H "Accept: application/json" -H "Content-type: application/json" -XPOST -d '{"username": "mort", "email": "mort@ctf.nete", "password": "mort"}' http://127.0.0.1:8000/api/registration/
-
-
-User authentication:
-
-::
-
-    curl -H "Accept: application/json" -H "Content-type: application/json" -XPOST -d '{"username": "mort", "password": "mort"}' http://127.0.0.1:8000/token/
-

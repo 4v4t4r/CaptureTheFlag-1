@@ -1,12 +1,8 @@
 import logging
-import re
 from django.contrib.gis.geos import Point
-from django.core.mail import send_mail
 from model_utils import Choices
-from django.utils import timezone
-from django.core import validators
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth.models import AbstractUser, AbstractBaseUser, PermissionsMixin, UserManager
+from django.contrib.auth.models import AbstractUser
 from django.db import models, transaction
 
 logger = logging.getLogger('root')
@@ -53,41 +49,20 @@ class Character(models.Model):
         app_label = "core"
 
 
-class PortalUser(GeoModel, AbstractBaseUser, PermissionsMixin):
+class PortalUser(GeoModel, AbstractUser):
     DEVICE_TYPES = Choices(
         (0, 'ANDROID', _("Android")),
         (1, 'WP', _("Windows Phone")),
         (2, 'IOS', _("iOS")),
     )
 
-    username = models.CharField(max_length=100, unique=True, verbose_name=_('username'),
-        validators=[
-            validators.RegexValidator(re.compile('^[\w.@+-]+$'), _('Enter a valid username.'),
-                                      'invalid')
-        ])
-    email = models.EmailField(_('email address'), max_length=100, blank=False, null=False, unique=True)
-    is_staff = models.BooleanField(default=False, verbose_name=_('staff status'))
-
     nick = models.CharField(blank=False, max_length=100, verbose_name=_("Nick"))
 
     device_type = models.IntegerField(blank=True, null=True, choices=DEVICE_TYPES, verbose_name=_("Device type"))
     device_id = models.CharField(blank=True, null=True, max_length=255, verbose_name=_("Device type"))
 
-    is_active = models.BooleanField(_('active'), default=True)
-
-    date_joined = models.DateTimeField(
-        _('date joined'), default=timezone.now)
-
-    objects = UserManager()
-
-    USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email']
-
-    def email_user(self, subject, message, from_email=None):
-        """
-        Sends an email to this User.
-        """
-        send_mail(subject, message, from_email, [self.email])
+    AbstractUser._meta.get_field("email").blank = False
+    AbstractUser._meta.get_field("email").null = False
 
     @transaction.atomic
     def save(self, *args, **kwargs):
@@ -105,6 +80,6 @@ class PortalUser(GeoModel, AbstractBaseUser, PermissionsMixin):
     def __unicode__(self):
         return "%s" % self.username
 
-    class Meta(AbstractUser.Meta):
+    class Meta:
         app_label = "core"
         swappable = 'AUTH_USER_MODEL'
