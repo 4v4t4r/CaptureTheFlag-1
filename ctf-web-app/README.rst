@@ -39,7 +39,7 @@ User registration:
 
 ::
 
-    curl -H "Accept: application/json" -H "Content-type: application/json" -XPOST -d '{"username": "mort", "email": "mort@ctf.nete", "password": "mort"}' http://127.0.0.1:8000/api/registration/
+    curl -H "Accept: application/json" -H "Content-type: application/json" -XPOST -d '{"username": "frodo", "email": "frodo@ctf.nete", "password": "frodo"}' http://127.0.0.1:8000/api/registration/
 
 
 User authentication:
@@ -48,3 +48,11 @@ User authentication:
 
     curl -H "Accept: application/json" -H "Content-type: application/json" -XPOST -d '{"username": "mort", "password": "mort"}' http://127.0.0.1:8000/token/
 
+
+Update user position:
+
+::
+
+    curl -H "Accept: application/json" -H "Content-type: application/json" -H "Authorization: Token 1b84fc8e06b7f759433889b087f594c7094ffa50" -XPATCH -d '{"lat": 53.429138, "lon": 14.556424}' http://127.0.0.1:8000/api/users/2/
+    curl -H "Accept: application/json" -H "Content-type: application/json" -H "Authorization: Token 1b84fc8e06b7f759433889b087f594c7094ffa50" -XPATCH -d '{"lat": 53.322809, "lon": 14.538427}' http://127.0.0.1:8000/api/users/1/
+    curl -H "Accept: application/json" -H "Content-type: application/json" -H "Authorization: Token 1b84fc8e06b7f759433889b087f594c7094ffa50" -XPATCH -d '{"lat": 53.322809, "lon": 14.538427}' http://127.0.0.1:8000/api/users/3/
