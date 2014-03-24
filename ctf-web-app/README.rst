@@ -46,7 +46,7 @@ User authentication:
 
 ::
 
-    curl -H "Accept: application/json" -H "Content-type: application/json" -XPOST -d '{"username": "mort", "password": "mort"}' http://127.0.0.1:8000/token/
+    curl -H "Accept: application/json" -H "Content-type: application/json" -XPOST -d '{"username": "frodo", "password": "frodo", "device_type": "android", "device_id": "5432456-123456"}' http://127.0.0.1:8000/token/
 
 
 Update user position:

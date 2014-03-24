@@ -77,6 +77,12 @@ class PortalUser(GeoModel, AbstractUser):
         else:
             logger.debug("characters already exist in user: %s - count: %d", self.username, len(characters))
 
+    @classmethod
+    def get_device_type(cls, device_type):
+        """ Returns device type based on string value.
+        """
+        return getattr(cls.DEVICE_TYPES, device_type.upper(), None)
+
     def __unicode__(self):
         return "%s" % self.username
 

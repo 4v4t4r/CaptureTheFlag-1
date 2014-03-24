@@ -1,12 +1,54 @@
+import logging
+from django.contrib.auth import authenticate
+from rest_framework import serializers
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework import parsers
 from rest_framework import renderers
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
-from rest_framework.authtoken.serializers import AuthTokenSerializer
+from apps.core.models import PortalUser
 
 __author__ = 'mkr'
+
+logger = logging.getLogger('root')
+
+
+class AuthTokenSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField()
+    device_type = serializers.CharField()
+    device_id = serializers.CharField()
+
+    def validate(self, attrs):
+        username = attrs.get('username')
+        password = attrs.get('password')
+        device_type = attrs.get('device_type')
+        device_id = attrs.get('device_id')
+
+        logger.debug("username: %s, device_type: %s, device_id: %s", username, device_type, device_id)
+
+        if username and password and device_type and device_id:
+            device_type = PortalUser.get_device_type(device_type)
+
+            if device_type is None:
+                raise serializers.ValidationError('Invalid device type.')
+
+            user = authenticate(username=username, password=password)
+
+            if user:
+                if not user.is_active:
+                    raise serializers.ValidationError('User account is disabled.')
+
+                setattr(user, "device_type", device_type)
+                setattr(user, "device_id", device_id)
+
+                attrs['user'] = user
+                return attrs
+            else:
+                raise serializers.ValidationError('Unable to login with provided credentials.')
+        else:
+            raise serializers.ValidationError("Must include 'username', 'password', 'device_id' and 'device_type'")
 
 
 class CtfAuthToken(APIView):
@@ -20,7 +62,9 @@ class CtfAuthToken(APIView):
     def post(self, request):
         serializer = self.serializer_class(data=request.DATA)
         if serializer.is_valid():
-            token, created = Token.objects.get_or_create(user=serializer.object['user'])
+            user = serializer.object['user']
+            token, created = Token.objects.get_or_create(user=user)
+            user.save()  # update user object of device_type and device_id
             return Response({'token': token.key})
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
