@@ -34,3 +34,8 @@ class CharacterSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Character
         fields = ('url', 'user', 'type', 'total_time', 'total_score', 'health', 'level', 'games')
+
+
+class GeoModelSerializer(serializers.Serializer):
+    lat = serializers.FloatField()
+    lon = serializers.FloatField()

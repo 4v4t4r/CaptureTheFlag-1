@@ -12,4 +12,5 @@ router.register("items", views.ItemViewSet)
 urlpatterns = patterns(
     '',
     url(r'^', include(router.urls)),
+    url(r'^games/(?P<pk>[0-9]+)/location/$', views.InGameLocation.as_view()),
 )
