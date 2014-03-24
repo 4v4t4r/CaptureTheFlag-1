@@ -39,7 +39,7 @@ User registration:
 
 ::
 
-    curl -H "Accept: application/json" -H "Content-type: application/json" -XPOST -d '{"username": "frodo", "email": "frodo@ctf.nete", "password": "frodo"}' http://127.0.0.1:8000/api/registration/
+    curl -H "Accept: application/json" -H "Content-type: application/json" -XPOST -d '{"username": "mort", "email": "mort@ctf.nete", "password": "mort"}' http://127.0.0.1:8000/api/registration/
 
 
 User authentication:
@@ -56,3 +56,11 @@ Update user position:
     curl -H "Accept: application/json" -H "Content-type: application/json" -H "Authorization: Token 1b84fc8e06b7f759433889b087f594c7094ffa50" -XPATCH -d '{"lat": 53.429138, "lon": 14.556424}' http://127.0.0.1:8000/api/users/2/
     curl -H "Accept: application/json" -H "Content-type: application/json" -H "Authorization: Token 1b84fc8e06b7f759433889b087f594c7094ffa50" -XPATCH -d '{"lat": 53.322809, "lon": 14.538427}' http://127.0.0.1:8000/api/users/1/
     curl -H "Accept: application/json" -H "Content-type: application/json" -H "Authorization: Token 1b84fc8e06b7f759433889b087f594c7094ffa50" -XPATCH -d '{"lat": 53.322809, "lon": 14.538427}' http://127.0.0.1:8000/api/users/3/
+
+
+Create a new map:
+
+::
+
+    curl -H "Accept: application/json" -H "Content-type: application/json" -H "Authorization: Token 03bd33c7e91a23cd96e5ae846100303dd3ca5ddd" -XPOST -d '{"name": "Jasne Blonia", "description": "", "radius": 2500, "lat": 53.440157, "lon": 14.540221}' http://127.0.0.1:8000/api/maps/
+

@@ -30,10 +30,10 @@ class Item(GeoModel):
 
 class Map(GeoModel):
     name = models.CharField(max_length=100, verbose_name=_("Name"))
-    description = models.TextField(null=True, max_length=255, verbose_name=_("Description"))
+    description = models.TextField(null=True, blank=True, max_length=255, verbose_name=_("Description"))
     radius = models.FloatField(verbose_name=_("Radius"))
 
-    author = models.ForeignKey(PortalUser, null=True, verbose_name=_("Author"))
+    author = models.ForeignKey(PortalUser, null=True, blank=True, verbose_name=_("Author"))
 
     def __unicode__(self):
         return "%s" % self.name

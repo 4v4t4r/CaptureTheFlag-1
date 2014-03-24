@@ -23,6 +23,10 @@ class MapViewSet(mixins.ModelPermissionsMixin,
     serializer_class = MapSerializer
     model = Map
 
+    def pre_save(self, obj):
+        user = self.request.user
+        setattr(obj, "author", user)
+
 
 class GameViewSet(mixins.ModelPermissionsMixin,
                   CreateModelMixin,

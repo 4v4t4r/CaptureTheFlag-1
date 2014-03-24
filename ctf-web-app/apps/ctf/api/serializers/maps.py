@@ -7,4 +7,5 @@ __author__ = 'mkr'
 class MapSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Map
-        fields = ('url', 'name', 'description', 'radius', 'author', 'lat', 'lon', 'games')
+        fields = ('url', 'author', 'name', 'description', 'radius', 'lat', 'lon', 'games')
+        read_only = ('author',)
