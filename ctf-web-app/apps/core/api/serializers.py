@@ -35,7 +35,7 @@ class PortalUserSerializer(serializers.HyperlinkedModelSerializer):
 class CharacterSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Character
-        fields = ('url', 'user', 'type', 'total_time', 'total_score', 'health', 'level', 'games')
+        fields = ('url', 'user', 'type', 'total_time', 'total_score', 'health', 'level')
 
 
 class GeoModelSerializer(serializers.Serializer):

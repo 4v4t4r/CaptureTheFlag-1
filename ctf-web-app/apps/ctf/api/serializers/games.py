@@ -7,4 +7,6 @@ __author__ = 'mkr'
 class GameSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Game
-        fields = ('url', 'name', 'description', 'start_time', 'max_players', 'status', 'type', 'map', 'players')
+        fields = (
+        'url', 'name', 'description', 'start_time', 'max_players', 'status', 'type', 'map', 'visibility_range',
+        'action_range', 'players', 'invited_users', 'items')

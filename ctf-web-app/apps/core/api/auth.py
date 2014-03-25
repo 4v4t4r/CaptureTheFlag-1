@@ -32,7 +32,7 @@ class AuthTokenSerializer(serializers.Serializer):
             device_type = PortalUser.get_device_type(device_type)
 
             if device_type is None:
-                raise serializers.ValidationError('Invalid device type.')
+                raise serializers.ValidationError({'device_type': ['Invalid device type.']})
 
             user = authenticate(username=username, password=password)
 

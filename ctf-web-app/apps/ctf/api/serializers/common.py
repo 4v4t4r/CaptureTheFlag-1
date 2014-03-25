@@ -7,4 +7,4 @@ __author__ = 'mkr'
 class ItemSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Item
-        fields = ('url', 'name', 'type', 'value', 'description', 'lat', 'lon', 'games')
+        fields = ('url', 'name', 'type', 'value', 'description', 'lat', 'lon', 'game')
