@@ -41,6 +41,7 @@ class Character(models.Model):
     total_score = models.IntegerField(blank=False, default=0, verbose_name=_("Total score"))
     health = models.DecimalField(blank=False, max_digits=3, default=1.00, decimal_places=2, verbose_name=_("Health"))
     level = models.IntegerField(blank=False, default=0, verbose_name=_("Level"))
+    is_active = models.BooleanField(default=False, verbose_name=_("Is active"))
 
     def __unicode__(self):
         return "%s: %s" % (self.type, self.user)
@@ -64,6 +65,29 @@ class PortalUser(GeoModel, AbstractUser):
     AbstractUser._meta.get_field("email").blank = False
     AbstractUser._meta.get_field("email").null = False
 
+    def get_active_character(self):
+        """ Gets an active user's character.
+        """
+        try:
+            return self.characters.get(is_active=True)
+        except Character.DoesNotExist:
+            return None
+
+    def deactivate_characters(self):
+        """ Deactivates all user's characters
+        """
+        self.characters.update(is_active=False)
+
+    def set_active_character(self, character):
+        """ Sets selected character to active. Before that operation all user's characters are deactivated.
+        """
+        # deactivate all user's character first...
+        self.deactivate_characters()
+
+        # set active current character
+        character.is_active = True
+        character.save()
+
     @transaction.atomic
     def save(self, *args, **kwargs):
         super(PortalUser, self).save(*args, **kwargs)
@@ -72,6 +96,8 @@ class PortalUser(GeoModel, AbstractUser):
         if not characters:
             for character_type in Character.CHARACTER_TYPES:
                 character = Character(user=self, type=character_type[0])
+                if character.type == 0:
+                    character.is_active = True
                 character.save()
             logger.info("characters were saved for user: %s - count: %d", self.username, len(characters))
         else:
