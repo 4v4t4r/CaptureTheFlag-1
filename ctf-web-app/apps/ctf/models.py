@@ -1,7 +1,10 @@
+import logging
 from model_utils import Choices
 from django.utils.translation import ugettext_lazy as _
 from django.db import models
 from apps.core.models import PortalUser, Character, GeoModel
+
+logger = logging.getLogger("root")
 
 
 class Item(GeoModel):
@@ -68,6 +71,42 @@ class Game(models.Model):
 
     players = models.ManyToManyField(Character, verbose_name=_("Players"), related_name="joined_games")
     invited_users = models.ManyToManyField(PortalUser, verbose_name=_("Invited users"), related_name="pending_games")
+
+    def add_player(self, user):
+        character = user.get_active_character()
+
+        if character is None:
+            raise AssertionError("An active character is not defined")
+
+        if self.max_players and self.max_players == self.players.count():
+            raise Exception("Max value of players exceeded")
+
+        logger.debug("character.user: %s", character.user)
+
+        is_user_already_exist = self.players.filter(user=user).exists()
+        logger.debug("is_user_already_exist: %s", is_user_already_exist)
+
+        if is_user_already_exist:
+            logger.info("User '%s' already joined into the game '%s'...", user.username, self.name)
+        else:
+            logger.info("User '%s' in character '%s' is joining into the game '%s'...", user.username, character.type,
+                        self.name)
+            self.players.add(character)
+            self.save()
+        return character
+
+    def remove_player(self, user):
+        character = user.get_active_character()
+
+        if character is None:
+            raise AssertionError("An active character is not defined")
+
+        logger.info("User '%s' in character '%s' is removing from game '%s'...", user.username, character.type,
+                    self.name)
+        self.players.remove(character)
+        self.save()
+
+        return character
 
     def __unicode__(self):
         return "%s" % self.name

@@ -70,43 +70,34 @@ class InGameLocation(APIView):
 
 
 class JoinToGame(APIView):
-    def patch(self, request, pk):
+    def post(self, request, pk):
         logger.debug("joining player to selected game...")
 
         game = get_object_or_404(Game, pk=pk)
         user = request.user
-        character = user.get_active_character()
 
-        if character is None:
-            return Response(data={"error": "An active character is not defined"}, status=status.HTTP_400_BAD_REQUEST)
-
-        logger.debug("character.user: %s", character.user)
-
-        is_user_already_exist = game.players.filter(user=user).exists()
-        logger.debug("is_user_already_exist: %s", is_user_already_exist)
-
-        if is_user_already_exist:
-            logger.info("User '%s' already joined into the game '%s'...", user.username, game.name)
+        try:
+            character = game.add_player(user)
+        except AssertionError, e:
+            # todo: add error code
+            return Response(data={"error": e.message}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception, e:
+            # todo: add error code
+            return Response(data={"error": e.message}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            logger.info("User '%s' in character '%s' is joining into the game '%s'...", user.username, character.type, game.name)
-            game.players.add(character)
-            game.save()
-
-        return Response(status=status.HTTP_200_OK)
+            logger.info("Player '%s' in character is in game '%s'", user.username, character.type, game.name)
+            return Response(status=status.HTTP_200_OK)
 
     def delete(self, request, pk):
         logger.debug("removing player from selected game...")
 
         game = get_object_or_404(Game, pk=pk)
         user = request.user
-        character = user.get_active_character()
 
-        if character is None:
-            return Response(data={"error": "An active character is not defined"}, status=status.HTTP_400_BAD_REQUEST)
-
-        logger.info("User '%s' in character '%s' is removing from game '%s'...", user.username, character.type, game.name)
-
-        game.players.remove(character)
-        game.save()
-
-        return Response(status=status.HTTP_200_OK)
+        try:
+            character = game.remove_player(user)
+        except AssertionError, e:
+            return Response(data={"error": e.message}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            logger.info("Player '%s' in character is no longer in game '%s'", user.username, character.type, game.name)
+            return Response(status=status.HTTP_200_OK)
