@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet
 from apps.core.api import mixins
 from apps.core.api.serializers import GeoModelSerializer
-from apps.ctf.api.serializers.common import ItemSerializer
+from apps.ctf.api.serializers.common import ItemSerializer, NeighbourSerializer
 from apps.ctf.api.serializers.games import GameSerializer
 from apps.ctf.api.serializers.maps import MapSerializer
 from apps.ctf.models import Map, Game, Item
@@ -56,6 +56,7 @@ class ItemViewSet(mixins.ModelPermissionsMixin,
 
 class InGameLocation(APIView):
     def put(self, request, pk, format=None):
+        game = get_object_or_404(Game, pk=pk)
         serializer = GeoModelSerializer(data=request.DATA)
 
         if serializer.is_valid():
@@ -64,7 +65,15 @@ class InGameLocation(APIView):
             user.lon = serializer.object.get('lon')
             user.save()
 
-            return Response('ok', status=status.HTTP_204_NO_CONTENT)
+            neighbours = game.get_neighbours(user)
+            logger.debug("neighbours size: %d", len(neighbours))
+            logger.debug("neighbours: %s", neighbours)
+
+            neighbour_serializer = NeighbourSerializer(user, neighbours)
+            data = neighbour_serializer.data
+            logger.debug("data: %s", data)
+
+            return Response(data=data, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
 

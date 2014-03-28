@@ -1,5 +1,7 @@
 import logging
 from model_utils import Choices
+from haystack.query import SearchQuerySet
+from haystack.utils.geo import Point, D
 from django.utils.translation import ugettext_lazy as _
 from django.db import models
 from apps.core.models import PortalUser, Character, GeoModel
@@ -67,7 +69,7 @@ class Game(models.Model):
     map = models.ForeignKey(Map, verbose_name=_("Map"), related_name='games')
 
     visibility_range = models.FloatField(default=200.00, verbose_name=_("Visibility range"))  # in meters
-    action_range = models.FloatField(default=5.00, verbose_name=_("Action range")) # in meters
+    action_range = models.FloatField(default=5.00, verbose_name=_("Action range"))  # in meters
 
     players = models.ManyToManyField(Character, verbose_name=_("Players"), related_name="joined_games")
     invited_users = models.ManyToManyField(PortalUser, verbose_name=_("Invited users"), related_name="pending_games")
@@ -107,6 +109,21 @@ class Game(models.Model):
         self.save()
 
         return character
+
+    def get_neighbours(self, user):
+        location = (user.lat, user.lon)
+        point = Point(location[1], location[0])
+        max_dist = D(m=self.visibility_range)
+
+        logger.debug("user: %s", user)
+        logger.debug("location: %s", location)
+        logger.debug("max_dist: %s", max_dist)
+
+        sqs = SearchQuerySet().dwithin('location', point, max_dist)
+
+        logger.debug("Query: %s", sqs.query)
+
+        return sqs
 
     def __unicode__(self):
         return "%s" % self.name

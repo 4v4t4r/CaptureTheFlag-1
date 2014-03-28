@@ -1,6 +1,6 @@
 import logging
-from django.contrib.gis.geos import Point
 from model_utils import Choices
+from django.contrib.gis.geos import Point
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import AbstractUser
 from django.db import models, transaction
