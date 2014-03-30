@@ -5,7 +5,7 @@ buildscript {
         maven { url 'https://github.com/Goddchen/mvn-repo/raw/master/' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.7.+'
+        classpath 'com.android.tools.build:gradle:0.9.+'
         classpath 'com.squareup.gradle:gradle-android-test-plugin:0.9.1-SNAPSHOT'
     }
 }
@@ -21,7 +21,7 @@ repositories {
 
 android {
     compileSdkVersion 19
-    buildToolsVersion "19.0.1"
+    buildToolsVersion '19.0.3'
 
     defaultConfig {
         minSdkVersion 14
@@ -31,7 +31,7 @@ android {
     }
 
     sourceSets {
-        instrumentTest.setRoot('src/test')
+        androidTest.setRoot('src/test')
     }
 
     compileOptions {
@@ -46,22 +46,39 @@ android {
         }
     }
 
+    applicationVariants.all{ variant ->
+        // This is an annoying hack to get around the fact that the Gradle plugin does not support
+        // having libraries with different minSdkVersions. Play Services has a min version of 9 (Gingerbread)
+        // but Android Maps Utils supports 8 (Froyo) still
+        variant.processManifest.doFirst {
+            File manifestFile = file("${buildDir}/exploded-aar/com.google.maps.android/android-maps-utils/0.3/AndroidManifest.xml")
+            if (manifestFile.exists()) {
+                println("Replacing minSdkVersion in Android Maps Utils")
+                String content = manifestFile.getText('UTF-8')
+                content = content.replaceAll(/minSdkVersion="8"/, 'minSdkVersion=\"9\"')
+                manifestFile.write(content, 'UTF-8')
+                println(content)
+            }
+        }
+    }
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:19.0.1'
-    compile 'com.google.android.gms:play-services:4.+'
-    compile 'com.google.maps.android:android-maps-utils:0.2+'
+    compile 'com.android.support:support-v4:19.1.+'
+    compile 'com.google.android.gms:play-services:+'
+    compile 'com.google.maps.android:android-maps-utils:0.3'
     compile 'com.android:volley:1.0'
     compile 'com.intellij:annotations:+@jar'
     compile 'com.google.code.gson:gson:2.2.4'
     compile fileTree(dir: 'libs', include: '*.jar')
 
+    androidTestCompile 'junit:junit:4.11'
+    androidTestCompile 'org.robolectric:robolectric:2.1.+'
+    androidTestCompile 'com.squareup:fest-android:1.0.+'
+    androidTestCompile 'com.google.code.gson:gson:2.2.4'
+
     testCompile 'junit:junit:4.11'
     testCompile 'org.robolectric:robolectric:2.1.+'
     testCompile 'com.squareup:fest-android:1.0.+'
     testCompile 'com.google.code.gson:gson:2.2.4'
-    instrumentTestCompile 'junit:junit:4.11'
-    instrumentTestCompile 'org.robolectric:robolectric:2.3-SNAPSHOT'
-    instrumentTestCompile 'com.squareup:fest-android:1.0.+'
 }

@@ -4,7 +4,6 @@ import android.animation.IntEvaluator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DownloadManager;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.graphics.Color;
