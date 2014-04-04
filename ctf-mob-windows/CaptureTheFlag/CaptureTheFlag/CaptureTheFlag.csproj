@@ -101,9 +101,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Services\CommunicationService.cs" />
+    <Compile Include="Services\ICommunicationService.cs" />
+    <Compile Include="ViewModels\MainAppPivotViewModel.cs" />
     <Compile Include="ViewModels\UserAccessPivotViewModel.cs" />
     <Compile Include="ViewModels\UserLoginViewModel.cs" />
     <Compile Include="ViewModels\UserRegistrationViewModel.cs" />
+    <Compile Include="Views\MainAppPivotView.xaml.cs">
+      <DependentUpon>MainAppPivotView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserAccessPivotView.xaml.cs">
       <DependentUpon>UserAccessPivotView.xaml</DependentUpon>
     </Compile>
@@ -121,6 +127,7 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\AppManifest.xml" />
     <None Include="Properties\WMAppManifest.xml">
@@ -171,6 +178,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Page Include="Views\MainAppPivotView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\UserAccessPivotView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

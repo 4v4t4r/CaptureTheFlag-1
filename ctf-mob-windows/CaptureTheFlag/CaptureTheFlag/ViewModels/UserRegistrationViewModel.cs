@@ -1,25 +1,35 @@
 ﻿using Caliburn.Micro;
 using System.Windows;
+using CaptureTheFlag.Services;
 
 namespace CaptureTheFlag.ViewModels
 {
     public class UserRegistrationViewModel : Screen
     {
+        private readonly INavigationService navigationService;
+        private readonly ICommunicationService communicationService;
         private string username;
         private string password;
         private string email;
         private string register;
 
-        public UserRegistrationViewModel()
+        public UserRegistrationViewModel(INavigationService navigationService, ICommunicationService communicationService)
         {
-            DisplayName = "User registration";
+            this.navigationService = navigationService;
+            this.communicationService = communicationService;
+            DisplayName = "Registration";
             Register = "Register";
         }
 
         #region Actions
         public void RegisterAction()
         {
-            MessageBox.Show("Registered");
+            communicationService.Register("sdf", "sdf", "sdf");
+
+            //navigationService
+            //    .UriFor<MainAppPivotViewModel>()
+            //    .WithParam(param => param.Name, "Register")
+            //    .Navigate();
         }
         #endregion
 

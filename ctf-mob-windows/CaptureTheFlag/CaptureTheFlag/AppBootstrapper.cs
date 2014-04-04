@@ -5,6 +5,7 @@ namespace CaptureTheFlag {
 	using Microsoft.Phone.Controls;
 	using Caliburn.Micro;
     using CaptureTheFlag.ViewModels;
+    using CaptureTheFlag.Services;
 
 	public class AppBootstrapper : PhoneBootstrapperBase
 	{
@@ -24,6 +25,9 @@ namespace CaptureTheFlag {
             container.PerRequest<UserAccessPivotViewModel>();
             container.PerRequest<UserLoginViewModel>();
             container.PerRequest<UserRegistrationViewModel>();
+            container.PerRequest<MainAppPivotViewModel>();
+
+            container.PerRequest<ICommunicationService, CommunicationService>();
 
 			AddCustomConventions();
 		}

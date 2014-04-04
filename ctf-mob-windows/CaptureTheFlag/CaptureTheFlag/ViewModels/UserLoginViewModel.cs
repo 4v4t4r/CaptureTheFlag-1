@@ -5,20 +5,25 @@ namespace CaptureTheFlag.ViewModels
 {
     public class UserLoginViewModel : Screen
     {
+        private readonly INavigationService navigationService;
         private string username;
         private string password;
         private string login;
 
-        public UserLoginViewModel()
+        public UserLoginViewModel(INavigationService navigationService)
         {
-            DisplayName = "User Login";
+            this.navigationService = navigationService;
+            DisplayName = "Login";
             Login = "Login";
         }
 
         #region Actions
         public void LoginAction()
         {
-            MessageBox.Show("Logged in");
+            navigationService
+                .UriFor<MainAppPivotViewModel>()
+                .WithParam(param => param.Name, "Login")
+                .Navigate();
         }
         #endregion
 
