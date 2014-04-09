@@ -1,12 +1,16 @@
 ﻿using Caliburn.Micro;
+using CaptureTheFlag.Models;
+using CaptureTheFlag.Services;
 
 namespace CaptureTheFlag.ViewModels
 {
     public class MainAppPivotViewModel : Conductor<IScreen>.Collection.OneActive
     {
-        public MainAppPivotViewModel()
-        {
+        private ICommunicationService communicationService;
 
+        public MainAppPivotViewModel (ICommunicationService communicationService)
+        {
+            this.communicationService = communicationService;
         }
 
         protected override void OnInitialize()
@@ -14,17 +18,22 @@ namespace CaptureTheFlag.ViewModels
             base.OnInitialize();
         }
 
-
-        private string name;
-        public string Name
+        protected override void OnActivate()
         {
-            get { return name; }
+            base.OnActivate();
+            //communicationService.GetAllGames<ServerErrorMessage>(Token, response => { });
+        }
+
+        private string token;
+        public string Token
+        {
+            get { return token; }
             set
             {
-                if (name != value)
+                if (token != value)
                 {
-                    name = value;
-                    NotifyOfPropertyChange("Name");
+                    token = value;
+                    NotifyOfPropertyChange(() => Token);
                 }
             }
         }

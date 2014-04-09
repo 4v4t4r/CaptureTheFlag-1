@@ -25,9 +25,9 @@
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
             <StackPanel>
-                <TextBox x:Name="Username" />
-                <TextBox x:Name="Password" />
-                <Button x:Name="Login">
+                <TextBox x:Name="Username" IsEnabled="{Binding IsFormAccessible}" />
+                <TextBox x:Name="Password" IsEnabled="{Binding IsFormAccessible}" />
+                <Button x:Name="Login" IsEnabled="{Binding IsFormAccessible}" >
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <cal:ActionMessage MethodName="LoginAction" />
