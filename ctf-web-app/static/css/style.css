@@ -4,3 +4,17 @@ body {
 .base-container {
   padding: 40px 15px;
 }
+
+div.revision {
+    color: #494949;
+    font-size: 12px;
+    padding: 40px 0 0 0;
+}
+
+h1 {
+    padding: 0 0 20px 0;
+}
+
+div.about img {
+    padding: 60px 0 0 0;
+}

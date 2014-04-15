@@ -1,5 +1,36 @@
 {% extends "base.html" %}
 
+{% load staticfiles %}
+{% load i18n %}
+
 {% block content %}
-    <h1>API</h1>
+    <div class="home">
+        <h1>API</h1>
+
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>{% trans "Label" %}</th>
+                <th>{% trans "URL" %}</th>
+                <th>{% trans "HTTP Methods" %}</th>
+                <th>{% trans "Comments" %}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for url in urls %}
+                <tr>
+                    <td>{{ url.0 }}</td>
+                    <td>{{ url.1 }}</td>
+                    <td>{{ url.2 }}</td>
+                    <td>{{ url.3 }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="revision">
+            <label for="revision">{% trans "Revision" %}:</label>
+            <span>{{ revision }}</span>
+        </div>
+    </div>
 {% endblock %}

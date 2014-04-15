@@ -21,7 +21,9 @@ class GeoModel(models.Model):
 
     @property
     def location(self):
-        return Point(self.lon, self.lat)
+        if self.lat and self.lon:
+            return Point(self.lon, self.lat)
+        return None
 
     class Meta:
         abstract = True

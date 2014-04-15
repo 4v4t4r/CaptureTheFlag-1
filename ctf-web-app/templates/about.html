@@ -1,5 +1,32 @@
 {% extends "base.html" %}
 
+{% load staticfiles %}
+{% load i18n %}
+
 {% block content %}
-    <h1>About</h1>
+    <div class="about">
+        <h1>About</h1>
+
+        <span>
+        {% blocktrans %}
+            Someone of you has heard something about an outdoor game like ‘Capture the Flag’ and someone hasn't yet.
+            In couple of words, I want bring closer this topic. It will be based on the idea that two opposing teams
+            (e.g. red and blue) compete each other. Main objective is to capture other team's flag and bring it back
+            to own base. I think it's a good idea that we can bring it to another level and introduce it to virtual world,
+            while players would still move in the real world. All players will be exploring the whole city (it doesn't
+            matter what kind of city it is) with mobile phones in their hands trying to locate other team's base
+            and steal the flag.
+            <br><br>
+            In BLStream we work together on this project as a guild team. It’s an open guild, not only for Python freaks
+            (as we are ;-), but it is an across platform community with one
+            common purpose - ‘Capture the Flag’ as an urban game for mobile phones. It’s an open source project and all
+            source code you can find on GitHub and everyone can join us (including people from outside the company).
+            <br><br>
+            So if you want to join and start your adventure with Python, mobile phones and urban games
+            please contact with <a href="mailto:michal.krawczak@blstream.com">Michał Krawczak</a>.
+        {% endblocktrans %}
+        </span>
+
+        <img src="{% static "img/promo.png" %}">
+    </div>
 {% endblock %}

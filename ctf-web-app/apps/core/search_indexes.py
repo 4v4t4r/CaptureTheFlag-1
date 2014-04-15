@@ -5,7 +5,7 @@ from apps.ctf.models import Item
 
 class GeoModelIndex(indexes.SearchIndex):
     text = indexes.IntegerField(document=True)
-    location = indexes.LocationField(model_attr='location')
+    location = indexes.LocationField(null=True, model_attr='location')
 
 
 class PortalUserIndex(GeoModelIndex, indexes.Indexable):
