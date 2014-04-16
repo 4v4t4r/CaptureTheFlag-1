@@ -32,6 +32,12 @@ namespace CaptureTheFlag.ViewModels
             }
 
             ActivateItem(userLoginModelView);
+
+            INavigationService navigationService = IoC.Get<INavigationService>();
+            navigationService
+                .UriFor<MainAppPivotViewModel>()
+                .WithParam(param => param.Token, "565a25153a2d671c87860e1cba160ba407400d84")
+                .Navigate();
         }
 
         protected override void OnActivate()

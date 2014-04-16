@@ -25,9 +25,23 @@ namespace CaptureTheFlag {
             container.PerRequest<UserAccessPivotViewModel>();
             container.PerRequest<UserLoginViewModel>();
             container.PerRequest<UserRegistrationViewModel>();
+
             container.PerRequest<MainAppPivotViewModel>();
+            container.PerRequest<CreateGameViewModel>();
+            container.PerRequest<CreateMapViewModel>();
+            container.PerRequest<ListGamesViewModel>();
+            container.PerRequest<GameItemViewModel>();
+
+            container.PerRequest<CharacterViewModel>();
+            container.PerRequest<UserViewModel>();
 
             container.PerRequest<ICommunicationService, CommunicationService>();
+            container.PerRequest<IGameModelService, GameModelService>();
+            container.PerRequest<IUserModelService, UserModelService>();
+            container.PerRequest<IMapModelService, MapModelService>();
+            container.PerRequest<ILocationService, LocationService>();
+
+            container.Singleton<GlobalStorageService>();
 
 			AddCustomConventions();
 		}

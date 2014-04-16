@@ -63,7 +63,6 @@ namespace CaptureTheFlag.ViewModels
                 .UriFor<MainAppPivotViewModel>()
                 .WithParam(param => param.Token, message.Token)
                 .Navigate();
-            
         }
 
         public void Handle(ServerErrorMessage message)

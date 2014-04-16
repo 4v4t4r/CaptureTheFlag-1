@@ -24,7 +24,6 @@
                 </DataTemplate>
             </phone:Pivot.HeaderTemplate>
         </phone:Pivot>
-        <TextBlock x:Name="Token" Text="{Binding Token}"/>
     </Grid>
     
 </phone:PhoneApplicationPage>

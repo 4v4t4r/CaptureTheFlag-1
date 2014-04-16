@@ -96,24 +96,59 @@
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="DebugLogger.cs" />
     <Compile Include="LocalizedStrings.cs" />
+    <Compile Include="Models\Character.cs" />
+    <Compile Include="Models\Extensions.cs" />
     <Compile Include="Models\Game.cs" />
+    <Compile Include="Models\GameItem.cs" />
     <Compile Include="Models\LoginResponse.cs" />
+    <Compile Include="Models\GameMap.cs" />
     <Compile Include="Models\RegisterResponse.cs" />
     <Compile Include="Models\ServerErrorMessage.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\AppResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="RestSharp.cs" />
     <Compile Include="Services\CommunicationService.cs" />
+    <Compile Include="Services\GameModelService.cs" />
+    <Compile Include="Services\GlobalStorageService.cs" />
     <Compile Include="Services\ICommunicationService.cs" />
+    <Compile Include="Services\IGameModelService.cs" />
+    <Compile Include="Services\IGlobalStorageService.cs" />
+    <Compile Include="Services\ILocationService.cs" />
+    <Compile Include="Services\IMapModelService.cs" />
+    <Compile Include="Services\IUserModelService.cs" />
+    <Compile Include="Services\LocationService.cs" />
+    <Compile Include="Services\MapModelService.cs" />
+    <Compile Include="Services\UserModelService.cs" />
     <Compile Include="Storage\MainAppPivotModelStorage.cs" />
+    <Compile Include="ViewModels\CharacterViewModel.cs" />
+    <Compile Include="ViewModels\CreateGameViewModel.cs" />
+    <Compile Include="ViewModels\CreateMapViewModel.cs" />
+    <Compile Include="ViewModels\GameItemViewModel.cs" />
+    <Compile Include="ViewModels\ListGamesViewModel.cs" />
     <Compile Include="ViewModels\MainAppPivotViewModel.cs" />
     <Compile Include="ViewModels\UserAccessPivotViewModel.cs" />
     <Compile Include="ViewModels\UserLoginViewModel.cs" />
     <Compile Include="ViewModels\UserRegistrationViewModel.cs" />
+    <Compile Include="ViewModels\UserViewModel.cs" />
+    <Compile Include="Views\CharacterView.xaml.cs">
+      <DependentUpon>CharacterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CreateGameView.xaml.cs">
+      <DependentUpon>CreateGameView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CreateMapView.xaml.cs">
+      <DependentUpon>CreateMapView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GameItemView.xaml.cs">
+      <DependentUpon>GameItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ListGamesView.xaml.cs">
+      <DependentUpon>ListGamesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainAppPivotView.xaml.cs">
       <DependentUpon>MainAppPivotView.xaml</DependentUpon>
     </Compile>
@@ -125,6 +160,9 @@
     </Compile>
     <Compile Include="Views\UserRegistrationView.xaml.cs">
       <DependentUpon>UserRegistrationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserView.xaml.cs">
+      <DependentUpon>UserView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -161,6 +199,12 @@
     <Content Include="Assets\Tiles\IconicTileSmall.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="README_FIRST.txt" />
+    <Content Include="Toolkit.Content\ApplicationBar.Add.png" />
+    <Content Include="Toolkit.Content\ApplicationBar.Cancel.png" />
+    <Content Include="Toolkit.Content\ApplicationBar.Check.png" />
+    <Content Include="Toolkit.Content\ApplicationBar.Delete.png" />
+    <Content Include="Toolkit.Content\ApplicationBar.Select.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\AppResources.resx">
@@ -176,6 +220,9 @@
       <HintPath>..\packages\Caliburn.Micro.1.5.2\lib\wp8\Caliburn.Micro.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Phone.Controls, Version=8.0.0.0, Culture=neutral, PublicKeyToken=24eec0d8c86cda1e, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Phone.Controls.Toolkit">
+      <HintPath>..\packages\WPtoolkit.4.2013.08.16\lib\wp8\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.2\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -188,6 +235,26 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Page Include="Views\CharacterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CreateGameView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CreateMapView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GameItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ListGamesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainAppPivotView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -201,6 +268,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserRegistrationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
