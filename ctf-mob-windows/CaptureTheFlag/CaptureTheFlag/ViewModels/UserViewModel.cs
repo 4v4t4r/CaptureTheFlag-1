@@ -29,7 +29,7 @@ namespace CaptureTheFlag.ViewModels
 
             User = new User();
 #warning Temporary variables
-            User.url = "http://78.133.154.39:8888/api/users/10/";
+            User.url = "http://78.133.154.39:8888/api/users/4/";
 
             DisplayName = "User";
             UrlTextBlock = "Url:";
@@ -44,6 +44,7 @@ namespace CaptureTheFlag.ViewModels
             LatTextBlock = "Latitude:";
             LonTextBlock = "Longitude:";
 
+            ReadCharacterButton = "View character";
             ReadButton = "Read";
             UpdateButton = "Update";
             UpdateSelectiveButton = "Patch";
@@ -75,6 +76,30 @@ namespace CaptureTheFlag.ViewModels
         public void ReadCharacterAction()
         {
             DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
+            navigationService.UriFor<CharacterViewModel>()
+                .WithParam(param => param.CharacterModelKey, "http://78.133.154.39:8888/api/characters/15/")
+                .WithParam(param => param.Token, Token)
+                .Navigate();
+        }
+
+        public void SelectCharacterAction()
+        {
+            DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
+            Character chara = new Character();
+            chara.url = "http://78.133.154.39:8888/api/characters/15/";
+            communicationService.SelectCharacter(chara, Token,
+                responseData =>
+                {
+                    DebugLogger.WriteLine("Successful create callback", this.GetType(), MethodBase.GetCurrentMethod());
+                    MessageBox.Show("OK", "read", MessageBoxButton.OK);
+                    //User = responseData;
+                },
+                serverErrorMessage =>
+                {
+                    DebugLogger.WriteLine("Failed create callback", this.GetType(), MethodBase.GetCurrentMethod());
+                    MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
+                }
+            );
         }
 
         public void ReadAction()
@@ -366,6 +391,20 @@ namespace CaptureTheFlag.ViewModels
                 {
                     readButton = value;
                     NotifyOfPropertyChange(() => ReadButton);
+                }
+            }
+        }
+
+        private string readCharacterButton;
+        public string ReadCharacterButton
+        {
+            get { return readCharacterButton; }
+            set
+            {
+                if (readCharacterButton != value)
+                {
+                    readCharacterButton = value;
+                    NotifyOfPropertyChange(() => ReadCharacterButton);
                 }
             }
         }

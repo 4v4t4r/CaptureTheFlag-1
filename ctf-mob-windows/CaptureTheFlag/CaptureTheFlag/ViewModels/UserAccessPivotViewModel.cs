@@ -36,7 +36,7 @@ namespace CaptureTheFlag.ViewModels
             INavigationService navigationService = IoC.Get<INavigationService>();
             navigationService
                 .UriFor<MainAppPivotViewModel>()
-                .WithParam(param => param.Token, "565a25153a2d671c87860e1cba160ba407400d84")
+                .WithParam(param => param.Token, "faef06263daf128be3accaf2089dbc12f9251c1e")
                 .Navigate();
         }
 

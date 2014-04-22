@@ -1,52 +1,57 @@
 ﻿using Caliburn.Micro;
 using CaptureTheFlag.Models;
 using CaptureTheFlag.Services;
+using Microsoft.Phone.Maps.Controls;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using Windows.Devices.Geolocation;
 
 namespace CaptureTheFlag.ViewModels
 {
-    public class CreateGameViewModel : Screen, IHandle<GameMap>
+    public class GameMapViewModel : Screen
     {
         private readonly INavigationService navigationService;
         private readonly IEventAggregator eventAggregator;
         private readonly ICommunicationService communicationService;
 
-        public CreateGameViewModel(INavigationService navigationService, IEventAggregator eventAggregator, ICommunicationService communicationService)
+        public GameMapViewModel(INavigationService navigationService, IEventAggregator eventAggregator, ILocationService locationService, ICommunicationService communicationService)
         {
             DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
             this.navigationService = navigationService;
             this.eventAggregator = eventAggregator;
             this.communicationService = communicationService;
 
-            IsFormAccessible = true;
+            GameMap = new GameMap();
+            
+            #warning Temporary constants
+            GameMap.url = "http://78.133.154.39:8888/api/maps/31/";
 
-            Game = new Game();
-            //TODO: update to model probably
-            StartDate = DateTime.Now.AddDays(1);
+            //GameMap.name = "Jasne Blonia";
+            //GameMap.description = "description";
+            //GameMap.radius = 2500;
+            //GameMap.lat = 53.440157f;
+            //GameMap.lon = 14.540221f;
 
-            DisplayName = "Create game";
-            AddUserButton = "Subscribe me";
-            RemoveUserButton = "Unsubscribe me";
+            DisplayName = "Game map";
+            NameTextBlock = "Name:";
+            DescriptionTextBlock = "Description:";
+            RadiusTextBlock = "Radius:";
+            LatTextBlock = "Latitude:";
+            LonTextBlock = "Longitude";
+            CreateButton = "Create";
+
             CreateButton = "Create new";
             ReadButton = "Read";
             UpdateButton = "Update";
             UpdateSelectiveButton = "Fast Update";
             DeleteButton = "Delete";
-            NameTextBlock = "Name:";
-            DescriptionTextBlock = "Description:";
-            StartTimeTextBlock = "Start time:";
-            MaxPlayersTextBlock = "Max players:";
-            GameTypeTextBlock = "Game type:";
-            VisibilityRangeTextBlock = "Visibility range:";
-            ActionRangeTextBlock = "Action range:";
+            IsFormAccessible = true;
         }
 
         #region ViewModel States
@@ -55,17 +60,12 @@ namespace CaptureTheFlag.ViewModels
             DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
             base.OnActivate();
             eventAggregator.Subscribe(this);
-            Game.url = GameModelKey;
-            //Game = IoC.Get<GlobalStorageService>().Current.Games[GameModelKey];
         }
 
         protected override void OnDeactivate(bool close)
         {
             DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
-            if(close)
-            {
-                eventAggregator.Unsubscribe(this);
-            }
+            eventAggregator.Unsubscribe(this);
             base.OnDeactivate(close);
         }
         #endregion
@@ -73,13 +73,15 @@ namespace CaptureTheFlag.ViewModels
         #region Actions
         public void CreateAction()
         {
+            GameMap.games = null;
             DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
-            communicationService.CreateGame(Game, Token,
+            IsFormAccessible = false;
+            communicationService.CreateGameMap(GameMap, Token,
                 responseGameMap =>
                 {
                     DebugLogger.WriteLine("Successful create callback", this.GetType(), MethodBase.GetCurrentMethod());
-                    Game = responseGameMap;
-                    eventAggregator.Publish(Game);
+                    GameMap = responseGameMap;
+                    eventAggregator.Publish(GameMap); //Publish only url string?
                     IsFormAccessible = true;
                 },
                 serverErrorMessage =>
@@ -87,40 +89,6 @@ namespace CaptureTheFlag.ViewModels
                     DebugLogger.WriteLine("Failed create callback", this.GetType(), MethodBase.GetCurrentMethod());
                     MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
                     IsFormAccessible = true;
-                }
-            );
-        }
-
-        public void AddUserAction()
-        {
-            DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
-            communicationService.AddPlayerToGame(Game, Token,
-                responseData =>
-                {
-                    DebugLogger.WriteLine("Successful create callback", this.GetType(), MethodBase.GetCurrentMethod());
-                    MessageBox.Show("OK", "added", MessageBoxButton.OK);
-                },
-                serverErrorMessage =>
-                {
-                    DebugLogger.WriteLine("Failed create callback", this.GetType(), MethodBase.GetCurrentMethod());
-                    MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
-                }
-            );
-        }
-
-        public void RemoveUserAction()
-        {
-            DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
-            communicationService.RemovePlayerFromGame(Game, Token,
-                responseData =>
-                {
-                    DebugLogger.WriteLine("Successful create callback", this.GetType(), MethodBase.GetCurrentMethod());
-                    MessageBox.Show("OK", "added", MessageBoxButton.OK);
-                },
-                serverErrorMessage =>
-                {
-                    DebugLogger.WriteLine("Failed create callback", this.GetType(), MethodBase.GetCurrentMethod());
-                    MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
                 }
             );
         }
@@ -128,12 +96,12 @@ namespace CaptureTheFlag.ViewModels
         public void ReadAction()
         {
             DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
-            communicationService.ReadGame(Game, Token,
+            communicationService.ReadGameMap(GameMap, Token,
                 responseData =>
                 {
                     DebugLogger.WriteLine("Successful create callback", this.GetType(), MethodBase.GetCurrentMethod());
                     MessageBox.Show("OK", "read", MessageBoxButton.OK);
-                    Game = responseData;
+                    GameMap = responseData;
                 },
                 serverErrorMessage =>
                 {
@@ -145,7 +113,7 @@ namespace CaptureTheFlag.ViewModels
 
         public void DeleteAction()
         {
-            communicationService.DeleteGame(Game, Token,
+            communicationService.DeleteGameMap(GameMap, Token,
             responseGameMap =>
             {
                 DebugLogger.WriteLine("Successful create callback", this.GetType(), MethodBase.GetCurrentMethod());
@@ -164,12 +132,12 @@ namespace CaptureTheFlag.ViewModels
         public void UpdateAction()
         {
             DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
-            communicationService.UpdateGame(Game, Token,
+            communicationService.UpdateGameMap(GameMap, Token,
                 responseGameMap =>
                 {
                     DebugLogger.WriteLine("Successful create callback", this.GetType(), MethodBase.GetCurrentMethod());
-                    Game = responseGameMap;
-                    eventAggregator.Publish(Game);
+                    GameMap = responseGameMap;
+                    eventAggregator.Publish(GameMap);
                     IsFormAccessible = true;
                 },
                 serverErrorMessage =>
@@ -184,14 +152,13 @@ namespace CaptureTheFlag.ViewModels
         public void UpdateSelectiveAction()
         {
             DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
-            Game selectedFields = Game;
-            selectedFields.name = null;
-            communicationService.UpdateGameFields(Game, Token,
+            GameMap selectedFields = GameMap;
+            communicationService.UpdateGameMapFields(GameMap, Token,
                 responseGameMap =>
                 {
                     DebugLogger.WriteLine("Successful create callback", this.GetType(), MethodBase.GetCurrentMethod());
-                    Game = responseGameMap;
-                    eventAggregator.Publish(Game);
+                    GameMap = responseGameMap;
+                    eventAggregator.Publish(GameMap);
                     IsFormAccessible = true;
                 },
                 serverErrorMessage =>
@@ -204,69 +171,80 @@ namespace CaptureTheFlag.ViewModels
         }
         #endregion
 
-
-
-        #region Message Handling
-        public void Handle(GameMap gameMap)
-        {
-            Debug.WriteLine("Mplayers {0}", gameMap.url);
-            Game.map = gameMap.url;
-        }
-        #endregion
-
         #region Properties
-
-        #region Model Properties
-        private Game game;
-        public Game Game
+        #region Model properties
+        private GameMap gameMap;
+        public GameMap GameMap
         {
-            get { return game; }
+            get { return gameMap; }
             set
             {
-                if (game != value)
+                if (gameMap != value)
                 {
-                    game = value;
-                    NotifyOfPropertyChange(() => Game);
+                    gameMap = value;
+                    NotifyOfPropertyChange(() => GameMap);
                 }
             }
         }
 
-        private string gameModelKey;
-        public string GameModelKey
+        private string gameMapModelKey;
+        public string GameMapModelKey
         {
-            get { return gameModelKey; }
+            get { return gameMapModelKey; }
             set
             {
-                if (gameModelKey != value)
+                if (gameMapModelKey != value)
                 {
-                    gameModelKey = value;
-                    NotifyOfPropertyChange(() => GameModelKey);
+                    gameMapModelKey = value;
+                    NotifyOfPropertyChange(() => GameMapModelKey);
                 }
             }
         }
 
-        //TODO: date time in model maybe?
-        //TODO: make aconverter
-        private DateTime startDate;
-        public DateTime StartDate
+        private bool shouldCreate;
+        public bool ShouldCreate
         {
-            get { return startDate; }
+            get { return shouldCreate; }
             set
             {
-                if (startDate != value)
+                if (shouldCreate != value)
                 {
-                    startDate = value;
-                    if (Game != null)
-                    {
-                        Game.start_time = startDate.ToString("s");
-                    }
-                    NotifyOfPropertyChange(() => StartDate);
+                    shouldCreate = value;
+                    NotifyOfPropertyChange(() => ShouldCreate);
+                }
+            }
+        }
+
+        private string token;
+        public string Token
+        {
+            get { return token; }
+            set
+            {
+                if (token != value)
+                {
+                    token = value;
+                    NotifyOfPropertyChange(() => Token);
                 }
             }
         }
         #endregion
 
-        #region UI Properties
+        #region UI properties
+        private Map geoMap;
+        public Map GeoMap
+        {
+            get { return geoMap; }
+            set
+            {
+                if (geoMap != value)
+                {
+                    geoMap = value;
+                    NotifyOfPropertyChange(() => GeoMap);
+                }
+            }
+        }
+
         private string nameTextBlock;
         public string NameTextBlock
         {
@@ -295,100 +273,44 @@ namespace CaptureTheFlag.ViewModels
             }
         }
 
-        private string startTimeTextBlock;
-        public string StartTimeTextBlock
+        private string radiusTextBlock;
+        public string RadiusTextBlock
         {
-            get { return startTimeTextBlock; }
+            get { return radiusTextBlock; }
             set
             {
-                if (startTimeTextBlock != value)
+                if (radiusTextBlock != value)
                 {
-                    startTimeTextBlock = value;
-                    NotifyOfPropertyChange(() => StartTimeTextBlock);
+                    radiusTextBlock = value;
+                    NotifyOfPropertyChange(() => RadiusTextBlock);
                 }
             }
         }
 
-        private string maxPlayersTextBlock;
-        public string MaxPlayersTextBlock
+        private string latTextBlock;
+        public string LatTextBlock
         {
-            get { return maxPlayersTextBlock; }
+            get { return latTextBlock; }
             set
             {
-                if (maxPlayersTextBlock != value)
+                if (latTextBlock != value)
                 {
-                    maxPlayersTextBlock = value;
-                    NotifyOfPropertyChange(() => MaxPlayersTextBlock);
+                    latTextBlock = value;
+                    NotifyOfPropertyChange(() => LatTextBlock);
                 }
             }
         }
 
-        private string gameTypeTextBlock;
-        public string GameTypeTextBlock
+        private string lonTextBlock;
+        public string LonTextBlock
         {
-            get { return gameTypeTextBlock; }
+            get { return lonTextBlock; }
             set
             {
-                if (gameTypeTextBlock != value)
+                if (lonTextBlock != value)
                 {
-                    gameTypeTextBlock = value;
-                    NotifyOfPropertyChange(() => GameTypeTextBlock);
-                }
-            }
-        }
-
-        private string visibilityRangeTextBlock;
-        public string VisibilityRangeTextBlock
-        {
-            get { return visibilityRangeTextBlock; }
-            set
-            {
-                if (visibilityRangeTextBlock != value)
-                {
-                    visibilityRangeTextBlock = value;
-                    NotifyOfPropertyChange(() => VisibilityRangeTextBlock);
-                }
-            }
-        }
-
-        private string actionRangeTextBlock;
-        public string ActionRangeTextBlock
-        {
-            get { return actionRangeTextBlock; }
-            set
-            {
-                if (actionRangeTextBlock != value)
-                {
-                    actionRangeTextBlock = value;
-                    NotifyOfPropertyChange(() => ActionRangeTextBlock);
-                }
-            }
-        }
-
-        private string addUserButton;
-        public string AddUserButton
-        {
-            get { return addUserButton; }
-            set
-            {
-                if (addUserButton != value)
-                {
-                    addUserButton = value;
-                    NotifyOfPropertyChange(() => AddUserButton);
-                }
-            }
-        }
-
-        private string removeUserButton;
-        public string RemoveUserButton
-        {
-            get { return removeUserButton; }
-            set
-            {
-                if (removeUserButton != value)
-                {
-                    removeUserButton = value;
-                    NotifyOfPropertyChange(() => RemoveUserButton);
+                    lonTextBlock = value;
+                    NotifyOfPropertyChange(() => LonTextBlock);
                 }
             }
         }
@@ -406,7 +328,6 @@ namespace CaptureTheFlag.ViewModels
                 }
             }
         }
-
         private string readButton;
         public string ReadButton
         {
@@ -464,6 +385,7 @@ namespace CaptureTheFlag.ViewModels
             }
         }
 
+
         private bool isFormAccessible;
         public bool IsFormAccessible
         {
@@ -475,20 +397,6 @@ namespace CaptureTheFlag.ViewModels
                     isFormAccessible = value;
                     NotifyOfPropertyChange(() => IsFormAccessible);
                     eventAggregator.Publish(isFormAccessible);
-                }
-            }
-        }
-
-        private string token;
-        public string Token
-        {
-            get { return token; }
-            set
-            {
-                if (token != value)
-                {
-                    token = value;
-                    NotifyOfPropertyChange(() => Token);
                 }
             }
         }

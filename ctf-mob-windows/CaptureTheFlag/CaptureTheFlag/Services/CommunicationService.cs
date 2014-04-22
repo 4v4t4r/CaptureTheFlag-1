@@ -13,6 +13,7 @@ using System.Reflection;
 using Newtonsoft.Json.Linq;
 using System.Net;
 using Newtonsoft.Json;
+using System.Device.Location;
 
 namespace CaptureTheFlag.Services
 {
@@ -99,6 +100,17 @@ namespace CaptureTheFlag.Services
                 Debug.WriteLineIf(response != null, response.Content);
             });
         }
+
+        public RestRequestAsyncHandle RegisterPosition(Game game, GeoCoordinate coordinate, string token, Action<object> successCallback, Action<ServerErrorMessage> errorCallback)
+        {
+            return Put<object>(new Uri(game.url).PathAndQuery + "location/", token, new { lat = coordinate.Latitude, lon = coordinate.Longitude }, successCallback, errorCallback); 
+        }
+
+        public RestRequestAsyncHandle SelectCharacter(Character character, string token, Action<object> successCallback, Action<ServerErrorMessage> errorCallback)
+        {
+            return Patch<object>(new Uri(character.url).PathAndQuery, token, new { is_active = true }, successCallback, errorCallback); 
+        }
+
 
         #region Player requests
         public RestRequestAsyncHandle AddPlayerToGame(Game game, string token, Action<HttpResponse> successCallback, Action<ServerErrorMessage> errorCallback)

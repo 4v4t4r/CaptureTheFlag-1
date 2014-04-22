@@ -65,7 +65,7 @@
                     <ListBox x:Name="User_characters" Height="200" Width="Auto" >
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectionChanged">
-                                <cal:ActionMessage MethodName="ReadCharacterAction" />
+                                <cal:ActionMessage MethodName="SelectCharacterAction" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                         <ListBox.ItemTemplate>
@@ -74,6 +74,14 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
+                    
+                    <Button x:Name="ReadCharacterButton" IsEnabled="{Binding IsFormAccessible}" >
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <cal:ActionMessage MethodName="ReadCharacterAction" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
 
                     <Button x:Name="ReadButton" IsEnabled="{Binding IsFormAccessible}" >
                         <i:Interaction.Triggers>

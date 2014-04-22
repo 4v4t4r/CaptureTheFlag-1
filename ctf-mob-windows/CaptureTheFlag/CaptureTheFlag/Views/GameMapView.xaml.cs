@@ -10,9 +10,9 @@ using Microsoft.Phone.Shell;
 
 namespace CaptureTheFlag.Views
 {
-    public partial class CreateGameView : PhoneApplicationPage
+    public partial class GameMapView : PhoneApplicationPage
     {
-        public CreateGameView()
+        public GameMapView()
         {
             InitializeComponent();
         }

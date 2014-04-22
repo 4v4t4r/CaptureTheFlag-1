@@ -28,11 +28,8 @@ namespace CaptureTheFlag.ViewModels
             IsFormAccessible = true;
 
             Character = new Character();
-#warning Temporary variables
-            Character.url = "http://78.133.154.39:8888/api/characters/17/";
 
             DisplayName = "Character";
-
             UrlTextBlock = "Character:";
             UserTextBlock = "User:";
             CharacterTypeTextBlock = "Character type:";
@@ -51,7 +48,7 @@ namespace CaptureTheFlag.ViewModels
             DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
             base.OnActivate();
             eventAggregator.Subscribe(this);
-            //Character.url = CharacterModelKey;
+            Character.url = CharacterModelKey;
             //Character = IoC.Get<GlobalStorageService>().Current.Characters[CharacterModelKey];
         }
 

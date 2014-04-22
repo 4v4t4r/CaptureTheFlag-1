@@ -8,7 +8,7 @@ namespace CaptureTheFlag.ViewModels
 {
     public class MainAppPivotViewModel : Conductor<IScreen>.Collection.OneActive
     {
-        private readonly CreateMapViewModel createMapViewModel;
+        private readonly GameMapViewModel gameMapViewModel;
         private readonly ListGamesViewModel listGamesViewModel;
         private readonly GameItemViewModel gameItemViewModel;
         private readonly CharacterViewModel characterViewModel;
@@ -16,9 +16,9 @@ namespace CaptureTheFlag.ViewModels
 
         ICollection<IScreen> allItems;
 
-        public MainAppPivotViewModel(CreateMapViewModel createMapViewModel, ListGamesViewModel listGamesViewModel, GameItemViewModel gameItemViewModel, CharacterViewModel characterViewModel, UserViewModel userViewModel)
+        public MainAppPivotViewModel(GameMapViewModel createMapViewModel, ListGamesViewModel listGamesViewModel, GameItemViewModel gameItemViewModel, CharacterViewModel characterViewModel, UserViewModel userViewModel)
         {
-            this.createMapViewModel = createMapViewModel;
+            this.gameMapViewModel = createMapViewModel;
             this.listGamesViewModel = listGamesViewModel;
             this.gameItemViewModel = gameItemViewModel;
             this.characterViewModel = characterViewModel;
@@ -30,14 +30,14 @@ namespace CaptureTheFlag.ViewModels
         {
             base.OnInitialize();
 
-            Items.Add(createMapViewModel);
+            Items.Add(gameMapViewModel);
             Items.Add(listGamesViewModel);
             Items.Add(gameItemViewModel);
             Items.Add(characterViewModel);
             Items.Add(userViewModel);
 
             //TODO: Find a good way to share a token
-            createMapViewModel.Token = Token;
+            gameMapViewModel.Token = Token;
             listGamesViewModel.Token = Token;
             gameItemViewModel.Token = Token;
             characterViewModel.Token = Token;

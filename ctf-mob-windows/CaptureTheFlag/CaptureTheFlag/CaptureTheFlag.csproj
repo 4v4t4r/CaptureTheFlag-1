@@ -94,6 +94,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="AppBootstrapper.cs" />
+    <Compile Include="Converters.cs" />
     <Compile Include="DebugLogger.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="Models\Character.cs" />
@@ -125,8 +126,8 @@
     <Compile Include="Services\UserModelService.cs" />
     <Compile Include="Storage\MainAppPivotModelStorage.cs" />
     <Compile Include="ViewModels\CharacterViewModel.cs" />
-    <Compile Include="ViewModels\CreateGameViewModel.cs" />
-    <Compile Include="ViewModels\CreateMapViewModel.cs" />
+    <Compile Include="ViewModels\GameViewModel.cs" />
+    <Compile Include="ViewModels\GameMapViewModel.cs" />
     <Compile Include="ViewModels\GameItemViewModel.cs" />
     <Compile Include="ViewModels\ListGamesViewModel.cs" />
     <Compile Include="ViewModels\MainAppPivotViewModel.cs" />
@@ -137,11 +138,11 @@
     <Compile Include="Views\CharacterView.xaml.cs">
       <DependentUpon>CharacterView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\CreateGameView.xaml.cs">
-      <DependentUpon>CreateGameView.xaml</DependentUpon>
+    <Compile Include="Views\GameView.xaml.cs">
+      <DependentUpon>GameView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\CreateMapView.xaml.cs">
-      <DependentUpon>CreateMapView.xaml</DependentUpon>
+    <Compile Include="Views\GameMapView.xaml.cs">
+      <DependentUpon>GameMapView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GameItemView.xaml.cs">
       <DependentUpon>GameItemView.xaml</DependentUpon>
@@ -239,11 +240,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\CreateGameView.xaml">
+    <Page Include="Views\GameView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\CreateMapView.xaml">
+    <Page Include="Views\GameMapView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

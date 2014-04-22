@@ -3,11 +3,14 @@ using CaptureTheFlag.Models;
 using CaptureTheFlag.Services;
 using System;
 using System.Collections.Generic;
+using System.Device.Location;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Windows.Devices.Geolocation;
 
 namespace CaptureTheFlag.ViewModels
 {
@@ -16,13 +19,15 @@ namespace CaptureTheFlag.ViewModels
         private readonly INavigationService navigationService;
         private readonly IEventAggregator eventAggregator;
         private readonly ICommunicationService communicationService;
+        private readonly ILocationService locationService;
 
-        public ListGamesViewModel(INavigationService navigationService, IEventAggregator eventAggregator, ICommunicationService communicationService)
+        public ListGamesViewModel(INavigationService navigationService, IEventAggregator eventAggregator, ICommunicationService communicationService, ILocationService locationService)
         {
             DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
             this.navigationService = navigationService;
             this.eventAggregator = eventAggregator;
             this.communicationService = communicationService;
+            this.locationService = locationService;
 
             Games = new BindableCollection<Game>();
 
@@ -35,6 +40,22 @@ namespace CaptureTheFlag.ViewModels
             DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
             base.OnActivate();
             eventAggregator.Subscribe(this);
+
+            
+        }
+
+        private GeoCoordinateWatcher watcher;
+        public GeoCoordinateWatcher Watcher
+        {
+            get { return watcher; }
+            set
+            {
+                if (watcher != value)
+                {
+                    watcher = value;
+                    NotifyOfPropertyChange(() => Watcher);
+                }
+            }
         }
 
         protected override void OnDeactivate(bool close)
@@ -52,20 +73,22 @@ namespace CaptureTheFlag.ViewModels
         public void GamesListAction()
         {
             DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
-            //communicationService.GetAllGames(Token,
-            //    responseData =>
-            //    {
-            //        DebugLogger.WriteLine("Successful create callback", this.GetType(), MethodBase.GetCurrentMethod());
-            //        //eventAggregator.Publish(Game);
-            //        Games = responseData;
-            //    },
-            //    serverErrorMessage =>
-            //    {
-            //        DebugLogger.WriteLine("Failed create callback", this.GetType(), MethodBase.GetCurrentMethod());
-            //        MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
-            //    }
-            //);
-            SelectedGame = new Game();
+            communicationService.GetAllGames(Token,
+                responseData =>
+                {
+                    DebugLogger.WriteLine("Successful create callback", this.GetType(), MethodBase.GetCurrentMethod());
+                    Games = responseData;
+                },
+                serverErrorMessage =>
+                {
+                    DebugLogger.WriteLine("Failed create callback", this.GetType(), MethodBase.GetCurrentMethod());
+                    MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
+                }
+            );
+
+            
+
+            //SelectedGame = new Game();
             //SelectedGame.type = 1;
             //SelectedGame.name = "Asg game name";
             //SelectedGame.description = "asasd description";
@@ -73,26 +96,46 @@ namespace CaptureTheFlag.ViewModels
             //SelectedGame.visibility_range = 100.0f;
             //SelectedGame.max_players = 10;
             //SelectedGame.map = "http://78.133.154.39:8888/api/maps/13/";
-            SelectedGame.url = "http://78.133.154.39:8888/api/games/23/";
-
+            //SelectedGame.url = "http://78.133.154.39:8888/api/games/23/";
             //IoC.Get<GlobalStorageService>().Current.Games[SelectedGame.url] = SelectedGame;
+        }
 
-            navigationService.UriFor<CreateGameViewModel>()
-                 .WithParam(param => param.GameModelKey, SelectedGame.url)
-                 .WithParam(param => param.Token, Token)
-                 .Navigate();
+        public void RegisterPositionAction()
+        {
+            //TODO: Response object model
+            Watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.High);
+            Watcher.Start();
+            communicationService.RegisterPosition(Games.FirstOrDefault(), Watcher.Position.Location, Token,
+                rData =>
+                {
+                    DebugLogger.WriteLine("Successful create callback", this.GetType(), MethodBase.GetCurrentMethod());
+                },
+                serverErrorMessage =>
+                {
+                    DebugLogger.WriteLine("Failed create callback", this.GetType(), MethodBase.GetCurrentMethod());
+                }
+            );
+            Watcher.Stop();
         }
 
         public void ReadGameAction()
         {
-            navigationService.UriFor<CreateGameViewModel>().WithParam(param => param.Token, Token).Navigate();
-            eventAggregator.Publish(SelectedGame);
-            //SelectedGame = null;
+            ShouldCreate = false;
+            navigationService.UriFor<GameViewModel>()
+                 .WithParam(param => param.GameModelKey, SelectedGame.url)
+                 .WithParam(param => param.Token, Token)
+                 .WithParam(param => param.ShouldCreate, ShouldCreate)
+                 .Navigate();
         }
 
-        public void AddToGameAction()
+        public void NewGameAction()
         {
-
+            ShouldCreate = true;
+            navigationService.UriFor<GameViewModel>()
+             .WithParam(param => param.GameModelKey, null)
+             .WithParam(param => param.Token, Token)
+             .WithParam(param => param.ShouldCreate, ShouldCreate)
+             .Navigate();
         }
         #endregion
 
@@ -136,6 +179,20 @@ namespace CaptureTheFlag.ViewModels
                 {
                     selectedGame = value;
                     NotifyOfPropertyChange(() => SelectedGame);
+                }
+            }
+        }
+
+        private bool shouldCreate;
+        public bool ShouldCreate
+        {
+            get { return shouldCreate; }
+            set
+            {
+                if (shouldCreate != value)
+                {
+                    shouldCreate = value;
+                    NotifyOfPropertyChange(() => ShouldCreate);
                 }
             }
         }

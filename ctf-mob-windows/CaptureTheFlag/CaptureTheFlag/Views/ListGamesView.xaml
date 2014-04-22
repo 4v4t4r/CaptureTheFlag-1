@@ -45,10 +45,10 @@
                 </i:Interaction.Triggers>
             </Button>
 
-            <Button Content="Add to game">
+            <Button Content="New game">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
-                        <cal:ActionMessage MethodName="AddToGameAction" />
+                        <cal:ActionMessage MethodName="NewGameAction" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Button>
