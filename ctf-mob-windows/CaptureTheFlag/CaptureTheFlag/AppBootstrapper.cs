@@ -6,6 +6,9 @@ namespace CaptureTheFlag {
 	using Caliburn.Micro;
     using CaptureTheFlag.ViewModels;
     using CaptureTheFlag.Services;
+    using Caliburn.Micro.BindableAppBar;
+    using CaptureTheFlag.ViewModels.GameVVMs;
+    using CaptureTheFlag.ViewModels.GameMapVVMs;
 
 	public class AppBootstrapper : PhoneBootstrapperBase
 	{
@@ -27,21 +30,31 @@ namespace CaptureTheFlag {
             container.PerRequest<UserRegistrationViewModel>();
 
             container.PerRequest<MainAppPivotViewModel>();
-            container.PerRequest<GameViewModel>();
-            container.PerRequest<GameMapViewModel>();
-            container.PerRequest<ListGamesViewModel>();
-            container.PerRequest<GameItemViewModel>();
+            
 
+            container.PerRequest<GameItemViewModel>();
             container.PerRequest<CharacterViewModel>();
             container.PerRequest<UserViewModel>();
 
-            container.PerRequest<ICommunicationService, CommunicationService>();
-            container.PerRequest<IGameModelService, GameModelService>();
-            container.PerRequest<IUserModelService, UserModelService>();
-            container.PerRequest<IMapModelService, MapModelService>();
-            container.PerRequest<ILocationService, LocationService>();
+            //Game Map view models:
+            container.PerRequest<CreateGameMapViewModel>();
+            container.PerRequest<SearchGameMapViewModel>();
+            container.PerRequest<ListGameMapsViewModel>();
+            container.PerRequest<ShowGameMapViewModel>();
+            container.PerRequest<EditGameMapViewModel>();
+            
+            //Pre Game view models:
+            container.PerRequest<ListGamesViewModel>();
+            container.PerRequest<CreateGameViewModel>();
+            container.PerRequest<EditGameViewModel>();
+            container.PerRequest<ShowGameViewModel>();
+            container.PerRequest<SearchGameViewModel>();
 
-            container.Singleton<GlobalStorageService>();
+            //Services:
+            container.PerRequest<IFilterService, FilterService>();
+            container.PerRequest<ICommunicationService, CommunicationService>();
+            container.PerRequest<ILocationService, LocationService>();
+            container.Singleton<IGlobalStorageService, GlobalStorageService>();
 
 			AddCustomConventions();
 		}
@@ -98,6 +111,12 @@ namespace CaptureTheFlag {
 
 					return false;
 				};
+
+            // App Bar Conventions
+            ConventionManager.AddElementConvention<BindableAppBarButton>(
+                Control.IsEnabledProperty, "DataContext", "Click");
+            ConventionManager.AddElementConvention<BindableAppBarMenuItem>(
+                Control.IsEnabledProperty, "DataContext", "Click");
 		}
 	}
 }

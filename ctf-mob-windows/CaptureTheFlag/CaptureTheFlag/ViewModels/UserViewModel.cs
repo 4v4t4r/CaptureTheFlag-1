@@ -20,7 +20,7 @@ namespace CaptureTheFlag.ViewModels
 
         public UserViewModel(INavigationService navigationService, IEventAggregator eventAggregator, ICommunicationService communicationService)
         {
-            DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             this.navigationService = navigationService;
             this.eventAggregator = eventAggregator;
             this.communicationService = communicationService;
@@ -54,7 +54,7 @@ namespace CaptureTheFlag.ViewModels
         #region ViewModel States
         protected override void OnActivate()
         {
-            DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             base.OnActivate();
             eventAggregator.Subscribe(this);
             //User.url = UserModelKey;
@@ -63,7 +63,7 @@ namespace CaptureTheFlag.ViewModels
 
         protected override void OnDeactivate(bool close)
         {
-            DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             if(close)
             {
                 eventAggregator.Unsubscribe(this);
@@ -75,7 +75,7 @@ namespace CaptureTheFlag.ViewModels
         #region Actions
         public void ReadCharacterAction()
         {
-            DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             navigationService.UriFor<CharacterViewModel>()
                 .WithParam(param => param.CharacterModelKey, "http://78.133.154.39:8888/api/characters/15/")
                 .WithParam(param => param.Token, Token)
@@ -84,19 +84,19 @@ namespace CaptureTheFlag.ViewModels
 
         public void SelectCharacterAction()
         {
-            DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             Character chara = new Character();
             chara.url = "http://78.133.154.39:8888/api/characters/15/";
             communicationService.SelectCharacter(chara, Token,
                 responseData =>
                 {
-                    DebugLogger.WriteLine("Successful create callback", this.GetType(), MethodBase.GetCurrentMethod());
+                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
                     MessageBox.Show("OK", "read", MessageBoxButton.OK);
                     //User = responseData;
                 },
                 serverErrorMessage =>
                 {
-                    DebugLogger.WriteLine("Failed create callback", this.GetType(), MethodBase.GetCurrentMethod());
+                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
                     MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
                 }
             );
@@ -104,17 +104,17 @@ namespace CaptureTheFlag.ViewModels
 
         public void ReadAction()
         {
-            DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             communicationService.ReadUser(User, Token,
                 responseData =>
                 {
-                    DebugLogger.WriteLine("Successful create callback", this.GetType(), MethodBase.GetCurrentMethod());
+                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
                     MessageBox.Show("OK", "read", MessageBoxButton.OK);
                     User = responseData;
                 },
                 serverErrorMessage =>
                 {
-                    DebugLogger.WriteLine("Failed create callback", this.GetType(), MethodBase.GetCurrentMethod());
+                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
                     MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
                 }
             );
@@ -125,13 +125,13 @@ namespace CaptureTheFlag.ViewModels
             communicationService.DeleteUser(User, Token,
             responseUserMap =>
             {
-                DebugLogger.WriteLine("Successful create callback", this.GetType(), MethodBase.GetCurrentMethod());
+                DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
                 MessageBox.Show("OK", "deleted", MessageBoxButton.OK);
                 IsFormAccessible = true;
             },
             serverErrorMessage =>
             {
-                DebugLogger.WriteLine("Failed create callback", this.GetType(), MethodBase.GetCurrentMethod());
+                DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
                 MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
                 IsFormAccessible = true;
             }
@@ -140,18 +140,18 @@ namespace CaptureTheFlag.ViewModels
 
         public void UpdateAction()
         {
-            DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             communicationService.UpdateUser(User, Token,
                 responseUserMap =>
                 {
-                    DebugLogger.WriteLine("Successful create callback", this.GetType(), MethodBase.GetCurrentMethod());
+                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
                     User = responseUserMap;
                     eventAggregator.Publish(User);
                     IsFormAccessible = true;
                 },
                 serverErrorMessage =>
                 {
-                    DebugLogger.WriteLine("Failed create callback", this.GetType(), MethodBase.GetCurrentMethod());
+                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
                     MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
                     IsFormAccessible = true;
                 }
@@ -160,19 +160,19 @@ namespace CaptureTheFlag.ViewModels
 
         public void UpdateSelectiveAction()
         {
-            DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             User selectedFields = User;
             communicationService.UpdateUserFields(User, Token,
                 responseUserMap =>
                 {
-                    DebugLogger.WriteLine("Successful create callback", this.GetType(), MethodBase.GetCurrentMethod());
+                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
                     User = responseUserMap;
                     eventAggregator.Publish(User);
                     IsFormAccessible = true;
                 },
                 serverErrorMessage =>
                 {
-                    DebugLogger.WriteLine("Failed create callback", this.GetType(), MethodBase.GetCurrentMethod());
+                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
                     MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
                     IsFormAccessible = true;
                 }

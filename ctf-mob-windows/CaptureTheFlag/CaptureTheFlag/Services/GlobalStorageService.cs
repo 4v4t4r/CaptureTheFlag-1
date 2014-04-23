@@ -20,7 +20,18 @@ namespace CaptureTheFlag.Services
         }
     }
 
-    public class GlobalStorageService
+    public class GameMapCache : Dictionary<string, GameMap>
+    {
+        public GameMap GetFromCache(string key)
+        {
+            if (ContainsKey(key))
+                return this[key];
+
+            return null;
+        }
+    }
+
+    public class GlobalStorageService : IGlobalStorageService
     {
         private GlobalStorageService _current;
         public GlobalStorageService Current
@@ -33,6 +44,16 @@ namespace CaptureTheFlag.Services
             set { _current = value; }
         }
 
+        private GameMapCache _cachedGameMaps;
+        public GameMapCache GameMaps
+        {
+            get
+            {
+                if (_cachedGameMaps == null) _cachedGameMaps = new GameMapCache();
+                return _cachedGameMaps;
+            }
+        }
+
         private GameCache _cachedGames;
         public GameCache Games
         {
@@ -40,6 +61,19 @@ namespace CaptureTheFlag.Services
             {
                 if (_cachedGames == null) _cachedGames = new GameCache();
                 return _cachedGames;
+            }
+        }
+
+        private string token;
+        public string Token
+        {
+            get { return token; }
+            set
+            {
+                if (token != value)
+                {
+                    token = value;
+                }
             }
         }
     }

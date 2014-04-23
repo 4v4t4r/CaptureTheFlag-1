@@ -29,7 +29,7 @@ namespace CaptureTheFlag.Services
 
         public RestRequestAsyncHandle Login<T>(string username, string password, Action<IRestResponse<T>> callback) where T : new()
         {
-            DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             RestRequest request = new RestRequest("/token/", Method.POST);
             request.AddHeader("Accept", "application/json");
             request.RequestFormat = DataFormat.Json;
@@ -180,6 +180,10 @@ namespace CaptureTheFlag.Services
         #endregion
 
         #region Map requests
+        public RestRequestAsyncHandle GetAllMaps(string token, Action<BindableCollection<GameMap>> successCallback, Action<ServerErrorMessage> errorCallback)
+        {
+            return Get<BindableCollection<GameMap>>("/api/maps/", token, successCallback, errorCallback);
+        }
         public RestRequestAsyncHandle CreateGameMap(GameMap gameMap, string token, Action<GameMap> successCallback, Action<ServerErrorMessage> errorCallback)
         {
             return Create<GameMap>("/api/maps/", token, gameMap, successCallback, errorCallback);

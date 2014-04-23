@@ -1,6 +1,7 @@
 ﻿using Caliburn.Micro;
 using CaptureTheFlag.Models;
 using CaptureTheFlag.Services;
+using CaptureTheFlag.ViewModels.GameVVMs;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -8,21 +9,15 @@ namespace CaptureTheFlag.ViewModels
 {
     public class MainAppPivotViewModel : Conductor<IScreen>.Collection.OneActive
     {
-        private readonly GameMapViewModel gameMapViewModel;
         private readonly ListGamesViewModel listGamesViewModel;
-        private readonly GameItemViewModel gameItemViewModel;
-        private readonly CharacterViewModel characterViewModel;
-        private readonly UserViewModel userViewModel;
+        private readonly IGlobalStorageService globalStorageService;
 
         ICollection<IScreen> allItems;
 
-        public MainAppPivotViewModel(GameMapViewModel createMapViewModel, ListGamesViewModel listGamesViewModel, GameItemViewModel gameItemViewModel, CharacterViewModel characterViewModel, UserViewModel userViewModel)
+        public MainAppPivotViewModel(ListGamesViewModel listGamesViewModel, IGlobalStorageService globalStorageService)
         {
-            this.gameMapViewModel = createMapViewModel;
             this.listGamesViewModel = listGamesViewModel;
-            this.gameItemViewModel = gameItemViewModel;
-            this.characterViewModel = characterViewModel;
-            this.userViewModel = userViewModel;
+            this.globalStorageService = globalStorageService;
             allItems = new Collection<IScreen>();
         }
 
@@ -30,27 +25,16 @@ namespace CaptureTheFlag.ViewModels
         {
             base.OnInitialize();
 
-            Items.Add(gameMapViewModel);
             Items.Add(listGamesViewModel);
-            Items.Add(gameItemViewModel);
-            Items.Add(characterViewModel);
-            Items.Add(userViewModel);
 
-            //TODO: Find a good way to share a token
-            gameMapViewModel.Token = Token;
-            listGamesViewModel.Token = Token;
-            gameItemViewModel.Token = Token;
-            characterViewModel.Token = Token;
-            userViewModel.Token = Token;
+            globalStorageService.Current.Token = Token;
 
             foreach (var item in Items)
             {
                 allItems.Add(item);
             }
 
-            //TODO: Find a good way send url to inactive VM in the same pivot
-
-            ActivateItem(userViewModel);
+            ActivateItem(listGamesViewModel);
         }
 
         private string token;

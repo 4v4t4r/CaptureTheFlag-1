@@ -1,0 +1,76 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="CaptureTheFlag.Views.GameVVMs.EditGameView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+    xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:primitives="clr-namespace:Microsoft.Phone.Controls.Primitives;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:bab="clr-namespace:Caliburn.Micro.BindableAppBar;assembly=Caliburn.Micro.BindableAppBar"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True">
+
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="12,17,0,28">
+            <TextBlock x:Name="DisplayName" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+        </StackPanel>
+
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+            <ScrollViewer>
+                <StackPanel>
+                    <TextBlock x:Name="NameTextBlock" />
+                    <TextBox x:Name="Game_name" IsEnabled="{Binding IsFormAccessible}" />
+
+                    <TextBlock x:Name="DescriptionTextBlock" />
+                    <TextBox x:Name="Game_description" IsEnabled="{Binding IsFormAccessible}" />
+
+                    <TextBlock x:Name="StartTimeTextBlock"/>
+                    <controls:DatePicker Value="{Binding StartDate, Mode=TwoWay}" IsEnabled="{Binding IsFormAccessible}" />
+                    <controls:TimePicker Value="{Binding StartDate, Mode=TwoWay}" IsEnabled="{Binding IsFormAccessible}" />
+
+                    <TextBlock x:Name="MaxPlayersTextBlock" />
+                    <TextBox x:Name="Game_maxplayers" InputScope="Number" IsEnabled="{Binding IsFormAccessible}" />
+
+                    <TextBlock x:Name="GameTypeTextBlock" />
+                    <controls:ListPicker ItemsSource="{Binding Game.GameTypes.Keys, Mode=TwoWay}"  SelectedItem="{Binding Game.SelectedGameType, Mode=TwoWay}" IsEnabled="{Binding IsFormAccessible}" />
+
+                    <TextBlock x:Name="VisibilityRangeTextBlock" />
+                    <TextBox x:Name="Game_visibilityrange" InputScope="Number" IsEnabled="{Binding IsFormAccessible}" />
+
+                    <TextBlock x:Name="ActionRangeTextBlock" />
+                    <TextBox x:Name="Game_actionrange" InputScope="Number" IsEnabled="{Binding IsFormAccessible}" />
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+
+        <bab:BindableAppBar x:Name="EditAppBar">
+            <bab:BindableAppBarButton x:Name="UpdateAction"
+                                  Text="{Binding UpdateAppBarItemText}"
+                                  IconUri="{Binding UpdateIcon}"
+                                  IsEnabled="{Binding IsFormAccessible}" />
+
+            <bab:BindableAppBarButton x:Name="UpdateSelectiveAction"
+                                  Text="{Binding UpdateSelectiveAppBarItemText}"
+                                  IconUri="{Binding UpdateSelectiveIcon}"
+                                  IsEnabled="{Binding IsFormAccessible}" />
+
+            <bab:BindableAppBarMenuItem x:Name="DeleteAction" Text="{Binding DeleteAppBarMenuItemText}"
+                                        IsEnabled="{Binding IsFormAccessible}" />
+        </bab:BindableAppBar>
+
+    </Grid>
+
+</phone:PhoneApplicationPage>

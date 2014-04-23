@@ -15,7 +15,7 @@ namespace CaptureTheFlag.Services
         //TODO: make ICommunicationService more generic
         RestRequestAsyncHandle GetAllGames(string token, Action<BindableCollection<Game>> successCallback, Action<ServerErrorMessage> errorCallback);
         //RestRequestAsyncHandle GetAllUsers(string token, Action<BindableCollection<Game>> successCallback, Action<ServerErrorMessage> errorCallback);
-        //RestRequestAsyncHandle GetAllMaps(string token, Action<BindableCollection<GameMap>> successCallback, Action<ServerErrorMessage> errorCallback);
+        RestRequestAsyncHandle GetAllMaps(string token, Action<BindableCollection<GameMap>> successCallback, Action<ServerErrorMessage> errorCallback);
 
         #region Game (un)subscription 
         RestRequestAsyncHandle AddPlayerToGame(Game game, string token, Action<HttpResponse> successCallback, Action<ServerErrorMessage> errorCallback);

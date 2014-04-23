@@ -1,0 +1,79 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="CaptureTheFlag.Views.GameMapVVMs.ShowGameMapView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+    xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:primitives="clr-namespace:Microsoft.Phone.Controls.Primitives;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:bab="clr-namespace:Caliburn.Micro.BindableAppBar;assembly=Caliburn.Micro.BindableAppBar"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True">
+
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="12,17,0,28">
+            <TextBlock x:Name="DisplayName" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+        </StackPanel>
+
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+            <ScrollViewer>
+                <StackPanel>
+                    <TextBlock x:Name="AuthorTextBlock" />
+                    <TextBox x:Name="User_nick" IsReadOnly="True" />
+
+                    <TextBlock x:Name="NameTextBlock" />
+                    <TextBox x:Name="GameMap_name" IsReadOnly="True" />
+
+                    <TextBlock x:Name="DescriptionTextBlock" />
+                    <TextBox x:Name="GameMap_description" IsReadOnly="True" />
+
+                    <TextBlock x:Name="RadiusTextBlock" />
+                    <TextBox x:Name="GameMap_radius" InputScope="Number" IsReadOnly="True" />
+
+                    <TextBlock x:Name="LatTextBlock" />
+                    <TextBox x:Name="GameMap_lat" InputScope="Number" IsReadOnly="True" />
+
+                    <TextBlock x:Name="LonTextBlock" />
+                    <TextBox x:Name="GameMap_lon" InputScope="Number" IsReadOnly="True" />
+
+                    <!--<TextBlock x:Name="GamesTextBlock" />
+                    <ListBox x:Name="GameMap_games" Height="500" Width="Auto" >
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Tap">
+                                <cal:ActionMessage MethodName="ReadGameAction" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>-->
+                    
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+
+        <bab:BindableAppBar x:Name="DetailsAppBar">
+            <bab:BindableAppBarButton x:Name="ChooseMapAction"
+                                  Text="{Binding ChooseMapAppBarItemText}"
+                                  IconUri="{Binding ChooseMapIcon}"
+                                  IsEnabled="{Binding IsFormAccessible}" />
+        </bab:BindableAppBar>
+
+    </Grid>
+
+</phone:PhoneApplicationPage>

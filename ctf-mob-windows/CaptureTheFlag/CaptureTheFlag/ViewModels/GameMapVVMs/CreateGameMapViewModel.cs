@@ -12,31 +12,24 @@ using System.Threading.Tasks;
 using System.Windows;
 using Windows.Devices.Geolocation;
 
-namespace CaptureTheFlag.ViewModels
+namespace CaptureTheFlag.ViewModels.GameMapVVMs
 {
-    public class GameMapViewModel : Screen
+    public class CreateGameMapViewModel : Screen
     {
         private readonly INavigationService navigationService;
         private readonly IEventAggregator eventAggregator;
         private readonly ICommunicationService communicationService;
+        private readonly ILocationService locationService;
 
-        public GameMapViewModel(INavigationService navigationService, IEventAggregator eventAggregator, ILocationService locationService, ICommunicationService communicationService)
+        public CreateGameMapViewModel(INavigationService navigationService, IEventAggregator eventAggregator, ILocationService locationService, ICommunicationService communicationService)
         {
-            DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             this.navigationService = navigationService;
             this.eventAggregator = eventAggregator;
             this.communicationService = communicationService;
+            this.locationService = locationService;
 
             GameMap = new GameMap();
-            
-            #warning Temporary constants
-            GameMap.url = "http://78.133.154.39:8888/api/maps/31/";
-
-            //GameMap.name = "Jasne Blonia";
-            //GameMap.description = "description";
-            //GameMap.radius = 2500;
-            //GameMap.lat = 53.440157f;
-            //GameMap.lon = 14.540221f;
 
             DisplayName = "Game map";
             NameTextBlock = "Name:";
@@ -57,14 +50,14 @@ namespace CaptureTheFlag.ViewModels
         #region ViewModel States
         protected override void OnActivate()
         {
-            DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             base.OnActivate();
             eventAggregator.Subscribe(this);
         }
 
         protected override void OnDeactivate(bool close)
         {
-            DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             eventAggregator.Unsubscribe(this);
             base.OnDeactivate(close);
         }
@@ -74,101 +67,24 @@ namespace CaptureTheFlag.ViewModels
         public void CreateAction()
         {
             GameMap.games = null;
-            DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             IsFormAccessible = false;
             communicationService.CreateGameMap(GameMap, Token,
                 responseGameMap =>
                 {
-                    DebugLogger.WriteLine("Successful create callback", this.GetType(), MethodBase.GetCurrentMethod());
+                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
                     GameMap = responseGameMap;
-                    eventAggregator.Publish(GameMap); //Publish only url string?
                     IsFormAccessible = true;
                 },
                 serverErrorMessage =>
                 {
-                    DebugLogger.WriteLine("Failed create callback", this.GetType(), MethodBase.GetCurrentMethod());
+                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
                     MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
                     IsFormAccessible = true;
                 }
             );
         }
 
-        public void ReadAction()
-        {
-            DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
-            communicationService.ReadGameMap(GameMap, Token,
-                responseData =>
-                {
-                    DebugLogger.WriteLine("Successful create callback", this.GetType(), MethodBase.GetCurrentMethod());
-                    MessageBox.Show("OK", "read", MessageBoxButton.OK);
-                    GameMap = responseData;
-                },
-                serverErrorMessage =>
-                {
-                    DebugLogger.WriteLine("Failed create callback", this.GetType(), MethodBase.GetCurrentMethod());
-                    MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
-                }
-            );
-        }
-
-        public void DeleteAction()
-        {
-            communicationService.DeleteGameMap(GameMap, Token,
-            responseGameMap =>
-            {
-                DebugLogger.WriteLine("Successful create callback", this.GetType(), MethodBase.GetCurrentMethod());
-                MessageBox.Show("OK", "deleted", MessageBoxButton.OK);
-                IsFormAccessible = true;
-            },
-            serverErrorMessage =>
-            {
-                DebugLogger.WriteLine("Failed create callback", this.GetType(), MethodBase.GetCurrentMethod());
-                MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
-                IsFormAccessible = true;
-            }
-        );
-        }
-
-        public void UpdateAction()
-        {
-            DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
-            communicationService.UpdateGameMap(GameMap, Token,
-                responseGameMap =>
-                {
-                    DebugLogger.WriteLine("Successful create callback", this.GetType(), MethodBase.GetCurrentMethod());
-                    GameMap = responseGameMap;
-                    eventAggregator.Publish(GameMap);
-                    IsFormAccessible = true;
-                },
-                serverErrorMessage =>
-                {
-                    DebugLogger.WriteLine("Failed create callback", this.GetType(), MethodBase.GetCurrentMethod());
-                    MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
-                    IsFormAccessible = true;
-                }
-            );
-        }
-
-        public void UpdateSelectiveAction()
-        {
-            DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
-            GameMap selectedFields = GameMap;
-            communicationService.UpdateGameMapFields(GameMap, Token,
-                responseGameMap =>
-                {
-                    DebugLogger.WriteLine("Successful create callback", this.GetType(), MethodBase.GetCurrentMethod());
-                    GameMap = responseGameMap;
-                    eventAggregator.Publish(GameMap);
-                    IsFormAccessible = true;
-                },
-                serverErrorMessage =>
-                {
-                    DebugLogger.WriteLine("Failed create callback", this.GetType(), MethodBase.GetCurrentMethod());
-                    MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
-                    IsFormAccessible = true;
-                }
-            );
-        }
         #endregion
 
         #region Properties

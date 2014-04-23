@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 
 namespace CaptureTheFlag.Services
 {
-    interface IGlobalStorageService
+    public interface IGlobalStorageService
     {
-
-
+        GlobalStorageService Current
+        {
+            get;
+            set;
+        }
     }
 }

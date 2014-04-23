@@ -20,7 +20,7 @@ namespace CaptureTheFlag.ViewModels
 
         public CharacterViewModel(INavigationService navigationService, IEventAggregator eventAggregator, ICommunicationService communicationService)
         {
-            DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             this.navigationService = navigationService;
             this.eventAggregator = eventAggregator;
             this.communicationService = communicationService;
@@ -45,7 +45,7 @@ namespace CaptureTheFlag.ViewModels
         #region ViewModel States
         protected override void OnActivate()
         {
-            DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             base.OnActivate();
             eventAggregator.Subscribe(this);
             Character.url = CharacterModelKey;
@@ -54,7 +54,7 @@ namespace CaptureTheFlag.ViewModels
 
         protected override void OnDeactivate(bool close)
         {
-            DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             if(close)
             {
                 eventAggregator.Unsubscribe(this);
@@ -66,17 +66,17 @@ namespace CaptureTheFlag.ViewModels
         #region Actions
         public void ReadAction()
         {
-            DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             communicationService.ReadCharacter(Character, Token,
                 responseData =>
                 {
-                    DebugLogger.WriteLine("Successful create callback", this.GetType(), MethodBase.GetCurrentMethod());
+                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
                     MessageBox.Show("OK", "read", MessageBoxButton.OK);
                     Character = responseData;
                 },
                 serverErrorMessage =>
                 {
-                    DebugLogger.WriteLine("Failed create callback", this.GetType(), MethodBase.GetCurrentMethod());
+                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
                     MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
                 }
             );

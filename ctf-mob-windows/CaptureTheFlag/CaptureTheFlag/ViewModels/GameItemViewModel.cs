@@ -19,7 +19,7 @@ namespace CaptureTheFlag.ViewModels
 
         public GameItemViewModel(INavigationService navigationService, IEventAggregator eventAggregator, ILocationService locationService, ICommunicationService communicationService)
         {
-            DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             this.navigationService = navigationService;
             this.eventAggregator = eventAggregator;
             this.communicationService = communicationService;
@@ -57,14 +57,14 @@ namespace CaptureTheFlag.ViewModels
         #region ViewModel States
         protected override void OnActivate()
         {
-            DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             base.OnActivate();
             eventAggregator.Subscribe(this);
         }
 
         protected override void OnDeactivate(bool close)
         {
-            DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             eventAggregator.Unsubscribe(this);
             base.OnDeactivate(close);
         }
@@ -73,19 +73,19 @@ namespace CaptureTheFlag.ViewModels
         #region Actions
         public void CreateAction()
         {
-            DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             IsFormAccessible = false;
             communicationService.CreateGameItem(GameItem, Token,
                 responseGameMap =>
                 {
-                    DebugLogger.WriteLine("Successful create callback", this.GetType(), MethodBase.GetCurrentMethod());
+                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
                     GameItem = responseGameMap;
                     eventAggregator.Publish(GameItem); //Publish only url string?
                     IsFormAccessible = true;
                 },
                 serverErrorMessage =>
                 {
-                    DebugLogger.WriteLine("Failed create callback", this.GetType(), MethodBase.GetCurrentMethod());
+                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
                     MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
                     IsFormAccessible = true;
                 }
@@ -94,17 +94,17 @@ namespace CaptureTheFlag.ViewModels
 
         public void ReadAction()
         {
-            DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             communicationService.ReadGameItem(GameItem, Token,
                 responseData =>
                 {
-                    DebugLogger.WriteLine("Successful create callback", this.GetType(), MethodBase.GetCurrentMethod());
+                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
                     MessageBox.Show("OK", "read", MessageBoxButton.OK);
                     GameItem = responseData;
                 },
                 serverErrorMessage =>
                 {
-                    DebugLogger.WriteLine("Failed create callback", this.GetType(), MethodBase.GetCurrentMethod());
+                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
                     MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
                 }
             );
@@ -115,13 +115,13 @@ namespace CaptureTheFlag.ViewModels
             communicationService.DeleteGameItem(GameItem, Token,
             responseGameMap =>
             {
-                DebugLogger.WriteLine("Successful create callback", this.GetType(), MethodBase.GetCurrentMethod());
+                DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
                 MessageBox.Show("OK", "deleted", MessageBoxButton.OK);
                 IsFormAccessible = true;
             },
             serverErrorMessage =>
             {
-                DebugLogger.WriteLine("Failed create callback", this.GetType(), MethodBase.GetCurrentMethod());
+                DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
                 MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
                 IsFormAccessible = true;
             }
@@ -130,18 +130,18 @@ namespace CaptureTheFlag.ViewModels
 
         public void UpdateAction()
         {
-            DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             communicationService.UpdateGameItem(GameItem, Token,
                 responseGameMap =>
                 {
-                    DebugLogger.WriteLine("Successful create callback", this.GetType(), MethodBase.GetCurrentMethod());
+                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
                     GameItem = responseGameMap;
                     eventAggregator.Publish(GameItem);
                     IsFormAccessible = true;
                 },
                 serverErrorMessage =>
                 {
-                    DebugLogger.WriteLine("Failed create callback", this.GetType(), MethodBase.GetCurrentMethod());
+                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
                     MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
                     IsFormAccessible = true;
                 }
@@ -150,19 +150,19 @@ namespace CaptureTheFlag.ViewModels
 
         public void UpdateSelectiveAction()
         {
-            DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             GameItem selectedFields = GameItem;
             communicationService.UpdateGameItemFields(GameItem, Token,
                 responseGameMap =>
                 {
-                    DebugLogger.WriteLine("Successful create callback", this.GetType(), MethodBase.GetCurrentMethod());
+                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
                     GameItem = responseGameMap;
                     eventAggregator.Publish(GameItem);
                     IsFormAccessible = true;
                 },
                 serverErrorMessage =>
                 {
-                    DebugLogger.WriteLine("Failed create callback", this.GetType(), MethodBase.GetCurrentMethod());
+                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
                     MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
                     IsFormAccessible = true;
                 }

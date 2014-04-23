@@ -22,6 +22,26 @@ namespace CaptureTheFlag.Services
             return geoposition;
         }
 
+        private GeoCoordinateWatcher watcher;
+        public GeoCoordinateWatcher Watcher
+        {
+            get { return watcher; }
+            set
+            {
+                if (watcher != value)
+                {
+                    watcher = value;
+                }
+            }
+        }
+        public void RegisterPositionAction()
+        {
+            Watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.High);
+            Watcher.Start();
+            GeoCoordinate loc = Watcher.Position.Location;
+            Watcher.Stop();
+        }
+
         //TODO: move it in its own class?
         public GeoCoordinate ConvertGeocoordinate(Geocoordinate geocoordinate)
         {

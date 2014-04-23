@@ -8,11 +8,11 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 
-namespace CaptureTheFlag.Views
+namespace CaptureTheFlag.Views.GameMapVVMs
 {
-    public partial class GameView : PhoneApplicationPage
+    public partial class EditGameMapView : PhoneApplicationPage
     {
-        public GameView()
+        public EditGameMapView()
         {
             InitializeComponent();
         }

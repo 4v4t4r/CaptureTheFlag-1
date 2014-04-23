@@ -16,7 +16,7 @@ namespace CaptureTheFlag.ViewModels
 
         public UserLoginViewModel(INavigationService navigationService, ICommunicationService communicationService, IEventAggregator eventAggregator)
         {
-            DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             this.navigationService = navigationService;
             this.communicationService = communicationService;
             this.eventAggregator = eventAggregator;
@@ -28,14 +28,14 @@ namespace CaptureTheFlag.ViewModels
         #region ViewModel States
         protected override void OnActivate()
         {
-            DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             base.OnActivate();
             eventAggregator.Subscribe(this);
         }
 
         protected override void OnDeactivate(bool close)
         {
-            DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             eventAggregator.Unsubscribe(this);
             base.OnDeactivate(close);
         }
@@ -44,7 +44,7 @@ namespace CaptureTheFlag.ViewModels
         #region Actions
         public void LoginAction()
         {
-            DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             IsFormAccessible = false;
             requestHandle = communicationService.Login<LoginResponse>(Username, Password, response =>
             {
@@ -57,7 +57,7 @@ namespace CaptureTheFlag.ViewModels
         #region Message Handling
         public void Handle(LoginResponse message)
         {
-            DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             IsFormAccessible = true;
             navigationService
                 .UriFor<MainAppPivotViewModel>()
@@ -67,7 +67,7 @@ namespace CaptureTheFlag.ViewModels
 
         public void Handle(ServerErrorMessage message)
         {
-            DebugLogger.WriteLine("", this.GetType(), MethodBase.GetCurrentMethod());
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             MessageBox.Show(message.Code.ToString(), message.Message, MessageBoxButton.OK);
             IsFormAccessible = true;
         }
