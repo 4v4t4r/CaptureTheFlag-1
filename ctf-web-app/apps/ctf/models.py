@@ -4,6 +4,7 @@ from haystack.query import SearchQuerySet
 from haystack.utils.geo import Point, D
 from django.utils.translation import ugettext_lazy as _
 from django.db import models
+from apps.core.exceptions import AlreadyExistException
 from apps.core.models import PortalUser, Character, GeoModel
 
 logger = logging.getLogger("root")
@@ -71,44 +72,44 @@ class Game(models.Model):
     visibility_range = models.FloatField(default=200.00, verbose_name=_("Visibility range"))  # in meters
     action_range = models.FloatField(default=5.00, verbose_name=_("Action range"))  # in meters
 
-    players = models.ManyToManyField(Character, verbose_name=_("Players"), related_name="joined_games")
+    players = models.ManyToManyField(PortalUser, verbose_name=_("Players"), related_name="joined_games")
     invited_users = models.ManyToManyField(PortalUser, verbose_name=_("Invited users"), related_name="pending_games")
 
     def add_player(self, user):
-        character = user.get_active_character()
+        active_character = user.active_character
 
-        if character is None:
+        if active_character is None:
             raise AssertionError("An active character is not defined")
 
         if self.max_players and self.max_players == self.players.count():
             raise Exception("Max value of players exceeded")
 
-        logger.debug("character.user: %s", character.user)
+        logger.debug("user: %s", user)
 
-        is_user_already_exist = self.players.filter(user=user).exists()
+        is_user_already_exist = self.players.filter(pk=user.id).exists()
         logger.debug("is_user_already_exist: %s", is_user_already_exist)
 
         if is_user_already_exist:
-            logger.info("User '%s' already joined into the game '%s'...", user.username, self.name)
+            logger.info("User '%s' already joined into the game '%s: %s'", user.username, self.id, self.name)
+            raise AlreadyExistException("User '%s' already joined into the game '%s: %s'" % (
+                user.username, self.id, self.name))
         else:
-            logger.info("User '%s' in character '%s' is joining into the game '%s'...", user.username, character.type,
-                        self.name)
-            self.players.add(character)
+            logger.info("User '%s' in character '%s' is joining into the game '%s'...", user.username,
+                        active_character.type, self.name)
+            self.players.add(user)
             self.save()
-        return character
 
     def remove_player(self, user):
-        character = user.get_active_character()
+        active_character = user.active_character
 
-        if character is None:
-            raise AssertionError("An active character is not defined")
+        if not self.players.filter(pk=user.id).exists():
+            raise PortalUser.DoesNotExist("User '%s' doesn't exist in selected game '%s: %s'" % (
+                user.username, self.id, self.name))
 
-        logger.info("User '%s' in character '%s' is removing from game '%s'...", user.username, character.type,
+        self.players.remove(user)
+        logger.info("User '%s' in character '%s' is removing from game '%s'...", user.username, active_character.type,
                     self.name)
-        self.players.remove(character)
         self.save()
-
-        return character
 
     def get_neighbours(self, user):
         location = (user.lat, user.lon)

@@ -7,6 +7,8 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet
 from apps.core.api import mixins
 from apps.core.api.serializers import GeoModelSerializer
+from apps.core.exceptions import AlreadyExistException
+from apps.core.models import PortalUser
 from apps.ctf.api.serializers.common import ItemSerializer, NeighbourSerializer
 from apps.ctf.api.serializers.games import GameSerializer
 from apps.ctf.api.serializers.maps import MapSerializer
@@ -86,7 +88,9 @@ class JoinToGame(APIView):
         user = request.user
 
         try:
-            character = game.add_player(user)
+            game.add_player(user)
+        except AlreadyExistException, e:
+            return Response(data={"error": e.message}, status=status.HTTP_400_BAD_REQUEST)
         except AssertionError, e:
             # todo: add error code
             return Response(data={"error": e.message}, status=status.HTTP_400_BAD_REQUEST)
@@ -94,7 +98,7 @@ class JoinToGame(APIView):
             # todo: add error code
             return Response(data={"error": e.message}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            logger.info("Player '%s' in character is in game '%s'", user.username, character.type, game.name)
+            logger.info("Player '%s' was added into the game '%s'", user.username, game.name)
             return Response(status=status.HTTP_200_OK)
 
     def delete(self, request, pk):
@@ -104,9 +108,11 @@ class JoinToGame(APIView):
         user = request.user
 
         try:
-            character = game.remove_player(user)
+            game.remove_player(user)
+        except PortalUser.DoesNotExist, e:
+            return Response(data={"error": e.message}, status=status.HTTP_404_NOT_FOUND)
         except AssertionError, e:
             return Response(data={"error": e.message}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            logger.info("Player '%s' in character is no longer in game '%s'", user.username, character.type, game.name)
+            logger.info("Player '%s' is no longer in game '%s'", user.username, game.name)
             return Response(status=status.HTTP_200_OK)

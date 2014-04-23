@@ -1,6 +1,6 @@
 import logging
 from rest_framework import serializers
-from apps.core.api.serializers import CharacterSerializer
+from apps.core.api.serializers import CharacterSerializer, LocationField, PortalUserSerializer
 from apps.core.models import PortalUser
 from apps.ctf.models import Item
 
@@ -10,9 +10,11 @@ logger = logging.getLogger("root")
 
 
 class ItemSerializer(serializers.HyperlinkedModelSerializer):
+    location = LocationField(required=False)
+
     class Meta:
         model = Item
-        fields = ('url', 'name', 'type', 'value', 'description', 'lat', 'lon', 'game')
+        fields = ('url', 'name', 'type', 'value', 'description', 'location', 'game')
 
 
 class NeighbourSerializer(object):
@@ -39,15 +41,8 @@ class NeighbourSerializer(object):
                 serializer = ItemSerializer(object)
                 items.append(serializer.data)
             elif isinstance(object, PortalUser) and object.id is not self.user.id:
-                character = object.get_active_character()
-                if character is not None:
-                    serializer = CharacterSerializer(character)
-                    json_data = serializer.data
-                    # todo: add filter
-                    json_data.pop("is_active")
-                    json_data["lat"] = object.lat
-                    json_data["lon"] = object.lon
-                    players.append(json_data)
+                serializer = PortalUserSerializer(object)
+                players.append(serializer.data)
 
         self.data = {
             "items": items,

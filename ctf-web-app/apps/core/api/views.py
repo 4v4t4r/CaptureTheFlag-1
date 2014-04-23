@@ -82,12 +82,7 @@ class CharacterViewSet(mixins.ModelPermissionsMixin,
 
     def get_serializer(self, instance=None, data=None,
                        files=None, many=False, partial=False):
-        is_active_was_set = data and "is_active" in data
-
         serializer_class = self.get_serializer_class()
         context = self.get_serializer_context()
         serializer = serializer_class(instance, data=data, files=files, many=many, partial=partial, context=context)
-
-        setattr(serializer, "is_active_was_set", is_active_was_set)
-
         return serializer
