@@ -65,7 +65,12 @@ class CtfAuthToken(APIView):
             user = serializer.object['user']
             token, created = Token.objects.get_or_create(user=user)
             user.save()  # update user object of device_type and device_id
-            return Response({'token': token.key})
+            return Response(
+                {
+                    'user': user.id,
+                    'token': token.key
+                }
+            )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 

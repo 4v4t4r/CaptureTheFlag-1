@@ -12,9 +12,10 @@ class Location(object):
     """ Represents location object with latitude and longitude. It's using by LocationField object.
     """
 
-    def __init__(self, lat=0.00, lon=0.00):
+    def __init__(self, lat=0.00, lon=0.00, distance=0.00):
         self.lat = lat
         self.lon = lon
+        self.distance = distance
 
     def __repr__(self):
         return str(self.lat) + ', ' + str(self.lon)
@@ -24,6 +25,8 @@ class LocationField(models.Field):
     """ Custom location field which stores data in db as a string separated by comma, e.g. <latitude>, <longitude>.
     """
     description = "Location field witch stores latitude and longitude"
+
+    __metaclass__ = models.SubfieldBase
 
     def __init__(self, help_text="A comma-separated latitude longitude pair", *args, **kwargs):
         self.name = "LocationField",
@@ -61,6 +64,10 @@ class LocationField(models.Field):
         if value and isinstance(value, Location):
             return ', '.join([str(value.lat), str(value.lon)])
         return value
+
+    def value_to_string(self, obj):
+        value = self._get_val_from_obj(obj)
+        return self.get_prep_value(value)
 
 
 class GeoModelManager(models.Manager):

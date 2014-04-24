@@ -33,16 +33,21 @@ class NeighbourSerializer(object):
         players = []
 
         for instance in objects:
-            object = instance.object
-            logger.debug("object: %s", object)
-            logger.debug("object type: %s", type(object))
+            distance_in_meters = instance.distance.m if instance.distance is not None else None
+            obj = instance.object
+            logger.debug("object: %s, distance: %s m", obj, distance_in_meters)
+            logger.debug("object type: %s", type(obj))
 
-            if isinstance(object, Item):
-                serializer = ItemSerializer(object)
-                items.append(serializer.data)
-            elif isinstance(object, PortalUser) and object.id is not self.user.id:
-                serializer = PortalUserSerializer(object)
-                players.append(serializer.data)
+            if isinstance(obj, Item):
+                serializer = ItemSerializer(obj)
+                json_data = serializer.data
+                json_data["distance"] = distance_in_meters
+                items.append(json_data)
+            elif isinstance(obj, PortalUser) and obj.id is not self.user.id:
+                serializer = PortalUserSerializer(obj)
+                json_data = serializer.data
+                json_data["distance"] = distance_in_meters
+                players.append(json_data)
 
         self.data = {
             "items": items,

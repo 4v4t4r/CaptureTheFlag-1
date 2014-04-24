@@ -75,6 +75,8 @@ class Game(models.Model):
     players = models.ManyToManyField(PortalUser, verbose_name=_("Players"), related_name="joined_games")
     invited_users = models.ManyToManyField(PortalUser, verbose_name=_("Invited users"), related_name="pending_games")
 
+    # author = models.ForeignKey(PortalUser, null=True, blank=True, verbose_name=_("Author"))
+
     def add_player(self, user):
         active_character = user.active_character
 
@@ -120,9 +122,10 @@ class Game(models.Model):
         logger.debug("location: %s", location)
         logger.debug("max_dist: %s", max_dist)
 
-        sqs = SearchQuerySet().dwithin('location', point, max_dist)
+        sqs = SearchQuerySet().dwithin('location', point, max_dist).distance('location', point)
 
         logger.debug("Query: %s", sqs.query)
+        logger.debug("Query distance: %s", sqs.distance)
 
         return sqs
 
