@@ -8,7 +8,7 @@ from rest_framework.viewsets import GenericViewSet
 from apps.core.api import mixins
 from apps.core.api.serializers import GeoModelSerializer
 from apps.core.exceptions import AlreadyExistException
-from apps.core.models import PortalUser
+from apps.core.models import PortalUser, Location
 from apps.ctf.api.serializers.common import ItemSerializer, NeighbourSerializer
 from apps.ctf.api.serializers.games import GameSerializer
 from apps.ctf.api.serializers.maps import MapSerializer
@@ -63,9 +63,12 @@ class InGameLocation(APIView):
 
         if serializer.is_valid():
             user = request.user
-            user.lat = serializer.object.get('lat')
-            user.lon = serializer.object.get('lon')
+            lat = serializer.object.get('lat')
+            lon = serializer.object.get('lon')
+            user.location = Location(lat, lon)
             user.save()
+
+            logger.debug("location: %s", user.location)
 
             neighbours = game.get_neighbours(user)
             logger.debug("neighbours size: %d", len(neighbours))

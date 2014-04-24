@@ -112,8 +112,8 @@ class Game(models.Model):
         self.save()
 
     def get_neighbours(self, user):
-        location = (user.lat, user.lon)
-        point = Point(location[1], location[0])
+        location = user.location
+        point = Point(location.lon, location.lat)
         max_dist = D(m=self.visibility_range)
 
         logger.debug("user: %s", user)
