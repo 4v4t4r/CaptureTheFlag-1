@@ -62,11 +62,6 @@ class LocationField(models.Field):
             return ', '.join([str(value.lat), str(value.lon)])
         return value
 
-    def value_to_string(self, obj):
-        logger.debug("value_to_string: obj: %s (%s)", obj, type(obj))
-        value = self._get_val_from_obj(obj)
-        return value
-
 
 class GeoModelManager(models.Manager):
     """ GeoModel manager class.
