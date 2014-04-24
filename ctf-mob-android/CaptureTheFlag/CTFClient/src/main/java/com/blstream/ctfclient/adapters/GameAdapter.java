@@ -2,8 +2,8 @@ package com.blstream.ctfclient.adapters;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.util.LruCache;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,13 +11,11 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
 
-import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.Volley;
 import com.blstream.ctfclient.R;
 import com.blstream.ctfclient.utils.BitmapLruCache;
-import com.blstream.ctfclient.utils.BitmapUtil;
 
 import java.io.File;
 
@@ -78,7 +76,7 @@ public class GameAdapter extends BaseAdapter {
 
 
         int maxH=(height-80)/3/2;
-        currentURL = mThumbIds[position] + "&size="+maxH+"x"+maxH+"&scale=2&sensor=false";
+        currentURL = mThumbIds[position] + "&size="+maxH+"x"+maxH+"&scale=2&sensor=false&maptype=terrain";
 
 //        // Initialise Volley Request Queue.
 //        mVolleyQueue=Volley.newRequestQueue(this);
@@ -111,45 +109,34 @@ public class GameAdapter extends BaseAdapter {
             rowView = inflater.inflate(R.layout.game_item, null);
         }
 
-        ImageLoader.ImageCache imageCache = new BitmapLruCache(max_cache_size);
+
+
+
+
+        final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
+        final int cacheSize = maxMemory / 8;
+
+        ImageLoader.ImageCache imageCache = new ImageLoader.ImageCache() {
+            LruCache<String, Bitmap> imageCache = new BitmapLruCache(cacheSize);
+
+            @Override
+            public void putBitmap(String key, Bitmap value) {
+                imageCache.put(key, value);
+            }
+
+            @Override
+            public Bitmap getBitmap(String key) {
+                return imageCache.get(key);
+            }
+        };
 
         ImageLoader imageLoader = new ImageLoader(Volley.newRequestQueue(mContext), imageCache);
-
-
         NetworkImageView imgAvatar = (NetworkImageView) rowView.findViewById(R.id.imgAvatar);
 
 //        imageLoader.get(currentURL, new FadeInImageListener(imgAvatar, mContext));
         imgAvatar.setImageUrl(currentURL, imageLoader);
 
         return rowView;
-    }
-
-
-    public class DiskBitmapCache extends DiskBasedCache implements ImageLoader.ImageCache {
-
-        public DiskBitmapCache(File rootDirectory, int maxCacheSizeInBytes) {
-            super(rootDirectory, maxCacheSizeInBytes);
-        }
-
-        public DiskBitmapCache(File cacheDir) {
-            super(cacheDir);
-        }
-
-        public Bitmap getBitmap(String url) {
-            final Entry requestedItem = get(url);
-
-            if (requestedItem == null)
-                return null;
-
-            return BitmapFactory.decodeByteArray(requestedItem.data, 0, requestedItem.data.length);
-        }
-
-        public void putBitmap(String url, Bitmap bitmap) {
-
-            final Entry entry = new Entry();
-            entry.data = BitmapUtil.convertBitmapToBytes(bitmap);
-            put(url, entry);
-        }
     }
 
 
