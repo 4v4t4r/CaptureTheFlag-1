@@ -22,8 +22,8 @@ class LocationField(serializers.WritableField):
         else:
             raise serializers.validators.ValidationError("Wrong native value")
         return {
-            "lat": lat,
-            "lon": lon
+            "lat": float(lat),
+            "lon": float(lon)
         }
 
     def from_native(self, data):
