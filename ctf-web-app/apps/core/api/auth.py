@@ -7,6 +7,7 @@ from rest_framework import parsers
 from rest_framework import renderers
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
+from apps.core.api.serializers import PortalUserSerializer
 from apps.core.models import PortalUser
 
 __author__ = 'mkr'
@@ -63,11 +64,14 @@ class CtfAuthToken(APIView):
         serializer = self.serializer_class(data=request.DATA)
         if serializer.is_valid():
             user = serializer.object['user']
+            user_json_data = PortalUserSerializer(user, context={'request': request}).data
+            user_url = user_json_data.get("url")
+
             token, created = Token.objects.get_or_create(user=user)
             user.save()  # update user object of device_type and device_id
             return Response(
                 {
-                    'user': user.id,
+                    'user': user_url,
                     'token': token.key
                 }
             )

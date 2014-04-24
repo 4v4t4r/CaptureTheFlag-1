@@ -12,10 +12,9 @@ class Location(object):
     """ Represents location object with latitude and longitude. It's using by LocationField object.
     """
 
-    def __init__(self, lat=0.00, lon=0.00, distance=0.00):
+    def __init__(self, lat=0.00, lon=0.00):
         self.lat = lat
         self.lon = lon
-        self.distance = distance
 
     def __repr__(self):
         return str(self.lat) + ', ' + str(self.lon)

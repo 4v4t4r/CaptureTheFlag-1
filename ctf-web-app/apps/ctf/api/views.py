@@ -74,7 +74,7 @@ class InGameLocation(APIView):
             logger.debug("neighbours size: %d", len(neighbours))
             logger.debug("neighbours: %s", neighbours)
 
-            neighbour_serializer = NeighbourSerializer(user, neighbours)
+            neighbour_serializer = NeighbourSerializer(user, neighbours, context={'request': request})
             data = neighbour_serializer.data
             logger.debug("data: %s", data)
 
