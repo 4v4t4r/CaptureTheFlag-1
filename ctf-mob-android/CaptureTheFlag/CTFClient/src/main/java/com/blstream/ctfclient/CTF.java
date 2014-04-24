@@ -104,7 +104,7 @@ public class CTF extends Application {
         }
     }
 
-    public String getURL(String params) {
+    public static String getURL(String params) {
         StringBuilder url = new StringBuilder(CTFConstants.PROTOCOL);
         url.append("://").append(CTFConstants.HOST).append(":").append(CTFConstants.PORT);
         if (!params.startsWith("/")) url.append("/");

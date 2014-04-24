@@ -26,6 +26,7 @@ import com.blstream.ctfclient.R;
 import com.blstream.ctfclient.model.dto.User;
 import com.blstream.ctfclient.network.ErrorHelper;
 import com.blstream.ctfclient.network.requests.RegisterRequest;
+import com.blstream.ctfclient.network.service.CTFService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -146,33 +147,33 @@ public class RegisterActivity extends Activity {
         if (TextUtils.isEmpty(mEmail)) {
             mEmailView.setError(getString(R.string.error_field_required));
 
-            if(focusView == null) focusView = mEmailView;
+            if (focusView == null) focusView = mEmailView;
             cancel = true;
         } else if (!mEmail.contains("@")) {
             mEmailView.setError(getString(R.string.error_invalid_email));
-            if(focusView == null) focusView = mEmailView;
+            if (focusView == null) focusView = mEmailView;
             cancel = true;
         }
 
         // Check for a valid password.
         if (TextUtils.isEmpty(mPassword)) {
             mPasswordView.setError(getString(R.string.error_field_required));
-            if(focusView == null) focusView = mPasswordView;
+            if (focusView == null) focusView = mPasswordView;
             cancel = true;
         } else if (mPassword.length() < 4) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
-            if(focusView == null) focusView = mPasswordView;
+            if (focusView == null) focusView = mPasswordView;
             cancel = true;
         }
 
         // Check for a valid repeated password.
         if (TextUtils.isEmpty(mRepeat)) {
             mRepeatPasswordView.setError(getString(R.string.error_field_required));
-            if(focusView == null) focusView = mRepeatPasswordView;
+            if (focusView == null) focusView = mRepeatPasswordView;
             cancel = true;
         } else if (!mRepeat.equals(mPassword)) {
             mRepeatPasswordView.setError(getString(R.string.error_invalid_repeated_password));
-            if(focusView == null) focusView = mRepeatPasswordView;
+            if (focusView == null) focusView = mRepeatPasswordView;
             cancel = true;
         }
 
@@ -268,18 +269,26 @@ public class RegisterActivity extends Activity {
     public class UserRegisterTask extends AsyncTask<Void, Void, Boolean> {
         @Override
         protected Boolean doInBackground(Void... params) {
-            CTF.getInstance().addToRequestQueue(getRegisterRequest());
+//            CTF.getInstance().addToRequestQueue(getRegisterRequest());
+            CTFService ctfService = new CTFService();
+            ctfService.getRegistrationResponse(
+                    mUserName.getText().toString(),
+                    mPasswordView.getText().toString(),
+                    "",
+                    "",
+                    mEmailView.getText().toString(),
+                    "");
             return true;
         }
 
         private RegisterRequest getRegisterRequest() {
             return new RegisterRequest(
-                            Request.Method.POST,
-                            CTF.getInstance().getURL(RegisterRequest.URL_REQUEST),
-                            getUserDataAsJson(),
-                            createRegisterSuccessListener(),
-                            createRegisterErrorListener()
-                    );
+                    Request.Method.POST,
+                    CTF.getInstance().getURL(RegisterRequest.URL_REQUEST),
+                    getUserDataAsJson(),
+                    createRegisterSuccessListener(),
+                    createRegisterErrorListener()
+            );
         }
 
         private String getUserDataAsJson() {
