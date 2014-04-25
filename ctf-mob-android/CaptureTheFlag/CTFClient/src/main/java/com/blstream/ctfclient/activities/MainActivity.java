@@ -1,6 +1,5 @@
 package com.blstream.ctfclient.activities;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -8,7 +7,7 @@ import android.view.MenuItem;
 import com.blstream.ctfclient.R;
 import com.blstream.ctfclient.fragments.UsersFragment;
 
-public class MainActivity extends Activity {
+public class MainActivity extends CTFBaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

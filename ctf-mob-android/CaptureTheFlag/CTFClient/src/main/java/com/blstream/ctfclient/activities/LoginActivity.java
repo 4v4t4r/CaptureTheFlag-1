@@ -3,15 +3,12 @@ package com.blstream.ctfclient.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
@@ -20,33 +17,26 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.blstream.ctfclient.CTF;
 import com.blstream.ctfclient.R;
 import com.blstream.ctfclient.constants.CTFConstants;
-import com.blstream.ctfclient.network.ErrorHelper;
-import com.blstream.ctfclient.network.requests.TokenRequest;
+import com.blstream.ctfclient.model.dto.User;
+import com.blstream.ctfclient.model.dto.json.TokenResponse;
+import com.blstream.ctfclient.network.requests.CTFTokenRequest;
+import com.octo.android.robospice.persistence.DurationInMillis;
+import com.octo.android.robospice.persistence.exception.SpiceException;
+import com.octo.android.robospice.request.listener.RequestListener;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * Activity which displays a login screen to the user, offering registration as
  * well.
  */
-public class LoginActivity extends Activity {
+public class LoginActivity extends CTFBaseActivity {
 
     /**
      * The default username to populate the username field with.
      */
     public static final String EXTRA_USERNAME = "com.example.android.authenticatordemo.extra.USERNAME";
-
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
-    private UserLoginTask mAuthTask = null;
 
     // Values for email and password at the time of the login attempt.
     private String mUserName;
@@ -58,6 +48,8 @@ public class LoginActivity extends Activity {
     private View mLoginFormView;
     private View mLoginStatusView;
     private TextView mLoginStatusMessageView;
+
+    private CTFTokenRequest tokenRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,9 +109,6 @@ public class LoginActivity extends Activity {
      */
     public void attemptLogin() {
         findViewById(R.id.sign_in_button).setEnabled(false);
-        if (mAuthTask != null) {
-            return;
-        }
 
         // Reset errors.
         mUserNameView.setError(null);
@@ -164,9 +153,18 @@ public class LoginActivity extends Activity {
             // perform the user login attempt.
             mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
             showProgress(true);
-            mAuthTask = new UserLoginTask();
-            mAuthTask.execute((Void) null);
+            User user = new User();
+            user.setUserName(mUserName);
+            user.setPassword(mPassword);
+            user.setDeviceType(CTFConstants.DEVICE_TYPE);
+            user.setDeviceId("14234-1234123-23423");//TODO getFRomSharedPref
+            loginUser(user);
         }
+    }
+
+    private void loginUser(User user) {
+        tokenRequest= new CTFTokenRequest(user);
+        getSpiceManager().execute(tokenRequest, tokenRequest.createCacheKey(), DurationInMillis.ONE_MINUTE, new TokenRequestListener());
     }
 
     /**
@@ -213,76 +211,13 @@ public class LoginActivity extends Activity {
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            TokenRequest request = new TokenRequest(
-                    Request.Method.POST,
-                    CTF.getInstance().getURL(TokenRequest.URL_REQUEST),
-                    mUserNameView.getText().toString(),
-                    mPasswordView.getText().toString(),
-                    createTokenSuccessListener(),
-                    createTokenErrorListener());
-
-            CTF.getInstance().addToRequestQueue(request);
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-
-            if (success) {
-                //
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
-    }
 
     private void clearForm() {
         findViewById(R.id.sign_in_button).setEnabled(true);
-        ((EditText)findViewById(R.id.password)).setText("");
-        ((EditText)findViewById(R.id.user_name_login)).setText("");
+        ((EditText) findViewById(R.id.password)).setText("");
+        ((EditText) findViewById(R.id.user_name_login)).setText("");
     }
 
-    private Response.ErrorListener createTokenErrorListener() {
-        return new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                showProgress(false);
-                Toast.makeText(getApplicationContext(), ErrorHelper.getMessage(volleyError, getApplicationContext()),
-                        Toast.LENGTH_LONG).show();
-                clearForm();
-            }
-        };
-    }
-
-    private Response.Listener<String> createTokenSuccessListener() {
-        return new Response.Listener<String>() {
-            @Override
-            public void onResponse(String result) {
-                showProgress(false);
-                clearForm();
-                try {
-                    JSONObject jsonObject = new JSONObject(result);
-                    String token = jsonObject.getString(CTFConstants.ACCESS_TOKEN_KEY_NAME);
-                    saveToken(token);
-                    Toast.makeText(getApplicationContext(), "Your token: " + token, Toast.LENGTH_SHORT).show();
-                    startMainActivity();
-                } catch (JSONException e) {
-                    Log.e(CTF.TAG, "JSONException", e);
-                }
-            }
-        };
-    }
 
     private void startMainActivity() {
         Intent myIntent = new Intent(getBaseContext(), MainActivity.class);
@@ -295,5 +230,19 @@ public class LoginActivity extends Activity {
         SharedPreferences.Editor editor = settings.edit();
         editor.putString(CTFConstants.ACCESS_TOKEN_KEY_NAME, token);
         editor.commit();
+    }
+
+    private class TokenRequestListener implements RequestListener<TokenResponse> {
+        @Override
+        public void onRequestFailure(SpiceException spiceException) {
+            Toast.makeText(getApplicationContext(), "failure", Toast.LENGTH_SHORT).show();
+            showProgress(false);
+        }
+
+        @Override
+        public void onRequestSuccess(TokenResponse tokenResponse) {
+            Toast.makeText(getApplicationContext(), "success", Toast.LENGTH_SHORT).show();
+            showProgress(false);
+        }
     }
 }

@@ -3,13 +3,6 @@ package com.blstream.ctfclient.network;
 import android.content.Context;
 import android.util.Log;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkError;
-import com.android.volley.NetworkResponse;
-import com.android.volley.NoConnectionError;
-import com.android.volley.ServerError;
-import com.android.volley.TimeoutError;
-import com.android.volley.VolleyError;
 import com.blstream.ctfclient.CTF;
 import com.blstream.ctfclient.R;
 
@@ -36,13 +29,13 @@ public class ErrorHelper {
      * @return
      */
     public static String getMessage(Object error, Context context) {
-        if (error instanceof TimeoutError) {
-            return context.getResources().getString(R.string.generic_server_down);
-        } else if (isServerProblem(error)) {
-            return handleServerError(error, context);
-        } else if (isNetworkProblem(error)) {
-            return context.getResources().getString(R.string.no_internet);
-        }
+//        if (error instanceof TimeoutError) {
+//            return context.getResources().getString(R.string.generic_server_down);
+//        } else if (isServerProblem(error)) {
+//            return handleServerError(error, context);
+//        } else if (isNetworkProblem(error)) {
+//            return context.getResources().getString(R.string.no_internet);
+//        }
         return context.getResources().getString(R.string.generic_error);
     }
 
@@ -52,19 +45,19 @@ public class ErrorHelper {
      * @param error
      * @return
      */
-    private static boolean isNetworkProblem(Object error) {
-        return (error instanceof NetworkError) || (error instanceof NoConnectionError);
-    }
-
-    /**
-     * Determines whether the error is related to server
-     *
-     * @param error
-     * @return
-     */
-    private static boolean isServerProblem(Object error) {
-        return (error instanceof ServerError) || (error instanceof AuthFailureError);
-    }
+//    private static boolean isNetworkProblem(Object error) {
+//        return (error instanceof NetworkError) || (error instanceof NoConnectionError);
+//    }
+//
+//    /**
+//     * Determines whether the error is related to server
+//     *
+//     * @param error
+//     * @return
+//     */
+//    private static boolean isServerProblem(Object error) {
+//        return (error instanceof ServerError) || (error instanceof AuthFailureError);
+//    }
 
     /**
      * Handles the server error, tries to determine whether to show a stock message or to
@@ -75,41 +68,38 @@ public class ErrorHelper {
      * @return
      */
     private static String handleServerError(Object err, Context context) {
-        VolleyError error = (VolleyError) err;
-
-        NetworkResponse response = error.networkResponse;
-
-        if (response != null) {
-            switch (response.statusCode) {
-                case 400:
-                case 404:
-                case 422:
-                case 401:
-                    try {
-                        String resultString = new String(response.data);
-                        JSONObject jsonObject = new JSONObject(resultString);
-
-                        String message = null;
-                        if (getMessageFromArray(jsonObject, KEY_INVALID_USERNAME) != null) {
-                            message = getMessageFromArray(jsonObject, KEY_INVALID_USERNAME);
-                        } else if (getMessageFromArray(jsonObject, KEY_INVALID_EMAIL) != null) {
-                            message = getMessageFromArray(jsonObject, KEY_INVALID_EMAIL);
-                        } else if (getMessage(jsonObject, KEY_ERROR) != null) {
-                            message = getMessage(jsonObject, KEY_ERROR);
-                        } else if (getMessage(jsonObject, KEY_DETAIL) != null){
-                            message = getMessage(jsonObject, KEY_DETAIL);
-                        }
-                        return message;
-                    } catch (Exception e) {
-                        Log.e(CTF.TAG, "Exception", e);
-                    }
-                    // invalid request
-                    return error.getMessage();
-
-                default:
-                    return context.getResources().getString(R.string.generic_server_down);
-            }
-        }
+//
+//        if (response != null) {
+//            switch (response.statusCode) {
+//                case 400:
+//                case 404:
+//                case 422:
+//                case 401:
+//                    try {
+//                        String resultString = new String(response.data);
+//                        JSONObject jsonObject = new JSONObject(resultString);
+//
+//                        String message = null;
+//                        if (getMessageFromArray(jsonObject, KEY_INVALID_USERNAME) != null) {
+//                            message = getMessageFromArray(jsonObject, KEY_INVALID_USERNAME);
+//                        } else if (getMessageFromArray(jsonObject, KEY_INVALID_EMAIL) != null) {
+//                            message = getMessageFromArray(jsonObject, KEY_INVALID_EMAIL);
+//                        } else if (getMessage(jsonObject, KEY_ERROR) != null) {
+//                            message = getMessage(jsonObject, KEY_ERROR);
+//                        } else if (getMessage(jsonObject, KEY_DETAIL) != null){
+//                            message = getMessage(jsonObject, KEY_DETAIL);
+//                        }
+//                        return message;
+//                    } catch (Exception e) {
+//                        Log.e(CTF.TAG, "Exception", e);
+//                    }
+//                    // invalid request
+//                    return error.getMessage();
+//
+//                default:
+//                    return context.getResources().getString(R.string.generic_server_down);
+//            }
+//        }
         return context.getResources().getString(R.string.generic_error);
     }
 

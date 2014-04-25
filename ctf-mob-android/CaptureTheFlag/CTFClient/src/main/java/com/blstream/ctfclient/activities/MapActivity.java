@@ -2,7 +2,6 @@ package com.blstream.ctfclient.activities;
 
 import android.animation.IntEvaluator;
 import android.animation.ValueAnimator;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -17,10 +16,6 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.blstream.ctfclient.CTF;
 import com.blstream.ctfclient.R;
 import com.google.android.gms.common.ConnectionResult;
@@ -50,7 +45,7 @@ import java.util.List;
 /**
  * Created by Rafał Zadrożny on 1/27/14.
  */
-public class MapActivity extends Activity {
+public class MapActivity extends CTFBaseActivity {
 
     private static final float DEGREES_OF_TILT = 30.0f;
     private static final int ANIMATION_DURATION_MS = 1000;
@@ -173,18 +168,18 @@ public class MapActivity extends Activity {
                 builder.append("&destination=");
                 builder.append("53.4295").append(",").append("14.5538");
                 builder.append("&sensor=false&mode=walking");
-                StringRequest stringRequest = new StringRequest(Request.Method.GET, builder.toString(), new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String returnValue) {
-                        drawPolyline(returnValue);
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        Log.e(CTF.TAG, "ERROR", volleyError.getCause());
-                    }
-                });
-                CTF.getInstance().addToRequestQueue(stringRequest);
+//                StringRequest stringRequest = new StringRequest(Request.Method.GET, builder.toString(), new Response.Listener<String>() {
+//                    @Override
+//                    public void onResponse(String returnValue) {
+//                        drawPolyline(returnValue);
+//                    }
+//                }, new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError volleyError) {
+//                        Log.e(CTF.TAG, "ERROR", volleyError.getCause());
+//                    }
+//                });
+//                CTF.getInstance().addToRequestQueue(stringRequest);
             }
         });
     }

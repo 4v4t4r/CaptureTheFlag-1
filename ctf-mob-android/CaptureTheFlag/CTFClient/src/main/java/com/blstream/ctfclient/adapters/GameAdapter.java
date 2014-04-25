@@ -1,9 +1,7 @@
 package com.blstream.ctfclient.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Point;
-import android.util.LruCache;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,11 +9,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
 
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
-import com.android.volley.toolbox.Volley;
 import com.blstream.ctfclient.R;
-import com.blstream.ctfclient.utils.BitmapLruCache;
 
 import java.io.File;
 
@@ -115,26 +109,26 @@ public class GameAdapter extends BaseAdapter {
 
         final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
         final int cacheSize = maxMemory / 8;
-
-        ImageLoader.ImageCache imageCache = new ImageLoader.ImageCache() {
-            LruCache<String, Bitmap> imageCache = new BitmapLruCache(cacheSize);
-
-            @Override
-            public void putBitmap(String key, Bitmap value) {
-                imageCache.put(key, value);
-            }
-
-            @Override
-            public Bitmap getBitmap(String key) {
-                return imageCache.get(key);
-            }
-        };
-
-        ImageLoader imageLoader = new ImageLoader(Volley.newRequestQueue(mContext), imageCache);
-        NetworkImageView imgAvatar = (NetworkImageView) rowView.findViewById(R.id.imgAvatar);
-
-//        imageLoader.get(currentURL, new FadeInImageListener(imgAvatar, mContext));
-        imgAvatar.setImageUrl(currentURL, imageLoader);
+//
+//        ImageLoader.ImageCache imageCache = new ImageLoader.ImageCache() {
+//            LruCache<String, Bitmap> imageCache = new BitmapLruCache(cacheSize);
+//
+//            @Override
+//            public void putBitmap(String key, Bitmap value) {
+//                imageCache.put(key, value);
+//            }
+//
+//            @Override
+//            public Bitmap getBitmap(String key) {
+//                return imageCache.get(key);
+//            }
+//        };
+//
+//        ImageLoader imageLoader = new ImageLoader(Volley.newRequestQueue(mContext), imageCache);
+//        NetworkImageView imgAvatar = (NetworkImageView) rowView.findViewById(R.id.imgAvatar);
+//
+////        imageLoader.get(currentURL, new FadeInImageListener(imgAvatar, mContext));
+//        imgAvatar.setImageUrl(currentURL, imageLoader);
 
         return rowView;
     }

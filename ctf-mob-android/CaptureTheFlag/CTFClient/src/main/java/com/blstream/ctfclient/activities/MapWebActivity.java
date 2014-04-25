@@ -1,8 +1,6 @@
 package com.blstream.ctfclient.activities;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.pm.ActivityInfo;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -21,7 +19,7 @@ import com.blstream.ctfclient.R;
 /**
  * Created by Rafał Zadrożny on 11.02.14.
  */
-public class MapWebActivity extends Activity implements LocationListener {
+public class MapWebActivity extends CTFBaseActivity implements LocationListener {
 
     private WebView webView;
     private Location mostRecentLocation;

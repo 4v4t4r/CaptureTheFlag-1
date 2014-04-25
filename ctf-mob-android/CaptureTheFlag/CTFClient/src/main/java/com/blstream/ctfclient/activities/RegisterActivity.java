@@ -3,13 +3,10 @@ package com.blstream.ctfclient.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
@@ -18,22 +15,18 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.blstream.ctfclient.CTF;
 import com.blstream.ctfclient.R;
 import com.blstream.ctfclient.model.dto.User;
-import com.blstream.ctfclient.network.ErrorHelper;
-import com.blstream.ctfclient.network.requests.RegisterRequest;
-import com.blstream.ctfclient.network.service.CTFService;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.blstream.ctfclient.model.dto.json.RegisterResponse;
+import com.blstream.ctfclient.network.requests.CTFRegisterRequest;
+import com.octo.android.robospice.persistence.DurationInMillis;
+import com.octo.android.robospice.persistence.exception.SpiceException;
+import com.octo.android.robospice.request.listener.RequestListener;
 
 /**
  * Created by Rafal on 10.01.14.
  */
-public class RegisterActivity extends Activity {
+public class RegisterActivity extends CTFBaseActivity {
 
     /**
      * The default username to populate the username field with.
@@ -44,7 +37,6 @@ public class RegisterActivity extends Activity {
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private UserRegisterTask mAuthTask = null;
 
     // Values for email and password at the time of the login attempt.
     private String mName;
@@ -61,11 +53,15 @@ public class RegisterActivity extends Activity {
     private View mRegisterStatusView;
     private TextView mLoginStatusMessageView;
 
+    private CTFRegisterRequest registerRequest;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_register);
+
+
 
         // Set up the login form.
         mUserName = (EditText) findViewById(R.id.user_name);
@@ -113,10 +109,6 @@ public class RegisterActivity extends Activity {
      * errors are presented and no actual login attempt is made.
      */
     public void attemptRegister() {
-        if (mAuthTask != null) {
-            return;
-        }
-
         // Reset errors.
         mUserName.setError(null);
         mEmailView.setError(null);
@@ -187,9 +179,18 @@ public class RegisterActivity extends Activity {
             // perform the user login attempt.
             mLoginStatusMessageView.setText(R.string.register_progress);
             showProgress(true);
-            mAuthTask = new UserRegisterTask();
-            mAuthTask.execute((Void) null);
+            User user = new User();
+            user.setUserName(mName);
+            user.setPassword(mPassword);
+            user.setEmail(mEmail);
+            registerUser(user);
+
         }
+    }
+
+    private void registerUser(User user) {
+        registerRequest=new CTFRegisterRequest(user);
+        getSpiceManager().execute(registerRequest, registerRequest.createCacheKey(), DurationInMillis.ONE_MINUTE, new RegistrationRequestListener());
     }
 
     /**
@@ -238,86 +239,18 @@ public class RegisterActivity extends Activity {
         startActivity(myIntent);
     }
 
-    private Response.ErrorListener createRegisterErrorListener() {
-        return new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                showProgress(false);
-                Toast.makeText(getApplicationContext(), ErrorHelper.getMessage(volleyError, getApplicationContext()),
-                        Toast.LENGTH_LONG).show();
-                startLoginActivity();
-            }
-        };
-    }
 
-    private Response.Listener<String> createRegisterSuccessListener() {
-        return new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                showProgress(false);
-                Toast.makeText(getApplicationContext(), "User created:\n\n" + response, Toast.LENGTH_LONG).show();
-                Log.d(CTF.TAG, "response: " + response);
-                startLoginActivity();
-            }
-        };
-    }
-
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class UserRegisterTask extends AsyncTask<Void, Void, Boolean> {
+    private class RegistrationRequestListener implements RequestListener<RegisterResponse> {
         @Override
-        protected Boolean doInBackground(Void... params) {
-//            CTF.getInstance().addToRequestQueue(getRegisterRequest());
-            CTFService ctfService = new CTFService();
-            ctfService.getRegistrationResponse(
-                    mUserName.getText().toString(),
-                    mPasswordView.getText().toString(),
-                    "",
-                    "",
-                    mEmailView.getText().toString(),
-                    "");
-            return true;
-        }
-
-        private RegisterRequest getRegisterRequest() {
-            return new RegisterRequest(
-                    Request.Method.POST,
-                    CTF.getInstance().getURL(RegisterRequest.URL_REQUEST),
-                    getUserDataAsJson(),
-                    createRegisterSuccessListener(),
-                    createRegisterErrorListener()
-            );
-        }
-
-        private String getUserDataAsJson() {
-            User user = new User();
-            user.setEmail(mEmailView.getText().toString());
-            user.setUserName(mUserName.getText().toString());
-            user.setPassword(mPasswordView.getText().toString());
-            Gson gson = new GsonBuilder().create();
-            String json = gson.toJson(user);
-            return json;
+        public void onRequestFailure(SpiceException spiceException) {
+            Toast.makeText(getApplicationContext(), "failure", Toast.LENGTH_SHORT).show();
+            showProgress(false);
         }
 
         @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-
-            if (success) {
-                //
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
+        public void onRequestSuccess(RegisterResponse registerResponse) {
+            Toast.makeText(getApplicationContext(), "success", Toast.LENGTH_SHORT).show();
             showProgress(false);
         }
     }
-
 }

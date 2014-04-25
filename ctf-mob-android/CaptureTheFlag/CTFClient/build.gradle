@@ -20,6 +20,8 @@ repositories {
 }
 
 android {
+
+
     compileSdkVersion 19
     buildToolsVersion '19.0.3'
 
@@ -45,8 +47,20 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
+    packagingOptions {
+//        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+//        exclude 'META-INF/NOTICE'
+//        exclude 'META-INF/LICENSE'
+//        exclude 'META-INF/DEPENDENCIES'
+//        exclude 'META-INF/notice.txt'
+//        exclude 'META-INF/license.txt'
+//        exclude 'META-INF/dependencies.txt'
+//        exclude 'META-INF/LGPL2.1'
+    }
 
-    applicationVariants.all{ variant ->
+    applicationVariants.all { variant ->
         // This is an annoying hack to get around the fact that the Gradle plugin does not support
         // having libraries with different minSdkVersions. Play Services has a min version of 9 (Gingerbread)
         // but Android Maps Utils supports 8 (Froyo) still
@@ -67,9 +81,8 @@ dependencies {
     compile 'com.android.support:support-v4:19.1.+'
     compile 'com.google.android.gms:play-services:+'
     compile 'com.google.maps.android:android-maps-utils:0.3'
-    compile 'com.mcxiaoke.volley:library:1.0.+'
-    compile 'com.squareup.retrofit:retrofit:1.5.0'
-    compile 'com.intellij:annotations:+@jar'
+    compile 'com.octo.android.robospice:robospice-retrofit:1.4.9'
+//    compile 'com.intellij:annotations:+@jar'
     compile 'com.google.code.gson:gson:2.2.4'
 
     compile fileTree(dir: 'libs', include: '*.jar')

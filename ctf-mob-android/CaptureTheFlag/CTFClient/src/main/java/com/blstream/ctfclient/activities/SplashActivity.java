@@ -1,6 +1,5 @@
 package com.blstream.ctfclient.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,7 +13,7 @@ import com.blstream.ctfclient.R;
 import com.blstream.ctfclient.constants.CTFConstants;
 
 
-public class SplashActivity extends Activity {
+public class SplashActivity extends CTFBaseActivity {
 
     final Handler mHandler = new Handler(Looper.getMainLooper());
     final static int SPLASH_TIMER = 2000;

@@ -23,6 +23,10 @@ public class User {
     private double[] coordinates;
     @SerializedName("characters")
     private Character[] characters;
+    @SerializedName("device_type")
+    private String  deviceType;
+    @SerializedName("device_id")
+    private String deviceId;
 
     public String getUserName() {
         return userName;
@@ -56,22 +60,6 @@ public class User {
         this.nick = nick;
     }
 
-    public double[] getCoordinates() {
-        return coordinates;
-    }
-
-    public void setCoordinates(double... coordinates) {
-        this.coordinates = coordinates;
-    }
-
-    public Character[] getCharacter() {
-        return characters;
-    }
-
-    public void setCharacter(Character... characters) {
-        this.characters = characters;
-    }
-
     public String getFirstName() {
         return firstName;
     }
@@ -86,5 +74,37 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public double[] getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(double[] coordinates) {
+        this.coordinates = coordinates;
+    }
+
+    public Character[] getCharacters() {
+        return characters;
+    }
+
+    public void setCharacters(Character[] characters) {
+        this.characters = characters;
+    }
+
+    public String getDeviceType() {
+        return deviceType;
+    }
+
+    public void setDeviceType(String deviceType) {
+        this.deviceType = deviceType;
+    }
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
     }
 }

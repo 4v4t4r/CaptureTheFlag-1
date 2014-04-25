@@ -77,6 +77,9 @@
             android:name=".activities.GamesActivity"
             android:label="@string/title_activity_games" >
         </activity>
+        <service
+            android:name=".network.service.CTFRequestSpiceService"
+            android:exported="false" />
     </application>
 
 </manifest>
