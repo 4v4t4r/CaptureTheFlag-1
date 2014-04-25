@@ -1,16 +1,14 @@
 package com.blstream.ctfclient.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.preference.PreferenceManager;
 import android.widget.ProgressBar;
 
-import com.blstream.ctfclient.CTF;
 import com.blstream.ctfclient.R;
-import com.blstream.ctfclient.constants.CTFConstants;
+import com.blstream.ctfclient.gcm.InitGCMUtils;
+import com.blstream.ctfclient.utils.SharedPreferencesUtils;
 
 
 public class SplashActivity extends CTFBaseActivity {
@@ -24,6 +22,10 @@ public class SplashActivity extends CTFBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+
+        InitGCMUtils.initGCM(getApplicationContext());
+
         final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressbar);
         mHandler.postDelayed(new Runnable() {
             @Override
@@ -41,11 +43,11 @@ public class SplashActivity extends CTFBaseActivity {
                 mHandler.postDelayed(this, SPLASH_UPDATE);
             }
         }, SPLASH_UPDATE);
+
     }
 
     private String getToken() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(CTF.getStaticApplicationContext());
-        return sharedPreferences.getString(CTFConstants.ACCESS_TOKEN_KEY_NAME, null);
+        return SharedPreferencesUtils.getToken(getApplicationContext());
     }
     @Override
     protected void onPause() {

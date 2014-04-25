@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.blstream.ctfclient" >
+    package="com.blstream.ctfclient">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <permission
         android:name="com.blstream.ctfclient.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
+
+    <!--GCM-->
+    <permission android:name="com.blstream.ctfclient.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="com.blstream.ctfclient.permission.C2D_MESSAGE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
 
     <uses-permission android:name="com.blstream.ctfclient.permission.MAPS_RECEIVE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -26,7 +37,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -44,7 +55,7 @@
 
         <activity
             android:name="com.blstream.ctfclient.activities.SplashActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -53,20 +64,17 @@
         </activity>
         <activity
             android:name="com.blstream.ctfclient.activities.MainActivity"
-            android:label="@string/app_name" >
-        </activity>
+            android:label="@string/app_name"></activity>
         <activity
             android:name="com.blstream.ctfclient.activities.LoginActivity"
             android:label="@string/app_name"
             android:noHistory="true"
-            android:windowSoftInputMode="adjustResize|stateVisible" >
-        </activity>
+            android:windowSoftInputMode="adjustResize|stateVisible"></activity>
         <activity
             android:name="com.blstream.ctfclient.activities.RegisterActivity"
             android:label="@string/app_name"
             android:noHistory="true"
-            android:windowSoftInputMode="adjustResize|stateVisible" >
-        </activity>
+            android:windowSoftInputMode="adjustResize|stateVisible"></activity>
         <activity
             android:name="com.blstream.ctfclient.activities.MapActivity"
             android:label="@string/title_activity_map" />
@@ -75,11 +83,25 @@
             android:label="@string/title_activity_map" />
         <activity
             android:name=".activities.GamesActivity"
-            android:label="@string/title_activity_games" >
-        </activity>
+            android:label="@string/title_activity_games"></activity>
+
         <service
             android:name=".network.service.CTFRequestSpiceService"
             android:exported="false" />
+        <service android:name="com.blstream.ctfclient.gcm.GcmIntentService" />
+        <service android:name=".gcm.GCMService">
+            <intent-filter>
+                <action android:name="com.blstream.ctfclient.gcm.GCMService"></action>
+            </intent-filter>
+        </service>
+        <receiver android:name="com.blstream.ctfclient.gcm.StartAtBootServiceReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+
+                <category android:name="android.intent.category.HOME" >
+                </category>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
