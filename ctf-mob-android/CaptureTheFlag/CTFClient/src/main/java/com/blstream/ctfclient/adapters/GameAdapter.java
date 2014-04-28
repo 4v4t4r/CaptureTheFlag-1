@@ -1,15 +1,19 @@
 package com.blstream.ctfclient.adapters;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Point;
+import android.os.Build;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 
 import com.blstream.ctfclient.R;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 
@@ -21,17 +25,17 @@ public class GameAdapter extends BaseAdapter {
     File cacheDir;
     String currentURL;
     public String[] mThumbIds = {
-            "http://maps.googleapis.com/maps/api/staticmap?center=53.428714,14.551722&zoom=14",
-            "http://maps.googleapis.com/maps/api/staticmap?center=53.428714,14.551722&zoom=14",
-            "http://maps.googleapis.com/maps/api/staticmap?center=53.428714,14.551722&zoom=14",
-            "http://maps.googleapis.com/maps/api/staticmap?center=53.428714,14.551722&zoom=14",
-            "http://maps.googleapis.com/maps/api/staticmap?center=53.428714,14.551722&zoom=14",
-            "http://maps.googleapis.com/maps/api/staticmap?center=53.428714,14.551722&zoom=14",
-            "http://maps.googleapis.com/maps/api/staticmap?center=53.428714,14.551722&zoom=14",
-            "http://maps.googleapis.com/maps/api/staticmap?center=53.428714,14.551722&zoom=14",
-            "http://maps.googleapis.com/maps/api/staticmap?center=53.428714,14.551722&zoom=14",
-            "http://maps.googleapis.com/maps/api/staticmap?center=53.428714,14.551722&zoom=14",
-            "http://maps.googleapis.com/maps/api/staticmap?center=53.428714,14.551722&zoom=14",
+            "http://maps.googleapis.com/maps/api/staticmap?center=53.430028,14.553151&zoom=15&format=png&maptype=roadmap&style=feature:water|color:0x47483e&style=feature:water|element:labels|visibility:off&style=feature:water|element:labels.icon|visibility:off&style=feature:water|element:labels.text.fill|visibility:off&style=feature:transit|element:labels|visibility:off&style=feature:road|visibility:simplified|invert_lightness:true|color:0xe8c3ae|weight:4.2&style=feature:poi|visibility:off&style=feature:road|element:labels|visibility:on|weight:0.1|color:0x080205&style=feature:administrative|element:labels|hue:0xff0000|lightness:100|gamma:1.91|saturation:100|visibility:off&style=feature:transit.line|visibility:off&style=feature:poi.park|element:labels|visibility:off&style=feature:landscape.natural.terrain|visibility:off&style=feature:landscape.man_made|element:labels|visibility:off&style=feature:landscape.natural.terrain|color:0x808080|visibility:off&style=feature:landscape.man_made|visibility:simplified|hue:0x005eff|saturation:1|lightness:-62",
+            "http://maps.googleapis.com/maps/api/staticmap?center=53.430028,14.553151&zoom=15&format=png&maptype=roadmap&style=feature:water|color:0x47483e&style=feature:water|element:labels|visibility:off&style=feature:water|element:labels.icon|visibility:off&style=feature:water|element:labels.text.fill|visibility:off&style=feature:transit|element:labels|visibility:off&style=feature:road|visibility:simplified|invert_lightness:true|color:0xe8c3ae|weight:4.2&style=feature:poi|visibility:off&style=feature:road|element:labels|visibility:on|weight:0.1|color:0x080205&style=feature:administrative|element:labels|hue:0xff0000|lightness:100|gamma:1.91|saturation:100|visibility:off&style=feature:transit.line|visibility:off&style=feature:poi.park|element:labels|visibility:off&style=feature:landscape.natural.terrain|visibility:off&style=feature:landscape.man_made|element:labels|visibility:off&style=feature:landscape.natural.terrain|color:0x808080|visibility:off&style=feature:landscape.man_made|visibility:simplified|hue:0x005eff|saturation:1|lightness:-62",
+            "http://maps.googleapis.com/maps/api/staticmap?center=53.430028,14.553151&zoom=15&format=png&maptype=roadmap&style=feature:water|color:0x47483e&style=feature:water|element:labels|visibility:off&style=feature:water|element:labels.icon|visibility:off&style=feature:water|element:labels.text.fill|visibility:off&style=feature:transit|element:labels|visibility:off&style=feature:road|visibility:simplified|invert_lightness:true|color:0xe8c3ae|weight:4.2&style=feature:poi|visibility:off&style=feature:road|element:labels|visibility:on|weight:0.1|color:0x080205&style=feature:administrative|element:labels|hue:0xff0000|lightness:100|gamma:1.91|saturation:100|visibility:off&style=feature:transit.line|visibility:off&style=feature:poi.park|element:labels|visibility:off&style=feature:landscape.natural.terrain|visibility:off&style=feature:landscape.man_made|element:labels|visibility:off&style=feature:landscape.natural.terrain|color:0x808080|visibility:off&style=feature:landscape.man_made|visibility:simplified|hue:0x005eff|saturation:1|lightness:-62",
+            "http://maps.googleapis.com/maps/api/staticmap?center=53.430028,14.553151&zoom=15&format=png&maptype=roadmap&style=feature:water|color:0x47483e&style=feature:water|element:labels|visibility:off&style=feature:water|element:labels.icon|visibility:off&style=feature:water|element:labels.text.fill|visibility:off&style=feature:transit|element:labels|visibility:off&style=feature:road|visibility:simplified|invert_lightness:true|color:0xe8c3ae|weight:4.2&style=feature:poi|visibility:off&style=feature:road|element:labels|visibility:on|weight:0.1|color:0x080205&style=feature:administrative|element:labels|hue:0xff0000|lightness:100|gamma:1.91|saturation:100|visibility:off&style=feature:transit.line|visibility:off&style=feature:poi.park|element:labels|visibility:off&style=feature:landscape.natural.terrain|visibility:off&style=feature:landscape.man_made|element:labels|visibility:off&style=feature:landscape.natural.terrain|color:0x808080|visibility:off&style=feature:landscape.man_made|visibility:simplified|hue:0x005eff|saturation:1|lightness:-62",
+            "http://maps.googleapis.com/maps/api/staticmap?center=53.430028,14.553151&zoom=15&format=png&maptype=roadmap&style=feature:water|color:0x47483e&style=feature:water|element:labels|visibility:off&style=feature:water|element:labels.icon|visibility:off&style=feature:water|element:labels.text.fill|visibility:off&style=feature:transit|element:labels|visibility:off&style=feature:road|visibility:simplified|invert_lightness:true|color:0xe8c3ae|weight:4.2&style=feature:poi|visibility:off&style=feature:road|element:labels|visibility:on|weight:0.1|color:0x080205&style=feature:administrative|element:labels|hue:0xff0000|lightness:100|gamma:1.91|saturation:100|visibility:off&style=feature:transit.line|visibility:off&style=feature:poi.park|element:labels|visibility:off&style=feature:landscape.natural.terrain|visibility:off&style=feature:landscape.man_made|element:labels|visibility:off&style=feature:landscape.natural.terrain|color:0x808080|visibility:off&style=feature:landscape.man_made|visibility:simplified|hue:0x005eff|saturation:1|lightness:-62",
+            "http://maps.googleapis.com/maps/api/staticmap?center=53.430028,14.553151&zoom=15&format=png&maptype=roadmap&style=feature:water|color:0x47483e&style=feature:water|element:labels|visibility:off&style=feature:water|element:labels.icon|visibility:off&style=feature:water|element:labels.text.fill|visibility:off&style=feature:transit|element:labels|visibility:off&style=feature:road|visibility:simplified|invert_lightness:true|color:0xe8c3ae|weight:4.2&style=feature:poi|visibility:off&style=feature:road|element:labels|visibility:on|weight:0.1|color:0x080205&style=feature:administrative|element:labels|hue:0xff0000|lightness:100|gamma:1.91|saturation:100|visibility:off&style=feature:transit.line|visibility:off&style=feature:poi.park|element:labels|visibility:off&style=feature:landscape.natural.terrain|visibility:off&style=feature:landscape.man_made|element:labels|visibility:off&style=feature:landscape.natural.terrain|color:0x808080|visibility:off&style=feature:landscape.man_made|visibility:simplified|hue:0x005eff|saturation:1|lightness:-62",
+            "http://maps.googleapis.com/maps/api/staticmap?center=53.430028,14.553151&zoom=15&format=png&maptype=roadmap&style=feature:water|color:0x47483e&style=feature:water|element:labels|visibility:off&style=feature:water|element:labels.icon|visibility:off&style=feature:water|element:labels.text.fill|visibility:off&style=feature:transit|element:labels|visibility:off&style=feature:road|visibility:simplified|invert_lightness:true|color:0xe8c3ae|weight:4.2&style=feature:poi|visibility:off&style=feature:road|element:labels|visibility:on|weight:0.1|color:0x080205&style=feature:administrative|element:labels|hue:0xff0000|lightness:100|gamma:1.91|saturation:100|visibility:off&style=feature:transit.line|visibility:off&style=feature:poi.park|element:labels|visibility:off&style=feature:landscape.natural.terrain|visibility:off&style=feature:landscape.man_made|element:labels|visibility:off&style=feature:landscape.natural.terrain|color:0x808080|visibility:off&style=feature:landscape.man_made|visibility:simplified|hue:0x005eff|saturation:1|lightness:-62",
+            "http://maps.googleapis.com/maps/api/staticmap?center=53.430028,14.553151&zoom=15&format=png&maptype=roadmap&style=feature:water|color:0x47483e&style=feature:water|element:labels|visibility:off&style=feature:water|element:labels.icon|visibility:off&style=feature:water|element:labels.text.fill|visibility:off&style=feature:transit|element:labels|visibility:off&style=feature:road|visibility:simplified|invert_lightness:true|color:0xe8c3ae|weight:4.2&style=feature:poi|visibility:off&style=feature:road|element:labels|visibility:on|weight:0.1|color:0x080205&style=feature:administrative|element:labels|hue:0xff0000|lightness:100|gamma:1.91|saturation:100|visibility:off&style=feature:transit.line|visibility:off&style=feature:poi.park|element:labels|visibility:off&style=feature:landscape.natural.terrain|visibility:off&style=feature:landscape.man_made|element:labels|visibility:off&style=feature:landscape.natural.terrain|color:0x808080|visibility:off&style=feature:landscape.man_made|visibility:simplified|hue:0x005eff|saturation:1|lightness:-62",
+            "http://maps.googleapis.com/maps/api/staticmap?center=53.430028,14.553151&zoom=15&format=png&maptype=roadmap&style=feature:water|color:0x47483e&style=feature:water|element:labels|visibility:off&style=feature:water|element:labels.icon|visibility:off&style=feature:water|element:labels.text.fill|visibility:off&style=feature:transit|element:labels|visibility:off&style=feature:road|visibility:simplified|invert_lightness:true|color:0xe8c3ae|weight:4.2&style=feature:poi|visibility:off&style=feature:road|element:labels|visibility:on|weight:0.1|color:0x080205&style=feature:administrative|element:labels|hue:0xff0000|lightness:100|gamma:1.91|saturation:100|visibility:off&style=feature:transit.line|visibility:off&style=feature:poi.park|element:labels|visibility:off&style=feature:landscape.natural.terrain|visibility:off&style=feature:landscape.man_made|element:labels|visibility:off&style=feature:landscape.natural.terrain|color:0x808080|visibility:off&style=feature:landscape.man_made|visibility:simplified|hue:0x005eff|saturation:1|lightness:-62",
+            "http://maps.googleapis.com/maps/api/staticmap?center=53.430028,14.553151&zoom=15&format=png&maptype=roadmap&style=feature:water|color:0x47483e&style=feature:water|element:labels|visibility:off&style=feature:water|element:labels.icon|visibility:off&style=feature:water|element:labels.text.fill|visibility:off&style=feature:transit|element:labels|visibility:off&style=feature:road|visibility:simplified|invert_lightness:true|color:0xe8c3ae|weight:4.2&style=feature:poi|visibility:off&style=feature:road|element:labels|visibility:on|weight:0.1|color:0x080205&style=feature:administrative|element:labels|hue:0xff0000|lightness:100|gamma:1.91|saturation:100|visibility:off&style=feature:transit.line|visibility:off&style=feature:poi.park|element:labels|visibility:off&style=feature:landscape.natural.terrain|visibility:off&style=feature:landscape.man_made|element:labels|visibility:off&style=feature:landscape.natural.terrain|color:0x808080|visibility:off&style=feature:landscape.man_made|visibility:simplified|hue:0x005eff|saturation:1|lightness:-62",
+            "http://maps.googleapis.com/maps/api/staticmap?center=53.430028,14.553151&zoom=15&format=png&maptype=roadmap&style=feature:water|color:0x47483e&style=feature:water|element:labels|visibility:off&style=feature:water|element:labels.icon|visibility:off&style=feature:water|element:labels.text.fill|visibility:off&style=feature:transit|element:labels|visibility:off&style=feature:road|visibility:simplified|invert_lightness:true|color:0xe8c3ae|weight:4.2&style=feature:poi|visibility:off&style=feature:road|element:labels|visibility:on|weight:0.1|color:0x080205&style=feature:administrative|element:labels|hue:0xff0000|lightness:100|gamma:1.91|saturation:100|visibility:off&style=feature:transit.line|visibility:off&style=feature:poi.park|element:labels|visibility:off&style=feature:landscape.natural.terrain|visibility:off&style=feature:landscape.man_made|element:labels|visibility:off&style=feature:landscape.natural.terrain|color:0x808080|visibility:off&style=feature:landscape.man_made|visibility:simplified|hue:0x005eff|saturation:1|lightness:-62",
 
     };
 
@@ -56,82 +60,35 @@ public class GameAdapter extends BaseAdapter {
         return position;
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
-
         WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
 
         Point size = new Point();
         display.getSize(size);
-        int width = size.x;
         int height = size.y;
 
 
         int maxH=(height-80)/3/2;
-        currentURL = mThumbIds[position] + "&size="+maxH+"x"+maxH+"&scale=2&sensor=false&maptype=terrain";
-
-//        // Initialise Volley Request Queue.
-//        mVolleyQueue=Volley.newRequestQueue(this);
-//
-//        int max_cache_size = 1000000;
-//        mImageLoader=new
-//
-//                ImageLoader(mVolleyQueue, new DiskBitmapCache(getCacheDir(),max_cache_size
-//
-//        ));
-//
-//        FadeInImageListener(
-//        String testUrlToDownloadImage2 = "http://farm3.static.flickr.com/2848/9110760994_c8dc834397_q.jpg";
-//
-//
-//
-//        //1 & 2) are almost same. Demonstrating you can apply animations while showing the downloaded image.
-//        // You can use nice entry animations while showing images in a listview.Uses custom implemented 'FadeInImageListener'.
-//        mImageLoader.get(testUrlToDownloadImage2,new
-//
-//                FadeInImageListener(mImageView2, this)
-//
-//        );
-
-        int max_cache_size = 1000000;
+        currentURL = mThumbIds[position] + "&size="+maxH+"x"+maxH+"&scale=2&sensor=false";
 
         View rowView = convertView;
         if (rowView == null) {
             LayoutInflater inflater = LayoutInflater.from(mContext);
             rowView = inflater.inflate(R.layout.game_item, null);
+
+            ImageView imgAvatar = (ImageView) rowView.findViewById(R.id.imgAvatar);
+
+            if (imgAvatar == null) {
+                imgAvatar = new ImageView(mContext);
+            }
+
+            Picasso.with(mContext).load(currentURL).into(imgAvatar);
         }
-
-
-
-
-
-        final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
-        final int cacheSize = maxMemory / 8;
-//
-//        ImageLoader.ImageCache imageCache = new ImageLoader.ImageCache() {
-//            LruCache<String, Bitmap> imageCache = new BitmapLruCache(cacheSize);
-//
-//            @Override
-//            public void putBitmap(String key, Bitmap value) {
-//                imageCache.put(key, value);
-//            }
-//
-//            @Override
-//            public Bitmap getBitmap(String key) {
-//                return imageCache.get(key);
-//            }
-//        };
-//
-//        ImageLoader imageLoader = new ImageLoader(Volley.newRequestQueue(mContext), imageCache);
-//        NetworkImageView imgAvatar = (NetworkImageView) rowView.findViewById(R.id.imgAvatar);
-//
-////        imageLoader.get(currentURL, new FadeInImageListener(imgAvatar, mContext));
-//        imgAvatar.setImageUrl(currentURL, imageLoader);
 
         return rowView;
     }
-
 
 }

@@ -19,26 +19,17 @@ public class GamesActivity extends CTFBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.grid_layout);
 
-         gridView = (GridView) findViewById(R.id.grid_view);
-
-//        CTF.getInstance().addToRequestQueue(getGamesRequest());
+        gridView = (GridView) findViewById(R.id.grid_view);
         gridView.setAdapter(new GameAdapter(this,getCacheDir()));
-
     }
-
-
 
     @Override
     protected void onResume() {
         super.onResume();
-
-
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.games, menu);
         return true;
@@ -71,6 +62,5 @@ public class GamesActivity extends CTFBaseActivity {
             return rootView;
         }
     }
-
 
 }
