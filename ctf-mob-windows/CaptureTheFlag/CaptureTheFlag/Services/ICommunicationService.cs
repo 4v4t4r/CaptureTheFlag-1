@@ -23,12 +23,11 @@ namespace CaptureTheFlag.Services
         #endregion
 
         RestRequestAsyncHandle RegisterPosition(Game game, GeoCoordinate coordinate, string token, Action<object> successCallback, Action<ServerErrorMessage> errorCallback);
-
         RestRequestAsyncHandle SelectCharacter(Character character, string token, Action<object> successCallback, Action<ServerErrorMessage> errorCallback);
 
         //Authorization requests
-        RestRequestAsyncHandle Login<T>(string username, string password, Action<IRestResponse<T>> callback) where T : new();
-        RestRequestAsyncHandle Register<T>(string username, string password, string email, Action<IRestResponse<T>> callback) where T : new();
+        RestRequestAsyncHandle RegisterUser(User user, Action<User> successCallback, Action<ServerErrorMessage> errorCallback);
+        RestRequestAsyncHandle LoginUser(User user, Action<Authenticator> successCallback, Action<ServerErrorMessage> errorCallback);
 
         //Game requests
         RestRequestAsyncHandle CreateGame(Game game, string token, Action<Game> successCallback, Action<ServerErrorMessage> errorCallback);

@@ -1,37 +1,28 @@
-﻿using Caliburn.Micro;
-using CaptureTheFlag.Models;
-using CaptureTheFlag.Services;
-using CaptureTheFlag.ViewModels.GameMapVVMs;
-using CaptureTheFlag.ViewModels.GameVVMs;
-using System;
-using System.Collections.Generic;
-using System.Device.Location;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using Windows.Devices.Geolocation;
-
-namespace CaptureTheFlag.ViewModels.GameMapVVMs
+﻿namespace CaptureTheFlag.ViewModels.GameMapVVMs
 {
+    using Caliburn.Micro;
+    using CaptureTheFlag.Models;
+    using CaptureTheFlag.Services;
+    using RestSharp;
+    using System;
+    using System.Reflection;
+    using System.Windows;
     public class ListGameMapsViewModel : Screen
     {
         private readonly INavigationService navigationService;
         private readonly ICommunicationService communicationService;
-        private readonly ILocationService locationService; //TODO: move
         private readonly IGlobalStorageService globalStorageService;
+        private RestRequestAsyncHandle requestHandle;// TODO: implement abort
 
-        public ListGameMapsViewModel(INavigationService navigationService, ICommunicationService communicationService, IGlobalStorageService globalStorageService, ILocationService locationService)
+        public ListGameMapsViewModel(INavigationService navigationService, ICommunicationService communicationService, IGlobalStorageService globalStorageService)
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             this.navigationService = navigationService;
             this.communicationService = communicationService;
-            this.locationService = locationService;
             this.globalStorageService = globalStorageService;
 
             Maps = new BindableCollection<GameMap>();
+            Authenticator = new Authenticator();
 
             DisplayName = "Maps";
 
@@ -41,49 +32,74 @@ namespace CaptureTheFlag.ViewModels.GameMapVVMs
             CreateIcon = new Uri("/Images/add.png", UriKind.Relative);
             RefreshAppBarItemText = "refresh";
             RefreshIcon = new Uri("/Images/refresh.png", UriKind.Relative);
-
-            ShouldEdit = false;
         }
 
+        #region Screen states
         protected override void OnActivate()
         {
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             base.OnActivate();
-            if (String.IsNullOrEmpty(Token))
+            Authenticator = globalStorageService.Current.Authenticator;
+            if (globalStorageService.Current.GameMaps != null && globalStorageService.Current.GameMaps.Count > 0)
             {
-                Token = globalStorageService.Current.Token;
+                foreach (GameMap map in globalStorageService.Current.GameMaps.Values)
+                {
+                    Maps.Add(map);
+                }
+            }
+            else
+            {
+                ListMapsAction();
             }
         }
+
+        protected override void OnDeactivate(bool close)
+        {
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
+            Maps.Clear();
+            base.OnDeactivate(close);
+        }
+        #endregion
 
         #region Actions
         public void ListMapsAction()
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
-            communicationService.GetAllMaps(Token,
-                responseData =>
-                {
-                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
-                    Maps = responseData;
-                    foreach (GameMap map in Maps)
+            IsFormAccessible = false;
+            if (Authenticator.IsValid(Authenticator))
+            {
+                requestHandle = communicationService.GetAllMaps(Authenticator.token,
+                    responseData =>
                     {
-                        if (!globalStorageService.Current.GameMaps.ContainsKey(map.url))
+                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
+                        Maps = responseData;
+                        foreach (GameMap map in Maps)
                         {
-                            globalStorageService.Current.GameMaps[map.url] = map;
+                            if (!globalStorageService.Current.GameMaps.ContainsKey(map.url))
+                            {
+                                globalStorageService.Current.GameMaps[map.url] = map;
+                            }
                         }
+                        IsFormAccessible = true;
+                        MessageBox.Show("OK", "read", MessageBoxButton.OK);
+                    },
+                    serverErrorMessage =>
+                    {
+                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
+                        IsFormAccessible = true;
+                        MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
                     }
-                },
-                serverErrorMessage =>
-                {
-                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
-                    MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
-                }
-            );
+                );
+            }
         }
 
         public void ReadMapAction()
         {
             if (SelectedMap != null)
             {
-                if (true) //if is owner
+                //TODO: Make maps editable maybe
+                //TODO: if statment should be: SelectedMap.author == Authenticator.user
+                if (false)
                 {
                     navigationService.UriFor<EditGameMapViewModel>()
                          .WithParam(param => param.GameMapModelKey, SelectedMap.url)
@@ -119,21 +135,21 @@ namespace CaptureTheFlag.ViewModels.GameMapVVMs
         #endregion
 
         #region Properties
-        private string token;
-        public string Token
+        #region Model Properties
+        private Authenticator authenticator;
+        public Authenticator Authenticator
         {
-            get { return token; }
+            get { return authenticator; }
             set
             {
-                if (token != value)
+                if (authenticator != value)
                 {
-                    token = value;
-                    NotifyOfPropertyChange(() => Token);
+                    authenticator = value;
+                    NotifyOfPropertyChange(() => Authenticator);
                 }
             }
         }
 
-        #region Model Properties
         private BindableCollection<GameMap> maps;
         public BindableCollection<GameMap> Maps
         {
@@ -158,34 +174,6 @@ namespace CaptureTheFlag.ViewModels.GameMapVVMs
                 {
                     selectedMap = value;
                     NotifyOfPropertyChange(() => SelectedMap);
-                }
-            }
-        }
-
-        private bool shouldCreate;
-        public bool ShouldCreate
-        {
-            get { return shouldCreate; }
-            set
-            {
-                if (shouldCreate != value)
-                {
-                    shouldCreate = value;
-                    NotifyOfPropertyChange(() => ShouldCreate);
-                }
-            }
-        }
-
-        private bool shouldEdit;
-        public bool ShouldEdit
-        {
-            get { return shouldEdit; }
-            set
-            {
-                if (shouldEdit != value)
-                {
-                    shouldEdit = value;
-                    NotifyOfPropertyChange(() => ShouldEdit);
                 }
             }
         }
@@ -275,8 +263,21 @@ namespace CaptureTheFlag.ViewModels.GameMapVVMs
                 }
             }
         }
-        #endregion
 
+        private bool isFormAccessible;
+        public bool IsFormAccessible
+        {
+            get { return isFormAccessible; }
+            set
+            {
+                if (isFormAccessible != value)
+                {
+                    isFormAccessible = value;
+                    NotifyOfPropertyChange(() => IsFormAccessible);
+                }
+            }
+        }
+        #endregion
         #endregion
     }
 }

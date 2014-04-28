@@ -4,6 +4,7 @@ using CaptureTheFlag.Services;
 using Microsoft.Phone.Maps.Controls;
 using System;
 using System.Collections.Generic;
+using System.Device.Location;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -113,20 +114,6 @@ namespace CaptureTheFlag.ViewModels.GameMapVVMs
                 {
                     gameMapModelKey = value;
                     NotifyOfPropertyChange(() => GameMapModelKey);
-                }
-            }
-        }
-
-        private bool shouldCreate;
-        public bool ShouldCreate
-        {
-            get { return shouldCreate; }
-            set
-            {
-                if (shouldCreate != value)
-                {
-                    shouldCreate = value;
-                    NotifyOfPropertyChange(() => ShouldCreate);
                 }
             }
         }
@@ -318,5 +305,38 @@ namespace CaptureTheFlag.ViewModels.GameMapVVMs
         }
         #endregion
         #endregion
+
+
+
+        //-------------------------------------------------------------------
+
+
+        private GeoCoordinate mapCenter = new GeoCoordinate(40.712923, -74.013292);
+        public GeoCoordinate MapCenter
+        {
+            get { return mapCenter; }
+            set
+            {
+                if (mapCenter != value)
+                {
+                    mapCenter = value;
+                    NotifyOfPropertyChange(() => MapCenter);
+                }
+            }
+        }
+        private double zoomLevel = 15;
+
+        public double ZoomLevel
+        {
+            get { return zoomLevel; }
+            set
+            {
+                if (zoomLevel != value)
+                {
+                    zoomLevel = value;
+                    NotifyOfPropertyChange(() => ZoomLevel);
+                }
+            }
+        }
     }
 }

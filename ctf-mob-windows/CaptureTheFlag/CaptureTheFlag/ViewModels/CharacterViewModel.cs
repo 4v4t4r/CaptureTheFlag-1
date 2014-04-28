@@ -29,7 +29,8 @@ namespace CaptureTheFlag.ViewModels
 
             Character = new Character();
 
-            DisplayName = "Character";
+            DisplayName = "Character details";
+
             UrlTextBlock = "Character:";
             UserTextBlock = "User:";
             CharacterTypeTextBlock = "Character type:";
@@ -49,6 +50,8 @@ namespace CaptureTheFlag.ViewModels
             base.OnActivate();
             eventAggregator.Subscribe(this);
             Character.url = CharacterModelKey;
+            Authenticator = IoC.Get<IGlobalStorageService>().Current.Authenticator;
+            ReadAction();
             //Character = IoC.Get<GlobalStorageService>().Current.Characters[CharacterModelKey];
         }
 
@@ -67,25 +70,45 @@ namespace CaptureTheFlag.ViewModels
         public void ReadAction()
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
-            communicationService.ReadCharacter(Character, Token,
-                responseData =>
-                {
-                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
-                    MessageBox.Show("OK", "read", MessageBoxButton.OK);
-                    Character = responseData;
-                },
-                serverErrorMessage =>
-                {
-                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
-                    MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
-                }
-            );
+            IsFormAccessible = false;
+            if (Authenticator.IsValid(Authenticator))
+            {
+                communicationService.ReadCharacter(Character, Authenticator.token,
+                    responseData =>
+                    {
+                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
+                        MessageBox.Show("OK", "read", MessageBoxButton.OK);
+                        Character = responseData;
+                        IsFormAccessible = true;
+                    },
+                    serverErrorMessage =>
+                    {
+                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
+                        IsFormAccessible = true;
+                        MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
+                    }
+                );
+            }
         }
         #endregion
 
         #region Properties
 
         #region Model Properties
+        private Authenticator authenticator;
+        public Authenticator Authenticator
+        {
+            get { return authenticator; }
+            set
+            {
+                if (authenticator != value)
+                {
+                    authenticator = value;
+                    NotifyOfPropertyChange(() => Authenticator);
+                }
+            }
+        }
+
         private Character character;
         public Character Character
         {

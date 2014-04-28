@@ -97,10 +97,12 @@
     <Compile Include="Converters.cs" />
     <Compile Include="DebugLogger.cs" />
     <Compile Include="LocalizedStrings.cs" />
+    <Compile Include="Models\Authenticator.cs" />
     <Compile Include="Models\Character.cs" />
     <Compile Include="Models\Extensions.cs" />
     <Compile Include="Models\Game.cs" />
     <Compile Include="Models\GameItem.cs" />
+    <Compile Include="Models\Location.cs" />
     <Compile Include="Models\LoginResponse.cs" />
     <Compile Include="Models\GameMap.cs" />
     <Compile Include="Models\RegisterResponse.cs" />
@@ -120,7 +122,6 @@
     <Compile Include="Services\ILocationService.cs" />
     <Compile Include="Services\LocationService.cs" />
     <Compile Include="Services\FilterService.cs" />
-    <Compile Include="Storage\MainAppPivotModelStorage.cs" />
     <Compile Include="UpdateSourceOnTextChangedBehavior .cs" />
     <Compile Include="ViewModels\CharacterViewModel.cs" />
     <Compile Include="ViewModels\GameMapVVMs\EditGameMapViewModel.cs" />
@@ -270,7 +271,9 @@
       <HintPath>..\packages\Caliburn.Micro.1.5.2\lib\wp8\System.Windows.Interactivity.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Storage\" />
+  </ItemGroup>
   <ItemGroup>
     <Page Include="Views\CharacterView.xaml">
       <SubType>Designer</SubType>

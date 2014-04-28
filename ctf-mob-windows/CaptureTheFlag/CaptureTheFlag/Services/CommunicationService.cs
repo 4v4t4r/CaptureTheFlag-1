@@ -27,67 +27,7 @@ namespace CaptureTheFlag.Services
             client = new RestClient("http://78.133.154.39:8888");
         }
 
-        public RestRequestAsyncHandle Login<T>(string username, string password, Action<IRestResponse<T>> callback) where T : new()
-        {
-            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
-            RestRequest request = new RestRequest("/token/", Method.POST);
-            request.AddHeader("Accept", "application/json");
-            request.RequestFormat = DataFormat.Json;
-            string stringJson = JsonConvert.SerializeObject(new { username = username, password = password, device_type = "wp", device_id = HostInformation.PublisherHostId });
-            request.AddParameter("application/json", stringJson, ParameterType.RequestBody);
-
-            return client.ExecuteAsync<T>(request, response =>
-            {
-                Debug.WriteLine("Status Code:{0} _ Status Description:{1}", response.StatusCode, response.StatusDescription);
-                Debug.WriteLine(response.Content);
-                Debug.WriteLine("Register method response");
-
-                IEventAggregator eventAggregator = IoC.GetAll<IEventAggregator>().FirstOrDefault<IEventAggregator>();
-                if (response.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    LoginResponse log = response.Data as LoginResponse;
-                    eventAggregator.Publish(log);
-                }
-                else
-                {
-                    ServerErrorMessage sm = new ServerErrorMessage();
-                    sm.Code = response.StatusCode;
-                    sm.Message = response.StatusDescription;
-                    eventAggregator.Publish(sm);
-                }
-            });
-        }
-
-        public RestRequestAsyncHandle Register<T>(string username, string password, string email, Action<IRestResponse<T>> callback) where T : new()
-        {
-            RestRequest request = new RestRequest("/api/registration/", Method.POST);
-            request.AddHeader("Accept", "application/json");
-            request.RequestFormat = DataFormat.Json;
-            string stringJson = JsonConvert.SerializeObject(new { username = username, password = password, email = email });
-            request.AddParameter("application/json", stringJson, ParameterType.RequestBody);
-            
-            return client.ExecuteAsync<T>(request, response =>
-            {
-                Debug.WriteLine("Status Code:{0} _ Status Description:{1}", response.StatusCode, response.StatusDescription);
-                Debug.WriteLine(response.Content);
-                Debug.WriteLine("Register method response");
-
-                IEventAggregator eventAggregator = IoC.GetAll<IEventAggregator>().FirstOrDefault<IEventAggregator>();
-                if (response.StatusCode == System.Net.HttpStatusCode.Created)
-                {
-                    RegisterResponse reg = response.Data as RegisterResponse;
-                    eventAggregator.Publish(reg);
-                }
-                else
-                {
-                    ServerErrorMessage sm = new ServerErrorMessage();
-                    sm.Code = response.StatusCode;
-                    sm.Message = response.StatusDescription;
-                    eventAggregator.Publish(sm);
-                }
-            });
-        }
-
+        //TODO: reimplement if needed
         public RestRequestAsyncHandle GetAllUsers<T>(string token, Action<IRestResponse<T>> callback) where T : new()
         {
             RestRequest request = new RestRequest("/api/users/", Method.GET);
@@ -98,6 +38,62 @@ namespace CaptureTheFlag.Services
             {
                 Debug.WriteLineIf(response != null, String.Format("Status Code:{0} _ Status Description:{1}", response.StatusCode, response.StatusDescription));
                 Debug.WriteLineIf(response != null, response.Content);
+            });
+        }
+
+        // --- new Interfaces: ---
+
+        public RestRequestAsyncHandle LoginUser(User user, Action<Authenticator> successCallback, Action<ServerErrorMessage> errorCallback)
+        {
+            RestRequest request = new RestRequest("/token/", Method.POST);
+            request.AddHeader("Accept", "application/json");
+            request.RequestFormat = DataFormat.Json;
+
+            string objectJsonString = JsonConvert.SerializeObject(user, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            DebugLogger.WriteLineIf(objectJsonString != null, String.Format("Sending JSON: {0}", objectJsonString));
+            request.AddParameter("application/json", objectJsonString, ParameterType.RequestBody);
+
+            return client.ExecuteAsync<Authenticator>(request, response =>
+            {
+                Debug.WriteLineIf(response != null, String.Format("Status Code:{0} Status Description:{1}", response.StatusCode, response.StatusDescription));
+                Debug.WriteLineIf(response != null, response.Content);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var responseData = response.Data;
+                    successCallback(responseData);
+                }
+                else
+                {
+                    ServerErrorAction<Authenticator>(response, errorCallback);
+                }
+            });
+        }
+
+        public RestRequestAsyncHandle RegisterUser(User user, Action<User> successCallback, Action<ServerErrorMessage> errorCallback)
+        {
+            RestRequest request = new RestRequest("/api/registration/", Method.POST);
+            request.AddHeader("Accept", "application/json");
+            request.RequestFormat = DataFormat.Json;
+
+            string objectJsonString = JsonConvert.SerializeObject(user, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            DebugLogger.WriteLineIf(objectJsonString != null, String.Format("Sending JSON: {0}", objectJsonString));
+            request.AddParameter("application/json", objectJsonString, ParameterType.RequestBody);
+
+            return client.ExecuteAsync<User>(request, response =>
+            {
+                Debug.WriteLineIf(response != null, String.Format("Status Code:{0} Status Description:{1}", response.StatusCode, response.StatusDescription));
+                Debug.WriteLineIf(response != null, response.Content);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.Created)
+                {
+                    var responseData = response.Data;
+                    successCallback(responseData);
+                }
+                else
+                {
+                    ServerErrorAction<User>(response, errorCallback);
+                }
             });
         }
 
@@ -298,6 +294,7 @@ namespace CaptureTheFlag.Services
             request.AddHeader("Authorization", String.Format("Token {0}", token));
 
             string objectJsonString = JsonConvert.SerializeObject(model, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            DebugLogger.WriteLineIf(objectJsonString != null, String.Format("Sending JSON: {0}", objectJsonString));
             request.AddParameter("application/json", objectJsonString, ParameterType.RequestBody);
 
             return client.ExecuteAsync<T>(request, response =>
@@ -325,6 +322,7 @@ namespace CaptureTheFlag.Services
             request.AddHeader("Authorization", String.Format("Token {0}", token));
 
             string objectJsonString = JsonConvert.SerializeObject(model, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            DebugLogger.WriteLineIf(objectJsonString != null, String.Format("Sending JSON: {0}", objectJsonString));
             request.AddParameter("application/json", objectJsonString, ParameterType.RequestBody);
 
             return client.ExecuteAsync<T>(request, response =>
@@ -369,6 +367,7 @@ namespace CaptureTheFlag.Services
             request.AddHeader("Authorization", String.Format("Token {0}", token));
 
             string objectJsonString = JsonConvert.SerializeObject(model, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            DebugLogger.WriteLineIf(objectJsonString != null, String.Format("Sending JSON: {0}", objectJsonString));
             request.AddParameter("application/json", objectJsonString, ParameterType.RequestBody);
 
             return client.ExecuteAsync<T>(request, response =>

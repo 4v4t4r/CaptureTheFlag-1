@@ -13,10 +13,10 @@ namespace CaptureTheFlag.Models
         public string url { get; set; } //url for current resource
         private string _name { get; set; } //(required=True, max_length=100)
         private string _description; //(null=True, max_length=255)
-        private float _radius;
+        private double _radius;
         public string author { get; set; } //url for user object
-        private float _lat;
-        private float _lon;
+        private double _lat;
+        private double _lon;
         public List<string> games { get; set; } //list of urls to games objects
         #endregion
 
@@ -47,7 +47,7 @@ namespace CaptureTheFlag.Models
             }
         }
 
-        public float radius
+        public double radius
         {
             get { return _radius; }
             set
@@ -60,7 +60,7 @@ namespace CaptureTheFlag.Models
             }
         }
 
-        public float lat
+        public double lat
         {
             get { return _lat; }
             set
@@ -73,7 +73,7 @@ namespace CaptureTheFlag.Models
             }
         }
 
-        public float lon
+        public double lon
         {
             get { return _lon; }
             set

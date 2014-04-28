@@ -1,27 +1,40 @@
-﻿using Caliburn.Micro;
-using CaptureTheFlag.Models;
-using CaptureTheFlag.Services;
-using RestSharp;
-using System.Reflection;
-using System.Windows;
-
+﻿
 namespace CaptureTheFlag.ViewModels
 {
-    public class UserLoginViewModel : Screen, IHandle<LoginResponse>, IHandle<ServerErrorMessage>
+    using Caliburn.Micro;
+    using CaptureTheFlag.Models;
+    using CaptureTheFlag.Services;
+    using RestSharp;
+    using System.Reflection;
+    using System.Windows;
+    using Windows.Phone.System.Analytics;
+
+    public class UserLoginViewModel : Screen
     {
         private readonly INavigationService navigationService;
         private readonly ICommunicationService communicationService;
         private readonly IEventAggregator eventAggregator;
+        private readonly IGlobalStorageService globalStorageService;
         private RestRequestAsyncHandle requestHandle; //TODO: use requestHandle to abort when neccessary
 
-        public UserLoginViewModel(INavigationService navigationService, ICommunicationService communicationService, IEventAggregator eventAggregator)
+        public UserLoginViewModel(INavigationService navigationService, ICommunicationService communicationService, IEventAggregator eventAggregator, IGlobalStorageService globalStorageService)
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             this.navigationService = navigationService;
             this.communicationService = communicationService;
             this.eventAggregator = eventAggregator;
+            this.globalStorageService = globalStorageService;
+
+            User = new User();
+            User.device_type = User.DEVICE_TYPE.WP;
+            User.device_id = HostInformation.PublisherHostId;
+            
             DisplayName = "Login";
-            Login = "Login";
+
+            UsernameTextBlock = "Username:";
+            PasswordTextBlock = "Password:";
+            LoginButton = "Log me in";
+
             IsFormAccessible = true;
         }
 
@@ -46,76 +59,86 @@ namespace CaptureTheFlag.ViewModels
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             IsFormAccessible = false;
-            requestHandle = communicationService.Login<LoginResponse>(Username, Password, response =>
-            {
-
-            });
-            
-        }
-        #endregion
-
-        #region Message Handling
-        public void Handle(LoginResponse message)
-        {
-            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
-            IsFormAccessible = true;
-            navigationService
-                .UriFor<MainAppPivotViewModel>()
-                .WithParam(param => param.Token, message.Token)
-                .Navigate();
-        }
-
-        public void Handle(ServerErrorMessage message)
-        {
-            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
-            MessageBox.Show(message.Code.ToString(), message.Message, MessageBoxButton.OK);
-            IsFormAccessible = true;
+            requestHandle = communicationService.LoginUser(User, responseAuthenticator =>
+                    {
+                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
+                        globalStorageService.Current.Authenticator = responseAuthenticator;
+                        navigationService.UriFor<MainAppPivotViewModel>().Navigate();
+                        navigationService.RemoveBackEntry();
+                        IsFormAccessible = true;
+                    },
+                    serverErrorMessage =>
+                    {
+                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
+                        MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
+                        IsFormAccessible = true;
+                    }
+            );
         }
         #endregion
 
         #region Properties
-        private string username;
-        public string Username
-        { 
-            get {  return username; }
+
+        #region Model Properties
+
+        private User user;
+        public User User
+        {
+            get { return user; }
             set
             {
-                if(username != value)
+                if (user != value)
                 {
-                    username = value;
-                    NotifyOfPropertyChange(() => Username);
+                    user = value;
+                    NotifyOfPropertyChange(() => User);
+                }
+            }
+        }
+        #endregion
+
+        #region UI Properties
+        private string usernameTextBlock;
+        public string UsernameTextBlock
+        {
+            get { return usernameTextBlock; }
+            set
+            {
+                if (usernameTextBlock != value)
+                {
+                    usernameTextBlock = value;
+                    NotifyOfPropertyChange(() => UsernameTextBlock);
                 }
             }
         }
 
-        private string password;
-        public string Password
+        private string passwordTextBlock;
+        public string PasswordTextBlock
         {
-            get { return password; }
+            get { return passwordTextBlock; }
             set
             {
-                if (password != value)
+                if (passwordTextBlock != value)
                 {
-                    password = value;
-                    NotifyOfPropertyChange(() => Password);
+                    passwordTextBlock = value;
+                    NotifyOfPropertyChange(() => PasswordTextBlock);
                 }
             }
         }
 
-        private string login;
-        public string Login
+        private string loginButton;
+        public string LoginButton
         {
-            get { return login; }
+            get { return loginButton; }
             set
             {
-                if (login != value)
+                if (loginButton != value)
                 {
-                    login = value;
-                    NotifyOfPropertyChange(() => Login);
+                    loginButton = value;
+                    NotifyOfPropertyChange(() => LoginButton);
                 }
             }
         }
-        
+
         private bool isFormAccessible;
         public bool IsFormAccessible
         {
@@ -130,6 +153,7 @@ namespace CaptureTheFlag.ViewModels
                 }
             }
         }
-#endregion
+        #endregion
+        #endregion
     }
 }

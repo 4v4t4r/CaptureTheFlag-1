@@ -10,6 +10,7 @@
     xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
     xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     xmlns:primitives="clr-namespace:Microsoft.Phone.Controls.Primitives;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:bab="clr-namespace:Caliburn.Micro.BindableAppBar;assembly=Caliburn.Micro.BindableAppBar"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -24,13 +25,14 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <ScrollViewer>
-                <StackPanel>
-                    <TextBlock x:Name="UrlTextBlock" />
-                    <TextBox IsReadOnly="True" x:Name="User_url" IsEnabled="{Binding IsFormAccessible}" />
+        <StackPanel Grid.Row="0" Margin="12,17,0,28">
+            <TextBlock x:Name="DisplayName" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+        </StackPanel>
 
+        <!--ContentPanel - place additional content here-->
+        <Grid x:Name="ContentPanel" Grid.Row="1">
+            <ScrollViewer>
+                <StackPanel Margin="12,0,12,128">
                     <TextBlock x:Name="UsernameTextBlock" />
                     <TextBox IsReadOnly="True" x:Name="User_username" IsEnabled="{Binding IsFormAccessible}" />
 
@@ -49,19 +51,27 @@
                     <TextBlock x:Name="NickTextBlock" />
                     <TextBox x:Name="User_nick" IsEnabled="{Binding IsFormAccessible}" />
 
+                    <TextBlock x:Name="CharacterListTextBlock" />
+                    <controls:ListPicker ItemsSource="{Binding Characters, Mode=TwoWay}"  SelectedItem="{Binding Character, Mode=TwoWay}" />
+
                     <TextBlock x:Name="DeviceTypeTextBlock" />
                     <controls:ListPicker ItemsSource="{Binding User.DeviceTypes.Keys, Mode=TwoWay}"  SelectedItem="{Binding Game.SelectedDeviceType, Mode=TwoWay}" />
 
-                    <TextBlock x:Name="DeviceIdTextBlock" />
-                    <TextBox x:Name="User_deviceid" IsEnabled="{Binding IsFormAccessible}" />
+                    <!-- TODO: Make a gridmaybe-->
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel HorizontalAlignment="Left" Margin="24,0,24,0">
+                            <TextBlock x:Name="LatTextBlock" />
+                            <TextBox IsReadOnly="True" x:Name="User_location_lat" InputScope="Number" IsEnabled="{Binding IsFormAccessible}" />
+                        </StackPanel>
+                        <StackPanel Margin="24,0,24,0">
+                            <TextBlock x:Name="LonTextBlock" />
+                            <TextBox IsReadOnly="True" x:Name="User_location_lon" InputScope="Number" IsEnabled="{Binding IsFormAccessible}" />
+                        </StackPanel>
+                    </StackPanel>
 
-                    <TextBlock x:Name="LatTextBlock" />
-                    <TextBox IsReadOnly="True" x:Name="User_lat" InputScope="Number" IsEnabled="{Binding IsFormAccessible}" />
 
-                    <TextBlock x:Name="LonTextBlock" />
-                    <TextBox IsReadOnly="True" x:Name="User_lon" InputScope="Number" IsEnabled="{Binding IsFormAccessible}" />
 
-                    <TextBlock x:Name="CharacterListTextBlock" />
+                    <!--<TextBlock x:Name="CharacterListTextBlock" />
                     <ListBox x:Name="User_characters" Height="200" Width="Auto" >
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectionChanged">
@@ -73,50 +83,27 @@
                                 <TextBlock Text="{Binding}"/>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
-                    </ListBox>
-                    
-                    <Button x:Name="ReadCharacterButton" IsEnabled="{Binding IsFormAccessible}" >
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="Click">
-                                <cal:ActionMessage MethodName="ReadCharacterAction" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </Button>
-
-                    <Button x:Name="ReadButton" IsEnabled="{Binding IsFormAccessible}" >
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="Click">
-                                <cal:ActionMessage MethodName="ReadAction" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </Button>
-
-                    <Button x:Name="UpdateButton" IsEnabled="{Binding IsFormAccessible}" >
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="Click">
-                                <cal:ActionMessage MethodName="UpdateAction" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </Button>
-
-                    <Button x:Name="UpdateSelectiveButton" IsEnabled="{Binding IsFormAccessible}" >
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="Click">
-                                <cal:ActionMessage MethodName="UpdateSelectiveAction" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </Button>
-
-                    <Button x:Name="DeleteButton" IsEnabled="{Binding IsFormAccessible}" >
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="Click">
-                                <cal:ActionMessage MethodName="DeleteAction" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </Button>
+                    </ListBox>-->
                 </StackPanel>
             </ScrollViewer>
         </Grid>
+
+        <bab:BindableAppBar x:Name="AccountAppBar">
+            <bab:BindableAppBarButton x:Name="UpdateAction"
+                                  Text="{Binding UpdateUserAppBarItemText}"
+                                  IconUri="{Binding UpdateUserIcon}"
+                                  IsEnabled="{Binding IsFormAccessible}" />
+
+            <bab:BindableAppBarButton x:Name="ReadCharacterAction"
+                                  Text="{Binding ReadCharacterAppBarItemText}"
+                                  IconUri="{Binding ReadCharacterIcon}"
+                                  IsEnabled="{Binding IsFormAccessible}" />
+
+            <bab:BindableAppBarMenuItem x:Name="DeleteAction"
+                                        Text="{Binding DeleteAppBarMenuItemText}"
+                                        IsEnabled="{Binding IsFormAccessible}"
+                                        />
+        </bab:BindableAppBar>
     </Grid>
 
 </phone:PhoneApplicationPage>

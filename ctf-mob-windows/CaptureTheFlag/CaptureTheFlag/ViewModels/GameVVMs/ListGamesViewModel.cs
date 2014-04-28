@@ -1,27 +1,22 @@
-﻿using Caliburn.Micro;
-using CaptureTheFlag.Models;
-using CaptureTheFlag.Services;
-using CaptureTheFlag.ViewModels.GameMapVVMs;
-using CaptureTheFlag.ViewModels.GameVVMs;
-using System;
-using System.Collections.Generic;
-using System.Device.Location;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using Windows.Devices.Geolocation;
-
-namespace CaptureTheFlag.ViewModels.GameVVMs
+﻿namespace CaptureTheFlag.ViewModels.GameVVMs
 {
+    using Caliburn.Micro;
+    using CaptureTheFlag.Models;
+    using CaptureTheFlag.Services;
+    using RestSharp;
+    using System;
+    using System.Device.Location;
+    using System.Linq;
+    using System.Reflection;
+    using System.Windows;
+
     public class ListGamesViewModel : Screen
     {
         private readonly INavigationService navigationService;
         private readonly ICommunicationService communicationService;
         private readonly ILocationService locationService; //TODO: move
         private readonly IGlobalStorageService globalStorageService;
+        private RestRequestAsyncHandle requestHandle;// TODO: implement abort
 
         public ListGamesViewModel(INavigationService navigationService, ICommunicationService communicationService, IGlobalStorageService globalStorageService, ILocationService locationService)
         {
@@ -32,6 +27,9 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
             this.globalStorageService = globalStorageService;
 
             Games = new BindableCollection<Game>();
+            Authenticator = new Authenticator();
+
+            IsFormAccessible = true;
 
             DisplayName = "Games";
 
@@ -45,11 +43,10 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
             SettingsAppBarMenuItemText = "settings";
             CharactersAppBarMenuItemText = "characters";
             ProfileAppBarMenuItemText = "profile";
-
-            ShouldEdit = false;
         }
 
-        #region Watcher TODO: move
+        //TODO: move to location service
+        #region Watcher
         private GeoCoordinateWatcher watcher;
         public GeoCoordinateWatcher Watcher
         {
@@ -68,60 +65,86 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
             //TODO: Response object model
             Watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.High);
             Watcher.Start();
-            communicationService.RegisterPosition(Games.FirstOrDefault(), Watcher.Position.Location, Token,
-                rData =>
-                {
-                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
-                },
-                serverErrorMessage =>
-                {
-                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
-                }
-            );
+            if (Authenticator.IsValid(Authenticator))
+            {
+                requestHandle = communicationService.RegisterPosition(Games.FirstOrDefault(), Watcher.Position.Location, Authenticator.token,
+                    rData =>
+                    {
+                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
+                    },
+                    serverErrorMessage =>
+                    {
+                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
+                    }
+                );
+            }
             Watcher.Stop();
         }
         #endregion
 
-
+        #region Screen states
         protected override void OnActivate()
         {
             base.OnActivate();
-            if(String.IsNullOrEmpty(Token))
+            Authenticator = globalStorageService.Current.Authenticator;
+            if (globalStorageService.Current.Games != null && globalStorageService.Current.Games.Count > 0)
             {
-                Token = globalStorageService.Current.Token;
+                foreach (Game game in globalStorageService.Current.Games.Values)
+                {
+                    Games.Add(game);
+                }
+            }
+            else
+            {
+                ListGamesAction();
             }
         }
+
+        protected override void OnDeactivate(bool close)
+        {
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
+            Games.Clear();
+            base.OnDeactivate(close);
+        }
+        #endregion
 
         #region Actions
         public void ListGamesAction()
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
-            communicationService.GetAllGames(Token,
-                responseData =>
-                {
-                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
-                    Games = responseData;
-                    foreach(Game game in Games)
+            IsFormAccessible = false;
+            if (Authenticator.IsValid(Authenticator))
+            {
+                requestHandle = communicationService.GetAllGames(Authenticator.token,
+                    responseData =>
                     {
-                        if (!globalStorageService.Current.Games.ContainsKey(game.url))
+                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
+                        Games = responseData;
+                        foreach (Game game in Games)
                         {
-                            globalStorageService.Current.Games[game.url] = game;
+                            if (!globalStorageService.Current.Games.ContainsKey(game.url))
+                            {
+                                globalStorageService.Current.Games[game.url] = game;
+                            }
                         }
+                        IsFormAccessible = true;
+                    },
+                    serverErrorMessage =>
+                    {
+                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
+                        MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
+                        IsFormAccessible = true;
                     }
-                },
-                serverErrorMessage =>
-                {
-                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
-                    MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
-                }
-            );
+                );
+            }
         }
 
         public void ReadGameAction()
         {
-            if (SelectedGame != null)
+            if (SelectedGame != null && Authenticator.IsValid(Authenticator))
             {
-                if (SelectedGame.name == "CTF first test game") //if is owner
+#warning operator != is for tests, should be ==
+                if (SelectedGame.url != Authenticator.user)
                 {
                     navigationService.UriFor<EditGameViewModel>()
                          .WithParam(param => param.GameModelKey, SelectedGame.url)
@@ -155,33 +178,36 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
             ListGamesAction();
         }
 
-        public void CharactersAction()
-        {
-            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
-        }
+        //public void CharactersAction()
+        //{
+        //    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
+        //    navigationService.UriFor<CharacterViewModel>().Navigate();
+        //}
 
         public void ProfileAction()
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
+            navigationService.UriFor<UserViewModel>().Navigate();
         }
 
         public void SettingsAction()
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
+            //TODO: Settings
         }
         #endregion
 
         #region Properties
-        private string token;
-        public string Token
+        private Authenticator authenticator;
+        public Authenticator Authenticator
         {
-            get { return token; }
+            get { return authenticator; }
             set
             {
-                if (token != value)
+                if (authenticator != value)
                 {
-                    token = value;
-                    NotifyOfPropertyChange(() => Token);
+                    authenticator = value;
+                    NotifyOfPropertyChange(() => Authenticator);
                 }
             }
         }
@@ -211,34 +237,6 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
                 {
                     selectedGame = value;
                     NotifyOfPropertyChange(() => SelectedGame);
-                }
-            }
-        }
-
-        private bool shouldCreate;
-        public bool ShouldCreate
-        {
-            get { return shouldCreate; }
-            set
-            {
-                if (shouldCreate != value)
-                {
-                    shouldCreate = value;
-                    NotifyOfPropertyChange(() => ShouldCreate);
-                }
-            }
-        }
-
-        private bool shouldEdit;
-        public bool ShouldEdit
-        {
-            get { return shouldEdit; }
-            set
-            {
-                if (shouldEdit != value)
-                {
-                    shouldEdit = value;
-                    NotifyOfPropertyChange(() => ShouldEdit);
                 }
             }
         }
@@ -370,8 +368,21 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
                 }
             }
         }
-        #endregion
 
+        private bool isFormAccessible;
+        public bool IsFormAccessible
+        {
+            get { return isFormAccessible; }
+            set
+            {
+                if (isFormAccessible != value)
+                {
+                    isFormAccessible = value;
+                    NotifyOfPropertyChange(() => IsFormAccessible);
+                }
+            }
+        }
+        #endregion
         #endregion
     }
 }

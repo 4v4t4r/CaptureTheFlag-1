@@ -1,6 +1,7 @@
 ﻿using Caliburn.Micro;
 using CaptureTheFlag.Models;
 using CaptureTheFlag.Services;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,24 +16,24 @@ namespace CaptureTheFlag.ViewModels
     public class UserViewModel : Screen
     {
         private readonly INavigationService navigationService;
-        private readonly IEventAggregator eventAggregator;
         private readonly ICommunicationService communicationService;
+        private readonly IGlobalStorageService globalStorageService;
+        private RestRequestAsyncHandle requestHandle;// TODO: implement abort
 
-        public UserViewModel(INavigationService navigationService, IEventAggregator eventAggregator, ICommunicationService communicationService)
+        public UserViewModel(INavigationService navigationService, ICommunicationService communicationService, IGlobalStorageService globalStorageService)
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             this.navigationService = navigationService;
-            this.eventAggregator = eventAggregator;
             this.communicationService = communicationService;
+            this.globalStorageService = globalStorageService;
+
+            DisplayName = "Account";
 
             IsFormAccessible = true;
 
             User = new User();
-#warning Temporary variables
-            User.url = "http://78.133.154.39:8888/api/users/4/";
+            Characters = new BindableCollection<Character>();
 
-            DisplayName = "User";
-            UrlTextBlock = "Url:";
             UsernameTextBlock = "Username:";
             FirstNameTextBlock = "First name:";
             LastNameTextBlock = "Last name";
@@ -40,15 +41,15 @@ namespace CaptureTheFlag.ViewModels
             PasswordTextBlock = "Password:";
             NickTextBlock = "Nick:";
             DeviceTypeTextBlock = "Device type:";
-            DeviceIdTextBlock = "Device id:";
             LatTextBlock = "Latitude:";
             LonTextBlock = "Longitude:";
 
-            ReadCharacterButton = "View character";
-            ReadButton = "Read";
-            UpdateButton = "Update";
-            UpdateSelectiveButton = "Patch";
-            DeleteButton = "Delete";
+            UpdateUserIcon = new Uri("/Images/upload.png", UriKind.Relative);
+            ReadCharacterIcon = new Uri("/Images/like.png", UriKind.Relative);
+
+            ReadCharacterAppBarItemText = "character";
+            UpdateUserAppBarItemText = "update";
+            DeleteAppBarMenuItemText = "delete";
         }
 
         #region ViewModel States
@@ -56,19 +57,16 @@ namespace CaptureTheFlag.ViewModels
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             base.OnActivate();
-            eventAggregator.Subscribe(this);
-            //User.url = UserModelKey;
-            //Game = IoC.Get<GlobalStorageService>().Current.Games[GameModelKey];
-        }
-
-        protected override void OnDeactivate(bool close)
-        {
-            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
-            if(close)
+            Authenticator = globalStorageService.Current.Authenticator;
+            if (globalStorageService.Current.Users != null && globalStorageService.Current.Users.ContainsKey(Authenticator.user))
             {
-                eventAggregator.Unsubscribe(this);
+                User = globalStorageService.Current.Users[Authenticator.user];
             }
-            base.OnDeactivate(close);
+            else
+            {
+                User.url = Authenticator.user;
+                ReadAction();
+            }
         }
         #endregion
 
@@ -76,113 +74,171 @@ namespace CaptureTheFlag.ViewModels
         public void ReadCharacterAction()
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
+            //navigationService.UriFor<CharacterViewModel>()
+            //    .WithParam(param => param.CharacterModelKey, "http://78.133.154.39:8888/api/characters/15/")
+            //    .WithParam(param => param.Token, Token)
+            //    .Navigate();
             navigationService.UriFor<CharacterViewModel>()
-                .WithParam(param => param.CharacterModelKey, "http://78.133.154.39:8888/api/characters/15/")
-                .WithParam(param => param.Token, Token)
+                .WithParam(param => param.CharacterModelKey, User.active_character)
                 .Navigate();
         }
 
-        public void SelectCharacterAction()
+        //public void SelectCharacterAction()
+        //{
+        //    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
+        //    IsFormAccessible = false;
+        //    Character chara = new Character(); //TODO: replace with actual caracter
+        //    if (Authenticator.IsValid(Authenticator))
+        //    {
+        //        communicationService.SelectCharacter(chara, Authenticator.token,
+        //            responseData =>
+        //            {
+        //                DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
+        //                IsFormAccessible = true;
+        //                MessageBox.Show("OK", "read", MessageBoxButton.OK);
+        //                //User = responseData;
+        //            },
+        //            serverErrorMessage =>
+        //            {
+        //                DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
+        //                IsFormAccessible = true;
+        //                MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
+        //            }
+        //        );
+        //    }
+        //}
+
+        public void ReadCharactersAction()
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
-            Character chara = new Character();
-            chara.url = "http://78.133.154.39:8888/api/characters/15/";
-            communicationService.SelectCharacter(chara, Token,
-                responseData =>
+            IsFormAccessible = false;
+            if (Authenticator.IsValid(Authenticator))
+            {
+                foreach(string characterString in User.characters)
                 {
-                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
-                    MessageBox.Show("OK", "read", MessageBoxButton.OK);
-                    //User = responseData;
-                },
-                serverErrorMessage =>
-                {
-                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
-                    MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
+                    Character ch = new Character();
+                    ch.url = characterString;
+                    communicationService.ReadCharacter(ch, Authenticator.token, responseData =>
+                        {
+                            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
+                            Characters.Add(responseData);
+                            IsFormAccessible = true;
+                            //MessageBox.Show("OK", "read", MessageBoxButton.OK);
+                        },
+                        serverErrorMessage =>
+                        {
+                            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
+                            IsFormAccessible = true;
+                            //MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
+                        }
+                    );
                 }
-            );
+            }
         }
 
         public void ReadAction()
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
-            communicationService.ReadUser(User, Token,
-                responseData =>
-                {
-                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
-                    MessageBox.Show("OK", "read", MessageBoxButton.OK);
-                    User = responseData;
-                },
-                serverErrorMessage =>
-                {
-                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
-                    MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
-                }
-            );
+            IsFormAccessible = false;
+            if (Authenticator.IsValid(Authenticator))
+            {
+                communicationService.ReadUser(User, Authenticator.token,
+                    responseData =>
+                    {
+                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
+                        User = responseData;
+                        ReadCharactersAction();
+                        IsFormAccessible = true;
+                        MessageBox.Show("OK", "read", MessageBoxButton.OK);
+                    },
+                    serverErrorMessage =>
+                    {
+                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
+                        IsFormAccessible = true;
+                        MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
+                    }
+                );
+            }
         }
 
         public void DeleteAction()
         {
-            communicationService.DeleteUser(User, Token,
-            responseUserMap =>
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
+            IsFormAccessible = false;
+            if (Authenticator.IsValid(Authenticator))
             {
-                DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
-                MessageBox.Show("OK", "deleted", MessageBoxButton.OK);
-                IsFormAccessible = true;
-            },
-            serverErrorMessage =>
-            {
-                DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
-                MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
-                IsFormAccessible = true;
+                communicationService.DeleteUser(User, Authenticator.token,
+                    responseUserMap =>
+                    {
+                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
+                        MessageBox.Show("OK", "deleted", MessageBoxButton.OK);
+                        IsFormAccessible = true;
+                    },
+                    serverErrorMessage =>
+                    {
+                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
+                        MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
+                        IsFormAccessible = true;
+                    }
+                );
             }
-        );
         }
 
         public void UpdateAction()
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
-            communicationService.UpdateUser(User, Token,
-                responseUserMap =>
-                {
-                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
-                    User = responseUserMap;
-                    eventAggregator.Publish(User);
-                    IsFormAccessible = true;
-                },
-                serverErrorMessage =>
-                {
-                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
-                    MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
-                    IsFormAccessible = true;
-                }
-            );
-        }
-
-        public void UpdateSelectiveAction()
-        {
-            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
-            User selectedFields = User;
-            communicationService.UpdateUserFields(User, Token,
-                responseUserMap =>
-                {
-                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
-                    User = responseUserMap;
-                    eventAggregator.Publish(User);
-                    IsFormAccessible = true;
-                },
-                serverErrorMessage =>
-                {
-                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
-                    MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
-                    IsFormAccessible = true;
-                }
-            );
+            IsFormAccessible = false;
+            if (Authenticator.IsValid(Authenticator))
+            {
+                communicationService.UpdateUser(User, Authenticator.token,
+                    responseUserMap =>
+                    {
+                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
+                        User = responseUserMap;
+                        IsFormAccessible = true;
+                    },
+                    serverErrorMessage =>
+                    {
+                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
+                        MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
+                        IsFormAccessible = true;
+                    }
+                );
+            }
         }
         #endregion
 
         #region Properties
 
         #region Model Properties
+        private Authenticator authenticator;
+        public Authenticator Authenticator
+        {
+            get { return authenticator; }
+            set
+            {
+                if (authenticator != value)
+                {
+                    authenticator = value;
+                    NotifyOfPropertyChange(() => Authenticator);
+                }
+            }
+        }
+
+        private BindableCollection<Character> characters;
+        public BindableCollection<Character> Characters
+        {
+            get { return characters; }
+            set
+            {
+                if (characters != value)
+                {
+                    characters = value;
+                    NotifyOfPropertyChange(() => Characters);
+                }
+            }
+        }
+
         private User user;
         public User User
         {
@@ -197,35 +253,22 @@ namespace CaptureTheFlag.ViewModels
             }
         }
 
-        private string userModelKey;
-        public string UserModelKey
+        private string selectedCharacter;
+        public string SelectedCharacter
         {
-            get { return userModelKey; }
+            get { return selectedCharacter; }
             set
             {
-                if (userModelKey != value)
+                if (selectedCharacter != value)
                 {
-                    userModelKey = value;
-                    NotifyOfPropertyChange(() => UserModelKey);
+                    selectedCharacter = value;
+                    NotifyOfPropertyChange(() => SelectedCharacter);
                 }
             }
         }
         #endregion
 
         #region UI Properties
-        private string urlTextBlock;
-        public string UrlTextBlock
-        {
-            get { return urlTextBlock; }
-            set
-            {
-                if (urlTextBlock != value)
-                {
-                    urlTextBlock = value;
-                    NotifyOfPropertyChange(() => UrlTextBlock);
-                }
-            }
-        }
 
         private string usernameTextBlock;
         public string UsernameTextBlock
@@ -325,20 +368,6 @@ namespace CaptureTheFlag.ViewModels
             }
         }
 
-        private string deviceIdTextBlock;
-        public string DeviceIdTextBlock
-        {
-            get { return deviceIdTextBlock; }
-            set
-            {
-                if (deviceIdTextBlock != value)
-                {
-                    deviceIdTextBlock = value;
-                    NotifyOfPropertyChange(() => DeviceIdTextBlock);
-                }
-            }
-        }
-
         private string latTextBlock;
         public string LatTextBlock
         {
@@ -381,73 +410,74 @@ namespace CaptureTheFlag.ViewModels
             }
         }
 
-        private string readButton;
-        public string ReadButton
+        private Uri eeadCharacterIcon;
+        public Uri ReadCharacterIcon
         {
-            get { return readButton; }
+            get { return eeadCharacterIcon; }
             set
             {
-                if (readButton != value)
+                if (eeadCharacterIcon != value)
                 {
-                    readButton = value;
-                    NotifyOfPropertyChange(() => ReadButton);
+                    eeadCharacterIcon = value;
+                    NotifyOfPropertyChange(() => ReadCharacterIcon);
                 }
             }
         }
 
-        private string readCharacterButton;
-        public string ReadCharacterButton
+        private Uri updateUserIcon;
+        public Uri UpdateUserIcon
         {
-            get { return readCharacterButton; }
+            get { return updateUserIcon; }
             set
             {
-                if (readCharacterButton != value)
+                if (updateUserIcon != value)
                 {
-                    readCharacterButton = value;
-                    NotifyOfPropertyChange(() => ReadCharacterButton);
+                    updateUserIcon = value;
+                    NotifyOfPropertyChange(() => UpdateUserIcon);
                 }
             }
         }
 
 
-        private string updateButton;
-        public string UpdateButton
+        private string readCharacterAppBarItemText;
+        public string ReadCharacterAppBarItemText
         {
-            get { return updateButton; }
+            get { return readCharacterAppBarItemText; }
             set
             {
-                if (updateButton != value)
+                if (readCharacterAppBarItemText != value)
                 {
-                    updateButton = value;
-                    NotifyOfPropertyChange(() => UpdateButton);
+                    readCharacterAppBarItemText = value;
+                    NotifyOfPropertyChange(() => ReadCharacterAppBarItemText);
                 }
             }
         }
 
-        private string updateSelectiveButton;
-        public string UpdateSelectiveButton
+
+        private string updateUserAppBarItemText;
+        public string UpdateUserAppBarItemText
         {
-            get { return updateSelectiveButton; }
+            get { return updateUserAppBarItemText; }
             set
             {
-                if (updateSelectiveButton != value)
+                if (updateUserAppBarItemText != value)
                 {
-                    updateSelectiveButton = value;
-                    NotifyOfPropertyChange(() => UpdateSelectiveButton);
+                    updateUserAppBarItemText = value;
+                    NotifyOfPropertyChange(() => UpdateUserAppBarItemText);
                 }
             }
         }
 
-        private string deleteButton;
-        public string DeleteButton
+        private string deleteAppBarMenuItemText;
+        public string DeleteAppBarMenuItemText
         {
-            get { return deleteButton; }
+            get { return deleteAppBarMenuItemText; }
             set
             {
-                if (deleteButton != value)
+                if (deleteAppBarMenuItemText != value)
                 {
-                    deleteButton = value;
-                    NotifyOfPropertyChange(() => DeleteButton);
+                    deleteAppBarMenuItemText = value;
+                    NotifyOfPropertyChange(() => DeleteAppBarMenuItemText);
                 }
             }
         }
@@ -462,21 +492,6 @@ namespace CaptureTheFlag.ViewModels
                 {
                     isFormAccessible = value;
                     NotifyOfPropertyChange(() => IsFormAccessible);
-                    eventAggregator.Publish(isFormAccessible);
-                }
-            }
-        }
-
-        private string token;
-        public string Token
-        {
-            get { return token; }
-            set
-            {
-                if (token != value)
-                {
-                    token = value;
-                    NotifyOfPropertyChange(() => Token);
                 }
             }
         }

@@ -1,29 +1,40 @@
-﻿using Caliburn.Micro;
-using CaptureTheFlag.Models;
-using CaptureTheFlag.Services;
-using RestSharp;
-using System.Diagnostics;
-using System.Reflection;
-using System.Windows;
-
-namespace CaptureTheFlag.ViewModels
+﻿namespace CaptureTheFlag.ViewModels
 {
-    public class UserRegistrationViewModel : Screen, IHandle<RegisterResponse>, IHandle<ServerErrorMessage>
+    using Caliburn.Micro;
+    using CaptureTheFlag.Models;
+    using CaptureTheFlag.Services;
+    using RestSharp;
+    using System;
+    using System.Reflection;
+    using System.Windows;
+
+    public class UserRegistrationViewModel : Screen
     {
         private readonly INavigationService navigationService;
         private readonly ICommunicationService communicationService;
         private readonly IEventAggregator eventAggregator;
-        private RestRequestAsyncHandle requestHandle; //TODO: use requestHandle to abort when neccessary
+        private readonly IGlobalStorageService globalStorageService;
+        private RestRequestAsyncHandle requestHandle; ///TODO: Use requestHandle to abort when neccessary
 
-        public UserRegistrationViewModel(INavigationService navigationService, ICommunicationService communicationService, IEventAggregator eventAggregator)
+        public UserRegistrationViewModel(INavigationService navigationService, ICommunicationService communicationService, IEventAggregator eventAggregator, IGlobalStorageService globalStorageService)
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             this.navigationService = navigationService;
             this.communicationService = communicationService;
             this.eventAggregator = eventAggregator;
-            DisplayName = "Registration";
-            Register = "Register";
+            this.globalStorageService = globalStorageService;
+
+            User = new User();
+            User.device_type = User.DEVICE_TYPE.WP; ///TODO: Do not send device_type information in register request
             IsFormAccessible = true;
+            
+            DisplayName = "Registration";
+            
+            UsernameTextBlock = "Username:";
+            PasswordTextBlock = "Password:";
+            EmailTextBlock = "E-mail:";
+
+            RegisterButton = "Register me";
         }
 
         #region Actions
@@ -31,26 +42,28 @@ namespace CaptureTheFlag.ViewModels
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             IsFormAccessible = false;
-            requestHandle = communicationService.Register<RegisterResponse>(Username, Password, Email, response =>
-            {
-                DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
-                Debug.WriteLine("Status Code:{0} _ Status Description:{1}", response.StatusCode, response.StatusDescription);
-                Debug.WriteLine(response.Content);
-                Debug.WriteLine("Register method response");
-                //TODO: Send a message for navigation
-            });
-            //navigationService
-            //    .UriFor<MainAppPivotViewModel>()
-            //    .WithParam(param => param.Name, "Register")
-            //    .Navigate();
+            requestHandle = communicationService.RegisterUser(User, responseUser =>
+                    {
+                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
+                        MessageBox.Show("CREATED", String.Format("creater user: {0}", User.username), MessageBoxButton.OK);
+                        //TODO: Decide what to do with response User model, note that it containse password sha251
+                        IsFormAccessible = true;
+                    },
+                    serverErrorMessage =>
+                    {
+                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
+                        MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
+                        IsFormAccessible = true;
+                    }
+            );
         }
         #endregion
 
         #region ViewModel States
         protected override void OnActivate()
         {
-            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             base.OnActivate();
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             eventAggregator.Subscribe(this);
         }
 
@@ -58,89 +71,81 @@ namespace CaptureTheFlag.ViewModels
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             eventAggregator.Unsubscribe(this);
-
             base.OnDeactivate(close);
         }
         #endregion
 
-        #region Message Handling
-        public void Handle(RegisterResponse message)
-        {
-            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
-            //navigationService
-            //    .UriFor<MainAppPivotViewModel>()
-            //    .WithParam(param => param.Token, message.Token)
-            //    .Navigate();
-            IsFormAccessible = true;
-        }
+        #region Properties
 
-        public void Handle(ServerErrorMessage message)
+        #region Model Properties
+        private User user;
+        public User User
         {
-            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
-            MessageBox.Show(message.Code.ToString(), message.Message, MessageBoxButton.OK);
-            IsFormAccessible = true;
-        }
-
-        public void Handle(bool message)
-        {
-            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
-            IsFormAccessible = message;
+            get { return user; }
+            set
+            {
+                if (user != value)
+                {
+                    user = value;
+                    NotifyOfPropertyChange(() => User);
+                }
+            }
         }
         #endregion
 
-        #region Properties
-        private string username;
-        public string Username
+        #region UI Properties
+        private string usernameTextBlock;
+        public string UsernameTextBlock
         {
-            get { return username; }
+            get { return usernameTextBlock; }
             set
             {
-                if (username != value)
+                if (usernameTextBlock != value)
                 {
-                    username = value;
-                    NotifyOfPropertyChange(() => Username);
+                    usernameTextBlock = value;
+                    NotifyOfPropertyChange(() => UsernameTextBlock);
                 }
             }
         }
 
-        private string password;
-        public string Password
+        private string passwordTextBlock;
+        public string PasswordTextBlock
         {
-            get { return password; }
+            get { return passwordTextBlock; }
             set
             {
-                if (password != value)
+                if (passwordTextBlock != value)
                 {
-                    password = value;
-                    NotifyOfPropertyChange(() => Password);
+                    passwordTextBlock = value;
+                    NotifyOfPropertyChange(() => PasswordTextBlock);
                 }
             }
         }
 
-        private string email;
-        public string Email
+        private string emailTextBlock;
+        public string EmailTextBlock
         {
-            get { return email; }
+            get { return emailTextBlock; }
             set
             {
-                if (email != value)
+                if (emailTextBlock != value)
                 {
-                    email = value;
-                    NotifyOfPropertyChange(() => Email);
+                    emailTextBlock = value;
+                    NotifyOfPropertyChange(() => EmailTextBlock);
                 }
             }
         }
 
-        private string register;
-        public string Register
+        private string registerButton;
+        public string RegisterButton
         {
-            get { return register; }
+            get { return registerButton; }
             set
             {
-                if (register != value)
+                if (registerButton != value)
                 {
-                    register = value;
-                    NotifyOfPropertyChange(() => Register);
+                    registerButton = value;
+                    NotifyOfPropertyChange(() => RegisterButton);
                 }
             }
         }
@@ -158,6 +163,7 @@ namespace CaptureTheFlag.ViewModels
                 }
             }
         }
+        #endregion
         #endregion
     }
 }

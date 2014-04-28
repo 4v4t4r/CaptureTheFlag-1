@@ -35,7 +35,10 @@
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
             <ScrollViewer>
                 <StackPanel>
-                    <maps:Map Height="500" Width="Auto" IsEnabled="{Binding IsFormAccessible}" />
+                    <maps:Map Height="500" Width="Auto" IsEnabled="{Binding IsFormAccessible}"
+                              Center="{Binding MapCenter, Mode=TwoWay}"
+                              ZoomLevel="{Binding ZoomLevel, Mode=TwoWay}"
+                              />
                 
                     <TextBlock x:Name="NameTextBlock" />
                     <TextBox x:Name="GameMap_name" IsEnabled="{Binding IsFormAccessible}" />

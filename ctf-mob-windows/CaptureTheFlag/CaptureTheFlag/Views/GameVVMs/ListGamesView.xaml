@@ -11,18 +11,12 @@
     xmlns:bab="clr-namespace:Caliburn.Micro.BindableAppBar;assembly=Caliburn.Micro.BindableAppBar"
     xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     xmlns:primitives="clr-namespace:Microsoft.Phone.Controls.Primitives;assembly=Microsoft.Phone.Controls.Toolkit"
-    xmlns:converters="clr-namespace:CaptureTheFlag.Converters"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True">
-
-    <Control.Resources>
-        <converters:BooleanNegationToVisibilityConverter x:Key="BooleanNegationToVisibilityConverter"/>
-        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-    </Control.Resources>
 
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
@@ -31,7 +25,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <ListBox x:Name="Games" Height="500" Width="Auto" >
+            <ListBox x:Name="Games" Height="500" Width="Auto" IsEnabled="{Binding IsFormAccessible}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Tap">
                         <cal:ActionMessage MethodName="ReadGameAction" />
@@ -49,21 +43,33 @@
             <bab:BindableAppBarButton x:Name="FindGameAction"
                                   Text="{Binding FindAppBarItemText}"
                                   IconUri="{Binding FindIcon}"
-                                  Visibility="{Binding IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                  IsEnabled="{Binding IsFormAccessible}"
+                                      />
             
             <bab:BindableAppBarButton x:Name="CreateGameAction"
                                   Text="{Binding CreateAppBarItemText}"
                                   IconUri="{Binding CreateIcon}"
-                                  Visibility="{Binding IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                  IsEnabled="{Binding IsFormAccessible}"
+                                      />
 
             <bab:BindableAppBarButton x:Name="RefreshGameAction"
                                   Text="{Binding RefreshAppBarItemText}"
                                   IconUri="{Binding RefreshIcon}"
-                                  Visibility="{Binding IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                  IsEnabled="{Binding IsFormAccessible}"
+                                      />
 
-            <bab:BindableAppBarMenuItem x:Name="CharactersAction" Text="{Binding CharactersAppBarMenuItemText}" />
-            <bab:BindableAppBarMenuItem x:Name="ProfileAction" Text="{Binding ProfileAppBarMenuItemText}"/>
-            <bab:BindableAppBarMenuItem x:Name="SettingsAction" Text="{Binding SettingsAppBarMenuItemText}"/>
+            <!--<bab:BindableAppBarMenuItem x:Name="CharactersAction"
+                                        Text="{Binding CharactersAppBarMenuItemText}"
+                                        IsEnabled="{Binding IsFormAccessible}"
+                                        />-->
+            <bab:BindableAppBarMenuItem x:Name="ProfileAction"
+                                        Text="{Binding ProfileAppBarMenuItemText}"
+                                        IsEnabled="{Binding IsFormAccessible}"
+                                        />
+            <bab:BindableAppBarMenuItem x:Name="SettingsAction"
+                                        Text="{Binding SettingsAppBarMenuItemText}"
+                                        IsEnabled="{Binding IsFormAccessible}"
+                                        />
         </bab:BindableAppBar>
 
     </Grid>

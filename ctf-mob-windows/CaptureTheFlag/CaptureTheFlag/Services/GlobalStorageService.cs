@@ -31,6 +31,17 @@ namespace CaptureTheFlag.Services
         }
     }
 
+    public class UserCache : Dictionary<string, User>
+    {
+        public User GetFromCache(string key)
+        {
+            if (ContainsKey(key))
+                return this[key];
+
+            return null;
+        }
+    }
+
     public class GlobalStorageService : IGlobalStorageService
     {
         private GlobalStorageService _current;
@@ -64,6 +75,16 @@ namespace CaptureTheFlag.Services
             }
         }
 
+        private UserCache _cachedUsers;
+        public UserCache Users
+        {
+            get
+            {
+                if (_cachedUsers == null) _cachedUsers = new UserCache();
+                return _cachedUsers;
+            }
+        }
+
         private string token;
         public string Token
         {
@@ -73,6 +94,19 @@ namespace CaptureTheFlag.Services
                 if (token != value)
                 {
                     token = value;
+                }
+            }
+        }
+
+        private Authenticator authenticator;
+        public Authenticator Authenticator
+        {
+            get { return authenticator; }
+            set
+            {
+                if (authenticator != value)
+                {
+                    authenticator = value;
                 }
             }
         }

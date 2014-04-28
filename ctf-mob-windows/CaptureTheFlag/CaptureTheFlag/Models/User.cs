@@ -1,12 +1,8 @@
-﻿using Caliburn.Micro;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CaptureTheFlag.Models
+﻿namespace CaptureTheFlag.Models
 {
+    using Caliburn.Micro;
+    using System.Collections.Generic;
+
     public class User : PropertyChangedBase
     {
         #region Enumerated types
@@ -17,17 +13,30 @@ namespace CaptureTheFlag.Models
         //    2 - 'IOS'
         //}
 
-        public enum DEVICE_TYPE
+        //public enum DEVICE_TYPE
+        //{
+        //    ANDROID = 0,
+        //    WP = 1,
+        //    IOS = 2
+        //}
+        public static class DEVICE_TYPE
         {
-            ANDROID = 0,
-            WP = 1,
-            IOS = 2
+            public static string ANDROID { get { return "android"; } private set { } }
+            public static string WP { get { return "wp"; } private set { } }
+            public static string IOS { get { return "ios"; } private set { } }
         }
 
-        private static Dictionary<string, DEVICE_TYPE> deviceTypes = new Dictionary<string, DEVICE_TYPE> {
-                { "Android", DEVICE_TYPE.ANDROID },
-                { "Windows Phone", DEVICE_TYPE.WP },
-                { "iOS", DEVICE_TYPE.IOS }
+
+        //private static Dictionary<string, DEVICE_TYPE> deviceTypes = new Dictionary<string, DEVICE_TYPE> {
+        //        { "Android", DEVICE_TYPE.ANDROID },
+        //        { "Windows Phone", DEVICE_TYPE.WP },
+        //        { "iOS", DEVICE_TYPE.IOS }
+        //};
+
+        private static Dictionary<string, string> deviceTypes = new Dictionary<string, string> {
+                { "Android", "android" },
+                { "Windows Phone", "wp" },
+                { "iOS", "ios" }
         };
         #endregion
 
@@ -47,16 +56,17 @@ namespace CaptureTheFlag.Models
 
         private string _url;
         private string _username;
+        private string _password;
         private string _first_name;
         private string _last_name;
         private string _email;
-        private string _password;
         private string _nick;
+        private string _active_character; //TODO...
         private List<string> _characters; //TODO: change to BindableCollection when implemented custom json deserializer
-        private int _device_type;
+        //private int _device_type;
+        private string _device_type;
         private string _device_id;
-        private float _lat;
-        private float _lon;
+        private Location _location; //TODO...
 
         #region Dummy Properties
         public string firstname
@@ -87,8 +97,35 @@ namespace CaptureTheFlag.Models
             }
         }
 
+        public string activecharacter
+        {
+            get { return _active_character; }
+            set
+            {
+                if (_active_character != value)
+                {
+                    _active_character = value;
+                    NotifyOfPropertyChange(() => active_character);
+                    NotifyOfPropertyChange(() => activecharacter);
+                }
+            }
+        }
+
         //TODO: make a converter
-        public Dictionary<string, DEVICE_TYPE> DeviceTypes
+        //public Dictionary<string, DEVICE_TYPE> DeviceTypes
+        //{
+        //    get { return deviceTypes; }
+        //    set
+        //    {
+        //        if (deviceTypes != value)
+        //        {
+        //            deviceTypes = value;
+        //            NotifyOfPropertyChange(() => DeviceTypes);
+        //        }
+        //    }
+        //}
+
+        public Dictionary<string, string> DeviceTypes
         {
             get { return deviceTypes; }
             set
@@ -108,13 +145,29 @@ namespace CaptureTheFlag.Models
             set
             {
                 selectedDeviceType = value;
-                _device_type = (int)DeviceTypes[selectedDeviceType];
+                //_device_type = (int)DeviceTypes[selectedDeviceType];
+                _device_type = DeviceTypes[selectedDeviceType];
                 NotifyOfPropertyChange(() => device_type);
                 NotifyOfPropertyChange(() => devicetype);
                 NotifyOfPropertyChange(() => SelectedDeviceType);
             }
         }
-        public int devicetype
+        //public int devicetype
+        //{
+        //    get { return _device_type; }
+        //    set
+        //    {
+        //        if (_device_type != value)
+        //        {
+        //            _device_type = value;
+        //            NotifyOfPropertyChange(() => device_type);
+        //            NotifyOfPropertyChange(() => devicetype);
+        //            NotifyOfPropertyChange(() => SelectedDeviceType);
+        //        }
+        //    }
+        //}
+
+        public string devicetype
         {
             get { return _device_type; }
             set
@@ -170,6 +223,18 @@ namespace CaptureTheFlag.Models
                 }
             }
         }
+        public string password
+        {
+            get { return _password; }
+            set
+            {
+                if (_password != value)
+                {
+                    _password = value;
+                    NotifyOfPropertyChange(() => password);
+                }
+            }
+        }
 
         public string first_name
         {
@@ -212,19 +277,6 @@ namespace CaptureTheFlag.Models
             }
         }
 
-        public string password
-        {
-            get { return _password; }
-            set
-            {
-                if (_password != value)
-                {
-                    _password = value;
-                    NotifyOfPropertyChange(() => password);
-                }
-            }
-        }
-
         public string nick
         {
             get { return _nick; }
@@ -238,7 +290,36 @@ namespace CaptureTheFlag.Models
             }
         }
 
-        public int device_type
+        public string active_character
+        {
+            get { return _active_character; }
+            set
+            {
+                if (_active_character != value)
+                {
+                    _active_character = value;
+                    NotifyOfPropertyChange(() => active_character);
+                    NotifyOfPropertyChange(() => activecharacter);
+                }
+            }
+        }
+
+        //public int device_type
+        //{
+        //    get { return _device_type; }
+        //    set
+        //    {
+        //        if (_device_type != value)
+        //        {
+        //            _device_type = value;
+        //            NotifyOfPropertyChange(() => device_type);
+        //            NotifyOfPropertyChange(() => devicetype);
+        //            NotifyOfPropertyChange(() => SelectedDeviceType);
+        //        }
+        //    }
+        //}
+
+        public string device_type
         {
             get { return _device_type; }
             set
@@ -252,6 +333,7 @@ namespace CaptureTheFlag.Models
                 }
             }
         }
+
         public string device_id
         {
             get { return _device_id; }
@@ -266,28 +348,16 @@ namespace CaptureTheFlag.Models
             }
         }
 
-        public float lat
-        {
-            get { return _lat; }
-            set
-            {
-                if (_lat != value)
-                {
-                    _lat = value;
-                    NotifyOfPropertyChange(() => lat);
-                }
-            }
-        }
 
-        public float lon
+        public Location location
         {
-            get { return _lon; }
+            get { return _location; }
             set
             {
-                if (_lon != value)
+                if (_location != value)
                 {
-                    _lon = value;
-                    NotifyOfPropertyChange(() => lon);
+                    _location = value;
+                    NotifyOfPropertyChange(() => location);
                 }
             }
         }

@@ -30,7 +30,7 @@
         </StackPanel>
 
         <StackPanel Grid.Row="1" Margin="12,17,0,28">
-            <TextBox Text="{Binding SearchTextBoxText, Mode=TwoWay}">
+            <TextBox Text="{Binding SearchTextBoxText, Mode=TwoWay}" IsEnabled="{Binding IsFormAccessible}">
                 <i:Interaction.Behaviors>
                     <behave:UpdateSourceOnTextChangedBehavior />
                 </i:Interaction.Behaviors>

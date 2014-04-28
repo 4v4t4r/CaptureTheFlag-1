@@ -1,24 +1,19 @@
-﻿using Caliburn.Micro;
-using CaptureTheFlag.Models;
-using CaptureTheFlag.Services;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-
-namespace CaptureTheFlag.ViewModels.GameVVMs
+﻿namespace CaptureTheFlag.ViewModels.GameVVMs
 {
+    using Caliburn.Micro;
+    using CaptureTheFlag.Models;
+    using CaptureTheFlag.Services;
+    using RestSharp;
+    using System;
+    using System.Reflection;
+    using System.Windows;
 
     public class ShowGameViewModel : Screen
     {
         private readonly INavigationService navigationService;
         private readonly ICommunicationService communicationService;
         private readonly IGlobalStorageService globalStorageService;
+        private RestRequestAsyncHandle requestHandle;// TODO: implement abort
 
         public ShowGameViewModel(INavigationService navigationService, ICommunicationService communicationService, IGlobalStorageService globalStorageService)
         {
@@ -30,6 +25,7 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
             IsFormAccessible = true;
 
             Game = new Game();
+            Authenticator = new Authenticator();
             //TODO: update to model probably
             StartDate = DateTime.Now.AddDays(1);
 
@@ -55,8 +51,8 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             base.OnActivate();
+            Authenticator = globalStorageService.Current.Authenticator;
             Game.url = GameModelKey;
-            //Game = IoC.Get<GlobalStorageService>().Current.Games[GameModelKey];
 
             if( ! String.IsNullOrEmpty( Game.url ) )
             {
@@ -77,18 +73,20 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
         public void AddUserAction()
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
-            string token = globalStorageService.Current.Token;
-            if (!String.IsNullOrEmpty(token))
+            IsFormAccessible = false;
+            if (Authenticator.IsValid(Authenticator))
             {
-                communicationService.AddPlayerToGame(Game, token,
+                requestHandle = communicationService.AddPlayerToGame(Game, Authenticator.token,
                     responseData =>
                     {
                         DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
+                        IsFormAccessible = true;
                         MessageBox.Show("OK", "added", MessageBoxButton.OK);
                     },
                     serverErrorMessage =>
                     {
                         DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
+                        IsFormAccessible = true;
                         MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
                     }
                 );
@@ -98,19 +96,21 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
         public void RemoveUserAction()
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
-            string token = globalStorageService.Current.Token;
-            if (!String.IsNullOrEmpty(token))
+            IsFormAccessible = false;
+            if (Authenticator.IsValid(Authenticator))
             {
-                communicationService.RemovePlayerFromGame(Game, token,
+                requestHandle = communicationService.RemovePlayerFromGame(Game, Authenticator.token,
                     responseData =>
                     {
                         DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
                         MessageBox.Show("OK", "added", MessageBoxButton.OK);
+                        IsFormAccessible = true;
                     },
                     serverErrorMessage =>
                     {
                         DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
                         MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
+                        IsFormAccessible = true;
                     }
                 );
             }
@@ -119,20 +119,22 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
         public void ReadAction()
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
-            string token = globalStorageService.Current.Token;
-            if (!String.IsNullOrEmpty(token))
+            IsFormAccessible = false;
+            if (Authenticator.IsValid(Authenticator))
             {
-                communicationService.ReadGame(Game, token,
+                requestHandle = communicationService.ReadGame(Game, Authenticator.token,
                     responseData =>
                     {
                         DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
                         MessageBox.Show("OK", "read", MessageBoxButton.OK);
                         Game = responseData;
+                        IsFormAccessible = true;
                     },
                     serverErrorMessage =>
                     {
                         DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
                         MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
+                        IsFormAccessible = true;
                     }
                 );
             }
@@ -142,6 +144,20 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
         #region Properties
 
         #region Model Properties
+        private Authenticator authenticator;
+        public Authenticator Authenticator
+        {
+            get { return authenticator; }
+            set
+            {
+                if (authenticator != value)
+                {
+                    authenticator = value;
+                    NotifyOfPropertyChange(() => Authenticator);
+                }
+            }
+        }
+
         private Game game;
         public Game Game
         {

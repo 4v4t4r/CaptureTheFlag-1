@@ -25,10 +25,16 @@
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
             <StackPanel>
-                <TextBox x:Name="Username" IsEnabled="{Binding IsFormAccessible}" />
-                <TextBox x:Name="Password" IsEnabled="{Binding IsFormAccessible}" />
-                <TextBox x:Name="Email" IsEnabled="{Binding IsFormAccessible}" />
-                <Button x:Name="Register" IsEnabled="{Binding IsFormAccessible}" >
+                <TextBlock x:Name="UsernameTextBlock" />
+                <TextBox x:Name="User_username" IsEnabled="{Binding IsFormAccessible}" />
+
+                <TextBlock x:Name="PasswordTextBlock" />
+                <TextBox x:Name="User_password" IsEnabled="{Binding IsFormAccessible}" />
+
+                <TextBlock x:Name="EmailTextBlock" />
+                <TextBox x:Name="User_email" IsEnabled="{Binding IsFormAccessible}" />
+                
+                <Button x:Name="RegisterButton" IsEnabled="{Binding IsFormAccessible}" >
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <cal:ActionMessage MethodName="RegisterAction" />

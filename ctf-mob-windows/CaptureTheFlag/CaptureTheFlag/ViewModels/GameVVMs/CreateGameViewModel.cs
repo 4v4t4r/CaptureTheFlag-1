@@ -1,18 +1,19 @@
-﻿using Caliburn.Micro;
-using CaptureTheFlag.Models;
-using CaptureTheFlag.Services;
-using CaptureTheFlag.ViewModels.GameMapVVMs;
-using System;
-using System.Reflection;
-using System.Windows;
-
-namespace CaptureTheFlag.ViewModels.GameVVMs
+﻿namespace CaptureTheFlag.ViewModels.GameVVMs
 {
+    using Caliburn.Micro;
+    using CaptureTheFlag.Models;
+    using CaptureTheFlag.Services;
+    using CaptureTheFlag.ViewModels.GameMapVVMs;
+    using RestSharp;
+    using System;
+    using System.Reflection;
+    using System.Windows;
     public class CreateGameViewModel : Screen
     {
         private readonly INavigationService navigationService;
         private readonly ICommunicationService communicationService;
         private readonly IGlobalStorageService globalStorageService;
+        private RestRequestAsyncHandle requestHandle;// TODO: implement abort
 
         public CreateGameViewModel(INavigationService navigationService, ICommunicationService communicationService, IGlobalStorageService globalStorageService)
         {
@@ -24,6 +25,7 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
             IsFormAccessible = true;
 
             Game = new Game();
+            Authenticator = new Authenticator();
             //TODO: update to model probably
             StartDate = DateTime.Now.AddDays(1);
 
@@ -45,29 +47,42 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
             ActionRangeTextBlock = "Action range:";
         }
 
+        #region ViewModel States
+        protected override void OnActivate()
+        {
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
+            base.OnActivate();
+            Authenticator = globalStorageService.Current.Authenticator;
+            if (!String.IsNullOrEmpty(GameMapModelKey) && globalStorageService.Current.GameMaps.ContainsKey(GameMapModelKey))
+            {
+                Game.map = GameMapModelKey;
+            }
+        }
+        #endregion
+
         #region Actions
         public void CreateAction()
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
-            string token = globalStorageService.Current.Token;
-            if (globalStorageService.Current.GameMaps.ContainsKey(GameMapModelKey))
+            IsFormAccessible = false;
+            if (Authenticator.IsValid(Authenticator))
             {
-                Game.map = GameMapModelKey;
-            }
-            if( ! String.IsNullOrEmpty(token))
-            {
-                communicationService.CreateGame(Game, token,
+                requestHandle = communicationService.CreateGame(Game, Authenticator.token,
                     responseGameMap =>
                     {
                         DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
                         Game = responseGameMap;
+                        globalStorageService.Current.Games[Game.url] = Game;
                         IsFormAccessible = true;
+                        navigationService.UriFor<MainAppPivotViewModel>()
+                            .Navigate();
+                        MessageBox.Show("OK", "created", MessageBoxButton.OK);
                     },
                     serverErrorMessage =>
                     {
                         DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
-                        MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
                         IsFormAccessible = true;
+                        MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
                     }
                 );
             }
@@ -76,16 +91,27 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
         public void GameMapAction()
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
-                navigationService.UriFor<ListGameMapsViewModel>()
-                    .WithParam(param => param.Token, Token)
-                    .WithParam(param => param.ShouldCreate, true)
-                    .Navigate();
+            navigationService.UriFor<ListGameMapsViewModel>().Navigate();
         }
         #endregion
 
         #region Properties
 
         #region Model Properties
+        private Authenticator authenticator;
+        public Authenticator Authenticator
+        {
+            get { return authenticator; }
+            set
+            {
+                if (authenticator != value)
+                {
+                    authenticator = value;
+                    NotifyOfPropertyChange(() => Authenticator);
+                }
+            }
+        }
+
         private Game game;
         public Game Game
         {
@@ -290,7 +316,6 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
             }
         }
 
-
         private bool isFormAccessible;
         public bool IsFormAccessible
         {
@@ -301,20 +326,6 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
                 {
                     isFormAccessible = value;
                     NotifyOfPropertyChange(() => IsFormAccessible);
-                }
-            }
-        }
-
-        private string token;
-        public string Token
-        {
-            get { return token; }
-            set
-            {
-                if (token != value)
-                {
-                    token = value;
-                    NotifyOfPropertyChange(() => Token);
                 }
             }
         }

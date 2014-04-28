@@ -1,25 +1,20 @@
-﻿using Caliburn.Micro;
-using CaptureTheFlag.Models;
-using CaptureTheFlag.Services;
-using CaptureTheFlag.ViewModels.GameVVMs;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-
-namespace CaptureTheFlag.ViewModels.GameMapVVMs
+﻿namespace CaptureTheFlag.ViewModels.GameMapVVMs
 {
+    using Caliburn.Micro;
+    using CaptureTheFlag.Models;
+    using CaptureTheFlag.Services;
+    using CaptureTheFlag.ViewModels.GameVVMs;
+    using RestSharp;
+    using System;
+    using System.Reflection;
+    using System.Windows;
 
     public class ShowGameMapViewModel : Screen
     {
         private readonly INavigationService navigationService;
         private readonly ICommunicationService communicationService;
         private readonly IGlobalStorageService globalStorageService;
+        private RestRequestAsyncHandle requestHandle;// TODO: implement abort
 
         public ShowGameMapViewModel(INavigationService navigationService, ICommunicationService communicationService, IGlobalStorageService globalStorageService)
         {
@@ -32,9 +27,9 @@ namespace CaptureTheFlag.ViewModels.GameMapVVMs
 
             GameMap = new GameMap();
             User = new User();
-            //TODO: update to model probably
+            Authenticator = new Authenticator();
 
-            DisplayName = "Game Details";
+            DisplayName = "Map Details";
 
             AuthorTextBlock = "Author:";
             NameTextBlock = "Name:";
@@ -51,15 +46,25 @@ namespace CaptureTheFlag.ViewModels.GameMapVVMs
         #region ViewModel States
         protected override void OnActivate()
         {
-            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             base.OnActivate();
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
+            Authenticator = globalStorageService.Current.Authenticator;
             GameMap.url = GameMapModelKey;
 
             if (!String.IsNullOrEmpty(GameMap.url))
             {
-                if (globalStorageService.Current.Games.ContainsKey(GameMap.url))
+                if (globalStorageService.Current.GameMaps.ContainsKey(GameMap.url))
                 {
                     GameMap = globalStorageService.Current.GameMaps[GameMap.url];
+                    User.url = GameMap.author;
+                    if (globalStorageService.Current.Users.ContainsKey(User.url))
+                    {
+                        User = globalStorageService.Current.Users[User.url];
+                    }
+                    else
+                    {
+                        ReadUserAction();
+                    }
                 }
                 else
                 {
@@ -73,20 +78,22 @@ namespace CaptureTheFlag.ViewModels.GameMapVVMs
         public void ReadGameMapAction()
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
-            string token = globalStorageService.Current.Token;
-            if (!String.IsNullOrEmpty(token))
+            IsFormAccessible = false;
+            if (Authenticator.IsValid(Authenticator))
             {
-                communicationService.ReadGameMap(GameMap, token,
+                communicationService.ReadGameMap(GameMap, Authenticator.token,
                     responseData =>
                     {
                         DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
                         GameMap = responseData;
+                        globalStorageService.Current.GameMaps[GameMap.url] = GameMap;
                         User.url = GameMap.author;
                         ReadUserAction();
                     },
                     serverErrorMessage =>
                     {
                         DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
+                        IsFormAccessible = true;
                         MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
                     }
                 );
@@ -96,19 +103,21 @@ namespace CaptureTheFlag.ViewModels.GameMapVVMs
         public void ReadUserAction()
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
-            string token = globalStorageService.Current.Token;
-            if (!String.IsNullOrEmpty(token))
+            IsFormAccessible = false;
+            if (Authenticator.IsValid(Authenticator))
             {
-                communicationService.ReadUser(User, token,
+                communicationService.ReadUser(User, Authenticator.token,
                     responseData =>
                     {
                         DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
-                        MessageBox.Show("OK", "read", MessageBoxButton.OK);
                         User = responseData;
+                        IsFormAccessible = true;
+                        MessageBox.Show("OK", "read", MessageBoxButton.OK);
                     },
                     serverErrorMessage =>
                     {
                         DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
+                        IsFormAccessible = true;
                         MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
                     }
                 );
@@ -122,12 +131,25 @@ namespace CaptureTheFlag.ViewModels.GameMapVVMs
                 .WithParam(param => param.GameMapModelKey, GameMap.url)
                 .Navigate();
         }
-
         #endregion
 
         #region Properties
 
         #region Model Properties
+        private Authenticator authenticator;
+        public Authenticator Authenticator
+        {
+            get { return authenticator; }
+            set
+            {
+                if (authenticator != value)
+                {
+                    authenticator = value;
+                    NotifyOfPropertyChange(() => Authenticator);
+                }
+            }
+        }
+
         private GameMap gameMap;
         public GameMap GameMap
         {

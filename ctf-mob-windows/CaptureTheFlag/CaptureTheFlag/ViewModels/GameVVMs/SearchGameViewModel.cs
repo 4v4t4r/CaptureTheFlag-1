@@ -1,36 +1,37 @@
-﻿using Caliburn.Micro;
-using CaptureTheFlag.Models;
-using CaptureTheFlag.Services;
-using CaptureTheFlag.ViewModels.GameVVMs;
-using System;
-using System.Diagnostics;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-
-namespace CaptureTheFlag.ViewModels.GameVVMs
+﻿namespace CaptureTheFlag.ViewModels.GameVVMs
 {
+    using Caliburn.Micro;
+    using CaptureTheFlag.Models;
+    using CaptureTheFlag.Services;
+    using RestSharp;
+    using System;
+    using System.Reflection;
+    using System.Text.RegularExpressions;
+    using System.Threading.Tasks;
+    using System.Windows;
+
     public class SearchGameViewModel : Screen
     {
         private readonly INavigationService navigationService;
         private readonly IGlobalStorageService globalStorageService;
+        private readonly ICommunicationService communicationService;
         private readonly IFilterService filterService;
+        private RestRequestAsyncHandle requestHandle; //TODO: use requestHandle to abort when neccessary
 
         private BindableCollection<Game> allGames;
 
-        public SearchGameViewModel(INavigationService navigationService, IGlobalStorageService globalStorageService, IFilterService filterService)
+        public SearchGameViewModel(INavigationService navigationService, IGlobalStorageService globalStorageService, IFilterService filterService, ICommunicationService communicationService)
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             this.navigationService = navigationService;
             this.globalStorageService = globalStorageService;
             this.filterService = filterService;
+            this.communicationService = communicationService;
+
+            IsFormAccessible = true;
 
             Games = new BindableCollection<Game>();
+            Authenticator = new Authenticator();
 
             DisplayName = "Search games";
         }
@@ -40,14 +41,19 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
         {
             base.OnActivate();
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
-            if (globalStorageService.Current.Games != null)
+            Authenticator = globalStorageService.Current.Authenticator;
+            if (globalStorageService.Current.Games != null && globalStorageService.Current.Games.Count > 0)
             {
                 foreach (Game game in globalStorageService.Current.Games.Values)
                 {
                     Games.Add(game);
                 }
+                allGames = Games;
             }
-            allGames = Games;
+            else
+            {
+                ListGamesAction();
+            }
         }
 
         protected override void OnDeactivate(bool close)
@@ -81,10 +87,9 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
         public void ChooseGameAction()
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
-            if (SelectedGame != null)
+            if (SelectedGame != null && Authenticator.IsValid(Authenticator))
             {
-#warning Cannot determine game's owner
-                if (SelectedGame.name == "CTF first test game") //if is owner
+                if (SelectedGame.url == Authenticator.user)
                 {
                     navigationService.UriFor<EditGameViewModel>()
                          .WithParam(param => param.GameModelKey, SelectedGame.url)
@@ -99,11 +104,56 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
                 SelectedGame = null;
             }
         }
+
+        public void ListGamesAction()
+        {
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
+            IsFormAccessible = false;
+            if (Authenticator.IsValid(Authenticator))
+            {
+                requestHandle = communicationService.GetAllGames(Authenticator.token,
+                    responseData =>
+                    {
+                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
+                        Games = responseData;
+                        foreach (Game game in Games)
+                        {
+                            if (!globalStorageService.Current.Games.ContainsKey(game.url))
+                            {
+                                globalStorageService.Current.Games[game.url] = game;
+                            }
+                        }
+                        IsFormAccessible = true;
+                    },
+                    serverErrorMessage =>
+                    {
+                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
+                        MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
+                        IsFormAccessible = true;
+                    }
+                );
+            }
+        }
         #endregion
 
         #region Properties
 
         #region Model Properties
+
+        private Authenticator authenticator;
+        public Authenticator Authenticator
+        {
+            get { return authenticator; }
+            set
+            {
+                if (authenticator != value)
+                {
+                    authenticator = value;
+                    NotifyOfPropertyChange(() => Authenticator);
+                }
+            }
+        }
+
         private BindableCollection<Game> games;
         public BindableCollection<Game> Games
         {
@@ -134,6 +184,7 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
         #endregion
 
         #region UI Properties
+
         private string searchTextBoxText;
         public string SearchTextBoxText
         {
@@ -147,6 +198,20 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
                     NotifyOfPropertyChange(() => SearchTextBoxText);
 
                     FilterGames();
+                }
+            }
+        }
+
+        private bool isFormAccessible;
+        public bool IsFormAccessible
+        {
+            get { return isFormAccessible; }
+            set
+            {
+                if (isFormAccessible != value)
+                {
+                    isFormAccessible = value;
+                    NotifyOfPropertyChange(() => IsFormAccessible);
                 }
             }
         }
