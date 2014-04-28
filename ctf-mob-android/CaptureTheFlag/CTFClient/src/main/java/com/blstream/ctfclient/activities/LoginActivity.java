@@ -4,10 +4,8 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -18,10 +16,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blstream.ctfclient.R;
-import com.blstream.ctfclient.constants.CTFConstants;
 import com.blstream.ctfclient.model.dto.User;
 import com.blstream.ctfclient.model.dto.json.TokenResponse;
 import com.blstream.ctfclient.network.requests.CTFTokenRequest;
+import com.blstream.ctfclient.utils.SharedPreferencesUtils;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
@@ -156,14 +154,14 @@ public class LoginActivity extends CTFBaseActivity {
             User user = new User();
             user.setUserName(mUserName);
             user.setPassword(mPassword);
-            user.setDeviceType(CTFConstants.DEVICE_TYPE);
+            user.setDeviceType(User.DeviceType.ANDROID);
             user.setDeviceId("14234-1234123-23423");//TODO getFRomSharedPref
             loginUser(user);
         }
     }
 
     private void loginUser(User user) {
-        tokenRequest= new CTFTokenRequest(user);
+        tokenRequest = new CTFTokenRequest(user);
         getSpiceManager().execute(tokenRequest, tokenRequest.createCacheKey(), DurationInMillis.ONE_MINUTE, new TokenRequestListener());
     }
 
@@ -226,10 +224,7 @@ public class LoginActivity extends CTFBaseActivity {
     }
 
     private void saveToken(String token) {
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString(CTFConstants.ACCESS_TOKEN_KEY_NAME, token);
-        editor.commit();
+        SharedPreferencesUtils.setToken(getApplicationContext(), token);
     }
 
     private class TokenRequestListener implements RequestListener<TokenResponse> {
@@ -237,12 +232,15 @@ public class LoginActivity extends CTFBaseActivity {
         public void onRequestFailure(SpiceException spiceException) {
             Toast.makeText(getApplicationContext(), "failure", Toast.LENGTH_SHORT).show();
             showProgress(false);
+
         }
 
         @Override
         public void onRequestSuccess(TokenResponse tokenResponse) {
             Toast.makeText(getApplicationContext(), "success", Toast.LENGTH_SHORT).show();
             showProgress(false);
+            saveToken(tokenResponse.getToken());
+            startMainActivity();
         }
     }
 }

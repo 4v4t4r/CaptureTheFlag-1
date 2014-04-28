@@ -1,25 +1,26 @@
 package com.blstream.ctfclient.model.dto;
 
 /**
- * Created by mar on 24.04.14.
+ * Created by mar on 28.04.14.
  */
 public class Location {
-    double lat;
-    double lon;
 
-    public double getLat() {
+   private float lat;
+   private float lon;
+
+    public float getLat() {
         return lat;
     }
 
-    public void setLat(double lat) {
+    public void setLat(float lat) {
         this.lat = lat;
     }
 
-    public double getLon() {
+    public float getLon() {
         return lon;
     }
 
-    public void setLon(double lon) {
+    public void setLon(float lon) {
         this.lon = lon;
     }
 }

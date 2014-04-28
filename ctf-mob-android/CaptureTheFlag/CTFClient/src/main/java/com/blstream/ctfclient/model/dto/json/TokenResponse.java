@@ -6,7 +6,6 @@ import com.google.gson.annotations.SerializedName;
  * Created by mar on 24.04.14.
  */
 public class TokenResponse {
-    @SerializedName("token")
     String token;
     @SerializedName("current_user_url")
     String currentUserUrl;

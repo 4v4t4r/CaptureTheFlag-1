@@ -21,7 +21,6 @@ public class CTFConstants {
     public static final String ENDPOINT = new StringBuilder().append(PROTOCOL).append("://").append(HOST).append(":").append(PORT).toString();
 
     public static final String ACCESS_TOKEN_KEY_NAME = "access_token";
-    public static final String DEVICE_TYPE = "android";
 
 
     public enum GrantType {

@@ -7,26 +7,28 @@ import com.google.gson.annotations.SerializedName;
  */
 public class User {
 
+    private String url;
     @SerializedName("username")
     private String userName;
-    @SerializedName("email")
     private String email;
-    @SerializedName("password")
     private String password;
-    @SerializedName("nick")
     private String nick;
-    @SerializedName("first_name")
-    private String firstName;
-    @SerializedName("last_name")
-    private String lastName;
-    @SerializedName("location")
-    private double[] coordinates;
-    @SerializedName("characters")
-    private Character[] characters;
     @SerializedName("device_type")
-    private String  deviceType;
+    private DeviceType deviceType;
     @SerializedName("device_id")
     private String deviceId;
+    private Location location;
+    private String[] characters;
+    @SerializedName("active_character")
+    private String activeCharacter;
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     public String getUserName() {
         return userName;
@@ -60,43 +62,11 @@ public class User {
         this.nick = nick;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public double[] getCoordinates() {
-        return coordinates;
-    }
-
-    public void setCoordinates(double[] coordinates) {
-        this.coordinates = coordinates;
-    }
-
-    public Character[] getCharacters() {
-        return characters;
-    }
-
-    public void setCharacters(Character[] characters) {
-        this.characters = characters;
-    }
-
-    public String getDeviceType() {
+    public DeviceType getDeviceType() {
         return deviceType;
     }
 
-    public void setDeviceType(String deviceType) {
+    public void setDeviceType(DeviceType deviceType) {
         this.deviceType = deviceType;
     }
 
@@ -106,5 +76,42 @@ public class User {
 
     public void setDeviceId(String deviceId) {
         this.deviceId = deviceId;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public String[] getCharacters() {
+        return characters;
+    }
+
+    public void setCharacters(String[] characters) {
+        this.characters = characters;
+    }
+
+    public String getActiveCharacter() {
+        return activeCharacter;
+    }
+
+    public void setActiveCharacter(String activeCharacter) {
+        this.activeCharacter = activeCharacter;
+    }
+
+   public enum DeviceType {
+        ANDROID,
+        WP,
+        IOS
+    }
+
+    public enum CharacterType {
+        PRIVATE,
+        MEDIC,
+        COMMANDOS,
+        SPY
     }
 }

@@ -57,6 +57,10 @@ public class SharedPreferencesUtils {
 //        editor.commit();
 //    }
 
+    public static void clearToken(Context ctx){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        prefs.edit().remove(TOKEN).apply();
+    }
 
     public static void setToken(Context ctx, String apiToken) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
