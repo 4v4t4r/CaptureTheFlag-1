@@ -3,6 +3,7 @@ package com.blstream.ctfclient.network.service;
 import com.blstream.ctfclient.constants.CTFConstants;
 import com.blstream.ctfclient.network.interfaces.RegisterInterface;
 import com.blstream.ctfclient.network.interfaces.TokenInterface;
+import com.blstream.ctfclient.network.interfaces.GameInterface;
 import com.octo.android.robospice.retrofit.RetrofitGsonSpiceService;
 
 /**
@@ -21,6 +22,7 @@ public class CTFRequestSpiceService extends RetrofitGsonSpiceService {
     private void initRetrofitInterfaces() {
         addRetrofitInterface(RegisterInterface.class);
         addRetrofitInterface(TokenInterface.class);
+        addRetrofitInterface(GameInterface.class);
     }
 
     @Override
