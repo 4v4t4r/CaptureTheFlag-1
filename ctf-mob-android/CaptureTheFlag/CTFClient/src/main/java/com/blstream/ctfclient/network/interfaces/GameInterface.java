@@ -39,7 +39,6 @@ public interface GameInterface {
     @DELETE(URL_REQUEST + "{game_id}/")
     public void deleteGame(@Path("game_id") long gameId);
 
-
     @POST(URL_REQUEST + "{game_id}/player/")
     public void addPlayerToGame(@Path("game_id") long gameId);
 

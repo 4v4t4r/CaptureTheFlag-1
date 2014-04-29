@@ -78,6 +78,7 @@ dependencies {
     compile 'com.google.android.gms:play-services:4.0.30'
     compile group:'com.squareup.picasso', name:'picasso', version:'2.2.0'
     compile 'com.jakewharton:butterknife:5.0.0'
+    compile 'com.github.flavienlaurent.datetimepicker:library:0.0.1'
 
     compile fileTree(dir: 'libs', include: '*.jar')
 

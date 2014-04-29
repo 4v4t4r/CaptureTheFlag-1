@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.blstream.ctfclient.CTF;
 import com.blstream.ctfclient.R;
+import com.blstream.ctfclient.activities.CreateGameActivity;
 import com.blstream.ctfclient.activities.GamesActivity;
 import com.blstream.ctfclient.activities.LoginActivity;
 import com.blstream.ctfclient.activities.MapActivity;
@@ -57,6 +58,14 @@ public class UsersFragment extends Fragment {
 
         }
     };
+    private View.OnClickListener btnCreateGameListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent myIntent = new Intent(CTF.getStaticApplicationContext(), CreateGameActivity.class);
+            startActivity(myIntent);
+
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,6 +73,7 @@ public class UsersFragment extends Fragment {
         rootView.findViewById(R.id.map_btn).setOnClickListener(btnMapListener);
         rootView.findViewById(R.id.map_web_btn).setOnClickListener(btnMapWebListener);
         rootView.findViewById(R.id.games_btn).setOnClickListener(btnGameListener);
+        rootView.findViewById(R.id.create_game_btn).setOnClickListener(btnCreateGameListener);
         rootView.findViewById(R.id.clear_token_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

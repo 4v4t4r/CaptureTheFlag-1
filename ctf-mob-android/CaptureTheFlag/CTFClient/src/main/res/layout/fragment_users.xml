@@ -36,6 +36,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Games list"/>
+        <Button
+            android:id="@+id/create_game_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create new game"/>
 
         <TextView
             android:id="@+id/users"
