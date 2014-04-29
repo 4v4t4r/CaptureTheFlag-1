@@ -14,11 +14,11 @@ public class SharedPreferencesUtils {
 
     private static final String TAG =SharedPreferencesUtils.class.getSimpleName();
 
-    public static final String FACEBOOK_TOKEN = "com.blstream.ctfclient.utils.facebook.token";
+    private static final String FACEBOOK_TOKEN = "com.blstream.ctfclient.utils.facebook.token";
     private static final String TOKEN = "com.blstream.ctfclient.utils.api.token";
 
     //CGM
-    public static final String CGM_REG_ID = "com.blstream.ctfclient.utils.cgm.registration_id";
+    private static final String CGM_REG_ID = "com.blstream.ctfclient.utils.cgm.registration_id";
     private static final String PROPERTY_APP_VERSION = "com.blstream.ctfclient.utils.cgm.app.version";
 
 
