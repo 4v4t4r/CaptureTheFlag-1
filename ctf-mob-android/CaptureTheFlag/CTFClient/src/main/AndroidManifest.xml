@@ -8,17 +8,17 @@
         android:name="com.blstream.ctfclient.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
 
-    <!--GCM-->
-    <permission android:name="com.blstream.ctfclient.permission.C2D_MESSAGE"
+    <!-- GCM -->
+    <permission
+        android:name="com.blstream.ctfclient.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
+
     <uses-permission android:name="com.blstream.ctfclient.permission.C2D_MESSAGE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-
-
     <uses-permission android:name="com.blstream.ctfclient.permission.MAPS_RECEIVE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
@@ -64,17 +64,17 @@
         </activity>
         <activity
             android:name="com.blstream.ctfclient.activities.MainActivity"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name" />
         <activity
             android:name="com.blstream.ctfclient.activities.LoginActivity"
             android:label="@string/app_name"
             android:noHistory="true"
-            android:windowSoftInputMode="adjustResize|stateVisible"></activity>
+            android:windowSoftInputMode="adjustResize|stateVisible" />
         <activity
             android:name="com.blstream.ctfclient.activities.RegisterActivity"
             android:label="@string/app_name"
             android:noHistory="true"
-            android:windowSoftInputMode="adjustResize|stateVisible"></activity>
+            android:windowSoftInputMode="adjustResize|stateVisible" />
         <activity
             android:name="com.blstream.ctfclient.activities.MapActivity"
             android:label="@string/title_activity_map" />
@@ -82,26 +82,34 @@
             android:name="com.blstream.ctfclient.activities.MapWebActivity"
             android:label="@string/title_activity_map" />
         <activity
-            android:name=".activities.GamesActivity"
-            android:label="@string/title_activity_games"></activity>
+            android:name="com.blstream.ctfclient.activities.GamesActivity"
+            android:label="@string/title_activity_games" />
 
         <service
-            android:name=".network.service.CTFRequestSpiceService"
+            android:name="com.blstream.ctfclient.network.service.CTFRequestSpiceService"
             android:exported="false" />
         <service android:name="com.blstream.ctfclient.gcm.GcmIntentService" />
-        <service android:name=".gcm.GCMService">
+        <service android:name="com.blstream.ctfclient.gcm.GCMService">
             <intent-filter>
-                <action android:name="com.blstream.ctfclient.gcm.GCMService"></action>
+                <action android:name="com.blstream.ctfclient.gcm.GCMService" />
             </intent-filter>
         </service>
-        <receiver android:name="com.blstream.ctfclient.gcm.StartAtBootServiceReceiver" >
+
+        <receiver android:name="com.blstream.ctfclient.gcm.StartAtBootServiceReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
 
-                <category android:name="android.intent.category.HOME" >
-                </category>
+                <category android:name="android.intent.category.HOME"></category>
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name="com.blstream.ctfclient.activities.CreateGameActivity"
+            android:label="@string/title_activity_create_game"></activity>
+
+
+        <service android:name=".service.LocationService" />
+
     </application>
 
 </manifest>
