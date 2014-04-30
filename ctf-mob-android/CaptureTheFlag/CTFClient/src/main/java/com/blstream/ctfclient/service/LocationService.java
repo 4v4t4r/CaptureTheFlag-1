@@ -34,6 +34,8 @@ public class LocationService extends Service {
 //            bus.post(new PositionEvent(new LatLng(location.getLatitude(), location.getLongitude())));
         }
 
+
+
         @Override
         public void onProviderDisabled(String provider) {
             Log.e(TAG, "onProviderDisabled: " + provider);

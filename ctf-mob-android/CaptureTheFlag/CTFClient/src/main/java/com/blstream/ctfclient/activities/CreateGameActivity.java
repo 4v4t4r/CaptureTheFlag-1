@@ -1,6 +1,8 @@
 package com.blstream.ctfclient.activities;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -8,16 +10,27 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blstream.ctfclient.CTF;
 import com.blstream.ctfclient.R;
 import com.blstream.ctfclient.model.dto.Game;
 import com.blstream.ctfclient.network.requests.CTFGameRequest;
+import com.blstream.ctfclient.utils.SharedPreferencesUtils;
 import com.fourmob.datetimepicker.date.DatePickerDialog;
-import com.octo.android.robospice.persistence.DurationInMillis;
+import com.google.gson.Gson;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 import com.sleepbot.datetimepicker.time.RadialPickerLayout;
 import com.sleepbot.datetimepicker.time.TimePickerDialog;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -32,6 +45,7 @@ import butterknife.OnClick;
 public class CreateGameActivity extends CTFBaseActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
     public static final String DATEPICKER_TAG = "datepicker";
     public static final String TIMEPICKER_TAG = "timepicker";
+
     private CTFGameRequest gameRequest;
 
     @InjectView(R.id.game_date_picker_button)
@@ -70,6 +84,13 @@ public class CreateGameActivity extends CTFBaseActivity implements DatePickerDia
         setContentView(R.layout.activity_create_game);
         ButterKnife.inject(this);
         initView(savedInstanceState);
+
+
+        Calendar calendar = GregorianCalendar.getInstance();
+        calendar.setTimeZone(TimeZone.getDefault());
+        SimpleDateFormat isoFormat = new SimpleDateFormat(CTF.DATE_FORMAT, Locale.getDefault());
+        Log.d("sadadasd", isoFormat.format(calendar.getTime()));
+
     }
 
     private void initView(Bundle savedInstanceState) {
@@ -113,25 +134,53 @@ public class CreateGameActivity extends CTFBaseActivity implements DatePickerDia
         game.setDescription(gameDescriptionEditText.getText().toString());
         game.setStartTime(selectedStartDateTextView.getText().toString());
         game.setMaxPlayers(Integer.valueOf(maxPlayerEditText.getText().toString()));
-        game.setStatus((Game.GameStaus) gameStatusSpinner.getSelectedItem() );
+//        game.setStatus((Game.GameStaus) gameStatusSpinner.getSelectedItem() );
         game.setType((Game.GameType)gameTypeSpiner.getSelectedItem());
-//        game.setMap()
+        game.setMap("http://adadda.com.pl");
         game.setVisibilityRange(Integer.valueOf(gameVisibilityRangeEditText.getText().toString()));
         game.setActionRange(Integer.valueOf(gameActionRangeEditText.getText().toString()));
         crateGame(game);
-//        finish();
     }
 
-    private void crateGame(Game game) {
-        gameRequest = new CTFGameRequest(game);
-        getSpiceManager().execute(gameRequest, gameRequest.createCacheKey(), DurationInMillis.ONE_MINUTE, new GameRequestListener());
+    private void crateGame(final Game game) {
+        // Create a new HttpClient and Post Header
+
+        new AsyncTask<Void, Void, Void>(){
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpPost httppost = new HttpPost("http://78.133.154.39:8888/api/games/");
+                httppost.addHeader("Accept", "application/json");
+                httppost.addHeader("Content-type", "application/json; charset=utf-8");
+                httppost.addHeader("Authorization", "Token "+ SharedPreferencesUtils.getToken(CTF.getStaticApplicationContext()));
+                try {
+                    // Add your data
+                    Gson gson= new Gson();
+                    httppost.setEntity(new StringEntity(gson.toJson(game)));
+
+                    // Execute HTTP Post Request
+                    HttpResponse response = httpclient.execute(httppost);
+                    Log.d("DEBUG", "RESPONSE: " + EntityUtils.toString(response.getEntity()));
+                } catch (ClientProtocolException e) {
+                    // TODO Auto-generated catch block
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                }
+                return null;
+            }
+        }.execute();
+
+
+        //        gameRequest = new CTFGameRequest(game);
+//        getSpiceManager().execute(gameRequest, gameRequest.createCacheKey(), DurationInMillis.ONE_MINUTE, new GameRequestListener());
     }
 
     private void updateSelectedStartDate(int dialogType, int year, int month, int day, int hour, int minute) {
         Calendar calendar = GregorianCalendar.getInstance();
         calendar.setTimeZone(TimeZone.getDefault());
         String text = selectedStartDateTextView.getText().toString();
-        SimpleDateFormat isoFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault());
+        SimpleDateFormat isoFormat = new SimpleDateFormat(CTF.DATE_FORMAT, Locale.getDefault());
         try {
             calendar.setTime(isoFormat.parse(text));
         } catch (ParseException e) {
@@ -171,6 +220,7 @@ public class CreateGameActivity extends CTFBaseActivity implements DatePickerDia
     private class GameRequestListener implements RequestListener<Game> {
         @Override
         public void onRequestFailure(SpiceException spiceException) {
+            spiceException.getMessage();
             Toast.makeText(getApplicationContext(), "failure", Toast.LENGTH_SHORT).show();
         }
 

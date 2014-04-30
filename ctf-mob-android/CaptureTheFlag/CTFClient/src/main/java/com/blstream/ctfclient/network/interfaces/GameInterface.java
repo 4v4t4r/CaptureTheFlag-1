@@ -7,6 +7,7 @@ import com.blstream.ctfclient.model.dto.json.GameResponse;
 import retrofit.http.Body;
 import retrofit.http.DELETE;
 import retrofit.http.GET;
+import retrofit.http.Header;
 import retrofit.http.Headers;
 import retrofit.http.PATCH;
 import retrofit.http.POST;
@@ -25,7 +26,7 @@ public interface GameInterface {
     })
 
     @POST(URL_REQUEST)
-    public Game createGame(@Body Game game);
+    public Game createGame(@Header("Authorization") String token, @Body Game game);
 
     @GET(URL_REQUEST + "{game_id}/")
     public Game getGame(@Path("game_id") long gameId);

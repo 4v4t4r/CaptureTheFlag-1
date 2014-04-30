@@ -9,7 +9,7 @@ import com.blstream.ctfclient.constants.CTFConstants;
  * Created by Rafal on 13.01.14.
  */
 public class CTF extends Application {
-
+    public static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.S'Z'";
     public final static String TAG = CTF.class.getSimpleName();
     private static Context mContext = null;
 

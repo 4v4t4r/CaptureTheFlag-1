@@ -1,5 +1,6 @@
 package com.blstream.ctfclient.model.dto;
 
+import com.blstream.ctfclient.CTF;
 import com.google.gson.annotations.SerializedName;
 
 import java.text.ParseException;
@@ -18,7 +19,7 @@ public class Game extends AbstractObject {
     @SerializedName("max_players")
     private int maxPlayers;
     private GameStaus status;
-    private GameType type;
+    private int type;
     private String map;
     @SerializedName("visibility_range")
     private float visibilityRange;
@@ -34,13 +35,14 @@ public class Game extends AbstractObject {
     }
 
     public void setStartTime(String startTime) {
-        SimpleDateFormat isoFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault());
+        SimpleDateFormat isoFormat = new SimpleDateFormat(CTF.DATE_FORMAT, Locale.getDefault());
         try {
             this.startTime = isoFormat.parse(startTime);
         } catch (ParseException e) {
             e.printStackTrace();
         }
     }
+
     public int getMaxPlayers() {
         return maxPlayers;
     }
@@ -58,11 +60,11 @@ public class Game extends AbstractObject {
     }
 
     public GameType getType() {
-        return type;
+        return GameType.values()[type];
     }
 
     public void setType(GameType type) {
-        this.type = type;
+        this.type = type.ordinal();
     }
 
     public String getMap() {
@@ -105,7 +107,7 @@ public class Game extends AbstractObject {
         this.invitedUsers = invitedUsers;
     }
 
-    public enum GameStaus{
+    public enum GameStaus {
 
         IN_PROGRESS,
         CREATED,
