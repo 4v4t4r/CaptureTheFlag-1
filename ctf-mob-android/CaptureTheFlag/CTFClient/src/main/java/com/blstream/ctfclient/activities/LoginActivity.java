@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
@@ -21,7 +20,6 @@ import com.blstream.ctfclient.model.dto.User;
 import com.blstream.ctfclient.model.dto.json.TokenResponse;
 import com.blstream.ctfclient.network.requests.CTFTokenRequest;
 import com.blstream.ctfclient.utils.SharedPreferencesUtils;
-import com.google.gson.Gson;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
@@ -239,9 +237,6 @@ public class LoginActivity extends CTFBaseActivity {
 
         @Override
         public void onRequestSuccess(TokenResponse tokenResponse) {
-            Gson gson= new Gson();
-            String json =gson.toJson(tokenResponse);
-            Log.e("sdkilfgbdifhgbdlifhgbdi",json);
             Toast.makeText(getApplicationContext(), "success", Toast.LENGTH_SHORT).show();
             showProgress(false);
             saveToken(tokenResponse.getToken());

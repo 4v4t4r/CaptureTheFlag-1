@@ -2,8 +2,11 @@ package com.blstream.ctfclient.model.dto;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by mar on 29.04.14.
@@ -12,6 +15,8 @@ public class Game extends AbstractObject {
 
     @SerializedName("start_time")
     private Date startTime;
+    @SerializedName("max_players")
+    private int maxPlayers;
     private GameStaus status;
     private GameType type;
     private String map;
@@ -28,8 +33,20 @@ public class Game extends AbstractObject {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+    public void setStartTime(String startTime) {
+        SimpleDateFormat isoFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault());
+        try {
+            this.startTime = isoFormat.parse(startTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+    public int getMaxPlayers() {
+        return maxPlayers;
+    }
+
+    public void setMaxPlayers(int maxPlayers) {
+        this.maxPlayers = maxPlayers;
     }
 
     public GameStaus getStatus() {

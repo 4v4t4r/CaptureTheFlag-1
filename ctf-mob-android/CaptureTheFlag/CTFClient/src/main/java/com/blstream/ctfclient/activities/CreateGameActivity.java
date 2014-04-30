@@ -1,12 +1,20 @@
 package com.blstream.ctfclient.activities;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.blstream.ctfclient.R;
+import com.blstream.ctfclient.model.dto.Game;
+import com.blstream.ctfclient.network.requests.CTFGameRequest;
 import com.fourmob.datetimepicker.date.DatePickerDialog;
+import com.octo.android.robospice.persistence.DurationInMillis;
+import com.octo.android.robospice.persistence.exception.SpiceException;
+import com.octo.android.robospice.request.listener.RequestListener;
 import com.sleepbot.datetimepicker.time.RadialPickerLayout;
 import com.sleepbot.datetimepicker.time.TimePickerDialog;
 
@@ -21,9 +29,10 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class CreateGameActivity extends FragmentActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+public class CreateGameActivity extends CTFBaseActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
     public static final String DATEPICKER_TAG = "datepicker";
     public static final String TIMEPICKER_TAG = "timepicker";
+    private CTFGameRequest gameRequest;
 
     @InjectView(R.id.game_date_picker_button)
     Button btnSelectDate;
@@ -31,6 +40,26 @@ public class CreateGameActivity extends FragmentActivity implements DatePickerDi
     Button btnSelectTime;
     @InjectView(R.id.games_selected_start_date)
     TextView selectedStartDateTextView;
+
+    @InjectView(R.id.games_name_edit_text)
+    EditText gameNameEditText;
+    @InjectView(R.id.games_description_edit_text)
+    EditText gameDescriptionEditText;
+    @InjectView(R.id.max_players_edit_text)
+    EditText maxPlayerEditText;
+    @InjectView(R.id.game_status_spinner)
+    Spinner gameStatusSpinner;
+    @InjectView(R.id.game_type_spinner)
+    Spinner gameTypeSpiner;
+    @InjectView(R.id.game_map_spinner)
+    Spinner gameMapSpinner;
+    @InjectView(R.id.game_visibility_range_edit_text)
+    EditText gameVisibilityRangeEditText;
+    @InjectView(R.id.game_action_range_edit_text)
+    EditText gameActionRangeEditText;
+
+
+
 
     static final int DATE_DIALOG_ID = 0;
     static final int TIME_DIALOG_ID = 1;
@@ -40,6 +69,24 @@ public class CreateGameActivity extends FragmentActivity implements DatePickerDi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_game);
         ButterKnife.inject(this);
+        initView(savedInstanceState);
+    }
+
+    private void initView(Bundle savedInstanceState) {
+
+        // Game status spinner
+        ArrayAdapter gameStatusAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, Game.GameStaus.values());
+        gameStatusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        gameStatusSpinner.setAdapter(gameStatusAdapter);
+        // Game type spinner
+        ArrayAdapter gameTypeAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, Game.GameType.values());
+        gameTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        gameTypeSpiner.setAdapter(gameTypeAdapter);
+        // Game map spinner
+//        ArrayAdapter gameStatusAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, Game.GameStaus.values());
+//        gameStatusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        gameStatusSpinner.setAdapter(gameStatusAdapter);
+
     }
 
 
@@ -56,8 +103,28 @@ public class CreateGameActivity extends FragmentActivity implements DatePickerDi
         Calendar calendar = Calendar.getInstance();
         TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(this, Calendar.getInstance().get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE),true, false);
         timePickerDialog.show(getSupportFragmentManager(), TIMEPICKER_TAG);
+    }
 
+    @OnClick(R.id.game_create_button)
+    public void onCreateGameButtonClick() {
 
+        Game game= new Game();
+        game.setName(gameNameEditText.getText().toString());
+        game.setDescription(gameDescriptionEditText.getText().toString());
+        game.setStartTime(selectedStartDateTextView.getText().toString());
+        game.setMaxPlayers(Integer.valueOf(maxPlayerEditText.getText().toString()));
+        game.setStatus((Game.GameStaus) gameStatusSpinner.getSelectedItem() );
+        game.setType((Game.GameType)gameTypeSpiner.getSelectedItem());
+//        game.setMap()
+        game.setVisibilityRange(Integer.valueOf(gameVisibilityRangeEditText.getText().toString()));
+        game.setActionRange(Integer.valueOf(gameActionRangeEditText.getText().toString()));
+        crateGame(game);
+//        finish();
+    }
+
+    private void crateGame(Game game) {
+        gameRequest = new CTFGameRequest(game);
+        getSpiceManager().execute(gameRequest, gameRequest.createCacheKey(), DurationInMillis.ONE_MINUTE, new GameRequestListener());
     }
 
     private void updateSelectedStartDate(int dialogType, int year, int month, int day, int hour, int minute) {
@@ -100,4 +167,17 @@ public class CreateGameActivity extends FragmentActivity implements DatePickerDi
         updateSelectedStartDate(TIME_DIALOG_ID, 0, 0, 0, hourOfDay, minute);
     }
 
+
+    private class GameRequestListener implements RequestListener<Game> {
+        @Override
+        public void onRequestFailure(SpiceException spiceException) {
+            Toast.makeText(getApplicationContext(), "failure", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onRequestSuccess(Game game) {
+            Toast.makeText(getApplicationContext(), "success", Toast.LENGTH_SHORT).show();
+        }
+
+    }
 }
