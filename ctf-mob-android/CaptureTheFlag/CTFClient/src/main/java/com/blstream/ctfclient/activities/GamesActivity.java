@@ -2,6 +2,7 @@ package com.blstream.ctfclient.activities;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,9 +12,16 @@ import android.widget.GridView;
 
 import com.blstream.ctfclient.R;
 import com.blstream.ctfclient.adapters.GameAdapter;
+import com.blstream.ctfclient.model.dto.Game;
+import com.blstream.ctfclient.network.requests.CTFGamesRequest;
+import com.octo.android.robospice.persistence.DurationInMillis;
+import com.octo.android.robospice.persistence.exception.SpiceException;
+import com.octo.android.robospice.request.listener.RequestListener;
 
 public class GamesActivity extends CTFBaseActivity {
     GridView gridView;
+    private CTFGamesRequest gamesRequest;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +34,8 @@ public class GamesActivity extends CTFBaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        gamesRequest = new CTFGamesRequest();
+        getSpiceManager().execute(gamesRequest, gamesRequest.createCacheKey(), DurationInMillis.ONE_MINUTE, new GamesRequestListener());
     }
 
     @Override
@@ -63,4 +73,22 @@ public class GamesActivity extends CTFBaseActivity {
         }
     }
 
+    private class GamesRequestListener implements RequestListener<Game[]> {
+        @Override
+        public void onRequestFailure(SpiceException spiceException) {
+            Log.e(GamesActivity.class.getSimpleName(), "Error", spiceException);
+        }
+
+        @Override
+        public void onRequestSuccess(Game[] games) {
+            Log.d(GamesActivity.class.getSimpleName(), ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> JUPI it is work !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            for(Game game : games){
+                Log.d(GamesActivity.class.getSimpleName(), "########################## GAME ########################################");
+                Log.d(GamesActivity.class.getSimpleName(), "name: " + game.getName());
+                Log.d(GamesActivity.class.getSimpleName(), "map: " + game.getMap());
+                Log.d(GamesActivity.class.getSimpleName(), "description: " + game.getDescription());
+                Log.d(GamesActivity.class.getSimpleName(), "url: " + game.getUrl());
+            }
+        }
+    }
 }
