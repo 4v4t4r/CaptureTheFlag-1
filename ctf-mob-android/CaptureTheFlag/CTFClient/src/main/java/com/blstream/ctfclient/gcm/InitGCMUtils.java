@@ -17,6 +17,7 @@ public class InitGCMUtils {
     private static Context mContext;
     private static final String TAG = InitGCMUtils.class.getSimpleName();
     private static final String SENDER_ID = "525859755024";
+    private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
     public static GoogleCloudMessaging gcm;
     static String regid;
@@ -90,12 +91,6 @@ public class InitGCMUtils {
 
 //                sendRegistrationIdToBackend(); // not needed yet?
 
-                // For this demo: we don't need to send it because the device
-                // will send upstream messages to a server that echo back the
-                // message using the 'from' address in the message.
-
-                // Persist the regID - no need to register again.
-//                    storeRegistrationId(context, regid);
             } catch (IOException ex) {
                 msg = "Error :" + ex.getMessage();
                 // If there is an error, don't just keep trying to register.
