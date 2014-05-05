@@ -14,9 +14,13 @@ import com.blstream.ctfclient.R;
 import com.blstream.ctfclient.adapters.GameAdapter;
 import com.blstream.ctfclient.model.dto.Game;
 import com.blstream.ctfclient.network.requests.CTFGamesRequest;
+import com.google.gson.Gson;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class GamesActivity extends CTFBaseActivity {
     GridView gridView;
@@ -28,7 +32,6 @@ public class GamesActivity extends CTFBaseActivity {
         setContentView(R.layout.grid_layout);
 
         gridView = (GridView) findViewById(R.id.grid_view);
-        gridView.setAdapter(new GameAdapter(this,getCacheDir()));
     }
 
     @Override
@@ -81,14 +84,10 @@ public class GamesActivity extends CTFBaseActivity {
 
         @Override
         public void onRequestSuccess(Game[] games) {
-            Log.d(GamesActivity.class.getSimpleName(), ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> JUPI it is work !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            for(Game game : games){
-                Log.d(GamesActivity.class.getSimpleName(), "########################## GAME ########################################");
-                Log.d(GamesActivity.class.getSimpleName(), "name: " + game.getName());
-                Log.d(GamesActivity.class.getSimpleName(), "map: " + game.getMap());
-                Log.d(GamesActivity.class.getSimpleName(), "description: " + game.getDescription());
-                Log.d(GamesActivity.class.getSimpleName(), "url: " + game.getUrl());
-            }
+            Gson gson = new Gson();
+            Log.i(GamesActivity.class.getSimpleName(), "json : " + gson.toJson(games));
+            List<Game> gameList = Arrays.asList(games);
+            gridView.setAdapter(new GameAdapter(GamesActivity.this, getCacheDir(), gameList, getSpiceManager()));
         }
     }
 }

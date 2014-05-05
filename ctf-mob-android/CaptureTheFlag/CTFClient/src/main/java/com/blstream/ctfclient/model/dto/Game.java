@@ -108,7 +108,6 @@ public class Game extends AbstractObject {
     }
 
     public enum GameStaus {
-
         IN_PROGRESS,
         CREATED,
         ON_HOLD,

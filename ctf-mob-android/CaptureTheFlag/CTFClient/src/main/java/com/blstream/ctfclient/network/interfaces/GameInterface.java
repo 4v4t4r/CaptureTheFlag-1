@@ -25,6 +25,9 @@ public interface GameInterface {
             "Content-type: application/json; charset=utf-8"
     })
 
+    @GET(URL_REQUEST)
+    public Game[] getGames(@Header("Authorization") String token);
+
     @POST(URL_REQUEST)
     public Game createGame(@Header("Authorization") String token, @Body Game game);
 
