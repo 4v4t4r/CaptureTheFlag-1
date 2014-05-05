@@ -140,7 +140,7 @@ public class GameAdapter extends BaseAdapter {
         @Override
         public void onRequestFailure(SpiceException spiceException) {
             Log.e(GameAdapter.class.getSimpleName(), "Error", spiceException);
-            imageView.setImageResource(R.drawable.jsdf);
+            imageView.setImageResource(R.drawable.nomap_img);
         }
 
         @Override
