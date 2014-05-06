@@ -32,6 +32,12 @@ System requirements
 sudo apt-get install libgeos++-dev libgeos-3.3.3 libgeos-c1 libgeos-dbg libgeos-dev libgeos-doc libgeos-ruby1.8
 
 
+Documentation
+-------------
+
+See models :ref:`documentation <./docs/models.rst>`.
+
+
 Curl example commands
 ---------------------
 
