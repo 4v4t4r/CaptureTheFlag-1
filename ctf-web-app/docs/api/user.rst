@@ -1,4 +1,4 @@
-API: model 'User'
+API: model *User*
 =================
 
 **Read** a single user

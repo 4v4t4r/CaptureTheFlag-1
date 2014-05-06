@@ -1,4 +1,4 @@
-API: model 'Item'
+API: model *Item*
 =================
 
 **Create** item

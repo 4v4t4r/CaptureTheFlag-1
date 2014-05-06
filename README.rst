@@ -9,7 +9,7 @@ Capture the Flag it’s an urban game which is based on the idea that two opposi
 
 API
 ---
-Models definition you can find `here <./ctf-web-app/docs/models.rst>`_.
+Models with API definition you can find `here <./ctf-web-app/docs/models.rst>`_.
 
-API definition you can find `here <./ctf-web-app/docs/api.rst>`_.
+Token authentication API definition you can find `here <./ctf-web-app/docs/api/auth.rst>`_.
 
