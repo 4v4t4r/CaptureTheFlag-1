@@ -1,24 +1,23 @@
 import logging
-from model_utils import Choices
 from haystack.query import SearchQuerySet
 from haystack.utils.geo import Point, D
 from django.utils.translation import ugettext_lazy as _
 from django.db import models
 from apps.core.exceptions import AlreadyExistException
-from apps.core.models import PortalUser, Character, GeoModel
+from apps.core.models import PortalUser, GeoModel
 
 logger = logging.getLogger("root")
 
 
 class Item(GeoModel):
-    ITEM_TYPES = Choices(
-        (0, 'FLAG_RED', _('Red flag')),
-        (1, 'FLAG_BLUE', _('Blue flag')),
-        (2, 'BASE_RED', _('Red base')),
-        (3, 'BASE_BLUE', _('Blue base')),
-        (4, 'AID_KIT', _('First aid kit')),
-        (5, 'PISTOL', _('Pistol')),
-        (6, 'AMMO', _('Ammo')),
+    ITEM_TYPES = (
+        (0, _('Red flag')),
+        (1, _('Blue flag')),
+        (2, _('Red base')),
+        (3, _('Blue base')),
+        (4, _('First aid kit')),
+        (5, _('Pistol')),
+        (6, _('Ammo')),
     )
 
     name = models.CharField(max_length=100, verbose_name=_("Name"))
@@ -49,24 +48,24 @@ class Map(GeoModel):
 
 
 class Game(models.Model):
-    GAME_STATUSES = Choices(
-        (0, 'CREATED', _('Created')),
-        (1, 'IN_PROGRESS', _('In progress')),
-        (2, 'ON_HOLD', _('On hold')),
-        (3, 'CANCELED', _('Canceled'))
+    GAME_STATUSES = (
+        (0, _('Created')),
+        (1, _('In progress')),
+        (2, _('On hold')),
+        (3, _('Canceled'))
     )
 
-    GAME_TYPES = Choices(
-        (0, 'FRAG_BASED', _('Frag based')),
-        (1, 'TIME_BASED', _('Time based')),
+    GAME_TYPES = (
+        (0, _('Frag based')),
+        (1, _('Time based')),
     )
 
     name = models.CharField(max_length=100, verbose_name=_("Name"))
     description = models.TextField(null=True, blank=True, max_length=255, verbose_name=_("Description"))
     start_time = models.DateTimeField(verbose_name=_("Start time"))
     max_players = models.IntegerField(null=True, blank=True, verbose_name=_("Max players"))
-    status = models.IntegerField(choices=GAME_STATUSES, default=GAME_STATUSES.CREATED, verbose_name=_("Status"))
-    type = models.IntegerField(choices=GAME_TYPES, default=GAME_TYPES.FRAG_BASED, verbose_name=_("Type"))
+    status = models.IntegerField(choices=GAME_STATUSES, default=GAME_STATUSES[0], verbose_name=_("Status"))
+    type = models.IntegerField(choices=GAME_TYPES, default=GAME_TYPES[0], verbose_name=_("Type"))
     map = models.ForeignKey(Map, verbose_name=_("Map"), related_name='games')
 
     visibility_range = models.FloatField(default=200.00, verbose_name=_("Visibility range"))  # in meters

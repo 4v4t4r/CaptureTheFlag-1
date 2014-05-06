@@ -1,6 +1,4 @@
 import logging
-from model_utils import Choices
-from django.contrib.gis.geos import Point
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import AbstractUser
 from django.db import models, transaction
@@ -88,11 +86,11 @@ class GeoModel(models.Model):
 
 
 class Character(models.Model):
-    CHARACTER_TYPES = Choices(
-        (0, 'PRIVATE', _('Private')),
-        (1, 'MEDIC', _('Medic')),
-        (2, 'COMMANDOS', _('Commandos')),
-        (3, 'SPY', _('Spy')),
+    CHARACTER_TYPES = (
+        (0, _('Private')),
+        (1, _('Medic')),
+        (2, _('Commandos')),
+        (3, _('Spy')),
     )
 
     user = models.ForeignKey('PortalUser', related_name="characters")
@@ -110,10 +108,10 @@ class Character(models.Model):
 
 
 class PortalUser(GeoModel, AbstractUser):
-    DEVICE_TYPES = Choices(
-        (0, 'ANDROID', _("Android")),
-        (1, 'WP', _("Windows Phone")),
-        (2, 'IOS', _("iOS")),
+    DEVICE_TYPES = (
+        (0, _("Android")),
+        (1, _("Windows Phone")),
+        (2, _("iOS")),
     )
 
     nick = models.CharField(blank=False, max_length=100, verbose_name=_("Nick"))
@@ -145,7 +143,14 @@ class PortalUser(GeoModel, AbstractUser):
     def get_device_type(cls, device_type):
         """ Returns device type based on string value.
         """
-        return getattr(cls.DEVICE_TYPES, device_type.upper(), None)
+        try:
+            logger.debug("get_device_type by value: %s (type: %s)", device_type, type(device_type))
+            device_type = int(device_type)
+            return cls.DEVICE_TYPES[device_type][0]
+        except ValueError:
+            return None
+        except IndexError:
+            return None
 
     def __unicode__(self):
         return "%s" % self.username
