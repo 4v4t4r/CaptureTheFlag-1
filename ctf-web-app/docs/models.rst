@@ -1,5 +1,5 @@
-API models
-==========
+Models definitions
+==================
 
 Model: Item
 -----------
@@ -30,6 +30,8 @@ Model:
         }
         value: float
     }
+
+API `definition <./api/item.rst>`_.
 
 Model: User
 -----------
@@ -62,6 +64,8 @@ Model:
         characters = [ ] # list of url for characters objects
     }
 
+API `definition <./api/user.rst>`_.
+
 Model: Character (from version: 2.0)
 ------------------------------------
 
@@ -88,6 +92,8 @@ Model:
         level: int
         is_active: boolean
     }
+
+API `definition <./api/character.rst>`_.
 
 Model: Game
 -----------
@@ -128,6 +134,8 @@ Model:
         invited_users: [] # urls for invited users objects (object PortalUser)
     }
 
+API `definition <./api/game.rst>`_.
+
 Model: Map
 ----------
 
@@ -144,3 +152,5 @@ Model:
         lon: float
         games: [] # list of urls to games objects
     }
+
+API `definition <./api/map.rst>`_.
