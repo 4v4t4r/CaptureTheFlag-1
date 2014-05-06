@@ -35,7 +35,7 @@ sudo apt-get install libgeos++-dev libgeos-3.3.3 libgeos-c1 libgeos-dbg libgeos-
 Documentation
 -------------
 
-See models :download:`documentation <docs/models.rst>`.
+See models `documentation <./docs/models.rst>`_.
 
 
 Curl example commands
