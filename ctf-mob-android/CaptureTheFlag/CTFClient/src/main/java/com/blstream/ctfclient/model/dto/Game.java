@@ -1,13 +1,8 @@
 package com.blstream.ctfclient.model.dto;
 
-import com.blstream.ctfclient.CTF;
 import com.google.gson.annotations.SerializedName;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by mar on 29.04.14.
@@ -15,11 +10,11 @@ import java.util.Locale;
 public class Game extends AbstractObject {
 
     @SerializedName("start_time")
-    private Date startTime;
+    private String startTime;
     @SerializedName("max_players")
     private int maxPlayers;
     private GameStaus status;
-    private int type;
+    private GameType type;
     private String map;
     @SerializedName("visibility_range")
     private float visibilityRange;
@@ -30,17 +25,12 @@ public class Game extends AbstractObject {
     private List<User> invitedUsers;
 
 
-    public Date getStartTime() {
+    public String getStartTime() {
         return startTime;
     }
 
     public void setStartTime(String startTime) {
-        SimpleDateFormat isoFormat = new SimpleDateFormat(CTF.DATE_FORMAT, Locale.getDefault());
-        try {
-            this.startTime = isoFormat.parse(startTime);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        this.startTime=startTime;
     }
 
     public int getMaxPlayers() {
@@ -60,11 +50,11 @@ public class Game extends AbstractObject {
     }
 
     public GameType getType() {
-        return GameType.values()[type];
+        return type;
     }
 
     public void setType(GameType type) {
-        this.type = type.ordinal();
+        this.type = type;
     }
 
     public String getMap() {
@@ -108,15 +98,20 @@ public class Game extends AbstractObject {
     }
 
     public enum GameStaus {
-
+        @SerializedName("0")
         IN_PROGRESS,
+        @SerializedName("1")
         CREATED,
+        @SerializedName("2")
         ON_HOLD,
+        @SerializedName("3")
         CANCELED
     }
 
     public enum GameType {
+        @SerializedName("0")
         FRAGS,
+        @SerializedName("1")
         TIME
     }
 }

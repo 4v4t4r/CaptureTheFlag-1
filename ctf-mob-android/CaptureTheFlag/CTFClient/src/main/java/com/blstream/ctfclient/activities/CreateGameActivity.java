@@ -1,6 +1,5 @@
 package com.blstream.ctfclient.activities;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
@@ -14,23 +13,13 @@ import com.blstream.ctfclient.CTF;
 import com.blstream.ctfclient.R;
 import com.blstream.ctfclient.model.dto.Game;
 import com.blstream.ctfclient.network.requests.CTFGameRequest;
-import com.blstream.ctfclient.utils.SharedPreferencesUtils;
 import com.fourmob.datetimepicker.date.DatePickerDialog;
-import com.google.gson.Gson;
+import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 import com.sleepbot.datetimepicker.time.RadialPickerLayout;
 import com.sleepbot.datetimepicker.time.TimePickerDialog;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
-
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -73,8 +62,6 @@ public class CreateGameActivity extends CTFBaseActivity implements DatePickerDia
     EditText gameActionRangeEditText;
 
 
-
-
     static final int DATE_DIALOG_ID = 0;
     static final int TIME_DIALOG_ID = 1;
 
@@ -96,11 +83,11 @@ public class CreateGameActivity extends CTFBaseActivity implements DatePickerDia
     private void initView(Bundle savedInstanceState) {
 
         // Game status spinner
-        ArrayAdapter gameStatusAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, Game.GameStaus.values());
+        ArrayAdapter gameStatusAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, Game.GameStaus.values());
         gameStatusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         gameStatusSpinner.setAdapter(gameStatusAdapter);
         // Game type spinner
-        ArrayAdapter gameTypeAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, Game.GameType.values());
+        ArrayAdapter gameTypeAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, Game.GameType.values());
         gameTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         gameTypeSpiner.setAdapter(gameTypeAdapter);
         // Game map spinner
@@ -122,58 +109,57 @@ public class CreateGameActivity extends CTFBaseActivity implements DatePickerDia
     @OnClick(R.id.game_time_picker_button)
     public void onTimeButtonClick() {
         Calendar calendar = Calendar.getInstance();
-        TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(this, Calendar.getInstance().get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE),true, false);
+        TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(this, Calendar.getInstance().get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true, false);
         timePickerDialog.show(getSupportFragmentManager(), TIMEPICKER_TAG);
     }
 
     @OnClick(R.id.game_create_button)
     public void onCreateGameButtonClick() {
 
-        Game game= new Game();
+        Game game = new Game();
         game.setName(gameNameEditText.getText().toString());
         game.setDescription(gameDescriptionEditText.getText().toString());
         game.setStartTime(selectedStartDateTextView.getText().toString());
         game.setMaxPlayers(Integer.valueOf(maxPlayerEditText.getText().toString()));
-//        game.setStatus((Game.GameStaus) gameStatusSpinner.getSelectedItem() );
-        game.setType((Game.GameType)gameTypeSpiner.getSelectedItem());
-        game.setMap("http://adadda.com.pl");
+        game.setStatus(((Game.GameStaus) gameStatusSpinner.getSelectedItem()) );
+        game.setType((Game.GameType) gameTypeSpiner.getSelectedItem());
+        game.setMap("http://127.0.0.1:8000/api/maps/1/");
         game.setVisibilityRange(Integer.valueOf(gameVisibilityRangeEditText.getText().toString()));
         game.setActionRange(Integer.valueOf(gameActionRangeEditText.getText().toString()));
         crateGame(game);
     }
 
     private void crateGame(final Game game) {
-        // Create a new HttpClient and Post Header
+//        // Create a new HttpClient and Post Header
+//
+//        new AsyncTask<Void, Void, Void>(){
+//
+//            @Override
+//            protected Void doInBackground(Void... params) {
+//                HttpClient httpclient = new DefaultHttpClient();
+//                HttpPost httppost = new HttpPost("http://78.133.154.39:8888/api/games/");
+//                httppost.addHeader("Accept", "application/json");
+//                httppost.addHeader("Content-type", "application/json; charset=utf-8");
+//                httppost.addHeader("Authorization", "Token "+ SharedPreferencesUtils.getToken(CTF.getStaticApplicationContext()));
+//                try {
+//                    // Add your data
+//                    Gson gson= new Gson();
+//                    httppost.setEntity(new StringEntity(gson.toJson(game)));
+//                    Log.d("DEBUG", "REQUEST: " +game.getStartTime());
+//                    // Execute HTTP Post Request
+//                    HttpResponse response = httpclient.execute(httppost);
+//                    Log.d("DEBUG", "RESPONSE: " + EntityUtils.toString(response.getEntity()));
+//                } catch (ClientProtocolException e) {
+//                    // TODO Auto-generated catch block
+//                } catch (IOException e) {
+//                    // TODO Auto-generated catch block
+//                }
+//                return null;
+//            }
+//        }.execute();
 
-        new AsyncTask<Void, Void, Void>(){
-
-            @Override
-            protected Void doInBackground(Void... params) {
-                HttpClient httpclient = new DefaultHttpClient();
-                HttpPost httppost = new HttpPost("http://78.133.154.39:8888/api/games/");
-                httppost.addHeader("Accept", "application/json");
-                httppost.addHeader("Content-type", "application/json; charset=utf-8");
-                httppost.addHeader("Authorization", "Token "+ SharedPreferencesUtils.getToken(CTF.getStaticApplicationContext()));
-                try {
-                    // Add your data
-                    Gson gson= new Gson();
-                    httppost.setEntity(new StringEntity(gson.toJson(game)));
-
-                    // Execute HTTP Post Request
-                    HttpResponse response = httpclient.execute(httppost);
-                    Log.d("DEBUG", "RESPONSE: " + EntityUtils.toString(response.getEntity()));
-                } catch (ClientProtocolException e) {
-                    // TODO Auto-generated catch block
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                }
-                return null;
-            }
-        }.execute();
-
-
-        //        gameRequest = new CTFGameRequest(game);
-//        getSpiceManager().execute(gameRequest, gameRequest.createCacheKey(), DurationInMillis.ONE_MINUTE, new GameRequestListener());
+        gameRequest = new CTFGameRequest(game);
+        getSpiceManager().execute(gameRequest, gameRequest.createCacheKey(), DurationInMillis.ONE_MINUTE, new GameRequestListener());
     }
 
     private void updateSelectedStartDate(int dialogType, int year, int month, int day, int hour, int minute) {
@@ -227,6 +213,7 @@ public class CreateGameActivity extends CTFBaseActivity implements DatePickerDia
         @Override
         public void onRequestSuccess(Game game) {
             Toast.makeText(getApplicationContext(), "success", Toast.LENGTH_SHORT).show();
+            finish();
         }
 
     }
