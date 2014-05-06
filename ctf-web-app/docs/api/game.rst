@@ -14,18 +14,28 @@ API: model *Game*
 
     HTTP 201 Created
     {
-        "url": "http://ctf.host/api/games/1/",
-        "name": "Capture the Flag",
-        "description": "",
-        "start_time": "2014-02-28T16:00:00Z",
+        "url": "http://127.0.0.1:8000/api/games/1/",
+        "name": "CTF second test game",
+        "description": "Test game 1",
+        "start_time": "2014-05-02T12:00:00",
         "max_players": 12,
         "status": 0,
-        "type": 1,
-        "map": "http://ctf.host/api/maps/1/",
-        "visibility_range": 200.0,
-        "action_range": 5.0,
+        "type": 0,
+        "radius": 2500.0,
+        "location": {
+            "lat": 53.440157,
+            "lon": 14.540221
+        },
+        "visibility_range": 1000.0,
+        "action_range": 20.0,
         "players": [],
-        "invited_users": []
+        "invited_users": [
+            "http://127.0.0.1:8000/api/users/2/"
+        ],
+        "items": [],
+        "owner": "http://127.0.0.1:8000/api/users/2/",
+        "last_modified": "2014-05-06T12:18:58.216Z",
+        "created": "2014-05-06T12:18:58.216Z"
     }
 
 **Read** game
@@ -86,25 +96,27 @@ Example (response of selected game)
 ::
 
     {
-        "url": "http://localhost:8000/api/games/1/",
-        "name": "Capture the Flag",
-        "description": "",
-        "start_time": "2014-02-28T16:00:00Z",
+        "url": "http://127.0.0.1:8000/api/games/1/",
+        "name": "CTF second test game",
+        "description": "Test game 1",
+        "start_time": "2014-05-02T12:00:00",
         "max_players": 12,
         "status": 0,
-        "type": 1,
-        "map": "http://localhost:8000/api/maps/1/",
-        "visibility_range": 200.0,
-        "action_range": 5.0,
-        "players": [
-            "http://localhost:8000/api/characters/11/",
-            "http://localhost:8000/api/characters/8/",
-            "http://localhost:8000/api/characters/1/"
+        "type": 0,
+        "radius": 2500.0,
+        "location": {
+            "lat": 53.440157,
+            "lon": 14.540221
+        },
+        "visibility_range": 1000.0,
+        "action_range": 20.0,
+        "players": [],
+        "invited_users": [
+            "http://127.0.0.1:8000/api/users/2/"
         ],
-        "invited_users": [],
-        "items": [
-            "http://localhost:8000/api/items/2/",
-            "http://localhost:8000/api/items/1/"
-        ]
+        "items": [],
+        "owner": "http://127.0.0.1:8000/api/users/2/",
+        "last_modified": "2014-05-06T12:18:58.216Z",
+        "created": "2014-05-06T12:18:58.216Z"
     }
 

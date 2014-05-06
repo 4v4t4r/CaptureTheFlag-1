@@ -114,12 +114,20 @@ class PortalUser(GeoModel, AbstractUser):
         (2, _("iOS")),
     )
 
+    TEAM_TYPES = (
+        (0, _("Red team")),
+        (1, _("Blue team")),
+    )
+
     nick = models.CharField(blank=False, max_length=100, verbose_name=_("Nick"))
 
     device_type = models.IntegerField(blank=True, null=True, choices=DEVICE_TYPES, verbose_name=_("Device type"))
     device_id = models.CharField(blank=True, null=True, max_length=255, verbose_name=_("Device ID"))
 
-    active_character = models.ForeignKey(Character, null=True, blank=True, verbose_name=_("Active character"))
+    team = models.IntegerField(blank=True, null=True, choices=TEAM_TYPES, verbose_name=_("Team"))
+
+    # todo in v2.0: characters
+    # active_character = models.ForeignKey(Character, null=True, blank=True, verbose_name=_("Active character"))
 
     AbstractUser._meta.get_field("email").blank = False
     AbstractUser._meta.get_field("email").null = False
@@ -128,16 +136,17 @@ class PortalUser(GeoModel, AbstractUser):
     def save(self, *args, **kwargs):
         super(PortalUser, self).save(*args, **kwargs)
 
-        characters = self.characters.all()
-        if not characters:
-            for character_type in Character.CHARACTER_TYPES:
-                character = Character(user=self, type=character_type[0])
-                character.save()
-                if character.type == 0:
-                    self.active_character = character
-            logger.info("characters were saved for user: %s - count: %d", self.username, len(characters))
-        else:
-            logger.debug("characters already exist in user: %s - count: %d", self.username, len(characters))
+        # todo in v2.0: characters
+        # characters = self.characters.all()
+        # if not characters:
+        #     for character_type in Character.CHARACTER_TYPES:
+        #         character = Character(user=self, type=character_type[0])
+        #         character.save()
+        #         if character.type == 0:
+        #             self.active_character = character
+        #     logger.info("characters were saved for user: %s - count: %d", self.username, len(characters))
+        # else:
+        #     logger.debug("characters already exist in user: %s - count: %d", self.username, len(characters))
 
     @classmethod
     def get_device_type(cls, device_type):

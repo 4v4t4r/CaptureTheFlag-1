@@ -8,7 +8,9 @@ __author__ = 'mkr'
 router = routers.DefaultRouter()
 router.register(r'registration', PortalUserRegistrationViewSet)
 router.register(r'users', PortalUserViewSet)
-router.register(r'characters', CharacterViewSet)
+
+# todo in v2.0: characters
+# router.register(r'characters', CharacterViewSet)
 
 urlpatterns = patterns(
     '',

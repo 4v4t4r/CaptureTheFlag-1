@@ -3,7 +3,7 @@ from haystack.query import SearchQuerySet
 from haystack.utils.geo import Point, D
 from django.utils.translation import ugettext_lazy as _
 from django.db import models
-from apps.core.exceptions import AlreadyExistException
+from apps.core.exceptions import AlreadyExistException, GameAlreadyStartedException
 from apps.core.models import PortalUser, GeoModel
 
 logger = logging.getLogger("root")
@@ -33,21 +33,7 @@ class Item(GeoModel):
         app_label = "ctf"
 
 
-class Map(GeoModel):
-    name = models.CharField(max_length=100, verbose_name=_("Name"))
-    description = models.TextField(null=True, blank=True, max_length=255, verbose_name=_("Description"))
-    radius = models.FloatField(verbose_name=_("Radius"))
-
-    author = models.ForeignKey(PortalUser, null=True, blank=True, verbose_name=_("Author"))
-
-    def __unicode__(self):
-        return "%s" % self.name
-
-    class Meta:
-        app_label = "ctf"
-
-
-class Game(models.Model):
+class Game(GeoModel):
     GAME_STATUSES = (
         (0, _('Created')),
         (1, _('In progress')),
@@ -62,11 +48,12 @@ class Game(models.Model):
 
     name = models.CharField(max_length=100, verbose_name=_("Name"))
     description = models.TextField(null=True, blank=True, max_length=255, verbose_name=_("Description"))
+
+    radius = models.FloatField(verbose_name=_("Radius"))
     start_time = models.DateTimeField(verbose_name=_("Start time"))
     max_players = models.IntegerField(null=True, blank=True, verbose_name=_("Max players"))
-    status = models.IntegerField(choices=GAME_STATUSES, default=GAME_STATUSES[0], verbose_name=_("Status"))
-    type = models.IntegerField(choices=GAME_TYPES, default=GAME_TYPES[0], verbose_name=_("Type"))
-    map = models.ForeignKey(Map, verbose_name=_("Map"), related_name='games')
+    status = models.IntegerField(choices=GAME_STATUSES, default=GAME_STATUSES[0][0], verbose_name=_("Status"))
+    type = models.IntegerField(choices=GAME_TYPES, default=GAME_TYPES[0][0], verbose_name=_("Type"))
 
     visibility_range = models.FloatField(default=200.00, verbose_name=_("Visibility range"))  # in meters
     action_range = models.FloatField(default=5.00, verbose_name=_("Action range"))  # in meters
@@ -74,7 +61,9 @@ class Game(models.Model):
     players = models.ManyToManyField(PortalUser, verbose_name=_("Players"), related_name="joined_games")
     invited_users = models.ManyToManyField(PortalUser, verbose_name=_("Invited users"), related_name="pending_games")
 
-    # author = models.ForeignKey(PortalUser, null=True, blank=True, verbose_name=_("Author"))
+    owner = models.ForeignKey(PortalUser, null=True, blank=True, verbose_name=_("Owner"))
+    last_modified = models.DateTimeField(auto_now=True, verbose_name=_("Last modified"))
+    created = models.DateTimeField(auto_now_add=True, verbose_name=_("Created"))
 
     def add_player(self, user):
         active_character = user.active_character
@@ -127,6 +116,26 @@ class Game(models.Model):
         logger.debug("Query distance: %s", sqs.distance)
 
         return sqs
+
+    def team_balancing(self):
+        for idx, player in iter(self.players):
+            if idx % 0:
+                player.team = PortalUser.TEAM_TYPES[0][0]
+            else:
+                player.team = PortalUser.TEAM_TYPES[1][0]
+            player.save()
+
+    def start(self):
+        logger.info("Game: %d: %s with %d players is starting...", self.id, self.name)
+
+        if self.status == self.GAME_STATUSES[1][0]:  # in progress
+            raise GameAlreadyStartedException()
+
+        logger.info("Team balancing...")
+        self.team_balancing()
+
+    def stop(self):
+        pass
 
     def __unicode__(self):
         return "%s" % self.name

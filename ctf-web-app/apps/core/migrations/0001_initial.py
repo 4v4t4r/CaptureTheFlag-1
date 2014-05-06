@@ -37,7 +37,7 @@ class Migration(SchemaMigration):
             ('nick', self.gf('django.db.models.fields.CharField')(max_length=100)),
             ('device_type', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
             ('device_id', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
-            ('active_character', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.Character'], null=True, blank=True)),
+            ('team', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
         ))
         db.send_create_signal('core', ['PortalUser'])
 
@@ -107,7 +107,6 @@ class Migration(SchemaMigration):
         },
         'core.portaluser': {
             'Meta': {'object_name': 'PortalUser'},
-            'active_character': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['core.Character']", 'null': 'True', 'blank': 'True'}),
             'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
             'device_id': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'device_type': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
@@ -123,6 +122,7 @@ class Migration(SchemaMigration):
             'location': ('apps.core.models.LocationField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
             'nick': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'password': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
+            'team': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Permission']"}),
             'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'})
         }

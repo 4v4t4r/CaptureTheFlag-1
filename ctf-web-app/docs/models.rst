@@ -45,6 +45,14 @@ Device types mapping:
         2 - 'IOS'
     }
 
+Team types mapping:
+::
+
+    TEAM_TYPES = {
+        0 - 'READ TEAM',
+        1 - 'BLUE TEAM'
+    }
+
 Model:
 ::
 
@@ -60,40 +68,11 @@ Model:
             lat: float
             lon: float
         }
-        active_character: string # url to active character
+        team: int (required=False)
         characters = [ ] # list of url for characters objects
     }
 
 API `definition <./api/user.rst>`_.
-
-Model: Character (from version: 2.0)
-------------------------------------
-
-Types mapping:
-::
-
-    CHARACTER_TYPES = [
-        0 - 'Private',
-        1 - 'Medic',
-        2 - 'Commandos',
-        3 - 'Spy'
-]
-
-Model:
-::
-
-    {
-        url: string # url to current resource
-        user: string # url for user object
-        type: int # (choices=CHARACTER_TYPES)
-        total_time: int
-        total_score: int
-        health: float
-        level: int
-        is_active: boolean
-    }
-
-API `definition <./api/character.rst>`_.
 
 Model: Game
 -----------
@@ -127,30 +106,18 @@ Model:
         max_players: int
         status: int # (choices=GAME_STATUSES)
         type: int # (choices=GAME_TYPE)
-        map: string # url for map object
+        radius: float # in meters
+        location: {
+            lat: float,
+            lon: float
+        }
         visibility_range: float
         action_range: float
         players: [] # urls for players objects (object Character)
         invited_users: [] # urls for invited users objects (object PortalUser)
+        owner: string # read_only=True, url for user
+        last_modified: date_time # read_only=True, format:"YYYY-MM-DDTHH:MM:SS"
+        created: date_time # read_only=True, format:"YYYY-MM-DDTHH:MM:SS"
     }
 
 API `definition <./api/game.rst>`_.
-
-Model: Map
-----------
-
-Model:
-::
-
-    {
-        url: string # url for current resource
-        name: string # (required=True, max_length=100)
-        description: string # (null=True, max_length=255)
-        radius: float
-        author: string # url for user object
-        lat: float
-        lon: float
-        games: [] # list of urls to games objects
-    }
-
-API `definition <./api/map.rst>`_.

@@ -5,7 +5,6 @@ from apps.ctf.api import views
 __author__ = 'mkr'
 
 router = routers.DefaultRouter()
-router.register("maps", views.MapViewSet)
 router.register("games", views.GameViewSet)
 router.register("items", views.ItemViewSet)
 

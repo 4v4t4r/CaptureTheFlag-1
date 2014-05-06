@@ -7,31 +7,15 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet
 from apps.core.api import mixins
 from apps.core.api.serializers import GeoModelSerializer
-from apps.core.exceptions import AlreadyExistException
+from apps.core.exceptions import AlreadyExistException, GameAlreadyStartedException
 from apps.core.models import PortalUser, Location
 from apps.ctf.api.serializers.common import ItemSerializer, NeighbourSerializer
 from apps.ctf.api.serializers.games import GameSerializer
-from apps.ctf.api.serializers.maps import MapSerializer
-from apps.ctf.models import Map, Game, Item
+from apps.ctf.models import Game, Item
 
 __author__ = 'mkr'
 
 logger = logging.getLogger("root")
-
-
-class MapViewSet(mixins.ModelPermissionsMixin,
-                 CreateModelMixin,
-                 UpdateModelMixin,
-                 DestroyModelMixin,
-                 mixins.RetrieveModelMixin,
-                 mixins.ListModelMixin,
-                 GenericViewSet):
-    serializer_class = MapSerializer
-    model = Map
-
-    def pre_save(self, obj):
-        user = self.request.user
-        setattr(obj, "author", user)
 
 
 class GameViewSet(mixins.ModelPermissionsMixin,
@@ -43,6 +27,10 @@ class GameViewSet(mixins.ModelPermissionsMixin,
                   GenericViewSet):
     serializer_class = GameSerializer
     model = Game
+
+    def pre_save(self, obj):
+        user = self.request.user
+        setattr(obj, "owner", user)
 
 
 class ItemViewSet(mixins.ModelPermissionsMixin,
@@ -118,4 +106,26 @@ class JoinToGame(APIView):
             return Response(data={"error": e.message}, status=status.HTTP_400_BAD_REQUEST)
         else:
             logger.info("Player '%s' is no longer in game '%s'", user.username, game.name)
+            return Response(status=status.HTTP_200_OK)
+
+
+class StartGame(APIView):
+    def post(self, request, pk):
+        logger.debug("starting selected game...")
+
+        game = get_object_or_404(Game, pk=pk)
+        user = request.user
+
+        try:
+            game.start()
+        except GameAlreadyStartedException, e:
+            return Response(data={"error": e.message}, status=status.HTTP_400_BAD_REQUEST)
+        except AssertionError, e:
+            # todo: add error code
+            return Response(data={"error": e.message}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception, e:
+            # todo: add error code
+            return Response(data={"error": e.message}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            logger.info("Player '%s' was added into the game '%s'", user.username, game.name)
             return Response(status=status.HTTP_200_OK)
