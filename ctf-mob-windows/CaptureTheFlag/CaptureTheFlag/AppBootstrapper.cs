@@ -30,7 +30,8 @@ namespace CaptureTheFlag {
             container.PerRequest<UserRegistrationViewModel>();
 
             container.PerRequest<MainAppPivotViewModel>();
-            
+
+            container.PerRequest<GeoMapViewModel>();
 
             container.PerRequest<GameItemViewModel>();
             container.PerRequest<CharacterViewModel>();

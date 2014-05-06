@@ -97,6 +97,8 @@
     <Compile Include="Converters.cs" />
     <Compile Include="DebugLogger.cs" />
     <Compile Include="LocalizedStrings.cs" />
+    <Compile Include="MapChildControlDependency.cs" />
+    <Compile Include="MarkerHelper.cs" />
     <Compile Include="Models\Authenticator.cs" />
     <Compile Include="Models\Character.cs" />
     <Compile Include="Models\Extensions.cs" />
@@ -105,6 +107,7 @@
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\LoginResponse.cs" />
     <Compile Include="Models\GameMap.cs" />
+    <Compile Include="Models\Marker.cs" />
     <Compile Include="Models\RegisterResponse.cs" />
     <Compile Include="Models\ServerErrorMessage.cs" />
     <Compile Include="Models\User.cs" />
@@ -135,6 +138,7 @@
     <Compile Include="ViewModels\GameMapVVMs\CreateGameMapViewModel.cs" />
     <Compile Include="ViewModels\GameItemViewModel.cs" />
     <Compile Include="ViewModels\GameVVMs\ListGamesViewModel.cs" />
+    <Compile Include="ViewModels\GeoMapViewModel.cs" />
     <Compile Include="ViewModels\MainAppPivotViewModel.cs" />
     <Compile Include="ViewModels\UserAccessPivotViewModel.cs" />
     <Compile Include="ViewModels\UserLoginViewModel.cs" />
@@ -175,6 +179,9 @@
     </Compile>
     <Compile Include="Views\GameVVMs\ListGamesView.xaml.cs">
       <DependentUpon>ListGamesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GeoMapView.xaml.cs">
+      <DependentUpon>GeoMapView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainAppPivotView.xaml.cs">
       <DependentUpon>MainAppPivotView.xaml</DependentUpon>
@@ -227,10 +234,18 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Images\add.png" />
+    <Content Include="Images\InGame\blue_base.png" />
+    <Content Include="Images\InGame\blue_flag.png" />
+    <Content Include="Images\InGame\blue_player.png" />
     <Content Include="Images\check.png" />
     <Content Include="Images\feature.search.png" />
+    <Content Include="Images\InGame\blue_player_with_flag.png" />
+    <Content Include="Images\InGame\red_base.png" />
+    <Content Include="Images\InGame\red_player_with_flag.png" />
     <Content Include="Images\like.png" />
     <Content Include="Images\minus.png" />
+    <Content Include="Images\InGame\red_flag.png" />
+    <Content Include="Images\InGame\red_player.png" />
     <Content Include="Images\refresh.png" />
     <Content Include="Images\share.png" />
     <Content Include="Images\upload.png" />
@@ -320,6 +335,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\GameVVMs\ListGamesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GeoMapView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

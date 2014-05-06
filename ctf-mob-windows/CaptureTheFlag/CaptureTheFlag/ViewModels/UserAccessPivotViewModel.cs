@@ -3,6 +3,7 @@
     using Caliburn.Micro;
     using CaptureTheFlag.Models;
     using CaptureTheFlag.Services;
+    using CaptureTheFlag.ViewModels.GameMapVVMs;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
 
@@ -43,17 +44,17 @@
             Authenticator authenticator = new Authenticator();
             authenticator.token = "33f2f8a28982e250ad4addb38ee4c50a45906595";
             authenticator.user = "http://78.133.154.39:8888/api/users/4/";
-            //globalStorageService.Current.Authenticator = authenticator;
+            globalStorageService.Current.Authenticator = authenticator;
             #endregion
 
             Authenticator authenticatorStored = globalStorageService.Current.Authenticator;
             if (Authenticator.IsValid(authenticatorStored))
-             {
-                 navigationService
-                     .UriFor<MainAppPivotViewModel>()
-                     .Navigate();
-                 navigationService.RemoveBackEntry();
-             }
+            {
+                navigationService
+                    .UriFor<CreateGameMapViewModel>()
+                    .Navigate();
+                navigationService.RemoveBackEntry();
+            }
         }
 
         protected override void OnActivate()

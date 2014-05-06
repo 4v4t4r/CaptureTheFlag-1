@@ -12,5 +12,7 @@ namespace CaptureTheFlag.Services
     {
         Task<Geoposition> getCurrentLocationAsync();
         GeoCoordinate ConvertGeocoordinate(Geocoordinate geocoordinate);
+
+        Task<GeoCoordinate> getCurrentGeoCoordinateAsync();
     }
 }

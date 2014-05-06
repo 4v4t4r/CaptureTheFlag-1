@@ -12,6 +12,8 @@
     xmlns:maps="clr-namespace:Microsoft.Phone.Maps.Controls;assembly=Microsoft.Phone.Maps"
     xmlns:converters="clr-namespace:CaptureTheFlag.Converters"
     xmlns:bab="clr-namespace:Caliburn.Micro.BindableAppBar;assembly=Caliburn.Micro.BindableAppBar"
+    xmlns:maptk="clr-namespace:Microsoft.Phone.Maps.Toolkit;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:dp="clr-namespace:CaptureTheFlag.DependencyProperties"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -35,10 +37,38 @@
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
             <ScrollViewer>
                 <StackPanel>
-                    <maps:Map Height="500" Width="Auto" IsEnabled="{Binding IsFormAccessible}"
-                              Center="{Binding MapCenter, Mode=TwoWay}"
-                              ZoomLevel="{Binding ZoomLevel, Mode=TwoWay}"
-                              />
+                    <maps:Map ZoomLevel="{Binding ZoomLevel, Mode=TwoWay}"
+                              Center="{Binding Path=Map.Center, Mode=TwoWay}"
+                              dp:MapChildControlDependency.ItemsSource="{Binding Path=Markers, Mode=TwoWay}"
+                              IsEnabled="{Binding IsFormAccessible}"
+                              Height="600"
+                        >
+                        <maptk:MapExtensions.Children>
+                            <maptk:MapItemsControl x:Name="Markers">
+                                <maptk:MapItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <maptk:MapChildControl GeoCoordinate="{Binding Position}" Visibility="Visible">
+                                            <maptk:MapChildControl.Content>
+                                                <Grid>
+                                                    <Image Grid.Column="0" Grid.Row="0" Height="{Binding Path=Image.Height}" Width="{Binding Path=Image.Width}" Source="{Binding Path=Image.Source}" Canvas.ZIndex="100"/>
+                                                    <Ellipse Grid.Column="0" Grid.Row="0" Height="75" Width="75" Fill="Blue" Opacity="0.5"  Canvas.ZIndex="99"/>
+                                                    <Ellipse Grid.Column="0" Grid.Row="0" Height="150" Width="150" Fill="Green" Opacity="0.5"  Canvas.ZIndex="98"/>
+                                                </Grid>
+                                            </maptk:MapChildControl.Content>
+                                        </maptk:MapChildControl>
+                                    </DataTemplate>
+                                </maptk:MapItemsControl.ItemTemplate>
+                            </maptk:MapItemsControl>
+
+                            <maptk:MapChildControl PositionOrigin="0.5,0.5" GeoCoordinate="{Binding MapCenter}" Visibility="Visible">
+                                <maptk:MapChildControl.Content>
+                                    <Ellipse Height="{Binding Path=Area.Height}" Width="{Binding Path=Area.Width}" Fill="{Binding Path=Area.Fill}" Opacity="{Binding Path=Area.Opacity}"/>
+                                </maptk:MapChildControl.Content>
+                            </maptk:MapChildControl>
+
+                            <maptk:UserLocationMarker GeoCoordinate="{Binding MapCenter, Mode=TwoWay}" Visibility="Visible"/>
+                        </maptk:MapExtensions.Children>
+                    </maps:Map>
                 
                     <TextBlock x:Name="NameTextBlock" />
                     <TextBox x:Name="GameMap_name" IsEnabled="{Binding IsFormAccessible}" />

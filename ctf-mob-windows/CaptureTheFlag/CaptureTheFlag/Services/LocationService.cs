@@ -22,6 +22,18 @@ namespace CaptureTheFlag.Services
             return geoposition;
         }
 
+        public Task<GeoCoordinate> getCurrentGeoCoordinateAsync()
+        {
+            return Task<GeoCoordinate>.Run(() =>
+                {
+                    Watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.High);
+                    Watcher.Start();
+                    GeoCoordinate location = Watcher.Position.Location;
+                    Watcher.Stop();
+                    return location;
+                });
+        }
+
         private GeoCoordinateWatcher watcher;
         public GeoCoordinateWatcher Watcher
         {
