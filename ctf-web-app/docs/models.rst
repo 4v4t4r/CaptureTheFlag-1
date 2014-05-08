@@ -2,6 +2,7 @@ Models definitions
 ==================
 
 Model: Marker
+-------------
 
 Types mapping:
 ::
@@ -10,12 +11,16 @@ Types mapping:
         0 - 'PLAYER',
         1 - 'PLAYER_WITH_RED_FLAG',
         2 - 'PLAYER_WITH_BLUE_FLAG',
-        3 - 'RED_BASE_WITH_FLAG',
-        4 - 'BLUE_BASE_WITH_FLAG',
-        5 - 'RED_FLAG',
-        6 - 'BLUE_FLAG',
-        7 - 'RED_BASE',
-        8 - 'BLUE_BASE',
+
+        3 - 'RED_FLAG',
+        4 - 'BLUE_FLAG',
+
+        5 - 'RED_BASE',
+        6 - 'BLUE_BASE',
+
+        7 - 'RED_BASE_WITH_FLAG',
+        8 - 'BLUE_BASE_WITH_FLAG',
+
         9 - 'FIRST_AID_KIT',
         10 - 'PISTOL',
         11 - 'AMMO',
@@ -118,7 +123,7 @@ Statuses mapping:
         1 - 'Created',
         2 - 'On hold',
         3 - 'Canceled',
-        4 - 'FINISHED',
+        4 - 'Finished',
     ]
 
 Types mapping:
