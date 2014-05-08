@@ -120,3 +120,75 @@ Example (response of selected game)
         "created": "2014-05-06T12:18:58.216Z"
     }
 
+**Add player to the selected game**
+-----------------------------------
+*request*:
+::
+
+    -H "Accept: application/json" -H "Content-type: application/json" -H "Authorization: Token {token}" -XPOST http://ctf.host/api/games/{game_id}/player/
+
+*response*:
+::
+
+    HTTP 200 OK
+
+*response (if user already joined)*:
+::
+
+    HTTP 400 BAD REQUEST
+
+    {
+        "error": "User 'frodo' already joined into the game '1: CTF test game 1'"
+    }
+
+**Remove player from the selected game**
+----------------------------------------
+*request*:
+::
+
+    -H "Accept: application/json" -H "Content-type: application/json" -H "Authorization: Token {token}" -XDELETE http://ctf.host/api/games/{game_id}/player/
+
+*response*:
+::
+
+    HTTP 200 OK
+
+*response (if user doesn't exist in the selected game)*:
+::
+
+    HTTP 404 NOT FOUND
+
+    {
+        "error": "User 'mort' doesn't exist in selected game '1: CTF test game 1'"
+    }
+
+**Player's position registration**
+----------------------------------
+*request*:
+::
+
+    -H "Accept: application/json" -H "Content-type: application/json" -H "Authorization: Token {token}" -d '{"lat": <lat>, "lon": <lon>}' -XPUT http://ctf.host/api/games/{game_id}/location/
+
+*response*:
+::
+
+    HTTP 200 OK
+
+    [
+        {
+            "marker_type": 8,
+            "distance": 305.366207193584,
+            "url": "http://127.0.0.1:8000/api/items/2/"
+        },
+        {
+            "marker_type": 0,
+            "distance": 219.07368062567056,
+            "url": "http://127.0.0.1:8000/api/users/3/"
+        },
+        {
+            "marker_type": 7,
+            "distance": 20.457583602124277,
+            "url": "http://127.0.0.1:8000/api/items/1/"
+        }
+    ]
+

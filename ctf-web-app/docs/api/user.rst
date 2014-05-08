@@ -20,6 +20,8 @@ API: model *User*
         "last_name": "",
         "email": "frodo@ctf.net",
         "nick": "frodo",
+        "team": 0,
+        "current_game_id": 1,
         "active_character": "http://ctf.host/api/characters/5/",
         "characters": [
             "http://ctf.host/api/characters/5/",
@@ -83,6 +85,8 @@ Example (response of selected user)
         "last_name": "",
         "email": "mort@ctf.nete",
         "nick": "mort",
+        "team": 0,
+        "current_game_id": 1,
         "active_character": "http://localhost:8000/api/characters/5/",
         "characters": [
             "http://localhost:8000/api/characters/12/",

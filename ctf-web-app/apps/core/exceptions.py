@@ -7,3 +7,7 @@ class AlreadyExistException(Exception):
 
 class GameAlreadyStartedException(Exception):
     pass
+
+
+class GameAlreadyFinishedException(Exception):
+    pass

@@ -66,7 +66,7 @@ class PortalUserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = PortalUser
         fields = (
-            'url', 'username', 'password', 'first_name', 'last_name', 'email', 'nick', 'team', 'device_type',
+            'url', 'username', 'password', 'first_name', 'last_name', 'email', 'nick', 'team', 'current_game_id', 'device_type',
             'device_id', 'location')
 
 

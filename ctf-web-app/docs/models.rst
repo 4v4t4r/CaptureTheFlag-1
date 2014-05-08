@@ -1,20 +1,53 @@
 Models definitions
 ==================
 
+Model: Marker
+
+Types mapping:
+::
+
+    MARKER_TYPES = [
+        0 - 'PLAYER',
+        1 - 'PLAYER_WITH_RED_FLAG',
+        2 - 'PLAYER_WITH_BLUE_FLAG',
+        3 - 'RED_BASE_WITH_FLAG',
+        4 - 'BLUE_BASE_WITH_FLAG',
+        5 - 'RED_FLAG',
+        6 - 'BLUE_FLAG',
+        7 - 'RED_BASE',
+        8 - 'BLUE_BASE',
+        9 - 'FIRST_AID_KIT',
+        10 - 'PISTOL',
+        11 - 'AMMO',
+    ]
+
+Model:
+::
+
+    {
+        marker_type: int,  # choices=MARKER_TYPES
+        distance: float,
+        location: {
+            lat: float,
+            lon: float
+        }
+        url: string
+    }
+
 Model: Item
 -----------
 
 Types mapping:
 ::
 
-    ITEM_TYPES = [
-        0 - 'Red flag',
-        1 - 'Blue flag',
-        2 - 'Red base',
-        3 - 'Blue base',
-        4 - 'Medic box',
-        5 - 'Pistol',
-        6 - 'Ammo',
+    MARKER_TYPES = [
+        5 - 'RED_FLAG',
+        6 - 'BLUE_FLAG',
+        7 - 'RED_BASE',
+        8 - 'BLUE_BASE',
+        9 - 'FIRST_AID_KIT',
+        10 - 'PISTOL',
+        11 - 'AMMO',
     ]
 
 Model:

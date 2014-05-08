@@ -12,10 +12,20 @@ class GeoModelIndex(indexes.SearchIndex):
 
 
 class PortalUserIndex(GeoModelIndex, indexes.Indexable):
+    game = indexes.IntegerField(null=True)
+
+    def prepare_game(self, obj):
+        return obj.current_game_id
+
     def get_model(self):
         return PortalUser
 
 
 class ItemIndex(GeoModelIndex, indexes.Indexable):
+    game = indexes.IntegerField()
+
+    def prepare_game(self, obj):
+        return obj.game.id
+
     def get_model(self):
         return Item

@@ -38,6 +38,7 @@ class Migration(SchemaMigration):
             ('device_type', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
             ('device_id', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True)),
             ('team', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
+            ('current_game_id', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
         ))
         db.send_create_signal('core', ['PortalUser'])
 
@@ -107,6 +108,7 @@ class Migration(SchemaMigration):
         },
         'core.portaluser': {
             'Meta': {'object_name': 'PortalUser'},
+            'current_game_id': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
             'device_id': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'device_type': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),

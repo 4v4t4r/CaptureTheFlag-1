@@ -1,4 +1,5 @@
 import logging
+from django.http import Http404
 from rest_framework import status
 from rest_framework.generics import get_object_or_404
 from rest_framework.mixins import CreateModelMixin, UpdateModelMixin, DestroyModelMixin
@@ -9,8 +10,8 @@ from apps.core.api import mixins
 from apps.core.api.serializers import GeoModelSerializer
 from apps.core.exceptions import AlreadyExistException, GameAlreadyStartedException
 from apps.core.models import PortalUser, Location
-from apps.ctf.api.serializers.common import ItemSerializer, NeighbourSerializer
-from apps.ctf.api.serializers.games import GameSerializer
+from apps.ctf.api.serializers.common import ItemSerializer
+from apps.ctf.api.serializers.games import GameSerializer, MarkerSerializer
 from apps.ctf.models import Game, Item
 
 __author__ = 'mkr'
@@ -46,29 +47,38 @@ class ItemViewSet(mixins.ModelPermissionsMixin,
 
 class InGameLocation(APIView):
     def put(self, request, pk, format=None):
-        game = get_object_or_404(Game, pk=pk)
-        serializer = GeoModelSerializer(data=request.DATA)
+        user = request.user
+        try:
+            logger.debug("looking for a game with id: '%s'", pk)
+            game = user.joined_games.get(id=pk)
+        except Game.DoesNotExist, e:
+            logger.error(e)
+            raise Http404
+        else:
+            serializer = GeoModelSerializer(data=request.DATA)
+            if serializer.is_valid():
+                user = request.user
+                lat = serializer.object.get('lat')
+                lon = serializer.object.get('lon')
+                user.location = Location(lat, lon)
+                user.save()
 
-        if serializer.is_valid():
-            user = request.user
-            lat = serializer.object.get('lat')
-            lon = serializer.object.get('lon')
-            user.location = Location(lat, lon)
-            user.save()
+                logger.debug("location: %s", user.location)
 
-            logger.debug("location: %s", user.location)
+                context = {'request': request}
 
-            neighbours = game.get_neighbours(user)
-            logger.debug("neighbours size: %d", len(neighbours))
-            logger.debug("neighbours: %s", neighbours)
+                markers = game.get_markers(user, context)
 
-            neighbour_serializer = NeighbourSerializer(user, neighbours, context={'request': request})
-            data = neighbour_serializer.data
-            logger.debug("data: %s", data)
+                logger.debug("markers size: %d", len(markers))
+                logger.debug("markers: %s", markers)
 
-            return Response(data=data, status=status.HTTP_200_OK)
+                serializer = MarkerSerializer(markers, context=context, many=True)
+                data = serializer.data
+                logger.debug("data: %s", data)
 
-        return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+                return Response(data=data, status=status.HTTP_200_OK)
+
+            return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
 
 
 class JoinToGame(APIView):

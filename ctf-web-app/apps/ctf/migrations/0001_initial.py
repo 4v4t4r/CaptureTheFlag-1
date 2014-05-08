@@ -14,8 +14,8 @@ class Migration(SchemaMigration):
             ('location', self.gf('apps.core.models.LocationField')(max_length=100, null=True, blank=True)),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=100)),
             ('type', self.gf('django.db.models.fields.IntegerField')()),
-            ('value', self.gf('django.db.models.fields.FloatField')()),
-            ('description', self.gf('django.db.models.fields.TextField')(max_length=255, null=True)),
+            ('value', self.gf('django.db.models.fields.FloatField')(null=True, blank=True)),
+            ('description', self.gf('django.db.models.fields.TextField')(max_length=255, null=True, blank=True)),
             ('game', self.gf('django.db.models.fields.related.ForeignKey')(related_name='items', to=orm['ctf.Game'])),
         ))
         db.send_create_signal('ctf', ['Item'])
@@ -95,6 +95,7 @@ class Migration(SchemaMigration):
         },
         'core.portaluser': {
             'Meta': {'object_name': 'PortalUser'},
+            'current_game_id': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
             'device_id': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'device_type': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
@@ -135,13 +136,21 @@ class Migration(SchemaMigration):
         },
         'ctf.item': {
             'Meta': {'object_name': 'Item'},
-            'description': ('django.db.models.fields.TextField', [], {'max_length': '255', 'null': 'True'}),
+            'description': ('django.db.models.fields.TextField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'game': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'items'", 'to': "orm['ctf.Game']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'location': ('apps.core.models.LocationField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'type': ('django.db.models.fields.IntegerField', [], {}),
-            'value': ('django.db.models.fields.FloatField', [], {})
+            'value': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'})
+        },
+        u'ctf.marker': {
+            'Meta': {'object_name': 'Marker', 'managed': 'False'},
+            'distance': ('django.db.models.fields.FloatField', [], {}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'location': ('apps.core.models.LocationField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'marker_type': ('django.db.models.fields.IntegerField', [], {}),
+            'url': ('django.db.models.fields.URLField', [], {'max_length': '200'})
         }
     }
 

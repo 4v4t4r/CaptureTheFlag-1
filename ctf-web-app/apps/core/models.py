@@ -2,6 +2,7 @@ import logging
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import AbstractUser
 from django.db import models, transaction
+from model_utils import Choices
 
 logger = logging.getLogger('root')
 
@@ -78,7 +79,7 @@ class GeoModel(models.Model):
     location = LocationField(null=True, blank=True, verbose_name=_("Location"))
 
     def get_location(self):
-        print "self.location: %s (%s)" % (self.location, type(self.location))
+        logger.debug("location: %s (%s)", self.location, type(self.location))
         return "%s, %s" % (self.location.lon, self.location.lat)
 
     class Meta:
@@ -108,15 +109,15 @@ class Character(models.Model):
 
 
 class PortalUser(GeoModel, AbstractUser):
-    DEVICE_TYPES = (
-        (0, _("Android")),
-        (1, _("Windows Phone")),
-        (2, _("iOS")),
+    DEVICE_TYPES = Choices(
+        (0, 'ANDROID', _("Android")),
+        (1, 'WP', _("Windows Phone")),
+        (2, 'IOS', _("iOS")),
     )
 
-    TEAM_TYPES = (
-        (0, _("Red team")),
-        (1, _("Blue team")),
+    TEAM_TYPES = Choices(
+        (0, 'RED_TEAM', _("Red team")),
+        (1, 'BLUE_TEAM', _("Blue team")),
     )
 
     nick = models.CharField(blank=False, max_length=100, verbose_name=_("Nick"))
@@ -125,6 +126,7 @@ class PortalUser(GeoModel, AbstractUser):
     device_id = models.CharField(blank=True, null=True, max_length=255, verbose_name=_("Device ID"))
 
     team = models.IntegerField(blank=True, null=True, choices=TEAM_TYPES, verbose_name=_("Team"))
+    current_game_id = models.IntegerField(blank=True, null=True, verbose_name=_("Current game id"))
 
     # todo in v2.0: characters
     # active_character = models.ForeignKey(Character, null=True, blank=True, verbose_name=_("Active character"))
