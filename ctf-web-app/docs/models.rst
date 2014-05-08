@@ -46,10 +46,15 @@ Types mapping:
 ::
 
     MARKER_TYPES = [
-        5 - 'RED_FLAG',
-        6 - 'BLUE_FLAG',
-        7 - 'RED_BASE',
-        8 - 'BLUE_BASE',
+        3 - 'RED_FLAG',
+        4 - 'BLUE_FLAG',
+
+        5 - 'RED_BASE',
+        6 - 'BLUE_BASE',
+
+        7 - 'RED_BASE_WITH_FLAG',
+        8 - 'BLUE_BASE_WITH_FLAG',
+
         9 - 'FIRST_AID_KIT',
         10 - 'PISTOL',
         11 - 'AMMO',
