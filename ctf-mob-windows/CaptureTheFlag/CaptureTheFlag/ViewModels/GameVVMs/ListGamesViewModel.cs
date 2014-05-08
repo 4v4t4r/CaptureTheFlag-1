@@ -31,7 +31,7 @@
             this.locationService = locationService;
             this.globalStorageService = globalStorageService;
 
-            Games = new BindableCollection<Game>();
+            Games = new BindableCollection<GameD>();
             Authenticator = new Authenticator();
 
 
@@ -193,9 +193,9 @@
         {
             base.OnActivate();
             Authenticator = globalStorageService.Current.Authenticator;
-            if (globalStorageService.Current.Games != null && globalStorageService.Current.Games.Count > 0)
+            if (globalStorageService.Current.GamesD != null && globalStorageService.Current.GamesD.Count > 0)
             {
-                foreach (Game game in globalStorageService.Current.Games.Values)
+                foreach (GameD game in globalStorageService.Current.GamesD.Values)
                 {
                     Games.Add(game);
                 }
@@ -231,11 +231,11 @@
                     {
                         DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
                         Games = responseData;
-                        foreach (Game game in Games)
+                        foreach (GameD game in Games)
                         {
-                            if (!globalStorageService.Current.Games.ContainsKey(game.url))
+                            if (!globalStorageService.Current.GamesD.ContainsKey(game.url))
                             {
-                                globalStorageService.Current.Games[game.url] = game;
+                                globalStorageService.Current.GamesD[game.url] = game;
                             }
                         }
                         IsFormAccessible = true;
@@ -324,8 +324,8 @@
         }
 
         #region Model Properties
-        private BindableCollection<Game> games;
-        public BindableCollection<Game> Games
+        private BindableCollection<GameD> games;
+        public BindableCollection<GameD> Games
         {
             get { return games; }
             set
@@ -338,8 +338,8 @@
             }
         }
 
-        private Game selectedGame;
-        public Game SelectedGame
+        private GameD selectedGame;
+        public GameD SelectedGame
         {
             get { return selectedGame; }
             set

@@ -4,6 +4,7 @@
     using CaptureTheFlag.Models;
     using CaptureTheFlag.Services;
     using CaptureTheFlag.ViewModels.GameMapVVMs;
+    using CaptureTheFlag.ViewModels.GameVVMs;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
 
@@ -38,11 +39,11 @@
         {
             base.OnInitialize();
 
-            //TODO: Remove when savint to settings implemented
+            //TODO: Remove when saving to settings implemented
 #warning temporary code region
             #region Temporary code
             Authenticator authenticator = new Authenticator();
-            authenticator.token = "33f2f8a28982e250ad4addb38ee4c50a45906595";
+            authenticator.token = "62864df8c52d19c8db030f762e6daf0c7aa9a93f";
             authenticator.user = "http://78.133.154.39:8888/api/users/4/";
             globalStorageService.Current.Authenticator = authenticator;
             #endregion
@@ -51,7 +52,7 @@
             if (Authenticator.IsValid(authenticatorStored))
             {
                 navigationService
-                    .UriFor<CreateGameMapViewModel>()
+                    .UriFor<MainAppPivotViewModel>()
                     .Navigate();
                 navigationService.RemoveBackEntry();
             }
@@ -72,6 +73,7 @@
         #endregion
 
         #region Message Handling
+        //TODO: Consider caliburn micro "CanExecute" functionality
         public void Handle(bool areFormsAccessible)
         {
             if (areFormsAccessible)

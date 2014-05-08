@@ -24,7 +24,7 @@
 
             IsFormAccessible = true;
 
-            Game = new Game();
+            Game = new GameD();
             //TODO: update to model probably
             StartDate = DateTime.Now.AddDays(1);
 
@@ -57,9 +57,9 @@
 
             if (!String.IsNullOrEmpty(Game.url))
             {
-                if (globalStorageService.Current.Games.ContainsKey(Game.url))
+                if (globalStorageService.Current.GamesD.ContainsKey(Game.url))
                 {
-                    Game = globalStorageService.Current.Games[Game.url];
+                    Game = globalStorageService.Current.GamesD[Game.url];
                 }
                 else
                 {
@@ -152,7 +152,7 @@
             IsFormAccessible = false;
             if (Authenticator.IsValid(Authenticator))
             {
-                Game selectedFields = Game;
+                GameD selectedFields = Game;
                 requestHandle = communicationService.UpdateGameFields(selectedFields, Authenticator.token,
                     responseGameMap =>
                     {
@@ -189,8 +189,8 @@
             }
         }
 
-        private Game game;
-        public Game Game
+        private GameD game;
+        public GameD Game
         {
             get { return game; }
             set

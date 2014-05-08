@@ -1,36 +1,47 @@
-﻿using Caliburn.Micro;
-
-namespace CaptureTheFlag.Models
+﻿namespace CaptureTheFlag.Models
 {
+    using Caliburn.Micro;
+    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
+
+    [DataContract]
     public class Location : PropertyChangedBase
     {
-        private double _lat;
-        private double _lon;
+        #region JSON properties
+        [JsonProperty(PropertyName = "lat")]
+        private double latitude;
+        [JsonProperty(PropertyName = "lon")]
+        private double longitude;
+        #endregion
 
-        public double lat
+        #region Model properties
+        [IgnoreDataMember]
+        public double Latitude
         {
-            get { return _lat; }
+            get { return latitude; }
             set
             {
-                if (_lat != value)
+                if (latitude != value)
                 {
-                    _lat = value;
-                    NotifyOfPropertyChange(() => lat);
+                    latitude = value;
+                    NotifyOfPropertyChange(() => Latitude);
                 }
             }
         }
 
-        public double lon
+        [IgnoreDataMember]
+        public double Longitude
         {
-            get { return _lon; }
+            get { return longitude; }
             set
             {
-                if (_lon != value)
+                if (longitude != value)
                 {
-                    _lon = value;
-                    NotifyOfPropertyChange(() => lon);
+                    longitude = value;
+                    NotifyOfPropertyChange(() => Longitude);
                 }
             }
         }
+        #endregion
     }
 }

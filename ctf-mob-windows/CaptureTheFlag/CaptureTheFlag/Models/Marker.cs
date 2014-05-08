@@ -1,45 +1,35 @@
 ﻿using Caliburn.Micro;
+using Newtonsoft.Json;
 using System;
 using System.Device.Location;
+using System.Runtime.Serialization;
 using System.Windows.Controls;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 namespace CaptureTheFlag.Models
 {
+    [DataContract]
     public class Marker : PropertyChangedBase
     {
+        #region JSON properties
+        [JsonProperty]
         public int type { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Location location { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string url { get; set; }
+        #endregion
 
+        #region Model properties
         public GeoCoordinate Position { 
             get
             {
-                return new GeoCoordinate(location.lat, location.lon);
+                return new GeoCoordinate(location.Latitude, location.Longitude);
             }
             set
             {
-                location.lat = value.Latitude;
-                location.lon = value.Longitude;
+                location.Latitude = value.Latitude;
+                location.Longitude = value.Longitude;
                 NotifyOfPropertyChange(() => Position);
-            }
-        }
-
-        private System.Windows.Shapes.Ellipse area = new System.Windows.Shapes.Ellipse();
-        public System.Windows.Shapes.Ellipse Area
-        {
-            get { 
-                area.Fill = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.Red);
-                area.Width = 40;
-                area.Height = 40;
-                return area; }
-            set
-            {
-                if (area != value)
-                {
-                    area = value;
-                    NotifyOfPropertyChange(() => Area);
-                }
             }
         }
 
@@ -93,5 +83,6 @@ namespace CaptureTheFlag.Models
                 }
             }
         }
+        #endregion
     }
 }

@@ -1,16 +1,21 @@
 ﻿using Caliburn.Micro;
 using CaptureTheFlag.Models;
 using CaptureTheFlag.Services;
+using CaptureTheFlag.ViewModels.GameVVMs;
 using Microsoft.Phone.Maps.Controls;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Device.Location;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
+using System.Windows.Shapes;
 using Windows.Devices.Geolocation;
 
 namespace CaptureTheFlag.ViewModels.GameMapVVMs
@@ -18,33 +23,46 @@ namespace CaptureTheFlag.ViewModels.GameMapVVMs
     public class CreateGameMapViewModel : Screen
     {
         private readonly INavigationService navigationService;
-        private readonly IEventAggregator eventAggregator;
-        private readonly ICommunicationService communicationService;
         private readonly ILocationService locationService;
+        private readonly IGlobalStorageService globalStorageService;
 
-        public CreateGameMapViewModel(INavigationService navigationService, IEventAggregator eventAggregator, ILocationService locationService, ICommunicationService communicationService)
+        public CreateGameMapViewModel(INavigationService navigationService, ILocationService locationService, IGlobalStorageService globalStorageService)
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             this.navigationService = navigationService;
-            this.eventAggregator = eventAggregator;
-            this.communicationService = communicationService;
             this.locationService = locationService;
+            this.globalStorageService = globalStorageService;
+
+            Game = new Game();
+            ZoomLevel = 18.2;
+            MapCenter = new GeoCoordinate(53.432806, 14.548033, 0.0);
+            MapCenter.HorizontalAccuracy = 50.0;
 
             GameMap = new GameMap();
+            AreaCenter = new GeoCoordinate(MapCenter.Latitude, MapCenter.Longitude, 0.0);
+            Area = new Ellipse();
+            GameMap.radius = 100.0;
+            Area.Height = Area.Width = MarkerHelper.MetersToPixels(GameMap.radius, MapCenter.Latitude, ZoomLevel) * 2.0; //TODO: Calculate from Map radius
+            Area.Opacity = 0.5;
+            Area.Fill = new SolidColorBrush() { Color = Colors.Red };
+
+            Markers = new BindableCollection<Marker>();
 
             DisplayName = "Game map";
-            NameTextBlock = "Name:";
-            DescriptionTextBlock = "Description:";
-            RadiusTextBlock = "Radius:";
-            LatTextBlock = "Latitude:";
-            LonTextBlock = "Longitude";
-            CreateButton = "Create";
 
-            CreateButton = "Create new";
-            ReadButton = "Read";
-            UpdateButton = "Update";
-            UpdateSelectiveButton = "Fast Update";
-            DeleteButton = "Delete";
+            ApplyMapChangesAppBarItemText = "apply";
+            ApplyMapChangesIcon  = new Uri("/Images/check.png", UriKind.Relative);
+
+            SetGameAreaAppBarItemText = "area";
+            SetGameAreaIcon = new Uri("/Images/share.png", UriKind.Relative);
+
+            AddRedBaseAppBarItemText = "red base";
+            AddRedBaseIcon = new Uri("/Images/like.png", UriKind.Relative);
+
+            AddBlueBaseAppBarItemText = "blue base";
+            AddBlueBaseIcon = new Uri("/Images/upload.png", UriKind.Relative);
+
+            CanChangeGameRadius = false;
             IsFormAccessible = true;
         }
 
@@ -53,43 +71,139 @@ namespace CaptureTheFlag.ViewModels.GameMapVVMs
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             base.OnActivate();
-            eventAggregator.Subscribe(this);
+            Authenticator = globalStorageService.Current.Authenticator;
+            if (!String.IsNullOrEmpty(GameModelKey) && globalStorageService.Current.Games.ContainsKey(GameModelKey))
+            {
+                Game = globalStorageService.Current.Games[GameModelKey];
+            }
         }
 
         protected override void OnDeactivate(bool close)
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
-            eventAggregator.Unsubscribe(this);
             base.OnDeactivate(close);
         }
         #endregion
 
         #region Actions
-        public void CreateAction()
+        public void ApplyMapChangesAction()
         {
-            GameMap.games = null;
+            //TODO: Remove the key if it is not used or use an object specific for game creation
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
-            IsFormAccessible = false;
-            communicationService.CreateGameMap(GameMap, Token,
-                responseGameMap =>
-                {
-                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
-                    GameMap = responseGameMap;
-                    IsFormAccessible = true;
-                },
-                serverErrorMessage =>
-                {
-                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
-                    MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
-                    IsFormAccessible = true;
-                }
-            );
+            if (GameModelKey == null)
+            {
+                GameModelKey = "TemporaryGameModelKey";
+            }
+            globalStorageService.Current.Games[GameModelKey] = Game;
+            navigationService.UriFor<CreateGameViewModel>()
+                .WithParam(param => param.GameModelKey, GameModelKey)
+                .Navigate();
+            navigationService.RemoveBackEntry();
         }
 
+        public void SetGameAreaAction()
+        {
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
+            CanChangeGameRadius = !CanChangeGameRadius;
+            if (CanChangeGameRadius)
+            {
+                MapCenter = AreaCenter;
+            }
+        }
+
+        public void AddRedBaseAction()
+        {
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
+
+            Marker redBase = new Marker();
+            redBase.type = 5;
+            redBase.location = new Location() { Latitude = MapCenter.Latitude, Longitude = MapCenter.Longitude };
+            //redBase.url = String.Format("http://78.133.154.39:8888/{0}/{1}", redBase.type, redBase.type); //TODO: Remove, temporary const
+
+            var idx = Markers.ToList().FindIndex(marker => marker.type == 5);
+            if(idx != -1)
+            {
+                Markers[idx] = redBase;
+            }
+            else
+            {
+                Markers.Add(redBase);
+            }
+        }
+
+        public void AddBlueBaseAction()
+        {
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
+
+            Marker blueBase = new Marker();
+            blueBase.type = 4;
+            blueBase.location = new Location() { Latitude = MapCenter.Latitude, Longitude = MapCenter.Longitude };
+            //blueBase.url = String.Format("http://78.133.154.39:8888/{0}/{1}", blueBase.type, blueBase.type); //TODO: Remove, temporary const
+
+            var idx = Markers.ToList().FindIndex(marker => marker.type == 4);
+            if (idx != -1)
+            {
+                Markers[idx] = blueBase;
+            }
+            else
+            {
+                Markers.Add(blueBase);
+            }
+        }
+
+        public void ChangeGameFieldAtion()
+        {
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
+            if (Area != null && GameMap != null && MapCenter != null)
+            {
+                if (CanChangeGameRadius)
+                {
+                    //TODO: check validity of calculations
+                    double pixelsRadius = Area.ActualWidth / 2.0;
+                    GameMap.radius = MarkerHelper.PixelsToMeters(pixelsRadius, MapCenter.Latitude, ZoomLevel);
+                    AreaCenter = MapCenter;
+                    GameMap.lat = AreaCenter.Latitude;
+                    GameMap.lon = AreaCenter.Longitude;
+                }
+                else
+                {
+                    double pixelsRadius = MarkerHelper.MetersToPixels(GameMap.radius, MapCenter.Latitude, ZoomLevel);
+                    Area.Height = Area.Width = pixelsRadius * 2.0; //TODO: Calculate from Map radius
+                }
+            }
+        }
         #endregion
 
         #region Properties
         #region Model properties
+        private Game game;
+        public Game Game
+        {
+            get { return game; }
+            set
+            {
+                if (game != value)
+                {
+                    game = value;
+                    NotifyOfPropertyChange(() => Game);
+                }
+            }
+        }
+
+        private string gameModelKey;
+        public string GameModelKey
+        {
+            get { return gameModelKey; }
+            set
+            {
+                if (gameModelKey != value)
+                {
+                    gameModelKey = value;
+                    NotifyOfPropertyChange(() => GameModelKey);
+                }
+            }
+        }
+
         private GameMap gameMap;
         public GameMap GameMap
         {
@@ -118,176 +232,147 @@ namespace CaptureTheFlag.ViewModels.GameMapVVMs
             }
         }
 
-        private string token;
-        public string Token
+        private Authenticator authenticator;
+        public Authenticator Authenticator
         {
-            get { return token; }
+            get { return authenticator; }
             set
             {
-                if (token != value)
+                if (authenticator != value)
                 {
-                    token = value;
-                    NotifyOfPropertyChange(() => Token);
+                    authenticator = value;
+                    NotifyOfPropertyChange(() => Authenticator);
+                }
+            }
+        }
+
+        private BindableCollection<Marker> markers;
+        public BindableCollection<Marker> Markers
+        {
+            get { return markers; }
+            set
+            {
+                if (markers != value)
+                {
+                    markers = value;
+                    NotifyOfPropertyChange(() => Markers);
                 }
             }
         }
         #endregion
 
         #region UI properties
-        private Map geoMap;
-        public Map GeoMap
+        private string applyMapChangesAppBarItemText;
+        public string ApplyMapChangesAppBarItemText
         {
-            get { return geoMap; }
+            get { return applyMapChangesAppBarItemText; }
             set
             {
-                if (geoMap != value)
+                if (applyMapChangesAppBarItemText != value)
                 {
-                    geoMap = value;
-                    NotifyOfPropertyChange(() => GeoMap);
+                    applyMapChangesAppBarItemText = value;
+                    NotifyOfPropertyChange(() => ApplyMapChangesAppBarItemText);
                 }
             }
         }
 
-        private string nameTextBlock;
-        public string NameTextBlock
+        private Uri applyMapChangesIcon;
+        public Uri ApplyMapChangesIcon
         {
-            get { return nameTextBlock; }
+            get { return applyMapChangesIcon; }
             set
             {
-                if (nameTextBlock != value)
+                if (applyMapChangesIcon != value)
                 {
-                    nameTextBlock = value;
-                    NotifyOfPropertyChange(() => NameTextBlock);
+                    applyMapChangesIcon = value;
+                    NotifyOfPropertyChange(() => ApplyMapChangesIcon);
                 }
             }
         }
 
-        private string descriptionTextBlock;
-        public string DescriptionTextBlock
+        private string setGameAreaAppBarItemText;
+        public string SetGameAreaAppBarItemText
         {
-            get { return descriptionTextBlock; }
+            get { return setGameAreaAppBarItemText; }
             set
             {
-                if (descriptionTextBlock != value)
+                if (setGameAreaAppBarItemText != value)
                 {
-                    descriptionTextBlock = value;
-                    NotifyOfPropertyChange(() => DescriptionTextBlock);
+                    setGameAreaAppBarItemText = value;
+                    NotifyOfPropertyChange(() => SetGameAreaAppBarItemText);
                 }
             }
         }
 
-        private string radiusTextBlock;
-        public string RadiusTextBlock
+        private Uri setGameAreaIcon;
+        public Uri SetGameAreaIcon
         {
-            get { return radiusTextBlock; }
+            get { return setGameAreaIcon; }
             set
             {
-                if (radiusTextBlock != value)
+                if (setGameAreaIcon != value)
                 {
-                    radiusTextBlock = value;
-                    NotifyOfPropertyChange(() => RadiusTextBlock);
+                    setGameAreaIcon = value;
+                    NotifyOfPropertyChange(() => SetGameAreaIcon);
                 }
             }
         }
 
-        private string latTextBlock;
-        public string LatTextBlock
+        private string addRedBaseAppBarItemText;
+        public string AddRedBaseAppBarItemText
         {
-            get { return latTextBlock; }
+            get { return addRedBaseAppBarItemText; }
             set
             {
-                if (latTextBlock != value)
+                if (addRedBaseAppBarItemText != value)
                 {
-                    latTextBlock = value;
-                    NotifyOfPropertyChange(() => LatTextBlock);
+                    addRedBaseAppBarItemText = value;
+                    NotifyOfPropertyChange(() => AddRedBaseAppBarItemText);
                 }
             }
         }
 
-        private string lonTextBlock;
-        public string LonTextBlock
+        private Uri addRedBaseIcon;
+        public Uri AddRedBaseIcon
         {
-            get { return lonTextBlock; }
+            get { return addRedBaseIcon; }
             set
             {
-                if (lonTextBlock != value)
+                if (addRedBaseIcon != value)
                 {
-                    lonTextBlock = value;
-                    NotifyOfPropertyChange(() => LonTextBlock);
+                    addRedBaseIcon = value;
+                    NotifyOfPropertyChange(() => AddRedBaseIcon);
                 }
             }
         }
 
-        private string createButton;
-        public string CreateButton
+        private string addBlueBaseAppBarItemText;
+        public string AddBlueBaseAppBarItemText
         {
-            get { return createButton; }
+            get { return addBlueBaseAppBarItemText; }
             set
             {
-                if (createButton != value)
+                if (addBlueBaseAppBarItemText != value)
                 {
-                    createButton = value;
-                    NotifyOfPropertyChange(() => CreateButton);
-                }
-            }
-        }
-        private string readButton;
-        public string ReadButton
-        {
-            get { return readButton; }
-            set
-            {
-                if (readButton != value)
-                {
-                    readButton = value;
-                    NotifyOfPropertyChange(() => ReadButton);
+                    addBlueBaseAppBarItemText = value;
+                    NotifyOfPropertyChange(() => AddBlueBaseAppBarItemText);
                 }
             }
         }
 
-
-        private string updateButton;
-        public string UpdateButton
+        private Uri addBlueBaseIcon;
+        public Uri AddBlueBaseIcon
         {
-            get { return updateButton; }
+            get { return addBlueBaseIcon; }
             set
             {
-                if (updateButton != value)
+                if (addBlueBaseIcon != value)
                 {
-                    updateButton = value;
-                    NotifyOfPropertyChange(() => UpdateButton);
+                    addBlueBaseIcon = value;
+                    NotifyOfPropertyChange(() => AddBlueBaseIcon);
                 }
             }
         }
-
-        private string updateSelectiveButton;
-        public string UpdateSelectiveButton
-        {
-            get { return updateSelectiveButton; }
-            set
-            {
-                if (updateSelectiveButton != value)
-                {
-                    updateSelectiveButton = value;
-                    NotifyOfPropertyChange(() => UpdateSelectiveButton);
-                }
-            }
-        }
-
-        private string deleteButton;
-        public string DeleteButton
-        {
-            get { return deleteButton; }
-            set
-            {
-                if (deleteButton != value)
-                {
-                    deleteButton = value;
-                    NotifyOfPropertyChange(() => DeleteButton);
-                }
-            }
-        }
-
 
         private bool isFormAccessible;
         public bool IsFormAccessible
@@ -299,7 +384,6 @@ namespace CaptureTheFlag.ViewModels.GameMapVVMs
                 {
                     isFormAccessible = value;
                     NotifyOfPropertyChange(() => IsFormAccessible);
-                    eventAggregator.Publish(isFormAccessible);
                 }
             }
         }
@@ -311,7 +395,7 @@ namespace CaptureTheFlag.ViewModels.GameMapVVMs
         //-------------------------------------------------------------------
 
 
-        private GeoCoordinate mapCenter = new GeoCoordinate(40.712923, -74.013292);
+        private GeoCoordinate mapCenter = new GeoCoordinate(53.432806, 14.548033);
         public GeoCoordinate MapCenter
         {
             get { return mapCenter; }
@@ -320,12 +404,71 @@ namespace CaptureTheFlag.ViewModels.GameMapVVMs
                 if (mapCenter != value)
                 {
                     mapCenter = value;
+                    ChangeGameFieldAtion();
                     NotifyOfPropertyChange(() => MapCenter);
                 }
             }
         }
-        private double zoomLevel = 15;
 
+        private GeoCoordinate areaCenter;
+        public GeoCoordinate AreaCenter
+        {
+            get { return areaCenter; }
+            set
+            {
+                if (areaCenter != value)
+                {
+                    areaCenter = value;
+                    if(Game == null)
+                    {
+                        Game = new Game();
+                    }
+                    if(Game.Location == null)
+                    {
+                        Game.Location = new Location();
+                    }
+                    Game.Location.Latitude = areaCenter.Latitude;
+                    Game.Location.Longitude = areaCenter.Longitude;
+                    NotifyOfPropertyChange(() => AreaCenter);
+                }
+            }
+        }
+
+        private Ellipse area;
+        public Ellipse Area
+        {
+            get { return area; }
+            set
+            {
+                if (area != value)
+                {
+                    area = value;
+                    if (Game == null)
+                    {
+                        Game = new Game();
+                    }
+                    double pixelsRadius = area.ActualWidth / 2.0;
+                    Game.Radius = MarkerHelper.PixelsToMeters(pixelsRadius, MapCenter.Latitude, ZoomLevel);
+                    NotifyOfPropertyChange(() => Area);
+                }
+            }
+        }
+
+        private bool canChangeGameRadius;
+        public bool CanChangeGameRadius
+        {
+            get { return canChangeGameRadius; }
+            set
+            {
+                if (canChangeGameRadius != value)
+                {
+                    canChangeGameRadius = value;
+                    NotifyOfPropertyChange(() => CanChangeGameRadius);
+                }
+            }
+        }
+
+        private double zoomLevel = 15;
         public double ZoomLevel
         {
             get { return zoomLevel; }
@@ -334,6 +477,7 @@ namespace CaptureTheFlag.ViewModels.GameMapVVMs
                 if (zoomLevel != value)
                 {
                     zoomLevel = value;
+                    ChangeGameFieldAtion();
                     NotifyOfPropertyChange(() => ZoomLevel);
                 }
             }

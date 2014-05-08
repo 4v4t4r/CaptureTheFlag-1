@@ -29,7 +29,7 @@
                 <maptk:MapItemsControl x:Name="Markers">
                     <maptk:MapItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <maptk:MapChildControl GeoCoordinate="{Binding Position}" Visibility="Visible">
+                            <maptk:MapChildControl GeoCoordinate="{Binding Position}" Visibility="Visible" PositionOrigin="0.5, 0.5">
                                 <maptk:MapChildControl.Content>
                                     <Border  BorderBrush="#FF0000" BorderThickness="5">
                                     <Grid>

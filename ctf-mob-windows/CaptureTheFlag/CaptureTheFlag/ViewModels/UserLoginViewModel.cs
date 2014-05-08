@@ -26,8 +26,6 @@ namespace CaptureTheFlag.ViewModels
             this.globalStorageService = globalStorageService;
 
             User = new User();
-            User.device_type = User.DEVICE_TYPE.WP;
-            User.device_id = HostInformation.PublisherHostId;
             
             DisplayName = "Login";
 
@@ -38,22 +36,6 @@ namespace CaptureTheFlag.ViewModels
             IsFormAccessible = true;
         }
 
-        #region ViewModel States
-        protected override void OnActivate()
-        {
-            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
-            base.OnActivate();
-            eventAggregator.Subscribe(this);
-        }
-
-        protected override void OnDeactivate(bool close)
-        {
-            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
-            eventAggregator.Unsubscribe(this);
-            base.OnDeactivate(close);
-        }
-        #endregion
-
         #region Actions
         public void LoginAction()
         {
@@ -61,7 +43,7 @@ namespace CaptureTheFlag.ViewModels
             IsFormAccessible = false;
             requestHandle = communicationService.LoginUser(User, responseAuthenticator =>
                     {
-                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
+                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Communication success callback");
                         globalStorageService.Current.Authenticator = responseAuthenticator;
                         navigationService.UriFor<MainAppPivotViewModel>().Navigate();
                         navigationService.RemoveBackEntry();
@@ -69,7 +51,7 @@ namespace CaptureTheFlag.ViewModels
                     },
                     serverErrorMessage =>
                     {
-                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
+                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Communication error callback");
                         MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
                         IsFormAccessible = true;
                     }
@@ -139,6 +121,7 @@ namespace CaptureTheFlag.ViewModels
             }
         }
 
+        //TODO: Consider caliburn micro "CanExecute" functionality
         private bool isFormAccessible;
         public bool IsFormAccessible
         {

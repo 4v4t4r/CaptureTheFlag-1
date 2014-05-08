@@ -90,7 +90,7 @@
         public async void UpdateMarkersAction()
         {
             GeoCoordinate position = await locationService.getCurrentGeoCoordinateAsync();
-            Game game = new Game() { url = "http://78.133.154.39:8888/api/games/2/" };
+            GameD game = new GameD() { url = "http://78.133.154.39:8888/api/games/2/" };
             if (Authenticator.IsValid(Authenticator))
             {
                 communicationService.RegisterPosition(game, position, Authenticator.token,
@@ -115,7 +115,7 @@
             string formattedLocations = "><";
             foreach(Marker marker in Markers)
             {
-                formattedLocations += String.Format("t {0} : lat {1}, lon {2} ><", marker.type, marker.location.lat, marker.location.lon);
+                formattedLocations += String.Format("t {0} : lat {1}, lon {2} ><", marker.type, marker.location.Latitude, marker.location.Longitude);
             }
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), formattedLocations);
         }
@@ -126,7 +126,6 @@
         }
 
         private SolidColorBrush fill;
-
         public SolidColorBrush Fill
         {
             get { return fill; }
@@ -134,7 +133,6 @@
         }
 
         private BindableCollection<MapLayer> mapLayers;
-
         public BindableCollection<MapLayer> MapLayers
         {
             get { return mapLayers; }
@@ -142,7 +140,6 @@
         }
 
         private MapLayer mapLayer;
-
         public MapLayer MapLayer
         {
             get { return mapLayer; }
@@ -261,12 +258,6 @@
             }
         }
 
-        public static double MetersToPixels(double meters, double latitude, double zoomLevel)
-        {
-            var pixels = meters / (156543.04 * Math.Cos(latitude) / (Math.Pow(2, zoomLevel)));
-            return Math.Abs(pixels);
-        }
-
         //TODO: Draw visibility range
         //TODO: Draw action range
 
@@ -281,8 +272,8 @@
                     zoomLevel = value;
                     if (Area != null)
                     {
-                        Area.Height = MetersToPixels(150, Map.Center.Latitude, ZoomLevel); //TODO: Calculate from Map radius
-                        Area.Width = MetersToPixels(150, Map.Center.Latitude, ZoomLevel); //TODO: Calculate from Map radius
+                        Area.Height = MarkerHelper.MetersToPixels(150, Map.Center.Latitude, ZoomLevel); //TODO: Calculate from Map radius
+                        Area.Width = MarkerHelper.MetersToPixels(150, Map.Center.Latitude, ZoomLevel); //TODO: Calculate from Map radius
                     }
                     NotifyOfPropertyChange(() => ZoomLevel);
                 }

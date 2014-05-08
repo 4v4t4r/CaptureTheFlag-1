@@ -35,60 +35,60 @@
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <ScrollViewer>
-                <StackPanel>
-                    <maps:Map ZoomLevel="{Binding ZoomLevel, Mode=TwoWay}"
-                              Center="{Binding Path=Map.Center, Mode=TwoWay}"
-                              dp:MapChildControlDependency.ItemsSource="{Binding Path=Markers, Mode=TwoWay}"
-                              IsEnabled="{Binding IsFormAccessible}"
-                              Height="600"
-                        >
-                        <maptk:MapExtensions.Children>
-                            <maptk:MapItemsControl x:Name="Markers">
-                                <maptk:MapItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <maptk:MapChildControl GeoCoordinate="{Binding Position}" Visibility="Visible">
-                                            <maptk:MapChildControl.Content>
-                                                <Grid>
-                                                    <Image Grid.Column="0" Grid.Row="0" Height="{Binding Path=Image.Height}" Width="{Binding Path=Image.Width}" Source="{Binding Path=Image.Source}" Canvas.ZIndex="100"/>
-                                                    <Ellipse Grid.Column="0" Grid.Row="0" Height="75" Width="75" Fill="Blue" Opacity="0.5"  Canvas.ZIndex="99"/>
-                                                    <Ellipse Grid.Column="0" Grid.Row="0" Height="150" Width="150" Fill="Green" Opacity="0.5"  Canvas.ZIndex="98"/>
-                                                </Grid>
-                                            </maptk:MapChildControl.Content>
-                                        </maptk:MapChildControl>
-                                    </DataTemplate>
-                                </maptk:MapItemsControl.ItemTemplate>
-                            </maptk:MapItemsControl>
+            <maps:Map 
+                        ZoomLevel="{Binding ZoomLevel, Mode=TwoWay}"
+                        Center="{Binding MapCenter, Mode=TwoWay}"
+                        dp:MapChildControlDependency.ItemsSource="{Binding Path=Markers, Mode=TwoWay}"
+                        IsEnabled="{Binding IsFormAccessible}"
+                        Height="600"
+                >
+                <maptk:MapExtensions.Children>
+                    <maptk:MapItemsControl x:Name="Markers">
+                        <maptk:MapItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <maptk:MapChildControl GeoCoordinate="{Binding Position}" Visibility="Visible" PositionOrigin="0.5, 0.5">
+                                    <maptk:MapChildControl.Content>
+                                        <Grid>
+                                            <Image Height="{Binding Path=Image.Height}" Width="{Binding Path=Image.Width}" Source="{Binding Path=Image.Source}" Canvas.ZIndex="100"/>
+                                            <Ellipse Height="75" Width="75" Fill="Blue" Opacity="0.5"  Canvas.ZIndex="99"/>
+                                            <Ellipse Height="150" Width="150" Fill="Green" Opacity="0.5"  Canvas.ZIndex="98"/>
+                                        </Grid>
+                                    </maptk:MapChildControl.Content>
+                                </maptk:MapChildControl>
+                            </DataTemplate>
+                        </maptk:MapItemsControl.ItemTemplate>
+                    </maptk:MapItemsControl>
 
-                            <maptk:MapChildControl PositionOrigin="0.5,0.5" GeoCoordinate="{Binding MapCenter}" Visibility="Visible">
-                                <maptk:MapChildControl.Content>
-                                    <Ellipse Height="{Binding Path=Area.Height}" Width="{Binding Path=Area.Width}" Fill="{Binding Path=Area.Fill}" Opacity="{Binding Path=Area.Opacity}"/>
-                                </maptk:MapChildControl.Content>
-                            </maptk:MapChildControl>
+                    <maptk:MapChildControl PositionOrigin="0.5, 0.5" GeoCoordinate="{Binding Path=AreaCenter, Mode=TwoWay}" Visibility="Visible">
+                        <maptk:MapChildControl.Content>
+                            <Ellipse Height="{Binding Path=Area.Height}" Width="{Binding Path=Area.Width}" Fill="{Binding Path=Area.Fill}" Opacity="{Binding Path=Area.Opacity}"/>
+                        </maptk:MapChildControl.Content>
+                    </maptk:MapChildControl>
 
-                            <maptk:UserLocationMarker GeoCoordinate="{Binding MapCenter, Mode=TwoWay}" Visibility="Visible"/>
-                        </maptk:MapExtensions.Children>
-                    </maps:Map>
-                
-                    <TextBlock x:Name="NameTextBlock" />
-                    <TextBox x:Name="GameMap_name" IsEnabled="{Binding IsFormAccessible}" />
-                
-                    <TextBlock x:Name="DescriptionTextBlock" />
-                    <TextBox x:Name="GameMap_description" IsEnabled="{Binding IsFormAccessible}" />
-                 
-                </StackPanel>
-            </ScrollViewer>
+                    <maptk:UserLocationMarker GeoCoordinate="{Binding MapCenter, Mode=TwoWay}" Visibility="Visible"/>
+                </maptk:MapExtensions.Children>
+            </maps:Map>
         </Grid>
 
-        <bab:BindableAppBar x:Name="CreateAppBar" >
-            <bab:BindableAppBarButton x:Name="CreateAction"
-                                  Text="{Binding CreateAppBarItemText}"
-                                  IconUri="{Binding CreateIcon}"
+        <bab:BindableAppBar>
+            <bab:BindableAppBarButton x:Name="ApplyMapChangesAction"
+                                  Text="{Binding ApplyMapChangesAppBarItemText}"
+                                  IconUri="{Binding ApplyMapChangesIcon}"
                                   IsEnabled="{Binding IsFormAccessible}" />
 
-            <bab:BindableAppBarButton x:Name="GameMapAction"
-                                  Text="{Binding GameMapAppBarItemText}"
-                                  IconUri="{Binding GameMapIcon}"
+            <bab:BindableAppBarButton x:Name="SetGameAreaAction"
+                                  Text="{Binding SetGameAreaAppBarItemText}"
+                                  IconUri="{Binding SetGameAreaIcon}"
+                                  IsEnabled="{Binding IsFormAccessible}" />
+
+            <bab:BindableAppBarButton x:Name="AddRedBaseAction"
+                                  Text="{Binding AddRedBaseAppBarItemText}"
+                                  IconUri="{Binding AddRedBaseIcon}"
+                                  IsEnabled="{Binding IsFormAccessible}" />
+
+            <bab:BindableAppBarButton x:Name="AddBlueBaseAction"
+                                  Text="{Binding AddBlueBaseAppBarItemText}"
+                                  IconUri="{Binding AddBlueBaseIcon}"
                                   IsEnabled="{Binding IsFormAccessible}" />
         </bab:BindableAppBar>
     </Grid>

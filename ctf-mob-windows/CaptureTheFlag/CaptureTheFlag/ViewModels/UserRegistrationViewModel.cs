@@ -25,7 +25,6 @@
             this.globalStorageService = globalStorageService;
 
             User = new User();
-            User.device_type = User.DEVICE_TYPE.WP; ///TODO: Do not send device_type information in register request
             IsFormAccessible = true;
             
             DisplayName = "Registration";
@@ -44,34 +43,20 @@
             IsFormAccessible = false;
             requestHandle = communicationService.RegisterUser(User, responseUser =>
                     {
-                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
-                        MessageBox.Show("CREATED", String.Format("creater user: {0}", User.username), MessageBoxButton.OK);
-                        //TODO: Decide what to do with response User model, note that it containse password sha251
+                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Communication success callback");
+                        MessageBox.Show("CREATED", String.Format("creater user: {0}", User.Username), MessageBoxButton.OK);
+                        //TODO: Returned password sha251 should be removed from server
+                        responseUser.Password = null;
+                        User = globalStorageService.Current.Users[responseUser.Url] = responseUser;
                         IsFormAccessible = true;
                     },
                     serverErrorMessage =>
                     {
-                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
+                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Communication error callback");
                         MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
                         IsFormAccessible = true;
                     }
             );
-        }
-        #endregion
-
-        #region ViewModel States
-        protected override void OnActivate()
-        {
-            base.OnActivate();
-            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
-            eventAggregator.Subscribe(this);
-        }
-
-        protected override void OnDeactivate(bool close)
-        {
-            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
-            eventAggregator.Unsubscribe(this);
-            base.OnDeactivate(close);
         }
         #endregion
 
@@ -150,6 +135,7 @@
             }
         }
 
+        //TODO: Consider caliburn micro "CanExecute" functionality
         private bool isFormAccessible;
         public bool IsFormAccessible
         {
@@ -160,6 +146,7 @@
                 {
                     isFormAccessible = value;
                     NotifyOfPropertyChange(() => IsFormAccessible);
+                    eventAggregator.Publish(isFormAccessible);
                 }
             }
         }

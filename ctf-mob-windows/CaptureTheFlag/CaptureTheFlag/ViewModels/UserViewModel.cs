@@ -31,7 +31,7 @@ namespace CaptureTheFlag.ViewModels
 
             IsFormAccessible = true;
 
-            User = new User();
+            User = new UserD();
             Characters = new BindableCollection<Character>();
 
             UsernameTextBlock = "Username:";
@@ -60,7 +60,7 @@ namespace CaptureTheFlag.ViewModels
             Authenticator = globalStorageService.Current.Authenticator;
             if (globalStorageService.Current.Users != null && globalStorageService.Current.Users.ContainsKey(Authenticator.user))
             {
-                User = globalStorageService.Current.Users[Authenticator.user];
+                User = globalStorageService.Current.DUsers[Authenticator.user];
             }
             else
             {
@@ -239,8 +239,8 @@ namespace CaptureTheFlag.ViewModels
             }
         }
 
-        private User user;
-        public User User
+        private UserD user;
+        public UserD User
         {
             get { return user; }
             set

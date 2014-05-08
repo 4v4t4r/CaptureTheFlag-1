@@ -8,31 +8,31 @@ namespace CaptureTheFlag.Models
 {
     public static class Extensions
     {
-        private static Dictionary<Game.STATUSES, string> statusNames;
-        private static Dictionary<Game.GAME_TYPE, string> gameTypeNames;
+        private static Dictionary<GameD.STATUSES, string> statusNames;
+        private static Dictionary<GameD.GAME_TYPE, string> gameTypeNames;
         static Extensions()
         {
-            statusNames = new Dictionary<Game.STATUSES, string>();
-            statusNames.Add(Game.STATUSES.IN_PROGRESS, "In progress");
-            statusNames.Add(Game.STATUSES.CREATED, "Created");
-            statusNames.Add(Game.STATUSES.ON_HOLD, "On hold");
-            statusNames.Add(Game.STATUSES.CANCELED, "Canceled");
+            statusNames = new Dictionary<GameD.STATUSES, string>();
+            statusNames.Add(GameD.STATUSES.IN_PROGRESS, "In progress");
+            statusNames.Add(GameD.STATUSES.CREATED, "Created");
+            statusNames.Add(GameD.STATUSES.ON_HOLD, "On hold");
+            statusNames.Add(GameD.STATUSES.CANCELED, "Canceled");
 
-            gameTypeNames = new Dictionary<Game.GAME_TYPE, string>();
-            gameTypeNames.Add(Game.GAME_TYPE.FRAGS, "Frags");
-            gameTypeNames.Add(Game.GAME_TYPE.TIME, "Time");
+            gameTypeNames = new Dictionary<GameD.GAME_TYPE, string>();
+            gameTypeNames.Add(GameD.GAME_TYPE.FRAGS, "Frags");
+            gameTypeNames.Add(GameD.GAME_TYPE.TIME, "Time");
         }
 
-        public static string GetName(this Game.STATUSES status)
+        public static string GetName(this GameD.STATUSES status)
         {
             return statusNames[status];
         }
 
-        public static string GetName(this Game.GAME_TYPE gameType)
+        public static string GetName(this GameD.GAME_TYPE gameType)
         {
             return gameTypeNames[gameType];
         }
 
-        public static string Name { get { return statusNames[Game.STATUSES.IN_PROGRESS]; } private set { } }
+        public static string Name { get { return statusNames[GameD.STATUSES.IN_PROGRESS]; } private set { } }
     }
 }

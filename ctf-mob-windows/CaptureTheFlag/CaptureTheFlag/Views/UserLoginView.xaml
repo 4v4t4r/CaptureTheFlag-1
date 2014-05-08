@@ -24,10 +24,10 @@
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
             <StackPanel>
                 <TextBlock x:Name="UsernameTextBlock" />
-                <TextBox x:Name="User_username" IsEnabled="{Binding IsFormAccessible}" />
+                <TextBox x:Name="User_Username" IsEnabled="{Binding IsFormAccessible}" />
 
                 <TextBlock x:Name="PasswordTextBlock" />
-                <TextBox x:Name="User_password" IsEnabled="{Binding IsFormAccessible}" />
+                <TextBox x:Name="User_Password" IsEnabled="{Binding IsFormAccessible}" />
 
                 <Button x:Name="LoginButton" IsEnabled="{Binding IsFormAccessible}" >
                     <i:Interaction.Triggers>

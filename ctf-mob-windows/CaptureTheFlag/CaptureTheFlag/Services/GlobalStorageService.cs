@@ -9,6 +9,17 @@ namespace CaptureTheFlag.Services
 {
     //Reference: http://www.matthidinger.com/archive/2011/12/04/RealWorldWPDev-Part-6-Page-Navigation-and-passing-Complex-State.aspx
     //TODO: Change/modify if approach is desirable
+    public class GameDCache : Dictionary<string, GameD>
+    {
+        public GameD GetFromCache(string key)
+        {
+            if (ContainsKey(key))
+                return this[key];
+
+            return null;
+        }
+    }
+
     public class GameCache : Dictionary<string, Game>
     {
         public Game GetFromCache(string key)
@@ -23,6 +34,18 @@ namespace CaptureTheFlag.Services
     public class GameMapCache : Dictionary<string, GameMap>
     {
         public GameMap GetFromCache(string key)
+        {
+            if (ContainsKey(key))
+                return this[key];
+
+            return null;
+        }
+    }
+
+
+    public class UserDCache : Dictionary<string, UserD>
+    {
+        public UserD GetFromCache(string key)
         {
             if (ContainsKey(key))
                 return this[key];
@@ -65,6 +88,16 @@ namespace CaptureTheFlag.Services
             }
         }
 
+        private GameDCache _cachedGamesD;
+        public GameDCache GamesD
+        {
+            get
+            {
+                if (_cachedGamesD == null) _cachedGamesD = new GameDCache();
+                return _cachedGamesD;
+            }
+        }
+
         private GameCache _cachedGames;
         public GameCache Games
         {
@@ -72,6 +105,16 @@ namespace CaptureTheFlag.Services
             {
                 if (_cachedGames == null) _cachedGames = new GameCache();
                 return _cachedGames;
+            }
+        }
+
+        private UserDCache _cachedDUsers;
+        public UserDCache DUsers
+        {
+            get
+            {
+                if (_cachedDUsers == null) _cachedDUsers = new UserDCache();
+                return _cachedDUsers;
             }
         }
 

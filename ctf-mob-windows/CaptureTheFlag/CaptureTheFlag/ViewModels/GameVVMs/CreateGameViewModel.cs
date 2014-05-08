@@ -6,6 +6,7 @@
     using CaptureTheFlag.ViewModels.GameMapVVMs;
     using RestSharp;
     using System;
+    using System.Linq;
     using System.Reflection;
     using System.Windows;
     public class CreateGameViewModel : Screen
@@ -26,8 +27,7 @@
 
             Game = new Game();
             Authenticator = new Authenticator();
-            //TODO: update to model probably
-            StartDate = DateTime.Now.AddDays(1);
+            GameModelKey = "TemporaryGameModelKey";
 
             DisplayName = "Create game";
 
@@ -53,9 +53,9 @@
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             base.OnActivate();
             Authenticator = globalStorageService.Current.Authenticator;
-            if (!String.IsNullOrEmpty(GameMapModelKey) && globalStorageService.Current.GameMaps.ContainsKey(GameMapModelKey))
+            if (!String.IsNullOrEmpty(GameModelKey) && globalStorageService.Current.Games.ContainsKey(GameModelKey))
             {
-                Game.map = GameMapModelKey;
+                Game = globalStorageService.Current.Games[GameModelKey];
             }
         }
         #endregion
@@ -63,6 +63,7 @@
         #region Actions
         public void CreateAction()
         {
+            //TODO: On successremove from gameCache gameMapModelKey as it is temporary!!!
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             IsFormAccessible = false;
             if (Authenticator.IsValid(Authenticator))
@@ -72,7 +73,8 @@
                     {
                         DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
                         Game = responseGameMap;
-                        globalStorageService.Current.Games[Game.url] = Game;
+                        globalStorageService.Current.Games[Game.Url] = Game;
+                        globalStorageService.Current.Games.Remove(GameModelKey);
                         IsFormAccessible = true;
                         navigationService.UriFor<MainAppPivotViewModel>()
                             .Navigate();
@@ -91,7 +93,10 @@
         public void GameMapAction()
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
-            navigationService.UriFor<ListGameMapsViewModel>().Navigate();
+            globalStorageService.Current.Games[GameModelKey] = Game;
+            navigationService.UriFor<CreateGameMapViewModel>()
+                .WithParam(param => param.GameModelKey, GameModelKey)
+                .Navigate();
         }
         #endregion
 
@@ -126,37 +131,30 @@
             }
         }
 
-        private string gameMapModelKey;
-        public string GameMapModelKey
+        private string gameModelKey;
+        public string GameModelKey
         {
-            get { return gameMapModelKey; }
+            get { return gameModelKey; }
             set
             {
-                if (gameMapModelKey != value)
+                if (gameModelKey != value)
                 {
-                    gameMapModelKey = value;
-                    NotifyOfPropertyChange(() => GameMapModelKey);
+                    gameModelKey = value;
+                    NotifyOfPropertyChange(() => GameModelKey);
                 }
             }
         }
 
-        //TODO: date time in model maybe?
-        //TODO: make aconverter
-        private DateTime startDate;
-        public DateTime StartDate
+        public string SelectedType
         {
-            get { return startDate; }
+            get
+            {
+                return Game.Types.FirstOrDefault(pair => pair.Value == Game.Type).Key;
+            }
             set
             {
-                if (startDate != value)
-                {
-                    startDate = value;
-                    if (Game != null)
-                    {
-                        Game.start_time = startDate.ToString("s");
-                    }
-                    NotifyOfPropertyChange(() => StartDate);
-                }
+                Game.Type = Game.Types[value];
+                NotifyOfPropertyChange(() => SelectedType);
             }
         }
         #endregion

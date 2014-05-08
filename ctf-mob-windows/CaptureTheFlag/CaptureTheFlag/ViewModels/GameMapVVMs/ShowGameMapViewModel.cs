@@ -26,7 +26,7 @@
             IsFormAccessible = true;
 
             GameMap = new GameMap();
-            User = new User();
+            User = new UserD();
             Authenticator = new Authenticator();
 
             DisplayName = "Map Details";
@@ -59,7 +59,7 @@
                     User.url = GameMap.author;
                     if (globalStorageService.Current.Users.ContainsKey(User.url))
                     {
-                        User = globalStorageService.Current.Users[User.url];
+                        User = globalStorageService.Current.DUsers[User.url];
                     }
                     else
                     {
@@ -128,7 +128,7 @@
         {
             globalStorageService.Current.GameMaps[GameMap.url] = GameMap;
             navigationService.UriFor<CreateGameViewModel>()
-                .WithParam(param => param.GameMapModelKey, GameMap.url)
+                .WithParam(param => param.GameModelKey, GameMap.url)
                 .Navigate();
         }
         #endregion
@@ -164,8 +164,8 @@
             }
         }
 
-        private User user;
-        public User User
+        private UserD user;
+        public UserD User
         {
             get { return user; }
             set
