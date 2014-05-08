@@ -177,7 +177,8 @@ class Game(GeoModel):
                 marker = Marker(
                     distance=distance_in_meters,
                     marker_type=marker_type,
-                    url=url)
+                    url=url,
+                    location=obj.location)
 
                 logger.debug("marker was created: %s", marker)
                 markers.append(marker)
@@ -192,7 +193,8 @@ class Game(GeoModel):
                 marker = Marker(
                     distance=distance_in_meters,
                     marker_type=marker_type,
-                    url=url)
+                    url=url,
+                    location=obj.location)
 
                 logger.debug("marker was created: %s", marker)
                 markers.append(marker)

@@ -118,6 +118,7 @@ Statuses mapping:
         1 - 'Created',
         2 - 'On hold',
         3 - 'Canceled',
+        4 - 'FINISHED',
     ]
 
 Types mapping:
@@ -146,8 +147,9 @@ Model:
         }
         visibility_range: float
         action_range: float
-        players: [] # urls for players objects (object Character)
+        players: [] # urls for players objects (object: User)
         invited_users: [] # urls for invited users objects (object PortalUser)
+        items: [] # urls for items objects (object: Item)
         owner: string # read_only=True, url for user
         last_modified: date_time # read_only=True, format:"YYYY-MM-DDTHH:MM:SS"
         created: date_time # read_only=True, format:"YYYY-MM-DDTHH:MM:SS"

@@ -22,4 +22,4 @@ class MarkerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Marker
-        fields = ('marker_type', 'distance', 'url')
+        fields = ('marker_type', 'distance', 'url', 'location')

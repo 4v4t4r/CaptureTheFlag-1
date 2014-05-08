@@ -32,6 +32,7 @@ API: model *Game*
         "invited_users": [
             "http://127.0.0.1:8000/api/users/2/"
         ],
+        "players": [],
         "items": [],
         "owner": "http://127.0.0.1:8000/api/users/2/",
         "last_modified": "2014-05-06T12:18:58.216Z",
@@ -176,19 +177,34 @@ Example (response of selected game)
 
     [
         {
-            "marker_type": 8,
-            "distance": 305.366207193584,
-            "url": "http://127.0.0.1:8000/api/items/2/"
+            "marker_type": 4,
+            "distance": 306.4619143264994,
+            "url": "http://127.0.0.1:8000/api/items/2/",
+            "location": {
+                "lat": 53.438732,
+                "lon": 14.541759
+            }
         },
         {
             "marker_type": 0,
             "distance": 219.07368062567056,
-            "url": "http://127.0.0.1:8000/api/users/3/"
+            "url": "http://127.0.0.1:8000/api/users/3/",
+            "location": {
+                "lat": 53.43943,
+                "lon": 14.541156
+            }
         },
         {
-            "marker_type": 7,
-            "distance": 20.457583602124277,
-            "url": "http://127.0.0.1:8000/api/items/1/"
+            "marker_type": 3,
+            "distance": 19.391233474360988,
+            "url": "http://127.0.0.1:8000/api/items/1/",
+            "location": {
+                "lat": 53.441168,
+                "lon": 14.539277
+            }
         }
     ]
+
+
+
 
