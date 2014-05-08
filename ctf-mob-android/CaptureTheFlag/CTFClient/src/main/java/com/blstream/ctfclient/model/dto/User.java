@@ -14,7 +14,7 @@ public class User {
     private String password;
     private String nick;
     @SerializedName("device_type")
-    private DeviceType deviceType;
+    private int deviceType;
     @SerializedName("device_id")
     private String deviceId;
     private Location location;
@@ -62,11 +62,11 @@ public class User {
         this.nick = nick;
     }
 
-    public DeviceType getDeviceType() {
+    public int getDeviceType() {
         return deviceType;
     }
 
-    public void setDeviceType(DeviceType deviceType) {
+    public void setDeviceType(int deviceType) {
         this.deviceType = deviceType;
     }
 
@@ -102,10 +102,20 @@ public class User {
         this.activeCharacter = activeCharacter;
     }
 
-   public enum DeviceType {
-        ANDROID,
-        WP,
-        IOS
+    public enum DeviceType {
+        ANDROID(0),
+        WP(1),
+        IOS(2);
+
+        DeviceType(int i) {
+            this.type = i;
+        }
+
+        private int type;
+
+        public int getNumericType() {
+            return type;
+        }
     }
 
     public enum CharacterType {

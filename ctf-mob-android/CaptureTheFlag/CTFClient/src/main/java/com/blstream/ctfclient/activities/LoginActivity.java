@@ -154,7 +154,7 @@ public class LoginActivity extends CTFBaseActivity {
             User user = new User();
             user.setUserName(mUserName);
             user.setPassword(mPassword);
-            user.setDeviceType(User.DeviceType.ANDROID);
+            user.setDeviceType(User.DeviceType.ANDROID.getNumericType());
             user.setDeviceId("14234-1234123-23423");//TODO getFRomSharedPref
             loginUser(user);
         }
@@ -230,14 +230,15 @@ public class LoginActivity extends CTFBaseActivity {
     private class TokenRequestListener implements RequestListener<TokenResponse> {
         @Override
         public void onRequestFailure(SpiceException spiceException) {
-            Toast.makeText(getApplicationContext(), "failure", Toast.LENGTH_SHORT).show();
-            showProgress(false);
+            findViewById(R.id.sign_in_button).setEnabled(true);
 
+            Toast.makeText(getApplicationContext(), spiceException.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            showProgress(false);
         }
 
         @Override
         public void onRequestSuccess(TokenResponse tokenResponse) {
-            Toast.makeText(getApplicationContext(), "success", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "TokenRequestListener: success", Toast.LENGTH_SHORT).show();
             showProgress(false);
             saveToken(tokenResponse.getToken());
             startMainActivity();

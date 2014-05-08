@@ -121,7 +121,7 @@ public class CreateGameActivity extends CTFBaseActivity implements DatePickerDia
         game.setDescription(gameDescriptionEditText.getText().toString());
         game.setStartTime(selectedStartDateTextView.getText().toString());
         game.setMaxPlayers(Integer.valueOf(maxPlayerEditText.getText().toString()));
-        game.setStatus(((Game.GameStaus) gameStatusSpinner.getSelectedItem()) );
+        game.setStatus(((Game.GameStaus) gameStatusSpinner.getSelectedItem()));
         game.setType((Game.GameType) gameTypeSpiner.getSelectedItem());
         game.setMap("http://127.0.0.1:8000/api/maps/1/");
         game.setVisibilityRange(Integer.valueOf(gameVisibilityRangeEditText.getText().toString()));
@@ -207,12 +207,12 @@ public class CreateGameActivity extends CTFBaseActivity implements DatePickerDia
         @Override
         public void onRequestFailure(SpiceException spiceException) {
             spiceException.getMessage();
-            Toast.makeText(getApplicationContext(), "failure", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), spiceException.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onRequestSuccess(Game game) {
-            Toast.makeText(getApplicationContext(), "success", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "GameRequestListener success", Toast.LENGTH_SHORT).show();
             finish();
         }
 
