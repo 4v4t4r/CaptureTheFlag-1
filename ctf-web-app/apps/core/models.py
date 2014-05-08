@@ -164,7 +164,7 @@ class PortalUser(GeoModel, AbstractUser):
             return None
 
     def __unicode__(self):
-        return "%s" % self.username
+        return "%s (team: %s)" % (self.username, self.team)
 
     class Meta:
         app_label = "core"

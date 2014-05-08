@@ -77,11 +77,16 @@ Create a new game:
 Add new item into the selected game:
 ::
 
-    curl -H "Accept: application/json" -H "Content-type: application/json" -H "Authorization: Token 58c4c9a63946f2519918bca1986d894f84cc382f" -XPOST -d '{ "name": "Red base", "type": "3",  "location": {"lat": 53.441168, "lon": 14.539277}, "game": "http://127.0.0.1:8000/api/games/1/" }' http://127.0.0.1:8000/api/items/
-    curl -H "Accept: application/json" -H "Content-type: application/json" -H "Authorization: Token 58c4c9a63946f2519918bca1986d894f84cc382f" -XPOST -d '{ "name": "Blue base", "type": "4",  "location": {"lat": 53.438732, "lon": 14.541759}, "game": "http://127.0.0.1:8000/api/games/1/" }' http://127.0.0.1:8000/api/items/
+    curl -H "Accept: application/json" -H "Content-type: application/json" -H "Authorization: Token 58c4c9a63946f2519918bca1986d894f84cc382f" -XPOST -d '{ "name": "Red flag", "type": "3",  "location": {"lat": 53.441168, "lon": 14.539277}, "game": "http://127.0.0.1:8000/api/games/1/" }' http://127.0.0.1:8000/api/items/
+    curl -H "Accept: application/json" -H "Content-type: application/json" -H "Authorization: Token 58c4c9a63946f2519918bca1986d894f84cc382f" -XPOST -d '{ "name": "Blue flag", "type": "4",  "location": {"lat": 53.438732, "lon": 14.541759}, "game": "http://127.0.0.1:8000/api/games/1/" }' http://127.0.0.1:8000/api/items/
+    curl -H "Accept: application/json" -H "Content-type: application/json" -H "Authorization: Token 58c4c9a63946f2519918bca1986d894f84cc382f" -XPOST -d '{ "name": "Red base", "type": "5",  "location": {"lat": 53.441168, "lon": 14.539277}, "game": "http://127.0.0.1:8000/api/games/1/" }' http://127.0.0.1:8000/api/items/
+    curl -H "Accept: application/json" -H "Content-type: application/json" -H "Authorization: Token 58c4c9a63946f2519918bca1986d894f84cc382f" -XPOST -d '{ "name": "Blue base", "type": "6",  "location": {"lat": 53.438732, "lon": 14.541759}, "game": "http://127.0.0.1:8000/api/games/1/" }' http://127.0.0.1:8000/api/items/
 
-    curl -H "Accept: application/json" -H "Content-type: application/json" -H "Authorization: Token 58c4c9a63946f2519918bca1986d894f84cc382f" -XPOST -d '{ "name": "Red base", "type": "3",  "location": {"lat": 53.446751, "lon": 14.530256}, "game": "http://127.0.0.1:8000/api/games/2/" }' http://127.0.0.1:8000/api/items/
-    curl -H "Accept: application/json" -H "Content-type: application/json" -H "Authorization: Token 58c4c9a63946f2519918bca1986d894f84cc382f" -XPOST -d '{ "name": "Blue base", "type": "4",  "location": {"lat": 53.447364, "lon": 14.539708}, "game": "http://127.0.0.1:8000/api/games/2/" }' http://127.0.0.1:8000/api/items/
+
+    curl -H "Accept: application/json" -H "Content-type: application/json" -H "Authorization: Token 58c4c9a63946f2519918bca1986d894f84cc382f" -XPOST -d '{ "name": "Red flag", "type": "3",  "location": {"lat": 53.446751, "lon": 14.530256}, "game": "http://127.0.0.1:8000/api/games/2/" }' http://127.0.0.1:8000/api/items/
+    curl -H "Accept: application/json" -H "Content-type: application/json" -H "Authorization: Token 58c4c9a63946f2519918bca1986d894f84cc382f" -XPOST -d '{ "name": "Blue flag", "type": "4",  "location": {"lat": 53.447364, "lon": 14.539708}, "game": "http://127.0.0.1:8000/api/games/2/" }' http://127.0.0.1:8000/api/items/
+    curl -H "Accept: application/json" -H "Content-type: application/json" -H "Authorization: Token 58c4c9a63946f2519918bca1986d894f84cc382f" -XPOST -d '{ "name": "Red base", "type": "5",  "location": {"lat": 53.446751, "lon": 14.530256}, "game": "http://127.0.0.1:8000/api/games/2/" }' http://127.0.0.1:8000/api/items/
+    curl -H "Accept: application/json" -H "Content-type: application/json" -H "Authorization: Token 58c4c9a63946f2519918bca1986d894f84cc382f" -XPOST -d '{ "name": "Blue base", "type": "6",  "location": {"lat": 53.447364, "lon": 14.539708}, "game": "http://127.0.0.1:8000/api/games/2/" }' http://127.0.0.1:8000/api/items/
 
 Update an existing game:
 ::

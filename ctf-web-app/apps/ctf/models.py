@@ -34,11 +34,6 @@ class Marker(GeoModel):
     distance = models.FloatField(verbose_name=_("Distance"))
     url = models.URLField(verbose_name=_("URL"))
 
-    @classmethod
-    def analyze(cls, markers):
-        #todo: implement this method
-        raise NotImplementedError()
-
     def __unicode__(self):
         return "%s, %.2f m, url: %s" % (self.marker_type, self.distance, self.url)
 
@@ -154,6 +149,10 @@ class Game(GeoModel):
         return sqs
 
     def get_markers(self, user, context):
+        def _find_marker_by_type(markers, marker_type):
+            filtered_markers = filter(lambda m: m.marker_type == marker_type, markers)
+            return filtered_markers[0] if filtered_markers else None
+
         from apps.ctf.api.serializers.common import ItemSerializer
         from apps.core.api.serializers import PortalUserSerializer
 
@@ -167,37 +166,47 @@ class Game(GeoModel):
             logger.debug("object: %s, distance: %s m", obj, distance_in_meters)
             logger.debug("object type: %s", type(obj))
 
-            if isinstance(obj, Item):
-                serializer = ItemSerializer(obj, context=context)
-                json_data = serializer.data
+            if isinstance(obj, Item) or isinstance(obj, PortalUser):
+                logger.debug("[PLAY]: user: %s, distance: '%f', action_range: '%f'", user, distance_in_meters, self.action_range)
 
-                url = json_data["url"]
-                marker_type = obj.type
+                if isinstance(obj, Item):
+                    serializer = ItemSerializer(obj, context=context)
+                    json_data = serializer.data
 
-                marker = Marker(
-                    distance=distance_in_meters,
-                    marker_type=marker_type,
-                    url=url,
-                    location=obj.location)
+                    url = json_data["url"]
+                    marker_type = obj.type
 
-                logger.debug("marker was created: %s", marker)
-                markers.append(marker)
-            elif isinstance(obj, PortalUser) and obj.id is not user.id:
-                serializer = PortalUserSerializer(obj, context=context)
-                json_data = serializer.data
+                    if user.team is not None and distance_in_meters <= self.action_range:
+                        logger.debug("[PLAY]: distance: '%f' <= action_range: '%f'", distance_in_meters, self.action_range)
 
-                url = json_data["url"]
-                # todo: check if player has flag or not
-                marker_type = MARKER_TYPES.PLAYER
+                        if obj.type in [MARKER_TYPES.RED_FLAG, MARKER_TYPES.BLUE_FLAG]:
+                            obj.location = user.location
+                            obj.save()
+                            logger.debug("[PLAY]: Player: '%s' take a flag: '%s'", user.username, obj.id)
 
-                marker = Marker(
-                    distance=distance_in_meters,
-                    marker_type=marker_type,
-                    url=url,
-                    location=obj.location)
+                    marker = Marker(
+                        distance=distance_in_meters,
+                        marker_type=marker_type,
+                        url=url,
+                        location=obj.location)
 
-                logger.debug("marker was created: %s", marker)
-                markers.append(marker)
+                    logger.debug("marker was created: %s", marker)
+                    markers.append(marker)
+                elif isinstance(obj, PortalUser) and obj.id is not user.id:
+                    serializer = PortalUserSerializer(obj, context=context)
+                    json_data = serializer.data
+
+                    url = json_data["url"]
+                    marker_type = MARKER_TYPES.PLAYER
+
+                    marker = Marker(
+                        distance=distance_in_meters,
+                        marker_type=marker_type,
+                        url=url,
+                        location=obj.location)
+
+                    logger.debug("marker was created: %s", marker)
+                    markers.append(marker)
         return markers
 
     def team_balancing(self):
