@@ -6,6 +6,9 @@ import java.util.List;
 
 /**
  * Created by mar on 29.04.14.
+ * <p/>
+ * Docs:
+ * https://github.com/blstream/CaptureTheFlag/blob/master/ctf-web-app/docs/models.rst#model-game
  */
 public class Game extends AbstractObject {
 
@@ -13,24 +16,29 @@ public class Game extends AbstractObject {
     private String startTime;
     @SerializedName("max_players")
     private int maxPlayers;
-    private GameStaus status;
+    private GameStatus status;
     private GameType type;
-    private String map;
+    private int radius;
+    private Location location;
     @SerializedName("visibility_range")
     private float visibilityRange;
     @SerializedName("action_range")
     private float actionRange;
     private List<String> players;
     @SerializedName("invited_users")
-    private List<User> invitedUsers;
-
+    private List<String> invitedUsers;
+    private List<String> items;
+    private String owner;
+    @SerializedName("last_modified")
+    private String lastModified;
+    private String created;
 
     public String getStartTime() {
         return startTime;
     }
 
     public void setStartTime(String startTime) {
-        this.startTime=startTime;
+        this.startTime = startTime;
     }
 
     public int getMaxPlayers() {
@@ -41,11 +49,11 @@ public class Game extends AbstractObject {
         this.maxPlayers = maxPlayers;
     }
 
-    public GameStaus getStatus() {
+    public GameStatus getStatus() {
         return status;
     }
 
-    public void setStatus(GameStaus status) {
+    public void setStatus(GameStatus status) {
         this.status = status;
     }
 
@@ -57,12 +65,20 @@ public class Game extends AbstractObject {
         this.type = type;
     }
 
-    public String getMap() {
-        return map;
+    public Location getLocation() {
+        return location;
     }
 
-    public void setMap(String map) {
-        this.map = map;
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public int getRadius() {
+        return radius;
+    }
+
+    public void setRadius(int radius) {
+        this.radius = radius;
     }
 
     public float getVisibilityRange() {
@@ -89,15 +105,47 @@ public class Game extends AbstractObject {
         this.players = players;
     }
 
-    public List<User> getInvitedUsers() {
+    public List<String> getInvitedUsers() {
         return invitedUsers;
     }
 
-    public void setInvitedUsers(List<User> invitedUsers) {
+    public void setInvitedUsers(List<String> invitedUsers) {
         this.invitedUsers = invitedUsers;
     }
 
-    public enum GameStaus {
+    public String getCreated() {
+        return created;
+    }
+
+    public void setCreated(String created) {
+        this.created = created;
+    }
+
+    public List<String> getItems() {
+        return items;
+    }
+
+    public void setItems(List<String> items) {
+        this.items = items;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public String getLastModified() {
+        return lastModified;
+    }
+
+    public void setLastModified(String lastModified) {
+        this.lastModified = lastModified;
+    }
+
+    public enum GameStatus {
         @SerializedName("0")
         IN_PROGRESS,
         @SerializedName("1")
@@ -105,7 +153,9 @@ public class Game extends AbstractObject {
         @SerializedName("2")
         ON_HOLD,
         @SerializedName("3")
-        CANCELED
+        CANCELED,
+        @SerializedName("4")
+        FINISHED
     }
 
     public enum GameType {

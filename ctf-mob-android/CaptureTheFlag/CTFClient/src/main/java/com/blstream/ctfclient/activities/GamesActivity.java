@@ -19,6 +19,8 @@ import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
 public class GamesActivity extends CTFBaseActivity {
+    private static final String TAG = GamesActivity.class.getSimpleName();
+
     GridView gridView;
     private CTFGamesRequest gamesRequest;
 
@@ -28,7 +30,7 @@ public class GamesActivity extends CTFBaseActivity {
         setContentView(R.layout.grid_layout);
 
         gridView = (GridView) findViewById(R.id.grid_view);
-        gridView.setAdapter(new GameAdapter(this,getCacheDir()));
+        gridView.setAdapter(new GameAdapter(this, getCacheDir()));
     }
 
     @Override
@@ -66,8 +68,7 @@ public class GamesActivity extends CTFBaseActivity {
         }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_games, container, false);
             return rootView;
         }
@@ -76,18 +77,20 @@ public class GamesActivity extends CTFBaseActivity {
     private class GamesRequestListener implements RequestListener<Game[]> {
         @Override
         public void onRequestFailure(SpiceException spiceException) {
-            Log.e(GamesActivity.class.getSimpleName(), "Error", spiceException);
+            Log.e(TAG, "Error", spiceException);
         }
 
         @Override
         public void onRequestSuccess(Game[] games) {
-            Log.d(GamesActivity.class.getSimpleName(), ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> JUPI it is work !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            for(Game game : games){
-                Log.d(GamesActivity.class.getSimpleName(), "########################## GAME ########################################");
-                Log.d(GamesActivity.class.getSimpleName(), "name: " + game.getName());
-                Log.d(GamesActivity.class.getSimpleName(), "map: " + game.getMap());
-                Log.d(GamesActivity.class.getSimpleName(), "description: " + game.getDescription());
-                Log.d(GamesActivity.class.getSimpleName(), "url: " + game.getUrl());
+
+            Log.d(TAG, ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> JUPI it is work !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            for (Game game : games) {
+                Log.d(TAG, "########################## GAME ########################################");
+                Log.d(TAG, "name: " + game.getName());
+                Log.d(TAG, "description: " + game.getDescription());
+                Log.d(TAG, "url: " + game.getUrl());
+                Log.d(TAG, "radius: " + game.getRadius());
+                Log.d(TAG, "location: " + game.getLocation());
             }
         }
     }

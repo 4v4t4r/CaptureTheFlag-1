@@ -1,5 +1,7 @@
 package com.blstream.ctfclient.network.requests;
 
+import android.util.Log;
+
 import com.blstream.ctfclient.CTF;
 import com.blstream.ctfclient.model.dto.Game;
 import com.blstream.ctfclient.network.interfaces.GamesInterface;
@@ -22,7 +24,7 @@ public class CTFGamesRequest extends RetrofitSpiceRequest<Game[], GamesInterface
         Ln.d("Call web service ");
         StringBuilder builder = new StringBuilder("Token ");
         builder.append(SharedPreferencesUtils.getToken(CTF.getStaticApplicationContext()));
-        return getService().getGames( builder.toString() );
+        return getService().getGames(builder.toString());
     }
 
     public String createCacheKey() {

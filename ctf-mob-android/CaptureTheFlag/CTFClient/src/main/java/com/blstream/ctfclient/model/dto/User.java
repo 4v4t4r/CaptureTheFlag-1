@@ -103,19 +103,12 @@ public class User {
     }
 
     public enum DeviceType {
-        ANDROID(0),
-        WP(1),
-        IOS(2);
-
-        DeviceType(int i) {
-            this.type = i;
-        }
-
-        private int type;
-
-        public int getNumericType() {
-            return type;
-        }
+        @SerializedName("0")
+        ANDROID,
+        @SerializedName("1")
+        WP,
+        @SerializedName("2")
+        IOS
     }
 
     public enum CharacterType {

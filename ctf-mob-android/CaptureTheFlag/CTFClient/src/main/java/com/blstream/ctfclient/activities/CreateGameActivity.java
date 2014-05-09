@@ -83,7 +83,7 @@ public class CreateGameActivity extends CTFBaseActivity implements DatePickerDia
     private void initView(Bundle savedInstanceState) {
 
         // Game status spinner
-        ArrayAdapter gameStatusAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, Game.GameStaus.values());
+        ArrayAdapter gameStatusAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, Game.GameStatus.values());
         gameStatusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         gameStatusSpinner.setAdapter(gameStatusAdapter);
         // Game type spinner
@@ -120,12 +120,13 @@ public class CreateGameActivity extends CTFBaseActivity implements DatePickerDia
         game.setName(gameNameEditText.getText().toString());
         game.setDescription(gameDescriptionEditText.getText().toString());
         game.setStartTime(selectedStartDateTextView.getText().toString());
-        game.setMaxPlayers(Integer.valueOf(maxPlayerEditText.getText().toString()));
-        game.setStatus(((Game.GameStaus) gameStatusSpinner.getSelectedItem()));
-        game.setType((Game.GameType) gameTypeSpiner.getSelectedItem());
-        game.setMap("http://127.0.0.1:8000/api/maps/1/");
+       /* game.setStatus(((Game.GameStatus) gameStatusSpinner.getSelectedItem()));
+        game.setType((Game.GameType) gameTypeSpiner.getSelectedItem());*/
+
+        /*game.setMaxPlayers(Integer.valueOf(maxPlayerEditText.getText().toString()));
         game.setVisibilityRange(Integer.valueOf(gameVisibilityRangeEditText.getText().toString()));
         game.setActionRange(Integer.valueOf(gameActionRangeEditText.getText().toString()));
+        */
         crateGame(game);
     }
 

@@ -154,7 +154,7 @@ public class LoginActivity extends CTFBaseActivity {
             User user = new User();
             user.setUserName(mUserName);
             user.setPassword(mPassword);
-            user.setDeviceType(User.DeviceType.ANDROID.getNumericType());
+            user.setDeviceType(User.DeviceType.ANDROID.ordinal());
             user.setDeviceId("14234-1234123-23423");//TODO getFRomSharedPref
             loginUser(user);
         }
