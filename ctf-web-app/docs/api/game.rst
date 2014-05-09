@@ -185,7 +185,7 @@ Example (response of selected game)
 *request*:
 ::
 
-    -H "Accept: application/json" -H "Content-type: application/json" -H "Authorization: Token {token}" -d '{"lat": <lat>, "lon": <lon>}' -XPUT http://ctf.host/api/games/{game_id}/location/
+    -H "Accept: application/json" -H "Content-type: application/json" -H "Authorization: Token {token}" -d '{"lat": <lat>, "lon": <lon>}' -XPOST http://ctf.host/api/games/{game_id}/location/
 
 *response*:
 ::

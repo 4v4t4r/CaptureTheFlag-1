@@ -47,7 +47,7 @@ class ItemViewSet(mixins.ModelPermissionsMixin,
 
 
 class InGameLocation(APIView):
-    def put(self, request, pk, format=None):
+    def post(self, request, pk, format=None):
         user = request.user
         try:
             logger.debug("looking for a game with id: '%s'", pk)

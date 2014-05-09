@@ -117,8 +117,8 @@ Remove player from the selected game:
 Player's position registration:
 ::
 
-    curl -H "Accept: application/json" -H "Content-type: application/json" -H "Authorization: Token 58c4c9a63946f2519918bca1986d894f84cc382f" -d '{"lat": 53.441155, "lon": 14.539568}' -XPUT http://127.0.0.1:8000/api/games/1/location/
-    curl -H "Accept: application/json" -H "Content-type: application/json" -H "Authorization: Token 051dd761944dc00c31fc9aa4dffa56b215fb2941" -d '{"lat": 53.439430, "lon": 14.541156}' -XPUT http://127.0.0.1:8000/api/games/1/location/
+    curl -H "Accept: application/json" -H "Content-type: application/json" -H "Authorization: Token 58c4c9a63946f2519918bca1986d894f84cc382f" -d '{"lat": 53.441155, "lon": 14.539568}' -XPOST http://127.0.0.1:8000/api/games/1/location/
+    curl -H "Accept: application/json" -H "Content-type: application/json" -H "Authorization: Token 051dd761944dc00c31fc9aa4dffa56b215fb2941" -d '{"lat": 53.439430, "lon": 14.541156}' -XPOST http://127.0.0.1:8000/api/games/1/location/
 
 Start selected game:
 ::
