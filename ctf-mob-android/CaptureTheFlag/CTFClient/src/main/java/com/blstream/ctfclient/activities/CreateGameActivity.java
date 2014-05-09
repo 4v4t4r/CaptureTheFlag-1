@@ -1,5 +1,8 @@
 package com.blstream.ctfclient.activities;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -13,6 +16,14 @@ import com.blstream.ctfclient.R;
 import com.blstream.ctfclient.model.dto.Game;
 import com.blstream.ctfclient.network.requests.CTFGameRequest;
 import com.fourmob.datetimepicker.date.DatePickerDialog;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
@@ -33,7 +44,7 @@ import butterknife.OnClick;
 public class CreateGameActivity extends CTFBaseActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
     public static final String DATEPICKER_TAG = "datepicker";
     public static final String TIMEPICKER_TAG = "timepicker";
-
+    private GoogleMap googleMap;
     private CTFGameRequest gameRequest;
 
     @InjectView(R.id.game_date_picker_button)
@@ -71,6 +82,51 @@ public class CreateGameActivity extends CTFBaseActivity implements DatePickerDia
         Calendar calendar = GregorianCalendar.getInstance();
         calendar.setTimeZone(TimeZone.getDefault());
         SimpleDateFormat isoFormat = new SimpleDateFormat(CTF.DATE_FORMAT, Locale.getDefault());
+
+        if (googleMap == null) {
+            FragmentManager fragmentManager = getFragmentManager();
+            Fragment fragment = fragmentManager.findFragmentById(R.id.map);
+            googleMap = ((MapFragment) fragment).getMap();
+            googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                @Override
+                public void onMapClick(LatLng latLng) {
+                    Toast.makeText(getApplicationContext(), "Click: " + latLng.latitude + " " + latLng.longitude, Toast.LENGTH_SHORT).show();
+
+                    addFlagToMap(latLng, "Our flag", "Defend your flag against the enemy.", R.drawable.flag_blue);
+
+                    Circle circle = googleMap.addCircle(new CircleOptions()
+                            .center(latLng)
+                            .radius(10000)
+                            .strokeColor(Color.RED)
+                            .fillColor(Color.BLUE));
+                }
+            });
+
+
+            googleMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
+                @Override
+                public void onMarkerDragStart(Marker marker) {
+                }
+
+                @Override
+                public void onMarkerDrag(Marker marker) {
+                }
+
+                @Override
+                public void onMarkerDragEnd(Marker marker) {
+                }
+            });
+        }
+    }
+
+    private void addFlagToMap(LatLng position, String name, String description, int iconID) {
+        MarkerOptions myMarkerOptions = new MarkerOptions()
+                .title(name)
+                .snippet(description)
+                .position(position)
+                .anchor(0.0f, 1.0f)
+                .icon(BitmapDescriptorFactory.fromResource(iconID));
+        googleMap.addMarker(myMarkerOptions);
     }
 
     private void initView(Bundle savedInstanceState) {

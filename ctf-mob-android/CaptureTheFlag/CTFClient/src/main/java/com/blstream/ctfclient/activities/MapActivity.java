@@ -63,7 +63,7 @@ public class MapActivity extends CTFBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-        mapCreated = initilizeMap();
+        mapCreated = initializeMap();
     }
 
     @Override
@@ -71,7 +71,7 @@ public class MapActivity extends CTFBaseActivity {
         super.onResume();
         checkGooglePlayServices();
         if (!mapCreated) {
-            if (!initilizeMap()) {
+            if (!initializeMap()) {
                 Toast.makeText(getApplicationContext(),
                         "Sorry! unable to create maps", Toast.LENGTH_SHORT).show();
                 finish();
@@ -121,7 +121,7 @@ public class MapActivity extends CTFBaseActivity {
     /**
      * function to load map. If map is not created it will create it for you
      */
-    private boolean initilizeMap() {
+    private boolean initializeMap() {
         try {
             if (googleMap == null) {
                 FragmentManager fragmentManager = getFragmentManager();
