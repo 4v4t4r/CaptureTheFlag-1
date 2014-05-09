@@ -125,3 +125,9 @@ Start selected game:
 
     curl -H "Accept: application/json" -H "Content-type: application/json" -H "Authorization: Token 58c4c9a63946f2519918bca1986d894f84cc382f" -XPOST http://127.0.0.1:8000/api/games/1/start/
 
+
+Stop selected game:
+::
+
+    curl -H "Accept: application/json" -H "Content-type: application/json" -H "Authorization: Token 58c4c9a63946f2519918bca1986d894f84cc382f" -XPOST http://127.0.0.1:8000/api/games/1/stop/
+

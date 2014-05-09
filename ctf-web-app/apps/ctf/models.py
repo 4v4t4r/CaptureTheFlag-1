@@ -218,7 +218,7 @@ class Game(GeoModel):
             player.save()
 
     def start(self):
-        logger.info("Game: %d: %s with %d players is starting...", self.id, self.name)
+        logger.info("Game: %s with %d players is starting...", self.id, self.name)
 
         if self.status == self.GAME_STATUSES.IN_PROGRESS:
             raise GameAlreadyStartedException()
@@ -232,7 +232,7 @@ class Game(GeoModel):
         # todo: send broadcast notification to all players
 
     def stop(self):
-        logger.info("Game: %d: %s with %d players is stopping...", self.id, self.name)
+        logger.info("Game: %s with %d players is stopping...", self.id, self.name)
 
         if self.status == self.GAME_STATUSES.FINISHED:
             raise GameAlreadyFinishedException()
