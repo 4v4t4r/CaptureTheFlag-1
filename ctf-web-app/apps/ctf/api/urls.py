@@ -13,4 +13,5 @@ urlpatterns = patterns(
     url(r'^', include(router.urls)),
     url(r'^games/(?P<pk>[0-9]+)/location/$', views.InGameLocation.as_view()),
     url(r'^games/(?P<pk>[0-9]+)/player/$', views.JoinToGame.as_view()),
+    url(r'^games/(?P<pk>[0-9]+)/start/$', views.StartGame.as_view()),
 )

@@ -9,5 +9,9 @@ class GameAlreadyStartedException(Exception):
     pass
 
 
+class GameNotStartedException(Exception):
+    pass
+
+
 class GameAlreadyFinishedException(Exception):
     pass

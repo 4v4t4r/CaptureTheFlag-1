@@ -210,8 +210,8 @@ class Game(GeoModel):
         return markers
 
     def team_balancing(self):
-        for idx, player in iter(self.players):
-            if idx % 0:
+        for idx, player in enumerate(self.players.all()):
+            if idx % 2:
                 player.team = PortalUser.TEAM_TYPES.RED_TEAM
             else:
                 player.team = PortalUser.TEAM_TYPES.BLUE_TEAM
@@ -239,6 +239,7 @@ class Game(GeoModel):
 
         self.status = self.GAME_STATUSES.FINISHED
         self.save()
+        self.players.update(team=None)
 
         # todo: send broadcast notification to all players
 

@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet
 from apps.core.api import mixins
 from apps.core.api.serializers import GeoModelSerializer
-from apps.core.exceptions import AlreadyExistException, GameAlreadyStartedException
+from apps.core.exceptions import AlreadyExistException, GameAlreadyStartedException, GameAlreadyFinishedException
 from apps.core.models import PortalUser, Location
 from apps.ctf.api.serializers.common import ItemSerializer
 from apps.ctf.api.serializers.games import GameSerializer, MarkerSerializer
@@ -128,14 +128,15 @@ class StartGame(APIView):
 
         try:
             game.start()
-        except GameAlreadyStartedException, e:
-            return Response(data={"error": e.message}, status=status.HTTP_400_BAD_REQUEST)
-        except AssertionError, e:
-            # todo: add error code
-            return Response(data={"error": e.message}, status=status.HTTP_400_BAD_REQUEST)
+        except GameAlreadyStartedException:
+            logger.error("Game: '%s' already started", game)
+            return Response(data={"error": "Game already started"}, status=status.HTTP_400_BAD_REQUEST)
+        except GameAlreadyFinishedException:
+            logger.error("Game: '%s' already finished", game)
+            return Response(data={"error": "Game already finish"}, status=status.HTTP_400_BAD_REQUEST)
         except Exception, e:
             # todo: add error code
             return Response(data={"error": e.message}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            logger.info("Player '%s' was added into the game '%s'", user.username, game.name)
+            logger.info("Player '%s' was started the game '%s'", user.username, game.name)
             return Response(status=status.HTTP_200_OK)
