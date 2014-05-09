@@ -53,17 +53,15 @@ public class UsersFragment extends Fragment {
             myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             getActivity().finish();
 
-
             startActivity(myIntent);
-
         }
     };
+
     private View.OnClickListener btnCreateGameListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             Intent myIntent = new Intent(CTF.getStaticApplicationContext(), CreateGameActivity.class);
             startActivity(myIntent);
-
         }
     };
 
@@ -87,12 +85,6 @@ public class UsersFragment extends Fragment {
 
     private void clearToken() {
         SharedPreferencesUtils.clearToken(getActivity().getApplicationContext());
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
     }
 
 }

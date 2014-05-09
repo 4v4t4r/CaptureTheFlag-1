@@ -164,4 +164,24 @@ public class Game extends AbstractObject {
         @SerializedName("1")
         TIME
     }
+
+    @Override
+    public String toString() {
+        return "Game{" +
+                "startTime='" + startTime + '\'' +
+                ", maxPlayers=" + maxPlayers +
+                ", status=" + status +
+                ", type=" + type +
+                ", radius=" + radius +
+                ", location=" + location +
+                ", visibilityRange=" + visibilityRange +
+                ", actionRange=" + actionRange +
+                ", players=" + players +
+                ", invitedUsers=" + invitedUsers +
+                ", items=" + items +
+                ", owner='" + owner + '\'' +
+                ", lastModified='" + lastModified + '\'' +
+                ", created='" + created + '\'' +
+                '}';
+    }
 }

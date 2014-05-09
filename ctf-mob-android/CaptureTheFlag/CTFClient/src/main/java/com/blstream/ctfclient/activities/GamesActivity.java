@@ -8,26 +8,29 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import com.blstream.ctfclient.R;
 import com.blstream.ctfclient.adapters.GameAdapter;
 import com.blstream.ctfclient.model.dto.Game;
 import com.blstream.ctfclient.network.requests.CTFGamesRequest;
-import com.google.android.gms.games.Games;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class GamesActivity extends CTFBaseActivity {
+public class GamesActivity extends CTFBaseActivity implements AdapterView.OnItemClickListener {
     private static final String TAG = GamesActivity.class.getSimpleName();
 
-    GridView gridView;
+    private GridView gridView;
+    private TextView mGameDetails;
     private CTFGamesRequest gamesRequest;
+
+    private List<Game> mGames;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +38,7 @@ public class GamesActivity extends CTFBaseActivity {
         setContentView(R.layout.grid_layout);
 
         gridView = (GridView) findViewById(R.id.grid_view);
-
+        mGameDetails = (TextView) findViewById(R.id.game_details);
     }
 
     @Override
@@ -64,6 +67,12 @@ public class GamesActivity extends CTFBaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        mGameDetails.setText(mGames.get(position).toString());
+    }
+
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -88,9 +97,10 @@ public class GamesActivity extends CTFBaseActivity {
         @Override
         public void onRequestSuccess(Game[] games) {
 
-            List<Game> gameList = Arrays.asList(games);
+            mGames = Arrays.asList(games);
 
-            gridView.setAdapter(new GameAdapter(getApplicationContext(), R.layout.game_item, gameList));
+            gridView.setAdapter(new GameAdapter(getApplicationContext(), R.layout.game_item, mGames));
+            gridView.setOnItemClickListener(GamesActivity.this);
 
             Log.d(TAG, ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> JUPI it is work !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             for (Game game : games) {

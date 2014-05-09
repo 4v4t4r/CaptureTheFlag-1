@@ -70,8 +70,8 @@ public class MapActivity extends CTFBaseActivity {
     protected void onResume() {
         super.onResume();
         checkGooglePlayServices();
-        if(!mapCreated){
-            if(!initilizeMap()){
+        if (!mapCreated) {
+            if (!initilizeMap()) {
                 Toast.makeText(getApplicationContext(),
                         "Sorry! unable to create maps", Toast.LENGTH_SHORT).show();
                 finish();
@@ -120,9 +120,9 @@ public class MapActivity extends CTFBaseActivity {
 
     /**
      * function to load map. If map is not created it will create it for you
-     * */
+     */
     private boolean initilizeMap() {
-        try{
+        try {
             if (googleMap == null) {
                 FragmentManager fragmentManager = getFragmentManager();
                 Fragment fragment = fragmentManager.findFragmentById(R.id.map);
@@ -151,7 +151,7 @@ public class MapActivity extends CTFBaseActivity {
             gameMapRadius = 1000;
             setGameMapBorders(gameMapRadius);
             googleMap.setOnCameraChangeListener(new GameCameraChangeListener());
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.d(CTF.TAG, "Exception", e);
             return false;
         }
@@ -160,7 +160,7 @@ public class MapActivity extends CTFBaseActivity {
 
     private void setDirectionButton() {
         Button directionBtn = (Button) findViewById(R.id.direction);
-        directionBtn.setOnClickListener( new View.OnClickListener() {
+        directionBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 StringBuilder builder = new StringBuilder("http://maps.googleapis.com/maps/api/directions/json?origin=");
@@ -198,10 +198,10 @@ public class MapActivity extends CTFBaseActivity {
 
             List<LatLng> lines = new ArrayList<LatLng>();
 
-            for(int i=0; i < steps.length(); i++) {
+            for (int i = 0; i < steps.length(); i++) {
                 String polyline = steps.getJSONObject(i).getJSONObject("polyline").getString("points");
 
-                for(LatLng p : decodePolyline(polyline)) {
+                for (LatLng p : decodePolyline(polyline)) {
                     lines.add(p);
                 }
             }
@@ -249,28 +249,28 @@ public class MapActivity extends CTFBaseActivity {
 
     private void setGameMapBorders(final int distance) {
 
-        new AsyncTask<Void, Void, Void>(){
+        new AsyncTask<Void, Void, Void>() {
 
             @Override
             protected Void doInBackground(Void... voids) {
-                if( hole == null || border == null){
+                if (hole == null || border == null) {
                     hole = new ArrayList<>();
                     border = new ArrayList<>();
                     int degree = 0;
-                    for(int i = 0; i < 360; i++){
+                    for (int i = 0; i < 360; i++) {
                         degree = i;
-                        if(degree == 360){
+                        if (degree == 360) {
                             hole.add(hole.get(0));
-                        }else{
+                        } else {
                             hole.add(SphericalUtil.computeOffset(centerPoint, distance, degree));
                         }
                     }
                     degree = 0;
-                    for(int i = 0; i < 360; i++){
+                    for (int i = 0; i < 360; i++) {
                         degree = i;
-                        if(degree == 360){
+                        if (degree == 360) {
                             border.add(border.get(0));
-                        }else{
+                        } else {
                             border.add(SphericalUtil.computeOffset(centerPoint, distance * 10, degree));
                         }
                     }
@@ -280,7 +280,7 @@ public class MapActivity extends CTFBaseActivity {
 
             @Override
             protected void onPostExecute(Void aVoid) {
-                if(polygon != null){
+                if (polygon != null) {
                     polygon.remove();
                     polygon = null;
                 }
@@ -349,11 +349,11 @@ public class MapActivity extends CTFBaseActivity {
         googleMap.addMarker(myMarkerOptions);
     }
 
-    class GameCameraChangeListener implements GoogleMap.OnCameraChangeListener{
+    class GameCameraChangeListener implements GoogleMap.OnCameraChangeListener {
         @Override
         public void onCameraChange(CameraPosition cameraPosition) {
 
-            if(cameraPosition.zoom != currentZoom){
+            if (cameraPosition.zoom != currentZoom) {
                 setGameMapBorders(gameMapRadius);
             }
             currentZoom = cameraPosition.zoom;
