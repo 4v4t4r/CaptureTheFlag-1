@@ -17,6 +17,10 @@ class Migration(SchemaMigration):
             ('value', self.gf('django.db.models.fields.FloatField')(null=True, blank=True)),
             ('description', self.gf('django.db.models.fields.TextField')(max_length=255, null=True, blank=True)),
             ('game', self.gf('django.db.models.fields.related.ForeignKey')(related_name='items', to=orm['ctf.Game'])),
+            ('last_captured_by', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.PortalUser'], null=True, blank=True)),
+            ('when_captured', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
+            ('last_modified', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
+            ('created', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
         ))
         db.send_create_signal('ctf', ['Item'])
 
@@ -33,6 +37,7 @@ class Migration(SchemaMigration):
             ('type', self.gf('django.db.models.fields.IntegerField')(default=0)),
             ('visibility_range', self.gf('django.db.models.fields.FloatField')(default=200.0)),
             ('action_range', self.gf('django.db.models.fields.FloatField')(default=5.0)),
+            ('capture_time', self.gf('django.db.models.fields.IntegerField')(default=10)),
             ('owner', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.PortalUser'], null=True, blank=True)),
             ('last_modified', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
             ('created', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
@@ -118,6 +123,7 @@ class Migration(SchemaMigration):
         'ctf.game': {
             'Meta': {'object_name': 'Game'},
             'action_range': ('django.db.models.fields.FloatField', [], {'default': '5.0'}),
+            'capture_time': ('django.db.models.fields.IntegerField', [], {'default': '10'}),
             'created': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'description': ('django.db.models.fields.TextField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -136,20 +142,24 @@ class Migration(SchemaMigration):
         },
         'ctf.item': {
             'Meta': {'object_name': 'Item'},
+            'created': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'description': ('django.db.models.fields.TextField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'game': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'items'", 'to': "orm['ctf.Game']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'last_captured_by': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['core.PortalUser']", 'null': 'True', 'blank': 'True'}),
+            'last_modified': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'location': ('apps.core.models.LocationField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'type': ('django.db.models.fields.IntegerField', [], {}),
-            'value': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'})
+            'value': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
+            'when_captured': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'})
         },
         u'ctf.marker': {
             'Meta': {'object_name': 'Marker', 'managed': 'False'},
             'distance': ('django.db.models.fields.FloatField', [], {}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'location': ('apps.core.models.LocationField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
-            'marker_type': ('django.db.models.fields.IntegerField', [], {}),
+            'type': ('django.db.models.fields.IntegerField', [], {}),
             'url': ('django.db.models.fields.URLField', [], {'max_length': '200'})
         }
     }

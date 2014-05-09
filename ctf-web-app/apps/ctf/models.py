@@ -1,4 +1,5 @@
 import logging
+import datetime
 from haystack.query import SearchQuerySet
 from haystack.utils.geo import Point, D
 from django.utils.translation import ugettext_lazy as _
@@ -50,6 +51,12 @@ class Item(GeoModel):
     description = models.TextField(blank=True, null=True, max_length=255, verbose_name=_("Description"))
     game = models.ForeignKey("Game", related_name="items", verbose_name=_("Game"))
 
+    last_captured_by = models.ForeignKey(PortalUser, blank=True, null=True, verbose_name=_("Last captured by"))
+    when_captured = models.DateTimeField(blank=True, null=True, verbose_name=_("When captured"))
+
+    last_modified = models.DateTimeField(auto_now=True, verbose_name=_("Last modified"))
+    created = models.DateTimeField(auto_now_add=True, verbose_name=_("Created"))
+
     def __unicode__(self):
         return "%s" % self.name
 
@@ -82,6 +89,7 @@ class Game(GeoModel):
 
     visibility_range = models.FloatField(default=200.00, verbose_name=_("Visibility range"))  # in meters
     action_range = models.FloatField(default=5.00, verbose_name=_("Action range"))  # in meters
+    capture_time = models.IntegerField(default=10, verbose_name=_("Capture time"))  # in seconds
 
     players = models.ManyToManyField(PortalUser, verbose_name=_("Players"), related_name="joined_games")
     invited_users = models.ManyToManyField(PortalUser, verbose_name=_("Invited users"), related_name="pending_games")
@@ -89,6 +97,14 @@ class Game(GeoModel):
     owner = models.ForeignKey(PortalUser, null=True, blank=True, verbose_name=_("Owner"))
     last_modified = models.DateTimeField(auto_now=True, verbose_name=_("Last modified"))
     created = models.DateTimeField(auto_now_add=True, verbose_name=_("Created"))
+
+    @property
+    def red_base(self):
+        return self._get_item(MARKER_TYPES.RED_BASE)
+
+    @property
+    def blue_base(self):
+        return self._get_item(MARKER_TYPES.BLUE_BASE)
 
     def add_player(self, user):
         if self.max_players and self.max_players == self.players.count():
@@ -149,10 +165,6 @@ class Game(GeoModel):
         return sqs
 
     def get_markers(self, user, context):
-        def _find_marker_by_type(markers, marker_type):
-            filtered_markers = filter(lambda m: m.marker_type == marker_type, markers)
-            return filtered_markers[0] if filtered_markers else None
-
         from apps.ctf.api.serializers.common import ItemSerializer
         from apps.core.api.serializers import PortalUserSerializer
 
@@ -180,9 +192,7 @@ class Game(GeoModel):
                         logger.debug("[PLAY]: distance: '%f' <= action_range: '%f'", distance_in_meters, self.action_range)
 
                         if obj.type in [MARKER_TYPES.RED_FLAG, MARKER_TYPES.BLUE_FLAG]:
-                            obj.location = user.location
-                            obj.save()
-                            logger.debug("[PLAY]: Player: '%s' take a flag: '%s'", user.username, obj.id)
+                            self.capture_the_flag(obj, user)
 
                     marker = Marker(
                         distance=distance_in_meters,
@@ -208,6 +218,42 @@ class Game(GeoModel):
                     logger.debug("marker was created: %s", marker)
                     markers.append(marker)
         return markers
+
+    def capture_the_flag(self, flag, user):
+        """ This method contains a logic for capture the flag from other user, enemy base or from another
+        place on the map.
+        """
+        logger.debug("Trying to capture the flag...")
+
+        if flag.last_captured_by == user:
+            delta = (datetime.datetime.now() - flag.when_captured).seconds
+            logger.debug("delta: %d s", delta)
+            if delta <= self.capture_time:
+                # do nothing - user cannot captured the flag
+                logger.debug("do nothing - user '%s' cannot captured the flag (delta: %s s", user.username, delta)
+                return
+
+        if user.team == PortalUser.TEAM_TYPES.RED_TEAM:
+            if flag.type == MARKER_TYPES.RED_FLAG:
+                flag.location = self.red_base.location
+                logger.debug("[PLAY]: Red flag is going back to the red base (game: %d)", self.id)
+            else:
+                flag.location = user.location
+                logger.debug("[PLAY]: Player: '%s' take a blue flag (game: %d)", user.username, self.id)
+
+            flag.last_captured_by = user
+            flag.when_captured = datetime.datetime.now()
+            flag.save()
+        else:
+            if flag.type == MARKER_TYPES.BLUE_FLAG:
+                flag.location = self.blue_base.location
+                logger.debug("[PLAY]: Blue flag is going back to the blue base (game: %d)", self.id)
+            else:
+                flag.location = user.location
+                logger.debug("[PLAY]: Player: '%s' take a red flag (game: %d)", user.username, self.id)
+            flag.last_captured_by = user
+            flag.when_captured = datetime.datetime.now()
+            flag.save()
 
     def team_balancing(self):
         for idx, player in enumerate(self.players.all()):
@@ -242,6 +288,10 @@ class Game(GeoModel):
         self.players.update(team=None)
 
         # todo: send broadcast notification to all players
+
+    def _get_item(self, item_type):
+        items = filter(lambda item: item.type == item_type, self.items.all())
+        return items[0] if items else None
 
     def __unicode__(self):
         return "%s" % self.name
