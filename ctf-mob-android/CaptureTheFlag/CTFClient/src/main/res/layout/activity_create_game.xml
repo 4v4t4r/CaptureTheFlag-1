@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -12,37 +12,37 @@
             android:id="@+id/games_name_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Game name:" />
+            android:text="Game name:"/>
 
         <EditText
             android:id="@+id/games_name_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Eneter game name" />
+            android:hint="Enter game name"/>
 
         <TextView
             android:id="@+id/games_description_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Game description:" />
+            android:text="Game description:"/>
 
         <EditText
             android:id="@+id/games_description_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Eneter game description" />
+            android:hint="Enter game description"/>
 
         <TextView
             android:id="@+id/games_start_date_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Game start time:" />
+            android:text="Game start time:"/>
 
         <TextView
             android:id="@+id/games_selected_start_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2014-02-28T16:00:00" />
+            android:text="2014-02-28T16:00:00"/>
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -54,89 +54,79 @@
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Choose start date" />
+                android:text="Choose start date"/>
 
             <Button
                 android:id="@+id/game_time_picker_button"
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Choose start time" />
+                android:text="Choose start time"/>
         </LinearLayout>
 
         <TextView
             android:id="@+id/max_players_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Max players: " />
+            android:text="Max players: "/>
 
         <EditText
             android:id="@+id/max_players_edit_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Eneter number of max players" />
+            android:hint="Enter number of max players"/>
+
         <TextView
             android:id="@+id/game_status_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Status: " />
+            android:text="Status: "/>
 
         <Spinner
             android:id="@+id/game_status_spinner"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/game_type_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Type: " />
+            android:text="Type: "/>
 
         <Spinner
             android:id="@+id/game_type_spinner"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/game_map_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Map: " />
-
-        <Spinner
-            android:id="@+id/game_map_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/game_visibility_range_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Visibility range" />
+            android:text="Visibility range"/>
 
         <EditText
             android:id="@+id/game_visibility_range_edit_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Eneter visibility range" />
+            android:hint="Enter visibility range"/>
 
         <TextView
             android:id="@+id/game_action_range_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Action range" />
+            android:text="Action range"/>
 
         <EditText
             android:id="@+id/game_action_range_edit_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Eneter action range" />
+            android:hint="Enter action range"/>
 
         <Button
             android:id="@+id/game_create_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Create" />
+            android:text="Create"/>
 
 
     </LinearLayout>

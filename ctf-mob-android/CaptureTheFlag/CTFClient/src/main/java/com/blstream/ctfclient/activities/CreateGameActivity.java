@@ -1,7 +1,6 @@
 package com.blstream.ctfclient.activities;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -54,13 +53,10 @@ public class CreateGameActivity extends CTFBaseActivity implements DatePickerDia
     Spinner gameStatusSpinner;
     @InjectView(R.id.game_type_spinner)
     Spinner gameTypeSpiner;
-    @InjectView(R.id.game_map_spinner)
-    Spinner gameMapSpinner;
     @InjectView(R.id.game_visibility_range_edit_text)
     EditText gameVisibilityRangeEditText;
     @InjectView(R.id.game_action_range_edit_text)
     EditText gameActionRangeEditText;
-
 
     static final int DATE_DIALOG_ID = 0;
     static final int TIME_DIALOG_ID = 1;
@@ -72,12 +68,9 @@ public class CreateGameActivity extends CTFBaseActivity implements DatePickerDia
         ButterKnife.inject(this);
         initView(savedInstanceState);
 
-
         Calendar calendar = GregorianCalendar.getInstance();
         calendar.setTimeZone(TimeZone.getDefault());
         SimpleDateFormat isoFormat = new SimpleDateFormat(CTF.DATE_FORMAT, Locale.getDefault());
-        Log.d("sadadasd", isoFormat.format(calendar.getTime()));
-
     }
 
     private void initView(Bundle savedInstanceState) {
@@ -86,15 +79,11 @@ public class CreateGameActivity extends CTFBaseActivity implements DatePickerDia
         ArrayAdapter gameStatusAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, Game.GameStatus.values());
         gameStatusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         gameStatusSpinner.setAdapter(gameStatusAdapter);
+
         // Game type spinner
         ArrayAdapter gameTypeAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, Game.GameType.values());
         gameTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         gameTypeSpiner.setAdapter(gameTypeAdapter);
-        // Game map spinner
-//        ArrayAdapter gameStatusAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, Game.GameStaus.values());
-//        gameStatusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        gameStatusSpinner.setAdapter(gameStatusAdapter);
-
     }
 
 
@@ -120,45 +109,17 @@ public class CreateGameActivity extends CTFBaseActivity implements DatePickerDia
         game.setName(gameNameEditText.getText().toString());
         game.setDescription(gameDescriptionEditText.getText().toString());
         game.setStartTime(selectedStartDateTextView.getText().toString());
-       /* game.setStatus(((Game.GameStatus) gameStatusSpinner.getSelectedItem()));
-        game.setType((Game.GameType) gameTypeSpiner.getSelectedItem());*/
+        game.setStatus(((Game.GameStatus) gameStatusSpinner.getSelectedItem()));
+        game.setType((Game.GameType) gameTypeSpiner.getSelectedItem());
 
-        /*game.setMaxPlayers(Integer.valueOf(maxPlayerEditText.getText().toString()));
+        game.setMaxPlayers(Integer.valueOf(maxPlayerEditText.getText().toString()));
         game.setVisibilityRange(Integer.valueOf(gameVisibilityRangeEditText.getText().toString()));
         game.setActionRange(Integer.valueOf(gameActionRangeEditText.getText().toString()));
-        */
-        crateGame(game);
+
+        createGame(game);
     }
 
-    private void crateGame(final Game game) {
-//        // Create a new HttpClient and Post Header
-//
-//        new AsyncTask<Void, Void, Void>(){
-//
-//            @Override
-//            protected Void doInBackground(Void... params) {
-//                HttpClient httpclient = new DefaultHttpClient();
-//                HttpPost httppost = new HttpPost("http://78.133.154.39:8888/api/games/");
-//                httppost.addHeader("Accept", "application/json");
-//                httppost.addHeader("Content-type", "application/json; charset=utf-8");
-//                httppost.addHeader("Authorization", "Token "+ SharedPreferencesUtils.getToken(CTF.getStaticApplicationContext()));
-//                try {
-//                    // Add your data
-//                    Gson gson= new Gson();
-//                    httppost.setEntity(new StringEntity(gson.toJson(game)));
-//                    Log.d("DEBUG", "REQUEST: " +game.getStartTime());
-//                    // Execute HTTP Post Request
-//                    HttpResponse response = httpclient.execute(httppost);
-//                    Log.d("DEBUG", "RESPONSE: " + EntityUtils.toString(response.getEntity()));
-//                } catch (ClientProtocolException e) {
-//                    // TODO Auto-generated catch block
-//                } catch (IOException e) {
-//                    // TODO Auto-generated catch block
-//                }
-//                return null;
-//            }
-//        }.execute();
-
+    private void createGame(final Game game) {
         gameRequest = new CTFGameRequest(game);
         getSpiceManager().execute(gameRequest, gameRequest.createCacheKey(), DurationInMillis.ONE_MINUTE, new GameRequestListener());
     }
@@ -207,7 +168,6 @@ public class CreateGameActivity extends CTFBaseActivity implements DatePickerDia
     private class GameRequestListener implements RequestListener<Game> {
         @Override
         public void onRequestFailure(SpiceException spiceException) {
-            spiceException.getMessage();
             Toast.makeText(getApplicationContext(), spiceException.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
         }
 
@@ -216,6 +176,5 @@ public class CreateGameActivity extends CTFBaseActivity implements DatePickerDia
             Toast.makeText(getApplicationContext(), "GameRequestListener success", Toast.LENGTH_SHORT).show();
             finish();
         }
-
     }
 }
