@@ -30,13 +30,13 @@ Model:
 ::
 
     {
-        marker_type: int,  # choices=MARKER_TYPES
-        distance: float,
+        type: int,  # choices = MARKER_TYPES
+        distance: float  # value in meters,
+        url: string,
         location: {
             lat: float,
-            lon: float
+            lon": 14.539277
         }
-        url: string
     }
 
 Model: Item
@@ -45,7 +45,7 @@ Model: Item
 Types mapping:
 ::
 
-    MARKER_TYPES = [
+    ITEM_TYPES = [
         3 - 'RED_FLAG',
         4 - 'BLUE_FLAG',
 
@@ -64,14 +64,16 @@ Model:
 ::
 
     {
-        name: string # (required=True, max_length=50)
-        description: string # (max_length=200)
-        type: int # (choices=ITEM_TYPES)
-        location: { # (required=False)
-            lat: float
+        url: string,
+        name: string,
+        type: int,  # choices = ITEM_TYPES
+        value: float,
+        description: string,
+        location: {
+            lat: float,
             lon: float
-        }
-        value: float
+        },
+        game: string  # url for game
     }
 
 API `definition <./api/item.rst>`_.
@@ -112,8 +114,9 @@ Model:
             lon: float
         }
         team: int (required=False)
-        characters = [ ] # list of url for characters objects
+        current_game_id: int, (readonly=True)
     }
+
 
 API `definition <./api/user.rst>`_.
 

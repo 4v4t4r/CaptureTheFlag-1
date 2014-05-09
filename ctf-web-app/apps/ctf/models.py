@@ -30,12 +30,12 @@ MARKER_TYPES = Choices(
 
 
 class Marker(GeoModel):
-    marker_type = models.IntegerField(choices=MARKER_TYPES, verbose_name=_("Type"))
+    type = models.IntegerField(choices=MARKER_TYPES, verbose_name=_("Type"))
     distance = models.FloatField(verbose_name=_("Distance"))
     url = models.URLField(verbose_name=_("URL"))
 
     def __unicode__(self):
-        return "%s, %.2f m, url: %s" % (self.marker_type, self.distance, self.url)
+        return "%s, %.2f m, url: %s" % (self.type, self.distance, self.url)
 
     class Meta:
         managed = False
@@ -186,7 +186,7 @@ class Game(GeoModel):
 
                     marker = Marker(
                         distance=distance_in_meters,
-                        marker_type=marker_type,
+                        type=marker_type,
                         url=url,
                         location=obj.location)
 
@@ -201,7 +201,7 @@ class Game(GeoModel):
 
                     marker = Marker(
                         distance=distance_in_meters,
-                        marker_type=marker_type,
+                        type=marker_type,
                         url=url,
                         location=obj.location)
 

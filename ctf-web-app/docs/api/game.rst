@@ -14,10 +14,10 @@ API: model *Game*
 
     HTTP 201 Created
     {
-        "url": "http://127.0.0.1:8000/api/games/1/",
-        "name": "CTF second test game",
+        "url": "http://localhost:8000/api/games/1/",
+        "name": "CTF first test game",
         "description": "Test game 1",
-        "start_time": "2014-05-02T12:00:00",
+        "start_time": "2014-05-02T10:00:00Z",
         "max_players": 12,
         "status": 0,
         "type": 0,
@@ -28,15 +28,23 @@ API: model *Game*
         },
         "visibility_range": 1000.0,
         "action_range": 20.0,
-        "players": [],
-        "invited_users": [
-            "http://127.0.0.1:8000/api/users/2/"
+        "players": [
+            "http://localhost:8000/api/users/2/",
+            "http://localhost:8000/api/users/3/"
         ],
-        "players": [],
-        "items": [],
-        "owner": "http://127.0.0.1:8000/api/users/2/",
-        "last_modified": "2014-05-06T12:18:58.216Z",
-        "created": "2014-05-06T12:18:58.216Z"
+        "invited_users": [
+            "http://localhost:8000/api/users/2/",
+            "http://localhost:8000/api/users/3/"
+        ],
+        "items": [
+            "http://localhost:8000/api/items/6/",
+            "http://localhost:8000/api/items/5/",
+            "http://localhost:8000/api/items/2/",
+            "http://localhost:8000/api/items/1/"
+        ],
+        "owner": "http://localhost:8000/api/users/2/",
+        "last_modified": "2014-05-08T10:15:35.303Z",
+        "created": "2014-05-08T10:06:32.210Z"
     }
 
 **Read** game
@@ -97,10 +105,10 @@ Example (response of selected game)
 ::
 
     {
-        "url": "http://127.0.0.1:8000/api/games/1/",
-        "name": "CTF second test game",
+        "url": "http://localhost:8000/api/games/1/",
+        "name": "CTF first test game",
         "description": "Test game 1",
-        "start_time": "2014-05-02T12:00:00",
+        "start_time": "2014-05-02T10:00:00Z",
         "max_players": 12,
         "status": 0,
         "type": 0,
@@ -111,14 +119,23 @@ Example (response of selected game)
         },
         "visibility_range": 1000.0,
         "action_range": 20.0,
-        "players": [],
-        "invited_users": [
-            "http://127.0.0.1:8000/api/users/2/"
+        "players": [
+            "http://localhost:8000/api/users/2/",
+            "http://localhost:8000/api/users/3/"
         ],
-        "items": [],
-        "owner": "http://127.0.0.1:8000/api/users/2/",
-        "last_modified": "2014-05-06T12:18:58.216Z",
-        "created": "2014-05-06T12:18:58.216Z"
+        "invited_users": [
+            "http://localhost:8000/api/users/2/",
+            "http://localhost:8000/api/users/3/"
+        ],
+        "items": [
+            "http://localhost:8000/api/items/6/",
+            "http://localhost:8000/api/items/5/",
+            "http://localhost:8000/api/items/2/",
+            "http://localhost:8000/api/items/1/"
+        ],
+        "owner": "http://localhost:8000/api/users/2/",
+        "last_modified": "2014-05-08T10:15:35.303Z",
+        "created": "2014-05-08T10:06:32.210Z"
     }
 
 **Add player to the selected game**
@@ -177,17 +194,17 @@ Example (response of selected game)
 
     [
         {
-            "marker_type": 4,
-            "distance": 306.4619143264994,
-            "url": "http://127.0.0.1:8000/api/items/2/",
+            "type": 5,
+            "distance": 310.03541941096177,
+            "url": "http://127.0.0.1:8000/api/items/5/",
             "location": {
-                "lat": 53.438732,
-                "lon": 14.541759
+                "lat": 53.441168,
+                "lon": 14.539277
             }
         },
         {
-            "marker_type": 0,
-            "distance": 219.07368062567056,
+            "type": 0,
+            "distance": 80.82113754491657,
             "url": "http://127.0.0.1:8000/api/users/3/",
             "location": {
                 "lat": 53.43943,
@@ -195,8 +212,17 @@ Example (response of selected game)
             }
         },
         {
-            "marker_type": 3,
-            "distance": 19.391233474360988,
+            "type": 4,
+            "distance": 0.0,
+            "url": "http://127.0.0.1:8000/api/items/2/",
+            "location": {
+                "lat": 53.438758,
+                "lon": 14.541617
+            }
+        },
+        {
+            "type": 3,
+            "distance": 310.03541941096177,
             "url": "http://127.0.0.1:8000/api/items/1/",
             "location": {
                 "lat": 53.441168,
@@ -204,7 +230,5 @@ Example (response of selected game)
             }
         }
     ]
-
-
 
 

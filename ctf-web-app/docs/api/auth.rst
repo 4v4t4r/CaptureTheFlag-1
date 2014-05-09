@@ -26,3 +26,14 @@ After correct authentication, you should always put into the request headers bel
 
     -H "Authorization: Token {token}"
 
+
+Example (response of authenticated user)
+----------------------------------------
+::
+
+    {
+        "token": "58c4c9a63946f2519918bca1986d894f84cc382f",
+        "user": "http://127.0.0.1:8000/api/users/2/"
+    }
+
+

@@ -14,26 +14,17 @@ API: model *User*
 
     HTTP 200 OK
     {
-        "url": "http://ctf.host/api/users/2/",
-        "username": "frodo",
-        "first_name": "",
-        "last_name": "",
-        "email": "frodo@ctf.net",
-        "nick": "frodo",
+        "url": "http://localhost:8000/api/users/2/",
+        "username": "mort",
+        "email": "mort@ctf.host",
+        "nick": "mort",
         "team": 0,
         "current_game_id": 1,
-        "active_character": "http://ctf.host/api/characters/5/",
-        "characters": [
-            "http://ctf.host/api/characters/5/",
-            "http://ctf.host/api/characters/6/",
-            "http://ctf.host/api/characters/7/",
-            "http://ctf.host/api/characters/8/"
-        ],
         "device_type": 0,
-        "device_id": "5432456-123456",
+        "device_id": "000000-00000-1",
         "location": {
-            "lat": 55.12123,
-            "lon": 14.1234
+            "lat": 53.438758,
+            "lon": 14.541617
         }
     }
 
@@ -79,25 +70,16 @@ Example (response of selected user)
 ::
 
     {
-        "url": "http://localhost:8000/api/users/3/",
+        "url": "http://localhost:8000/api/users/2/",
         "username": "mort",
-        "first_name": "",
-        "last_name": "",
-        "email": "mort@ctf.nete",
+        "email": "mort@ctf.host",
         "nick": "mort",
         "team": 0,
         "current_game_id": 1,
-        "active_character": "http://localhost:8000/api/characters/5/",
-        "characters": [
-            "http://localhost:8000/api/characters/12/",
-            "http://localhost:8000/api/characters/9/",
-            "http://localhost:8000/api/characters/10/",
-            "http://localhost:8000/api/characters/11/"
-        ],
         "device_type": 0,
-        "device_id": "5432456-123456",
+        "device_id": "000000-00000-1",
         "location": {
-            "lat": 53.491824,
-            "lon": 14.593852
+            "lat": 53.438758,
+            "lon": 14.541617
         }
     }

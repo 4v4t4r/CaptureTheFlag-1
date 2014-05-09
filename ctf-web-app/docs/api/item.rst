@@ -14,14 +14,16 @@ API: model *Item*
 
     HTTP 201 Created
     {
-        "url": "http://ctf.host/api/items/1/",
-        "name": "Red team flag",
-        "type": 0,
-        "value": 0.0,
-        "description": "Red team flag",
-        "lat": 53.442764,
-        "lon": 14.537692,
-        "game": "http://ctf.host/api/games/1/"
+        "url": "http://localhost:8000/api/items/6/",
+        "name": "Blue base",
+        "type": 6,
+        "value": null,
+        "description": null,
+        "location": {
+            "lat": 53.438732,
+            "lon": 14.541759
+        },
+        "game": "http://localhost:8000/api/games/1/"
     }
 
 **Read** a single item
@@ -82,13 +84,15 @@ Example (response of selected item)
 ::
 
     {
-        "url": "http://localhost:8000/api/items/2/",
-        "name": "Blue team flag",
-        "type": 1,
-        "value": 0.0,
-        "description": "Blue team flag",
-        "lat": 53.442759,
-        "lon": 14.537699,
+        "url": "http://localhost:8000/api/items/6/",
+        "name": "Blue base",
+        "type": 6,
+        "value": null,
+        "description": null,
+        "location": {
+            "lat": 53.438732,
+            "lon": 14.541759
+        },
         "game": "http://localhost:8000/api/games/1/"
     }
 
