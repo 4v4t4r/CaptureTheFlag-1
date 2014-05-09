@@ -94,7 +94,7 @@ Team types mapping:
 ::
 
     TEAM_TYPES = {
-        0 - 'READ TEAM',
+        0 - 'RED TEAM',
         1 - 'BLUE TEAM'
     }
 
