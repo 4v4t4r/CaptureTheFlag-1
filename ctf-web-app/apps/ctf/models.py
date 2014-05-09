@@ -226,7 +226,8 @@ class Game(GeoModel):
         logger.debug("Trying to capture the flag...")
 
         if flag.last_captured_by == user:
-            delta = (datetime.datetime.now() - flag.when_captured).seconds
+            when_captured = flag.when_captured.replace(tzinfo=None)
+            delta = (datetime.datetime.now() - when_captured).seconds
             logger.debug("delta: %d s", delta)
             if delta <= self.capture_time:
                 # do nothing - user cannot captured the flag
