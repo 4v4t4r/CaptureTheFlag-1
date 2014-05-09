@@ -110,11 +110,4 @@ public class User {
         @SerializedName("2")
         IOS
     }
-
-    public enum CharacterType {
-        PRIVATE,
-        MEDIC,
-        COMMANDOS,
-        SPY
-    }
 }

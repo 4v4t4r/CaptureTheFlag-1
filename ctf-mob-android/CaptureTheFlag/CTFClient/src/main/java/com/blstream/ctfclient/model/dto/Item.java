@@ -1,5 +1,7 @@
 package com.blstream.ctfclient.model.dto;
 
+import com.blstream.ctfclient.model.enums.ItemType;
+
 /**
  * Created by mar on 29.04.14.
  */
@@ -21,13 +23,5 @@ public class Item extends AbstractObject {
         this.location = location;
     }
 
-    public enum ItemType {
-        FLAG_RED,
-        FLAG_BLUE,
-        BASE_RED,
-        BASE_BLUE,
-        AID_KIT,
-        PISTOL,
-        AMMO
-    }
+
 }

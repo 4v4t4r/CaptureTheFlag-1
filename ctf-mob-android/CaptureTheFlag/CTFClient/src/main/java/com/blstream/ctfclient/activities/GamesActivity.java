@@ -14,9 +14,14 @@ import com.blstream.ctfclient.R;
 import com.blstream.ctfclient.adapters.GameAdapter;
 import com.blstream.ctfclient.model.dto.Game;
 import com.blstream.ctfclient.network.requests.CTFGamesRequest;
+import com.google.android.gms.games.Games;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class GamesActivity extends CTFBaseActivity {
     private static final String TAG = GamesActivity.class.getSimpleName();
@@ -30,7 +35,7 @@ public class GamesActivity extends CTFBaseActivity {
         setContentView(R.layout.grid_layout);
 
         gridView = (GridView) findViewById(R.id.grid_view);
-        gridView.setAdapter(new GameAdapter(this, getCacheDir()));
+
     }
 
     @Override
@@ -82,6 +87,10 @@ public class GamesActivity extends CTFBaseActivity {
 
         @Override
         public void onRequestSuccess(Game[] games) {
+
+            List<Game> gameList = Arrays.asList(games);
+
+            gridView.setAdapter(new GameAdapter(getApplicationContext(), R.layout.game_item, gameList));
 
             Log.d(TAG, ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> JUPI it is work !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             for (Game game : games) {

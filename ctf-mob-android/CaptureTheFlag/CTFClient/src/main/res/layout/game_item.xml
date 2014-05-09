@@ -16,7 +16,6 @@
         android:background="@color/transparent_blue"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:gravity="center"
-        android:text="Dupa 1"
         android:id="@+id/textView"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"/>
