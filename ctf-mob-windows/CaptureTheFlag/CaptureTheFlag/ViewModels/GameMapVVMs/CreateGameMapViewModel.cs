@@ -25,13 +25,15 @@ namespace CaptureTheFlag.ViewModels.GameMapVVMs
         private readonly INavigationService navigationService;
         private readonly ILocationService locationService;
         private readonly IGlobalStorageService globalStorageService;
+        private readonly ICommunicationService communicationService;
 
-        public CreateGameMapViewModel(INavigationService navigationService, ILocationService locationService, IGlobalStorageService globalStorageService)
+        public CreateGameMapViewModel(INavigationService navigationService, ILocationService locationService, IGlobalStorageService globalStorageService, ICommunicationService communicationService)
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             this.navigationService = navigationService;
             this.locationService = locationService;
             this.globalStorageService = globalStorageService;
+            this.communicationService = communicationService;
 
             Game = new Game();
             ZoomLevel = 18.2;
@@ -47,6 +49,7 @@ namespace CaptureTheFlag.ViewModels.GameMapVVMs
             Area.Fill = new SolidColorBrush() { Color = Colors.Red };
 
             Markers = new BindableCollection<Marker>();
+            Items = new BindableCollection<Item>();
 
             DisplayName = "Game map";
 
@@ -90,16 +93,21 @@ namespace CaptureTheFlag.ViewModels.GameMapVVMs
         {
             //TODO: Remove the key if it is not used or use an object specific for game creation
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
+            //Game.Items = Markers; //TODO: Change markers to items binding
             if (GameModelKey == null)
             {
                 GameModelKey = "TemporaryGameModelKey";
             }
+            Game.Radius = GameMap.radius;
             globalStorageService.Current.Games[GameModelKey] = Game;
+            globalStorageService.Current.Items = Items;
+            
             navigationService.UriFor<CreateGameViewModel>()
                 .WithParam(param => param.GameModelKey, GameModelKey)
                 .Navigate();
             navigationService.RemoveBackEntry();
         }
+
 
         public void SetGameAreaAction()
         {
@@ -120,14 +128,20 @@ namespace CaptureTheFlag.ViewModels.GameMapVVMs
             redBase.location = new Location() { Latitude = MapCenter.Latitude, Longitude = MapCenter.Longitude };
             //redBase.url = String.Format("http://78.133.154.39:8888/{0}/{1}", redBase.type, redBase.type); //TODO: Remove, temporary const
 
+            Item redBaseItem = new Item();
+            redBaseItem.Type = Item.ITEM_TYPE.RED_BASE;
+            redBaseItem.Location = redBase.location;
+
             var idx = Markers.ToList().FindIndex(marker => marker.type == 5);
             if(idx != -1)
             {
                 Markers[idx] = redBase;
+                Items[idx] = redBaseItem;
             }
             else
             {
                 Markers.Add(redBase);
+                Items.Add(redBaseItem);
             }
         }
 
@@ -140,14 +154,20 @@ namespace CaptureTheFlag.ViewModels.GameMapVVMs
             blueBase.location = new Location() { Latitude = MapCenter.Latitude, Longitude = MapCenter.Longitude };
             //blueBase.url = String.Format("http://78.133.154.39:8888/{0}/{1}", blueBase.type, blueBase.type); //TODO: Remove, temporary const
 
+            Item blueBaseItem = new Item();
+            blueBaseItem.Type = Item.ITEM_TYPE.RED_BASE;
+            blueBaseItem.Location = blueBase.location;
+
             var idx = Markers.ToList().FindIndex(marker => marker.type == 4);
             if (idx != -1)
             {
                 Markers[idx] = blueBase;
+                Items[idx] = blueBaseItem;
             }
             else
             {
                 Markers.Add(blueBase);
+                Items.Add(blueBaseItem);
             }
         }
 
@@ -256,6 +276,20 @@ namespace CaptureTheFlag.ViewModels.GameMapVVMs
                 {
                     markers = value;
                     NotifyOfPropertyChange(() => Markers);
+                }
+            }
+        }
+
+        private BindableCollection<Item> items;
+        public BindableCollection<Item> Items
+        {
+            get { return items; }
+            set
+            {
+                if (items != value)
+                {
+                    items = value;
+                    NotifyOfPropertyChange(() => Items);
                 }
             }
         }

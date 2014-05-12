@@ -1,7 +1,10 @@
-﻿using System;
+﻿using CaptureTheFlag.Models;
+using RestSharp;
+using System;
 using System.Collections.Generic;
 using System.Device.Location;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Devices.Geolocation;
@@ -52,6 +55,29 @@ namespace CaptureTheFlag.Services
             Watcher.Start();
             GeoCoordinate loc = Watcher.Position.Location;
             Watcher.Stop();
+        }
+
+        public RestRequestAsyncHandle RegisterPositionCommunicationAction(ICommunicationService communicationService, Authenticator authenticator, Game game)
+        {
+            RestRequestAsyncHandle requestHandle = null;
+            //TODO: Response object model
+            Watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.High);
+            Watcher.Start();
+            if (Authenticator.IsValid(authenticator))
+            {
+                requestHandle = communicationService.RegisterPosition(game, Watcher.Position.Location, authenticator.token,
+                    rData =>
+                    {
+                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
+                    },
+                    serverErrorMessage =>
+                    {
+                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
+                    }
+                );
+            }
+            Watcher.Stop();
+            return requestHandle;
         }
 
         //TODO: move it in its own class?

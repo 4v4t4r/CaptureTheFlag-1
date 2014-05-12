@@ -12,17 +12,23 @@ namespace CaptureTheFlag.Services
 {
     public interface ICommunicationService
     {
+        //TODO: new methods for check
+        Task<IRestResponse> CreateGameAsync(string token, Game game);
+        Task<IRestResponse> CreateItemAsync(string token, Item item);
+
+        Task<IRestResponse> PatchGameAsync(string token, Game game);
+
         //TODO: make ICommunicationService more generic
-        RestRequestAsyncHandle GetAllGames(string token, Action<BindableCollection<GameD>> successCallback, Action<ServerErrorMessage> errorCallback);
+        RestRequestAsyncHandle GetAllGames(string token, Action<BindableCollection<Game>> successCallback, Action<ServerErrorMessage> errorCallback);
         //RestRequestAsyncHandle GetAllUsers(string token, Action<BindableCollection<Game>> successCallback, Action<ServerErrorMessage> errorCallback);
         RestRequestAsyncHandle GetAllMaps(string token, Action<BindableCollection<GameMap>> successCallback, Action<ServerErrorMessage> errorCallback);
 
         #region Game (un)subscription 
-        RestRequestAsyncHandle AddPlayerToGame(GameD game, string token, Action<HttpResponse> successCallback, Action<ServerErrorMessage> errorCallback);
-        RestRequestAsyncHandle RemovePlayerFromGame(GameD game, string token, Action<HttpResponse> successCallback, Action<ServerErrorMessage> errorCallback);
+        RestRequestAsyncHandle AddPlayerToGame(Game game, string token, Action<HttpResponse> successCallback, Action<ServerErrorMessage> errorCallback);
+        RestRequestAsyncHandle RemovePlayerFromGame(Game game, string token, Action<HttpResponse> successCallback, Action<ServerErrorMessage> errorCallback);
         #endregion
 
-        RestRequestAsyncHandle RegisterPosition(GameD game, GeoCoordinate coordinate, string token, Action<object> successCallback, Action<ServerErrorMessage> errorCallback);
+        RestRequestAsyncHandle RegisterPosition(Game game, GeoCoordinate coordinate, string token, Action<object> successCallback, Action<ServerErrorMessage> errorCallback);
         RestRequestAsyncHandle SelectCharacter(Character character, string token, Action<object> successCallback, Action<ServerErrorMessage> errorCallback);
 
         //Authorization requests
@@ -31,10 +37,10 @@ namespace CaptureTheFlag.Services
 
         //Game requests
         RestRequestAsyncHandle CreateGame(Game game, string token, Action<Game> successCallback, Action<ServerErrorMessage> errorCallback);
-        RestRequestAsyncHandle ReadGame(GameD game, string token, Action<GameD> successCallback, Action<ServerErrorMessage> errorCallback);
-        RestRequestAsyncHandle UpdateGame(GameD game, string token, Action<GameD> successCallback, Action<ServerErrorMessage> errorCallback);
-        RestRequestAsyncHandle UpdateGameFields(GameD game, string token, Action<GameD> successCallback, Action<ServerErrorMessage> errorCallback);
-        RestRequestAsyncHandle DeleteGame(GameD game, string token, Action<GameD> successCallback, Action<ServerErrorMessage> errorCallback);
+        RestRequestAsyncHandle ReadGame(Game game, string token, Action<Game> successCallback, Action<ServerErrorMessage> errorCallback);
+        RestRequestAsyncHandle UpdateGame(Game game, string token, Action<Game> successCallback, Action<ServerErrorMessage> errorCallback);
+        RestRequestAsyncHandle UpdateGameFields(Game game, string token, Action<Game> successCallback, Action<ServerErrorMessage> errorCallback);
+        RestRequestAsyncHandle DeleteGame(Game game, string token, Action<Game> successCallback, Action<ServerErrorMessage> errorCallback);
         
         //Map requests
         RestRequestAsyncHandle CreateGameMap(GameMap gameMap, string token, Action<GameMap> successCallback, Action<ServerErrorMessage> errorCallback);
@@ -43,19 +49,26 @@ namespace CaptureTheFlag.Services
         RestRequestAsyncHandle UpdateGameMapFields(GameMap gameMap, string token, Action<GameMap> successCallback, Action<ServerErrorMessage> errorCallback);
         RestRequestAsyncHandle DeleteGameMap(GameMap gameMap, string token, Action<GameMap> successCallback, Action<ServerErrorMessage> errorCallback);
 
-        //Item requests
+        //Game Item requests
         RestRequestAsyncHandle CreateGameItem(GameItem gameItem, string token, Action<GameItem> successCallback, Action<ServerErrorMessage> errorCallback);
         RestRequestAsyncHandle ReadGameItem(GameItem gameItem, string token, Action<GameItem> successCallback, Action<ServerErrorMessage> errorCallback);
         RestRequestAsyncHandle UpdateGameItem(GameItem gameItem, string token, Action<GameItem> successCallback, Action<ServerErrorMessage> errorCallback);
         RestRequestAsyncHandle UpdateGameItemFields(GameItem gameItem, string token, Action<GameItem> successCallback, Action<ServerErrorMessage> errorCallback);
         RestRequestAsyncHandle DeleteGameItem(GameItem gameItem, string token, Action<GameItem> successCallback, Action<ServerErrorMessage> errorCallback);
 
+        //Item requests
+        RestRequestAsyncHandle CreateItem(Item item, string token, Action<Item> successCallback, Action<ServerErrorMessage> errorCallback);
+        RestRequestAsyncHandle ReadItem(Item item, string token, Action<Item> successCallback, Action<ServerErrorMessage> errorCallback);
+        RestRequestAsyncHandle UpdateItem(Item item, string token, Action<Item> successCallback, Action<ServerErrorMessage> errorCallback);
+        RestRequestAsyncHandle UpdateItemFields(Item item, string token, Action<Item> successCallback, Action<ServerErrorMessage> errorCallback);
+        RestRequestAsyncHandle DeleteItem(Item item, string token, Action<Item> successCallback, Action<ServerErrorMessage> errorCallback);
+
         //User requests
-        RestRequestAsyncHandle CreateUser(UserD user, string token, Action<UserD> successCallback, Action<ServerErrorMessage> errorCallback);
-        RestRequestAsyncHandle ReadUser(UserD user, string token, Action<UserD> successCallback, Action<ServerErrorMessage> errorCallback);
-        RestRequestAsyncHandle UpdateUser(UserD user, string token, Action<UserD> successCallback, Action<ServerErrorMessage> errorCallback);
-        RestRequestAsyncHandle UpdateUserFields(UserD user, string token, Action<UserD> successCallback, Action<ServerErrorMessage> errorCallback);
-        RestRequestAsyncHandle DeleteUser(UserD user, string token, Action<UserD> successCallback, Action<ServerErrorMessage> errorCallback);
+        RestRequestAsyncHandle CreateUser(User user, string token, Action<User> successCallback, Action<ServerErrorMessage> errorCallback);
+        RestRequestAsyncHandle ReadUser(User user, string token, Action<User> successCallback, Action<ServerErrorMessage> errorCallback);
+        RestRequestAsyncHandle UpdateUser(User user, string token, Action<User> successCallback, Action<ServerErrorMessage> errorCallback);
+        RestRequestAsyncHandle UpdateUserFields(User user, string token, Action<User> successCallback, Action<ServerErrorMessage> errorCallback);
+        RestRequestAsyncHandle DeleteUser(User user, string token, Action<User> successCallback, Action<ServerErrorMessage> errorCallback);
 
         //Character requests
         RestRequestAsyncHandle ReadCharacter(Character character, string token, Action<Character> successCallback, Action<ServerErrorMessage> errorCallback);

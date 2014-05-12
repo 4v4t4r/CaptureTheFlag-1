@@ -26,7 +26,7 @@
             IsFormAccessible = true;
 
             GameMap = new GameMap();
-            User = new UserD();
+            User = new User();
             Authenticator = new Authenticator();
 
             DisplayName = "Map Details";
@@ -56,10 +56,10 @@
                 if (globalStorageService.Current.GameMaps.ContainsKey(GameMap.url))
                 {
                     GameMap = globalStorageService.Current.GameMaps[GameMap.url];
-                    User.url = GameMap.author;
-                    if (globalStorageService.Current.Users.ContainsKey(User.url))
+                    User.Url = GameMap.author;
+                    if (globalStorageService.Current.Users.ContainsKey(User.Url))
                     {
-                        User = globalStorageService.Current.DUsers[User.url];
+                        User = globalStorageService.Current.Users[User.Url];
                     }
                     else
                     {
@@ -87,7 +87,7 @@
                         DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
                         GameMap = responseData;
                         globalStorageService.Current.GameMaps[GameMap.url] = GameMap;
-                        User.url = GameMap.author;
+                        User.Url = GameMap.author;
                         ReadUserAction();
                     },
                     serverErrorMessage =>
@@ -164,8 +164,8 @@
             }
         }
 
-        private UserD user;
-        public UserD User
+        private User user;
+        public User User
         {
             get { return user; }
             set

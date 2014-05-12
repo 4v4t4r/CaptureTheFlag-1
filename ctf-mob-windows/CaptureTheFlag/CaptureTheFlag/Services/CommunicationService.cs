@@ -14,17 +14,85 @@ using Newtonsoft.Json.Linq;
 using System.Net;
 using Newtonsoft.Json;
 using System.Device.Location;
+using RestSharp.Deserializers;
+using System.Threading;
+using RestSharpEx;
 
 namespace CaptureTheFlag.Services
 {
     public class CommunicationService : ICommunicationService
     {
+        //TODO: Do the same for Serialization
+        //TODO: Move to own file
+        public class JsondotNETDeserializer : IDeserializer
+        {
+            public string DateFormat { get; set; }
+            public T Deserialize<T>(IRestResponse response)
+            {
+                try
+                {
+                    return JsonConvert.DeserializeObject<T>(response.Content);
+                }
+                catch(Exception)
+                {
+                    return default(T);
+                }
+            }
+            public string Namespace { get; set; }
+            public string RootElement { get; set; }
+        }
+
         private RestClient client;
 
         public CommunicationService()
         {
             //TODO: Generalize for string parameter
             client = new RestClient("http://78.133.154.39:8888");
+            client.AddHandler("application/json", new JsondotNETDeserializer());
+        }
+
+        //TODO: new for check
+        public Task<IRestResponse> CreateGameAsync(string token, Game game)
+        {
+            RestRequest request = new RestRequest("/api/games/", Method.POST);
+            request.AddHeader("Accept", "application/json");
+            request.RequestFormat = DataFormat.Json;
+            request.AddHeader("Authorization", String.Format("Token {0}", token));
+
+            string objectJsonString = JsonConvert.SerializeObject(game, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            DebugLogger.WriteLineIf(objectJsonString != null, String.Format("Sending JSON: {0}", objectJsonString));
+            request.AddParameter("application/json", objectJsonString, ParameterType.RequestBody);
+
+            return client.ExecuteTaskAsync(request);
+        }
+
+        public Task<IRestResponse> CreateItemAsync(string token, Item item)
+        {
+            RestRequest request = new RestRequest("/api/items/", Method.POST);
+            request.AddHeader("Accept", "application/json");
+            request.RequestFormat = DataFormat.Json;
+            request.AddHeader("Authorization", String.Format("Token {0}", token));
+
+            string objectJsonString = JsonConvert.SerializeObject(item, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            DebugLogger.WriteLineIf(objectJsonString != null, String.Format("Sending JSON: {0}", objectJsonString));
+            request.AddParameter("application/json", objectJsonString, ParameterType.RequestBody);
+
+            return client.ExecuteTaskAsync(request);
+        }
+
+        public Task<IRestResponse> PatchGameAsync(string token, Game game)
+        {
+            string url = new Uri(game.Url).PathAndQuery;
+            RestRequest request = new RestRequest(url, Method.PATCH);
+            request.AddHeader("Accept", "application/json");
+            request.RequestFormat = DataFormat.Json;
+            request.AddHeader("Authorization", String.Format("Token {0}", token));
+
+            string objectJsonString = JsonConvert.SerializeObject(game, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            DebugLogger.WriteLineIf(objectJsonString != null, String.Format("Sending JSON: {0}", objectJsonString));
+            request.AddParameter("application/json", objectJsonString, ParameterType.RequestBody);
+
+            return client.ExecuteTaskAsync(request);
         }
 
         //TODO: reimplement if needed
@@ -33,7 +101,6 @@ namespace CaptureTheFlag.Services
             RestRequest request = new RestRequest("/api/users/", Method.GET);
             request.AddHeader("Accept", "application/json");
             request.AddHeader("Authorization", String.Format("Token {0}", token));
-
             return client.ExecuteAsync(request, response =>
             {
                 Debug.WriteLineIf(response != null, String.Format("Status Code:{0} _ Status Description:{1}", response.StatusCode, response.StatusDescription));
@@ -100,9 +167,10 @@ namespace CaptureTheFlag.Services
             });
         }
 
-        public RestRequestAsyncHandle RegisterPosition(GameD game, GeoCoordinate coordinate, string token, Action<object> successCallback, Action<ServerErrorMessage> errorCallback)
+        public RestRequestAsyncHandle RegisterPosition(Game game, GeoCoordinate coordinate, string token, Action<object> successCallback, Action<ServerErrorMessage> errorCallback)
         {
-            return Put<object>(new Uri(game.url).PathAndQuery + "location/", token, new { lat = coordinate.Latitude, lon = coordinate.Longitude }, successCallback, errorCallback); 
+            //TODO: pass location object
+            return Put<object>(new Uri(game.Url).PathAndQuery + "location/", token, new { lat = coordinate.Latitude, lon = coordinate.Longitude }, successCallback, errorCallback); 
         }
 
         public RestRequestAsyncHandle SelectCharacter(Character character, string token, Action<object> successCallback, Action<ServerErrorMessage> errorCallback)
@@ -112,14 +180,14 @@ namespace CaptureTheFlag.Services
 
 
         #region Player requests
-        public RestRequestAsyncHandle AddPlayerToGame(GameD game, string token, Action<HttpResponse> successCallback, Action<ServerErrorMessage> errorCallback)
+        public RestRequestAsyncHandle AddPlayerToGame(Game game, string token, Action<HttpResponse> successCallback, Action<ServerErrorMessage> errorCallback)
         {
-            return Post<HttpResponse>(new Uri(game.url).PathAndQuery + "player/", token, successCallback, errorCallback);
+            return Post<HttpResponse>(new Uri(game.Url).PathAndQuery + "player/", token, successCallback, errorCallback);
         }
 
-        public RestRequestAsyncHandle RemovePlayerFromGame(GameD game, string token, Action<HttpResponse> successCallback, Action<ServerErrorMessage> errorCallback)
+        public RestRequestAsyncHandle RemovePlayerFromGame(Game game, string token, Action<HttpResponse> successCallback, Action<ServerErrorMessage> errorCallback)
         {
-            return Delete<HttpResponse>(new Uri(game.url).PathAndQuery + "player/", token, successCallback, errorCallback);
+            return Delete<HttpResponse>(new Uri(game.Url).PathAndQuery + "player/", token, successCallback, errorCallback);
         }
         #endregion
 
@@ -131,30 +199,31 @@ namespace CaptureTheFlag.Services
         #endregion
 
         #region User requests
-        public RestRequestAsyncHandle CreateUser(UserD user, string token, Action<UserD> successCallback, Action<ServerErrorMessage> errorCallback)
+        public RestRequestAsyncHandle CreateUser(User user, string token, Action<User> successCallback, Action<ServerErrorMessage> errorCallback)
         {
-            return Create<UserD>("/api/users/", token, user, successCallback, errorCallback);
+            return Create<User>("/api/users/", token, user, successCallback, errorCallback);
         }
-        public RestRequestAsyncHandle ReadUser(UserD user, string token, Action<UserD> successCallback, Action<ServerErrorMessage> errorCallback)
+        public RestRequestAsyncHandle ReadUser(User user, string token, Action<User> successCallback, Action<ServerErrorMessage> errorCallback)
         {
-            return Get<UserD>(new Uri(user.url).PathAndQuery, token, successCallback, errorCallback);
+            return Get<User>(new Uri(user.Url).PathAndQuery, token, successCallback, errorCallback);
         }
-        public RestRequestAsyncHandle UpdateUser(UserD user, string token, Action<UserD> successCallback, Action<ServerErrorMessage> errorCallback)
+        public RestRequestAsyncHandle UpdateUser(User user, string token, Action<User> successCallback, Action<ServerErrorMessage> errorCallback)
         {
-            return Put<UserD>(new Uri(user.url).PathAndQuery, token, user, successCallback, errorCallback);
+            return Put<User>(new Uri(user.Url).PathAndQuery, token, user, successCallback, errorCallback);
         }
-        public RestRequestAsyncHandle UpdateUserFields(UserD user, string token, Action<UserD> successCallback, Action<ServerErrorMessage> errorCallback)
+        public RestRequestAsyncHandle UpdateUserFields(User user, string token, Action<User> successCallback, Action<ServerErrorMessage> errorCallback)
         {
 #warning not implemented correctly, diff the model
-            return Patch<UserD>(new Uri(user.url).PathAndQuery, token, user, successCallback, errorCallback);
+            return Patch<User>(new Uri(user.Url).PathAndQuery, token, user, successCallback, errorCallback);
         }
-        public RestRequestAsyncHandle DeleteUser(UserD user, string token, Action<UserD> successCallback, Action<ServerErrorMessage> errorCallback)
+        public RestRequestAsyncHandle DeleteUser(User user, string token, Action<User> successCallback, Action<ServerErrorMessage> errorCallback)
         {
-            return Delete<UserD>(new Uri(user.url).PathAndQuery, token, successCallback, errorCallback);
+            return Delete<User>(new Uri(user.Url).PathAndQuery, token, successCallback, errorCallback);
         }
         #endregion
 
-        #region Item requests
+        //TODO: delete all game item requests
+        #region Game Item requests 
         public RestRequestAsyncHandle CreateGameItem(GameItem gameItem, string token, Action<GameItem> successCallback, Action<ServerErrorMessage> errorCallback)
         {
             return Create<GameItem>("/api/items/", token, gameItem, successCallback, errorCallback);
@@ -175,6 +244,30 @@ namespace CaptureTheFlag.Services
         public RestRequestAsyncHandle DeleteGameItem(GameItem gameItem, string token, Action<GameItem> successCallback, Action<ServerErrorMessage> errorCallback)
         {
             return Delete<GameItem>(new Uri(gameItem.url).PathAndQuery, token, successCallback, errorCallback);
+        }
+        #endregion
+
+        #region Item requests
+        public RestRequestAsyncHandle CreateItem(Item item, string token, Action<Item> successCallback, Action<ServerErrorMessage> errorCallback)
+        {
+            return Create<Item>("/api/items/", token, item, successCallback, errorCallback);
+        }
+        public RestRequestAsyncHandle ReadItem(Item item, string token, Action<Item> successCallback, Action<ServerErrorMessage> errorCallback)
+        {
+            return Get<Item>(new Uri(item.Url).PathAndQuery, token, successCallback, errorCallback);
+        }
+        public RestRequestAsyncHandle UpdateItem(Item item, string token, Action<Item> successCallback, Action<ServerErrorMessage> errorCallback)
+        {
+            return Put<Item>(new Uri(item.Url).PathAndQuery, token, item, successCallback, errorCallback);
+        }
+        public RestRequestAsyncHandle UpdateItemFields(Item item, string token, Action<Item> successCallback, Action<ServerErrorMessage> errorCallback)
+        {
+#warning not implemented correctly, diff the model
+            return Patch<Item>(new Uri(item.Url).PathAndQuery, token, item, successCallback, errorCallback);
+        }
+        public RestRequestAsyncHandle DeleteItem(Item item, string token, Action<Item> successCallback, Action<ServerErrorMessage> errorCallback)
+        {
+            return Delete<Item>(new Uri(item.Url).PathAndQuery, token, successCallback, errorCallback);
         }
         #endregion
 
@@ -211,34 +304,34 @@ namespace CaptureTheFlag.Services
         #endregion
 
         #region Game requests
-        public RestRequestAsyncHandle GetAllGames(string token, Action<BindableCollection<GameD>> successCallback, Action<ServerErrorMessage> errorCallback)
+        public RestRequestAsyncHandle GetAllGames(string token, Action<BindableCollection<Game>> successCallback, Action<ServerErrorMessage> errorCallback)
         {
-            return Get<BindableCollection<GameD>>("/api/games/", token, successCallback, errorCallback);
+            return Get<BindableCollection<Game>>("/api/games/", token, successCallback, errorCallback);
         }
         public RestRequestAsyncHandle CreateGame(Game game, string token, Action<Game> successCallback, Action<ServerErrorMessage> errorCallback)
         {
             return Create<Game>("/api/games/", token, game, successCallback, errorCallback);
         }
 
-        public RestRequestAsyncHandle ReadGame(GameD game, string token, Action<GameD> successCallback, Action<ServerErrorMessage> errorCallback)
+        public RestRequestAsyncHandle ReadGame(Game game, string token, Action<Game> successCallback, Action<ServerErrorMessage> errorCallback)
         {
-            return Get<GameD>(new Uri(game.url).PathAndQuery, token, successCallback, errorCallback);
+            return Get<Game>(new Uri(game.Url).PathAndQuery, token, successCallback, errorCallback);
         }
 
-        public RestRequestAsyncHandle UpdateGame(GameD game, string token, Action<GameD> successCallback, Action<ServerErrorMessage> errorCallback)
+        public RestRequestAsyncHandle UpdateGame(Game game, string token, Action<Game> successCallback, Action<ServerErrorMessage> errorCallback)
         {
-            return Put<GameD>(new Uri(game.url).PathAndQuery, token, game, successCallback, errorCallback);
+            return Put<Game>(new Uri(game.Url).PathAndQuery, token, game, successCallback, errorCallback);
         }
 
-        public RestRequestAsyncHandle UpdateGameFields(GameD game, string token, Action<GameD> successCallback, Action<ServerErrorMessage> errorCallback)
+        public RestRequestAsyncHandle UpdateGameFields(Game game, string token, Action<Game> successCallback, Action<ServerErrorMessage> errorCallback)
         {
 #warning not implemented correctly, diff the model
-            return Patch<GameD>(new Uri(game.url).PathAndQuery, token, game, successCallback, errorCallback);
+            return Patch<Game>(new Uri(game.Url).PathAndQuery, token, game, successCallback, errorCallback);
         }
 
-        public RestRequestAsyncHandle DeleteGame(GameD game, string token, Action<GameD> successCallback, Action<ServerErrorMessage> errorCallback)
+        public RestRequestAsyncHandle DeleteGame(Game game, string token, Action<Game> successCallback, Action<ServerErrorMessage> errorCallback)
         {
-            return Delete<GameD>(new Uri(game.url).PathAndQuery, token, successCallback, errorCallback);
+            return Delete<Game>(new Uri(game.Url).PathAndQuery, token, successCallback, errorCallback);
         }
         #endregion
 

@@ -18,7 +18,7 @@
         private readonly IFilterService filterService;
         private RestRequestAsyncHandle requestHandle; //TODO: use requestHandle to abort when neccessary
 
-        private BindableCollection<GameD> allGames;
+        private BindableCollection<Game> allGames;
 
         public SearchGameViewModel(INavigationService navigationService, IGlobalStorageService globalStorageService, IFilterService filterService, ICommunicationService communicationService)
         {
@@ -30,7 +30,7 @@
 
             IsFormAccessible = true;
 
-            Games = new BindableCollection<GameD>();
+            Games = new BindableCollection<Game>();
             Authenticator = new Authenticator();
 
             DisplayName = "Search games";
@@ -42,9 +42,9 @@
             base.OnActivate();
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             Authenticator = globalStorageService.Current.Authenticator;
-            if (globalStorageService.Current.GamesD != null && globalStorageService.Current.GamesD.Count > 0)
+            if (globalStorageService.Current.Games != null && globalStorageService.Current.Games.Count > 0)
             {
-                foreach (GameD game in globalStorageService.Current.GamesD.Values)
+                foreach (Game game in globalStorageService.Current.Games.Values)
                 {
                     Games.Add(game);
                 }
@@ -69,8 +69,8 @@
         {
             if (!String.IsNullOrWhiteSpace(searchTextBoxText) && !String.IsNullOrEmpty(searchTextBoxText))
             {
-                Task<BindableCollection<GameD>> t = filterService.FilterCollectionAsync(allGames, () => Games[0].name, new Regex(searchTextBoxText, RegexOptions.IgnoreCase | RegexOptions.Singleline));
-                BindableCollection<GameD> g = await t;
+                Task<BindableCollection<Game>> t = filterService.FilterCollectionAsync(allGames, () => Games[0].Name, new Regex(searchTextBoxText, RegexOptions.IgnoreCase | RegexOptions.Singleline));
+                BindableCollection<Game> g = await t;
                 if (!t.IsCanceled)
                 {
                     Games = g;
@@ -89,16 +89,16 @@
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             if (SelectedGame != null && Authenticator.IsValid(Authenticator))
             {
-                if (SelectedGame.url == Authenticator.user)
+                if (SelectedGame.Url == Authenticator.user)
                 {
                     navigationService.UriFor<EditGameViewModel>()
-                         .WithParam(param => param.GameModelKey, SelectedGame.url)
+                         .WithParam(param => param.GameModelKey, SelectedGame.Url)
                          .Navigate();
                 }
                 else
                 {
                     navigationService.UriFor<ShowGameViewModel>()
-                         .WithParam(param => param.GameModelKey, SelectedGame.url)
+                         .WithParam(param => param.GameModelKey, SelectedGame.Url)
                          .Navigate();
                 }
                 SelectedGame = null;
@@ -116,11 +116,11 @@
                     {
                         DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
                         Games = responseData;
-                        foreach (GameD game in Games)
+                        foreach (Game game in Games)
                         {
-                            if (!globalStorageService.Current.GamesD.ContainsKey(game.url))
+                            if (!globalStorageService.Current.Games.ContainsKey(game.Url))
                             {
-                                globalStorageService.Current.GamesD[game.url] = game;
+                                globalStorageService.Current.Games[game.Url] = game;
                             }
                         }
                         IsFormAccessible = true;
@@ -154,8 +154,8 @@
             }
         }
 
-        private BindableCollection<GameD> games;
-        public BindableCollection<GameD> Games
+        private BindableCollection<Game> games;
+        public BindableCollection<Game> Games
         {
             get { return games; }
             set
@@ -168,8 +168,8 @@
             }
         }
 
-        private GameD selectedGame;
-        public GameD SelectedGame
+        private Game selectedGame;
+        public Game SelectedGame
         {
             get { return selectedGame; }
             set

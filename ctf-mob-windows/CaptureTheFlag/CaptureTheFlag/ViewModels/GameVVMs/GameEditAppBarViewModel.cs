@@ -1,6 +1,4 @@
-﻿namespace CaptureTheFlag.ViewModels.GameVVMs
-{
-    using Caliburn.Micro;
+﻿    using Caliburn.Micro;
     using CaptureTheFlag.Models;
     using CaptureTheFlag.Services;
     using RestSharp;
@@ -8,15 +6,25 @@
     using System.Reflection;
     using System.Windows;
 
-    public class EditGameViewModel : BaseGameViewModel
+namespace CaptureTheFlag.ViewModels.GameVVMs
+{
+    public class GameEditAppBarViewModel : Screen
     {
-        public EditGameViewModel(INavigationService navigationService, ICommunicationService communicationService, IGlobalStorageService globalStorageService)
-            : base(navigationService, communicationService, globalStorageService)
+        private readonly INavigationService navigationService;
+        private readonly ICommunicationService communicationService;
+        private readonly IGlobalStorageService globalStorageService;
+        private RestRequestAsyncHandle requestHandle;// TODO: implement abort
+
+        public GameEditAppBarViewModel(INavigationService navigationService, ICommunicationService communicationService, IGlobalStorageService globalStorageService)
         {
-            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "");
+            this.navigationService = navigationService;
+            this.communicationService = communicationService;
+            this.globalStorageService = globalStorageService;
 
-            DisplayName = "Edit game";
+            Game = new Game();
 
+            //TODO: Implement can execute for actions
             UpdateAppBarItemText = "update";
             UpdateIcon = new Uri("/Images/upload.png", UriKind.Relative);
 
@@ -156,7 +164,47 @@
         #region Properties
 
         #region Model Properties
- 
+         private Authenticator authenticator;
+        public Authenticator Authenticator
+        {
+            get { return authenticator; }
+            set
+            {
+                if (authenticator != value)
+                {
+                    authenticator = value;
+                    NotifyOfPropertyChange(() => Authenticator);
+                }
+            }
+        }
+
+        private Game game;
+        public Game Game
+        {
+            get { return game; }
+            set
+            {
+                if (game != value)
+                {
+                    game = value;
+                    NotifyOfPropertyChange(() => Game);
+                }
+            }
+        }
+
+        private string gameModelKey;
+        public string GameModelKey
+        {
+            get { return gameModelKey; }
+            set
+            {
+                if (gameModelKey != value)
+                {
+                    gameModelKey = value;
+                    NotifyOfPropertyChange(() => GameModelKey);
+                }
+            }
+        }
         #endregion
 
         #region UI Properties
@@ -226,6 +274,21 @@
                 {
                     updateSelectiveAppBarItemText = value;
                     NotifyOfPropertyChange(() => UpdateSelectiveAppBarItemText);
+                }
+            }
+        }
+
+        //TODO: remove when can execute is available
+        private bool isFormAccessible;
+        public bool IsFormAccessible
+        {
+            get { return isFormAccessible; }
+            set
+            {
+                if (isFormAccessible != value)
+                {
+                    isFormAccessible = value;
+                    NotifyOfPropertyChange(() => IsFormAccessible);
                 }
             }
         }

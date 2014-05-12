@@ -32,26 +32,26 @@
             <ScrollViewer>
                 <StackPanel>
                     <TextBlock x:Name="NameTextBlock" />
-                    <TextBox x:Name="Game_name" IsReadOnly="True" />
+                    <TextBox x:Name="Game_Name" IsReadOnly="True" />
 
                     <TextBlock x:Name="DescriptionTextBlock" />
-                    <TextBox x:Name="Game_description" IsReadOnly="True" />
+                    <TextBox x:Name="Game_Description" IsReadOnly="True" />
 
                     <TextBlock x:Name="StartTimeTextBlock"/>
                     <controls:DatePicker Value="{Binding StartDate, Mode=TwoWay}" IsEnabled="False" />
                     <controls:TimePicker Value="{Binding StartDate, Mode=TwoWay}" IsEnabled="False" />
 
                     <TextBlock x:Name="MaxPlayersTextBlock" />
-                    <TextBox x:Name="Game_maxplayers" InputScope="Number" IsReadOnly="True" />
+                    <TextBox x:Name="Game_MaxPlayers" InputScope="Number" IsReadOnly="True" />
 
                     <TextBlock x:Name="GameTypeTextBlock" />
                     <controls:ListPicker ItemsSource="{Binding Game.GameTypes.Keys, Mode=TwoWay}"  SelectedItem="{Binding Game.SelectedGameType, Mode=TwoWay}" IsEnabled="False" />
 
                     <TextBlock x:Name="VisibilityRangeTextBlock" />
-                    <TextBox x:Name="Game_visibilityrange" InputScope="Number" IsReadOnly="True" />
+                    <TextBox x:Name="Game_VisibilityRange" InputScope="Number" IsReadOnly="True" />
 
                     <TextBlock x:Name="ActionRangeTextBlock" />
-                    <TextBox x:Name="Game_actionrange" InputScope="Number" IsReadOnly="True" />
+                    <TextBox x:Name="Game_ActionRange" InputScope="Number" IsReadOnly="True" />
                 </StackPanel>
             </ScrollViewer>
         </Grid>

@@ -4,6 +4,7 @@
     using CaptureTheFlag.Models;
     using CaptureTheFlag.Services;
     using CaptureTheFlag.ViewModels.GameMapVVMs;
+    using Newtonsoft.Json;
     using RestSharp;
     using System;
     using System.Linq;
@@ -61,34 +62,126 @@
         #endregion
 
         #region Actions
-        public void CreateAction()
+
+        //public async void CommunicationConceptTODO()
+        //{
+        //    //requestHandle = communicationService.CreateGame();
+        //    //Game = await responseGame;
+        //    //foreach (Item item in Items) { item.Url = Game.Url; communicationService.CreateItem(); }
+        //    //foreach (responseItem) Game.Items.Add(await item)
+        //    //await UpdateGame()
+        //}
+
+        //TODO: If properly simplifiedand added cancelling implement this approach in every communication action
+        public async void CreateAction()
         {
-            //TODO: On successremove from gameCache gameMapModelKey as it is temporary!!!
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             IsFormAccessible = false;
             if (Authenticator.IsValid(Authenticator))
             {
-                requestHandle = communicationService.CreateGame(Game, Authenticator.token,
-                    responseGameMap =>
+                Game.Radius = 100.0;
+                IRestResponse response = await communicationService.CreateGameAsync(Authenticator.token, Game);
+                if (response.StatusCode == System.Net.HttpStatusCode.Created)
+                {
+                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "CREATED: {0}", response.Content);
+                    Game = new CommunicationService.JsondotNETDeserializer().Deserialize<Game>(response);
+                    foreach(Item item in Items)
                     {
-                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
-                        Game = responseGameMap;
-                        globalStorageService.Current.Games[Game.Url] = Game;
-                        globalStorageService.Current.Games.Remove(GameModelKey);
-                        IsFormAccessible = true;
+                        item.Game = Game.Url;
+                        response = await communicationService.CreateItemAsync(Authenticator.token, item);
+                        if (response.StatusCode == System.Net.HttpStatusCode.Created)
+                        {
+                            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "CREATED: {0}", response.Content);
+                            Item responseItem = new CommunicationService.JsondotNETDeserializer().Deserialize<Item>(response);
+                            Game.Items.Add(responseItem.Url);
+                        }
+                        else
+                        {
+                            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "{0}", response.StatusDescription);
+                            //TODO: new CommunicationService.JsondotNETDeserializer().Deserialize<ItemErrorType>(response);
+                            return;
+                        }
+                    }
+                    Game patchGame = new Game() { Url = Game.Url, Items = Game.Items };
+                    response = await communicationService.PatchGameAsync(Authenticator.token, patchGame);
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "{0}", response.StatusDescription);
                         navigationService.UriFor<MainAppPivotViewModel>()
                             .Navigate();
                         MessageBox.Show("OK", "created", MessageBoxButton.OK);
-                    },
-                    serverErrorMessage =>
-                    {
-                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
-                        IsFormAccessible = true;
-                        MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
                     }
-                );
+                    else
+                    {
+                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "{0}", response.StatusDescription);
+                        //TODO: new CommunicationService.JsondotNETDeserializer().Deserialize<GameErrorType>(response);
+                    }
+                }
+                else
+                {
+                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "{0}", response.StatusDescription);
+                    //TODO: new CommunicationService.JsondotNETDeserializer().Deserialize<GameErrorType>(response);
+                }
+                IsFormAccessible = true;
             }
         }
+
+        //public void CreateAction()
+        //{
+        //    //TODO: On successremove from gameCache gameMapModelKey as it is temporary!!!
+        //    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
+        //    IsFormAccessible = false;
+        //    if (Authenticator.IsValid(Authenticator))
+        //    {
+        //        requestHandle = communicationService.CreateGame(Game, Authenticator.token,
+        //            responseGameMap =>
+        //            {
+        //                DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
+        //                Game = responseGameMap;
+
+        //                globalStorageService.Current.Games[Game.Url] = Game;
+        //                globalStorageService.Current.Games.Remove(GameModelKey);
+        //                IsFormAccessible = true;
+        //                navigationService.UriFor<MainAppPivotViewModel>()
+        //                    .Navigate();
+        //                MessageBox.Show("OK", "created", MessageBoxButton.OK);
+        //            },
+        //            serverErrorMessage =>
+        //            {
+        //                DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
+        //                IsFormAccessible = true;
+        //                MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
+        //            }
+        //        );
+        //    }
+        //}
+
+        //public void AddItemsRequestAction()
+        //{
+        //    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
+        //    IsFormAccessible = false;
+        //    if (Authenticator.IsValid(Authenticator))
+        //    {
+        //        foreach (Item item in Items)
+        //        {
+        //            item.Game = Game.Url;
+        //            communicationService.CreateItem(item, Authenticator.token,
+        //                responseData =>
+        //                {
+        //                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
+        //                    Items.Add(responseData);
+
+        //                },
+        //                serverErrorMessage =>
+        //                {
+        //                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
+        //                    IsFormAccessible = true;
+        //                    MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
+        //                }
+        //            );
+        //        }
+        //    }
+        //}
 
         public void GameMapAction()
         {
@@ -156,6 +249,11 @@
                 Game.Type = Game.Types[value];
                 NotifyOfPropertyChange(() => SelectedType);
             }
+        }
+
+        public BindableCollection<Item> Items
+        {
+            get { return globalStorageService.Current.Items; }
         }
         #endregion
 

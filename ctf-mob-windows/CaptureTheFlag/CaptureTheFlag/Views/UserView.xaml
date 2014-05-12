@@ -34,22 +34,22 @@
             <ScrollViewer>
                 <StackPanel Margin="12,0,12,128">
                     <TextBlock x:Name="UsernameTextBlock" />
-                    <TextBox IsReadOnly="True" x:Name="User_username" IsEnabled="{Binding IsFormAccessible}" />
+                    <TextBox IsReadOnly="True" x:Name="User_Username" IsEnabled="{Binding IsFormAccessible}" />
 
-                    <TextBlock x:Name="FirstNameTextBlock" />
-                    <TextBox x:Name="User_firstname" IsEnabled="{Binding IsFormAccessible}" />
+                    <!--<TextBlock x:Name="FirstNameTextBlock" />
+                    <TextBox x:Name="User_Firstname" IsEnabled="{Binding IsFormAccessible}" />
 
                     <TextBlock x:Name="LastNameTextBlock" />
-                    <TextBox x:Name="User_lastname" IsEnabled="{Binding IsFormAccessible}" />
+                    <TextBox x:Name="User_Lastname" IsEnabled="{Binding IsFormAccessible}" />-->
 
                     <TextBlock x:Name="EmailTextBlock" />
-                    <TextBox x:Name="User_email" IsEnabled="{Binding IsFormAccessible}" />
+                    <TextBox x:Name="User_Email" IsEnabled="{Binding IsFormAccessible}" />
 
                     <TextBlock x:Name="PasswordTextBlock" />
-                    <TextBox x:Name="User_password" IsEnabled="{Binding IsFormAccessible}" />
+                    <TextBox x:Name="User_Password" IsEnabled="{Binding IsFormAccessible}" />
 
                     <TextBlock x:Name="NickTextBlock" />
-                    <TextBox x:Name="User_nick" IsEnabled="{Binding IsFormAccessible}" />
+                    <TextBox x:Name="User_Nick" IsEnabled="{Binding IsFormAccessible}" />
 
                     <TextBlock x:Name="CharacterListTextBlock" />
                     <controls:ListPicker ItemsSource="{Binding Characters, Mode=TwoWay}"  SelectedItem="{Binding Character, Mode=TwoWay}" />
@@ -61,11 +61,11 @@
                     <StackPanel Orientation="Horizontal">
                         <StackPanel HorizontalAlignment="Left" Margin="24,0,24,0">
                             <TextBlock x:Name="LatTextBlock" />
-                            <TextBox IsReadOnly="True" x:Name="User_location_lat" InputScope="Number" IsEnabled="{Binding IsFormAccessible}" />
+                            <TextBox IsReadOnly="True" x:Name="User_Location_Latitude" InputScope="Number" IsEnabled="{Binding IsFormAccessible}" />
                         </StackPanel>
                         <StackPanel Margin="24,0,24,0">
                             <TextBlock x:Name="LonTextBlock" />
-                            <TextBox IsReadOnly="True" x:Name="User_location_lon" InputScope="Number" IsEnabled="{Binding IsFormAccessible}" />
+                            <TextBox IsReadOnly="True" x:Name="User_Location_Longitude" InputScope="Number" IsEnabled="{Binding IsFormAccessible}" />
                         </StackPanel>
                     </StackPanel>
 

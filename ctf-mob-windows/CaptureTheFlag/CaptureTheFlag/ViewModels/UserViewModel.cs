@@ -31,7 +31,7 @@ namespace CaptureTheFlag.ViewModels
 
             IsFormAccessible = true;
 
-            User = new UserD();
+            User = new User();
             Characters = new BindableCollection<Character>();
 
             UsernameTextBlock = "Username:";
@@ -60,11 +60,11 @@ namespace CaptureTheFlag.ViewModels
             Authenticator = globalStorageService.Current.Authenticator;
             if (globalStorageService.Current.Users != null && globalStorageService.Current.Users.ContainsKey(Authenticator.user))
             {
-                User = globalStorageService.Current.DUsers[Authenticator.user];
+                User = globalStorageService.Current.Users[Authenticator.user];
             }
             else
             {
-                User.url = Authenticator.user;
+                User.Url = Authenticator.user;
                 ReadAction();
             }
         }
@@ -78,9 +78,9 @@ namespace CaptureTheFlag.ViewModels
             //    .WithParam(param => param.CharacterModelKey, "http://78.133.154.39:8888/api/characters/15/")
             //    .WithParam(param => param.Token, Token)
             //    .Navigate();
-            navigationService.UriFor<CharacterViewModel>()
-                .WithParam(param => param.CharacterModelKey, User.active_character)
-                .Navigate();
+            //navigationService.UriFor<CharacterViewModel>()
+            //    .WithParam(param => param.CharacterModelKey, User.active_character)
+            //    .Navigate();
         }
 
         //public void SelectCharacterAction()
@@ -114,25 +114,25 @@ namespace CaptureTheFlag.ViewModels
             IsFormAccessible = false;
             if (Authenticator.IsValid(Authenticator))
             {
-                foreach(string characterString in User.characters)
-                {
-                    Character ch = new Character();
-                    ch.url = characterString;
-                    communicationService.ReadCharacter(ch, Authenticator.token, responseData =>
-                        {
-                            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
-                            Characters.Add(responseData);
-                            IsFormAccessible = true;
-                            //MessageBox.Show("OK", "read", MessageBoxButton.OK);
-                        },
-                        serverErrorMessage =>
-                        {
-                            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
-                            IsFormAccessible = true;
-                            //MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
-                        }
-                    );
-                }
+                //foreach(string characterString in User.Characters)
+                //{
+                //    Character ch = new Character();
+                //    ch.url = characterString;
+                //    communicationService.ReadCharacter(ch, Authenticator.token, responseData =>
+                //        {
+                //            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
+                //            Characters.Add(responseData);
+                //            IsFormAccessible = true;
+                //            //MessageBox.Show("OK", "read", MessageBoxButton.OK);
+                //        },
+                //        serverErrorMessage =>
+                //        {
+                //            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
+                //            IsFormAccessible = true;
+                //            //MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
+                //        }
+                //    );
+                //}
             }
         }
 
@@ -239,8 +239,8 @@ namespace CaptureTheFlag.ViewModels
             }
         }
 
-        private UserD user;
-        public UserD User
+        private User user;
+        public User User
         {
             get { return user; }
             set

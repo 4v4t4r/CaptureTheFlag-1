@@ -24,7 +24,7 @@
 
             IsFormAccessible = true;
 
-            Game = new GameD();
+            Game = new Game();
             Authenticator = new Authenticator();
             //TODO: update to model probably
             StartDate = DateTime.Now.AddDays(1);
@@ -51,19 +51,22 @@
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             base.OnActivate();
-            Authenticator = globalStorageService.Current.Authenticator;
-            Game.url = GameModelKey;
 
-            if( ! String.IsNullOrEmpty( Game.url ) )
+            Authenticator = globalStorageService.Current.Authenticator;
+
+            Game.Url = GameModelKey;
+
+            if( ! String.IsNullOrEmpty( Game.Url ) )
             {
-                if (globalStorageService.Current.GamesD.ContainsKey(Game.url))
-                {
-                    Game = globalStorageService.Current.GamesD[Game.url];
-                }
-                else
-                {
-                    ReadAction();
-                }
+                ReadAction();
+                //if (globalStorageService.Current.Games.ContainsKey(Game.Url))
+                //{
+                //    Game = globalStorageService.Current.Games[Game.Url];
+                //}
+                //else
+                //{
+                //    ReadAction();
+                //}
             }
         }
         #endregion
@@ -158,8 +161,8 @@
             }
         }
 
-        private GameD game;
-        public GameD Game
+        private Game game;
+        public Game Game
         {
             get { return game; }
             set
@@ -199,7 +202,7 @@
                     startDate = value;
                     if (Game != null)
                     {
-                        Game.start_time = startDate.ToString("s");
+                        Game.StartTime = startDate;
                     }
                     NotifyOfPropertyChange(() => StartDate);
                 }

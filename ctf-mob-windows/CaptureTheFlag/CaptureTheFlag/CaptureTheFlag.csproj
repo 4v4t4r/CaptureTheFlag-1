@@ -101,10 +101,9 @@
     <Compile Include="MarkerHelper.cs" />
     <Compile Include="Models\Authenticator.cs" />
     <Compile Include="Models\Character.cs" />
-    <Compile Include="Models\Extensions.cs" />
     <Compile Include="Models\Game.cs" />
-    <Compile Include="Models\GameD.cs" />
     <Compile Include="Models\GameItem.cs" />
+    <Compile Include="Models\Item.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\LoginResponse.cs" />
     <Compile Include="Models\GameMap.cs" />
@@ -112,29 +111,35 @@
     <Compile Include="Models\RegisterResponse.cs" />
     <Compile Include="Models\ServerErrorMessage.cs" />
     <Compile Include="Models\User.cs" />
-    <Compile Include="Models\UserD.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\AppResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="RestClientExtensions.cs" />
     <Compile Include="Services\CommunicationService.cs" />
     <Compile Include="Services\GlobalStorageService.cs" />
     <Compile Include="Services\ICommunicationService.cs" />
     <Compile Include="Services\IFilterService.cs" />
     <Compile Include="Services\IGlobalStorageService.cs" />
     <Compile Include="Services\ILocationService.cs" />
+    <Compile Include="Services\IPushNotificationService.cs" />
     <Compile Include="Services\LocationService.cs" />
     <Compile Include="Services\FilterService.cs" />
+    <Compile Include="Services\PushNotificationService.cs" />
     <Compile Include="UpdateSourceOnTextChangedBehavior .cs" />
     <Compile Include="ViewModels\CharacterViewModel.cs" />
     <Compile Include="ViewModels\GameMapVVMs\EditGameMapViewModel.cs" />
     <Compile Include="ViewModels\GameMapVVMs\ListGameMapsViewModel.cs" />
     <Compile Include="ViewModels\GameMapVVMs\SearchGameMapViewModel.cs" />
     <Compile Include="ViewModels\GameMapVVMs\ShowGameMapViewModel.cs" />
+    <Compile Include="ViewModels\GameVVMs\BaseGameViewModel.cs" />
     <Compile Include="ViewModels\GameVVMs\CreateGameViewModel.cs" />
     <Compile Include="ViewModels\GameVVMs\EditGameViewModel.cs" />
+    <Compile Include="ViewModels\GameVVMs\GameDetailsScreenViewModel.cs" />
+    <Compile Include="ViewModels\GameVVMs\GameEditAppBarViewModel.cs" />
+    <Compile Include="ViewModels\GameVVMs\GameFieldsViewModel.cs" />
     <Compile Include="ViewModels\GameVVMs\SearchGameViewModel.cs" />
     <Compile Include="ViewModels\GameVVMs\ShowGameViewModel.cs" />
     <Compile Include="ViewModels\GameMapVVMs\CreateGameMapViewModel.cs" />
@@ -166,6 +171,15 @@
     </Compile>
     <Compile Include="Views\GameVVMs\EditGameView.xaml.cs">
       <DependentUpon>EditGameView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GameVVMs\GameDetailsScreenView.xaml.cs">
+      <DependentUpon>GameDetailsScreenView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GameVVMs\GameEditAppBarView.xaml.cs">
+      <DependentUpon>GameEditAppBarView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GameVVMs\GameFieldsView.xaml.cs">
+      <DependentUpon>GameFieldsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GameVVMs\SearchGameView.xaml.cs">
       <DependentUpon>SearchGameView.xaml</DependentUpon>
@@ -317,6 +331,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\GameVVMs\EditGameView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GameVVMs\GameDetailsScreenView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GameVVMs\GameEditAppBarView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GameVVMs\GameFieldsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

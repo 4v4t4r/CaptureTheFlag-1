@@ -31,7 +31,7 @@ namespace CaptureTheFlag.ViewModels.GameMapVVMs
             IsFormAccessible = true;
 
             GameMap = new GameMap();
-            User = new UserD();
+            User = new User();
             //TODO: update to model probably
 
             DisplayName = "Map Edit";
@@ -65,7 +65,7 @@ namespace CaptureTheFlag.ViewModels.GameMapVVMs
 
             if (!String.IsNullOrEmpty(GameMap.url))
             {
-                if (globalStorageService.Current.GamesD.ContainsKey(GameMap.url))
+                if (globalStorageService.Current.Games.ContainsKey(GameMap.url))
                 {
                     GameMap = globalStorageService.Current.GameMaps[GameMap.url];
                 }
@@ -89,7 +89,7 @@ namespace CaptureTheFlag.ViewModels.GameMapVVMs
                     {
                         DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
                         GameMap = responseData;
-                        User.url = GameMap.author;
+                        User.Url = GameMap.author;
                         ReadUserAction();
                     },
                     serverErrorMessage =>
@@ -194,8 +194,8 @@ namespace CaptureTheFlag.ViewModels.GameMapVVMs
             }
         }
 
-        private UserD user;
-        public UserD User
+        private User user;
+        public User User
         {
             get { return user; }
             set

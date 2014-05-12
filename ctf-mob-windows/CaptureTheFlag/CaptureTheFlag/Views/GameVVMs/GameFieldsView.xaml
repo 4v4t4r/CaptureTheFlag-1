@@ -1,0 +1,42 @@
+﻿<UserControl
+    x:Class="CaptureTheFlag.Views.GameVVMs.GameFieldsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True">
+
+    <ScrollViewer>
+        <StackPanel>
+            <TextBlock x:Name="NameTextBlock" />
+            <TextBox x:Name="Game_Name" IsEnabled="{Binding IsFormAccessible}" />
+
+            <TextBlock x:Name="DescriptionTextBlock" />
+            <TextBox x:Name="Game_Description" IsEnabled="{Binding IsFormAccessible}" />
+
+            <TextBlock x:Name="StartTimeTextBlock"/>
+            <controls:DatePicker Value="{Binding StartDate, Mode=TwoWay}" IsEnabled="{Binding IsFormAccessible}" />
+            <controls:TimePicker Value="{Binding StartDate, Mode=TwoWay}" IsEnabled="{Binding IsFormAccessible}" />
+
+            <TextBlock x:Name="MaxPlayersTextBlock" />
+            <TextBox x:Name="Game_MaxPlayers" InputScope="Number" IsEnabled="{Binding IsFormAccessible}" />
+
+            <TextBlock x:Name="GameTypeTextBlock" />
+            <controls:ListPicker ItemsSource="{Binding Game.GameTypes.Keys, Mode=TwoWay}"  SelectedItem="{Binding Game.SelectedGameType, Mode=TwoWay}" IsEnabled="{Binding IsFormAccessible}" />
+
+            <TextBlock x:Name="VisibilityRangeTextBlock" />
+            <TextBox x:Name="Game_VisibilityRange" InputScope="Number" IsEnabled="{Binding IsFormAccessible}" />
+
+            <TextBlock x:Name="ActionRangeTextBlock" />
+            <TextBox x:Name="Game_ActionRange" InputScope="Number" IsEnabled="{Binding IsFormAccessible}" />
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

@@ -21,7 +21,7 @@
         }
 
         //TODO: Build an inverse, because values are unique
-        [IgnoreDataMember]
+        [JsonIgnore]
         private static Dictionary<string, STATUS> statuses = new Dictionary<string, STATUS> {
                 { "Canceled", STATUS.CANCELED },
                 { "Created", STATUS.CREATED },
@@ -29,7 +29,7 @@
                 { "On hold", STATUS.ON_HOLD }
         };
 
-        [IgnoreDataMember]
+        [JsonIgnore]
         public Dictionary<string, STATUS> Statuses
         {
             get { return statuses; }
@@ -50,13 +50,13 @@
         }
 
         //TODO: Build an inverse, because values are unique
-        [IgnoreDataMember]
+        [JsonIgnore]
         private static Dictionary<string, TYPE> types = new Dictionary<string, TYPE> {
                 { "Frags", TYPE.FRAGS },
                 { "Time", TYPE.TIME }
         };
 
-        [IgnoreDataMember]
+        [JsonIgnore]
         public Dictionary<string, TYPE> Types
         {
             get { return types; }
@@ -73,42 +73,44 @@
 
         //TODO: research and consider ignoring numerical values when serializing
         #region JSON properties
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty]
         private string url;
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty]
         private string name;
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty]
         private string description;
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty]
         private string start_time;
         [JsonProperty]
-        private int max_players;
+        private int? max_players;
         [JsonProperty]
-        private int status;
+        private int? status;
         [JsonProperty]
-        private int type;
+        private int? type;
         [JsonProperty]
-        private double radius;
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private double? radius;
+        [JsonProperty]
         private Location location;
         [JsonProperty]
-        private double visibility_range;
+        private double? visibility_range;
         [JsonProperty]
-        private double action_range;
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        private double? action_range;
+        [JsonProperty]
         private BindableCollection<string> players;
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty]
         private BindableCollection<string> invited_users;
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty]
+        private BindableCollection<string> items;
+        [JsonProperty]
         private string owner;
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty]
         private string last_modified;
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty]
         private string created;
         #endregion
 
         #region Model properties
-        [IgnoreDataMember]
+        [JsonIgnore]
         public string Url
         {
             get { return url; }
@@ -122,7 +124,7 @@
             }
         }
 
-        [IgnoreDataMember]
+        [JsonIgnore]
         public string Name
         {
             get { return name; }
@@ -136,7 +138,7 @@
             }
         }
 
-        [IgnoreDataMember]
+        [JsonIgnore]
         public string Description
         {
             get { return description; }
@@ -150,7 +152,7 @@
             }
         }
 
-        [IgnoreDataMember]
+        [JsonIgnore]
         public DateTime StartTime
         {
             //TODO: Add error/Exception handling
@@ -159,19 +161,28 @@
                 if (start_time == null)
                 {
                     //TODO: Check if it works
-                    return DateTime.Now.AddHours(1.0);
+                    DateTime inAnHour =  DateTime.Now.AddHours(1.0);
+                    start_time = inAnHour.ToString("s");
+                    return inAnHour;
                 }
                 return DateTime.ParseExact(start_time, "s", null);
             }
             set
             {
-                start_time = value.ToString("s");
+                if(value != null)
+                {
+                    start_time = value.ToString("s");
+                }
+                else
+                {
+                    start_time = null;
+                }
                 NotifyOfPropertyChange(() => StartTime);
             }
         }
 
-        [IgnoreDataMember]
-        public int MaxPlayers
+        [JsonIgnore]
+        public int? MaxPlayers
         {
             get { return max_players; }
             set
@@ -184,13 +195,13 @@
             }
         }
 
-        [IgnoreDataMember]
+        [JsonIgnore]
         public STATUS Status
         {
             get { return (STATUS)status; }
             set
             {
-                if ((STATUS)status != value)
+                if (status == null || (STATUS)status != value)
                 {
                     status = (int)value;
                     NotifyOfPropertyChange(() => Status);
@@ -198,13 +209,20 @@
             }
         }
 
-        [IgnoreDataMember]
+        [JsonIgnore]
         public TYPE Type
         {
-            get { return (TYPE)type; }
+            get
+            {
+                if (type == null)
+                {
+                    return TYPE.FRAGS;
+                }
+                return (TYPE)type;
+            }
             set
             {
-                if ((TYPE)type != value)
+                if (type == null || (TYPE)type != value)
                 {
                     type = (int)value;
                     NotifyOfPropertyChange(() => Type);
@@ -212,8 +230,8 @@
             }
         }
 
-        [IgnoreDataMember]
-        public double Radius
+        [JsonIgnore]
+        public double? Radius
         {
             get { return radius; }
             set
@@ -226,7 +244,7 @@
             }
         }
 
-        [IgnoreDataMember]
+        [JsonIgnore]
         public Location Location
         {
             get { return location; }
@@ -240,8 +258,8 @@
             }
         }
 
-        [IgnoreDataMember]
-        public double VisibilityRange
+        [JsonIgnore]
+        public double? VisibilityRange
         {
             get { return visibility_range; }
             set
@@ -254,8 +272,8 @@
             }
         }
 
-        [IgnoreDataMember]
-        public double ActionRange
+        [JsonIgnore]
+        public double? ActionRange
         {
             get { return action_range; }
             set
@@ -268,7 +286,7 @@
             }
         }
 
-        [IgnoreDataMember]
+        [JsonIgnore]
         public BindableCollection<string> Players
         {
             get { return players; }
@@ -282,7 +300,7 @@
             }
         }
 
-        [IgnoreDataMember]
+        [JsonIgnore]
         public BindableCollection<string> InvitedUsers
         {
             get { return invited_users; }
@@ -296,7 +314,21 @@
             }
         }
 
-        [IgnoreDataMember]
+        [JsonIgnore]
+        public BindableCollection<string> Items
+        {
+            get { return items; }
+            set
+            {
+                if (items != value)
+                {
+                    items = value;
+                    NotifyOfPropertyChange(() => Items);
+                }
+            }
+        }
+
+        [JsonIgnore]
         public string Owner
         {
             get { return owner; }
@@ -310,7 +342,7 @@
             }
         }
 
-        [IgnoreDataMember]
+        [JsonIgnore]
         public DateTime LastModified
         {
             //TODO: Add error/Exception handling
@@ -325,7 +357,7 @@
             }
         }
 
-        [IgnoreDataMember]
+        [JsonIgnore]
         public DateTime Created
         {
             //TODO: Add error/Exception handling

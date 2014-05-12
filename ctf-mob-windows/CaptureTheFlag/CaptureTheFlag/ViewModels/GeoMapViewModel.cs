@@ -90,7 +90,7 @@
         public async void UpdateMarkersAction()
         {
             GeoCoordinate position = await locationService.getCurrentGeoCoordinateAsync();
-            GameD game = new GameD() { url = "http://78.133.154.39:8888/api/games/2/" };
+            Game game = new Game() { Url = "http://78.133.154.39:8888/api/games/2/" };
             if (Authenticator.IsValid(Authenticator))
             {
                 communicationService.RegisterPosition(game, position, Authenticator.token,
