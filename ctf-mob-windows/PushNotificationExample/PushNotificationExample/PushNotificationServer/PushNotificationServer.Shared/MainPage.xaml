@@ -1,0 +1,18 @@
+﻿<Page
+    x:Class="PushNotificationServer.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:PushNotificationServer"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <StackPanel>
+            <TextBlock FontSize="28" Text="Message to send:" Height="40" Width="350"/>
+            <TextBox FontSize="72" x:Name="toastBox" Text="{Binding Path=Toast, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="150" Margin="0,9.5"/>
+            <Button FontSize="28" Content="Send notification" Click="SendRawNotificationAction" Height="150" Width="350"/>
+        </StackPanel>
+    </Grid>
+</Page>
