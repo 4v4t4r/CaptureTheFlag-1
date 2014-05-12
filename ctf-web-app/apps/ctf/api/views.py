@@ -75,9 +75,19 @@ class InGameLocation(APIView):
 
                 serializer = MarkerSerializer(markers, context=context, many=True)
                 data = serializer.data
-                logger.debug("data: %s", data)
+                logger.debug("data: %s type(%s)", data, type(data))
 
-                return Response(data=data, status=status.HTTP_200_OK)
+                json_data = {
+                    "markers": data,
+                    "game": {
+                        "red_team_points": game.red_team_points,
+                        "blue_team_points": game.blue_team_points,
+                        "time_to_end": game.get_time_to_end(),
+                        "status": game.status
+                    }
+                }
+
+                return Response(data=json_data, status=status.HTTP_200_OK)
 
             return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
 

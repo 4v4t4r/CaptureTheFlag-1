@@ -4,30 +4,13 @@ from haystack.query import SearchQuerySet
 from haystack.utils.geo import Point, D
 from django.utils.translation import ugettext_lazy as _
 from django.db import models
-from model_utils import Choices
+from apps.core.constants import TEAM_TYPES, MARKER_TYPES, NOTIFICATION_TYPE, GAME_STATUSES, GAME_TYPES, ITEM_TYPES
 from apps.core.exceptions import AlreadyExistException, GameAlreadyStartedException, GameAlreadyFinishedException
 from apps.core.models import PortalUser, GeoModel
+from apps.core.notifications import Notification
+from apps.core.utils import calculate_distance
 
 logger = logging.getLogger("root")
-
-MARKER_TYPES = Choices(
-    (0, 'PLAYER', _('Player')),
-    (1, 'PLAYER_WITH_RED_FLAG', _('Player with red flag')),
-    (2, 'PLAYER_WITH_BLUE_FLAG', _('Player with blue flag')),
-
-    (3, 'RED_FLAG', _('Red flag')),
-    (4, 'BLUE_FLAG', _('Blue flag')),
-
-    (5, 'RED_BASE', _('Red base')),
-    (6, 'BLUE_BASE', _('Blue base')),
-
-    (7, 'RED_BASE_WITH_FLAG', _('Red base with flag')),
-    (8, 'BLUE_BASE_WITH_FLAG', _('Blue base with flag')),
-
-    (9, 'FIRST_AID_KIT', _('First aid kit')),
-    (10, 'PISTOL', _('Pistol')),
-    (11, 'AMMO', _('Ammo')),
-)
 
 
 class Marker(GeoModel):
@@ -43,8 +26,6 @@ class Marker(GeoModel):
 
 
 class Item(GeoModel):
-    ITEM_TYPES = MARKER_TYPES[3:]
-
     name = models.CharField(max_length=100, verbose_name=_("Name"))
     type = models.IntegerField(choices=ITEM_TYPES, verbose_name=_("Type"))
     value = models.FloatField(blank=True, null=True, verbose_name=_("Value"))
@@ -65,19 +46,6 @@ class Item(GeoModel):
 
 
 class Game(GeoModel):
-    GAME_STATUSES = Choices(
-        (0, 'CREATED', _('Created')),
-        (1, 'IN_PROGRESS', _('In progress')),
-        (2, 'ON_HOLD', _('On hold')),
-        (3, 'CANCELED', _('Canceled')),
-        (4, 'FINISHED', _('Finished')),
-    )
-
-    GAME_TYPES = Choices(
-        (0, 'BASED_ON_FRAGS', _('Based on frags')),
-        (1, 'BASED_ON_TIME', _('Based on time')),
-    )
-
     name = models.CharField(max_length=100, verbose_name=_("Name"))
     description = models.TextField(null=True, blank=True, max_length=255, verbose_name=_("Description"))
 
@@ -85,11 +53,17 @@ class Game(GeoModel):
     start_time = models.DateTimeField(verbose_name=_("Start time"))
     max_players = models.IntegerField(null=True, blank=True, verbose_name=_("Max players"))
     status = models.IntegerField(choices=GAME_STATUSES, default=GAME_STATUSES.CREATED, verbose_name=_("Status"))
-    type = models.IntegerField(choices=GAME_TYPES, default=GAME_TYPES.BASED_ON_FRAGS, verbose_name=_("Type"))
+    type = models.IntegerField(choices=GAME_TYPES, default=GAME_TYPES.BASED_ON_POINTS, verbose_name=_("Type"))
 
     visibility_range = models.FloatField(default=200.00, verbose_name=_("Visibility range"))  # in meters
     action_range = models.FloatField(default=5.00, verbose_name=_("Action range"))  # in meters
     capture_time = models.IntegerField(default=10, verbose_name=_("Capture time"))  # in seconds
+
+    time_limit = models.IntegerField(default=15, verbose_name=_("Time limit"))
+    points_limit = models.IntegerField(default=12, verbose_name=_("Points limit"))
+
+    red_team_points = models.IntegerField(default=0, verbose_name=_("Red team points"))
+    blue_team_points = models.IntegerField(default=0, verbose_name=_("Blue team points"))
 
     players = models.ManyToManyField(PortalUser, verbose_name=_("Players"), related_name="joined_games")
     invited_users = models.ManyToManyField(PortalUser, verbose_name=_("Invited users"), related_name="pending_games")
@@ -164,6 +138,29 @@ class Game(GeoModel):
 
         return sqs
 
+    def get_time_to_end(self):
+        if self.status == GAME_STATUSES.IN_PROGRESS:
+            when_started = self.start_time.replace(tzinfo=None)
+            delta = (datetime.datetime.now() - when_started).seconds
+            return delta
+        return None
+
+    def validate_game(self):
+        """ Checks if games is finished or not (based on time or points).
+        """
+
+        if self.type == GAME_TYPES.BASED_ON_POINTS:
+            if self.red_team_points >= self.points_limit or self.blue_team_points >= self.points_limit:
+                logger.info("Game over! Max points limit achieved!")
+                self.stop()
+        else:
+            time_to_end = self.get_time_to_end()
+            logger.debug("time to end: %s s", time_to_end)
+
+            if time_to_end and time_to_end <= 0:
+                logger.info("Game over! Time limit achieved!")
+                self.stop()
+
     def get_markers(self, user, context):
         from apps.ctf.api.serializers.common import ItemSerializer
         from apps.core.api.serializers import PortalUserSerializer
@@ -179,7 +176,8 @@ class Game(GeoModel):
             logger.debug("object type: %s", type(obj))
 
             if isinstance(obj, Item) or isinstance(obj, PortalUser):
-                logger.debug("[PLAY]: user: %s, distance: '%f', action_range: '%f'", user, distance_in_meters, self.action_range)
+                logger.debug("[PLAY]: user: %s, distance: '%f', action_range: '%f'", user, distance_in_meters,
+                             self.action_range)
 
                 if isinstance(obj, Item):
                     serializer = ItemSerializer(obj, context=context)
@@ -189,10 +187,11 @@ class Game(GeoModel):
                     marker_type = obj.type
 
                     if user.team is not None and distance_in_meters <= self.action_range:
-                        logger.debug("[PLAY]: distance: '%f' <= action_range: '%f'", distance_in_meters, self.action_range)
+                        logger.debug("[PLAY]: distance: '%f' <= action_range: '%f'", distance_in_meters,
+                                     self.action_range)
 
                         if obj.type in [MARKER_TYPES.RED_FLAG, MARKER_TYPES.BLUE_FLAG]:
-                            self.capture_the_flag(obj, user)
+                            self.capture_the_flag(obj, user, distance_in_meters)
 
                     marker = Marker(
                         distance=distance_in_meters,
@@ -219,76 +218,117 @@ class Game(GeoModel):
                     markers.append(marker)
         return markers
 
-    def capture_the_flag(self, flag, user):
+    def capture_the_flag(self, flag, user, distance_in_meters):
         """ This method contains a logic for capture the flag from other user, enemy base or from another
         place on the map.
         """
         logger.debug("Trying to capture the flag...")
+        logger.debug("Distance to flag: %.2f m ", distance_in_meters)
 
-        if flag.last_captured_by == user:
+        if flag.last_captured_by == user and distance_in_meters > 0:
             when_captured = flag.when_captured.replace(tzinfo=None)
             delta = (datetime.datetime.now() - when_captured).seconds
             logger.debug("delta: %d s", delta)
             if delta <= self.capture_time:
                 # do nothing - user cannot captured the flag
-                logger.debug("do nothing - user '%s' cannot captured the flag (delta: %s s", user.username, delta)
+                logger.debug("do nothing - user '%s' cannot captured the flag once again until (delta: %s s",
+                             user.username, delta)
                 return
 
-        if user.team == PortalUser.TEAM_TYPES.RED_TEAM:
-            if flag.type == MARKER_TYPES.RED_FLAG:
+        if user.team == TEAM_TYPES.RED_TEAM:  # RED TEAM
+            if flag.type == MARKER_TYPES.RED_FLAG:  # RED FLAG
+                # User from RED TEAM captured the RED FLAG
+
                 flag.location = self.red_base.location
                 logger.debug("[PLAY]: Red flag is going back to the red base (game: %d)", self.id)
-            else:
+            else:  # BLUE FLAG
+                # User from RED TEAM captured the BLUE FLAG
+
                 flag.location = user.location
                 logger.debug("[PLAY]: Player: '%s' take a blue flag (game: %d)", user.username, self.id)
 
-            flag.last_captured_by = user
-            flag.when_captured = datetime.datetime.now()
-            flag.save()
-        else:
-            if flag.type == MARKER_TYPES.BLUE_FLAG:
+                red_base = self.red_base
+                blue_base = self.blue_base
+                distance_to_base = calculate_distance(user.location, red_base.location)
+                if distance_to_base <= self.action_range:
+                    # User from RED TEAM brought the BLUE FLAG to the RED BASE
+
+                    logger.debug("[PLAY]: Point captured! Blue flag is going back to the blue base (game: %d)", self.id)
+                    self.red_team_points += 1
+                    flag.location = blue_base.location
+        else:  # BLUE TEAM
+            if flag.type == MARKER_TYPES.BLUE_FLAG:  # BLUE FLAG
+                # User from BLUE TEAM captured the BLUE FLAG
+
                 flag.location = self.blue_base.location
                 logger.debug("[PLAY]: Blue flag is going back to the blue base (game: %d)", self.id)
-            else:
+            else:  # RED FLAG
+                # User from BLUE TEAM captured the RED FLAG
+
                 flag.location = user.location
                 logger.debug("[PLAY]: Player: '%s' take a red flag (game: %d)", user.username, self.id)
-            flag.last_captured_by = user
-            flag.when_captured = datetime.datetime.now()
-            flag.save()
+
+                red_base = self.red_base
+                blue_base = self.blue_base
+                distance_to_base = calculate_distance(user.location, blue_base.location)
+                if distance_to_base <= self.action_range:
+                    # User from BLUE TEAM brought the RED FLAG to the BLUE BASE
+
+                    logger.debug("[PLAY]: Point captured! Red flag is going back to the red base (game: %d)", self.id)
+                    self.blue_team_points += 1
+                    flag.location = red_base.location
+
+        flag.last_captured_by = user
+        flag.when_captured = datetime.datetime.now()
+        flag.save()
 
     def team_balancing(self):
         for idx, player in enumerate(self.players.all()):
             if idx % 2:
-                player.team = PortalUser.TEAM_TYPES.RED_TEAM
+                player.team = TEAM_TYPES.RED_TEAM
             else:
-                player.team = PortalUser.TEAM_TYPES.BLUE_TEAM
+                player.team = TEAM_TYPES.BLUE_TEAM
             player.save()
 
     def start(self):
         logger.info("Game: %s with %d players is starting...", self.id, self.name)
 
-        if self.status == self.GAME_STATUSES.IN_PROGRESS:
+        if self.status == GAME_STATUSES.IN_PROGRESS:
             raise GameAlreadyStartedException()
 
         logger.info("Team balancing...")
         self.team_balancing()
 
-        self.status = self.GAME_STATUSES.IN_PROGRESS
+        self.status = GAME_STATUSES.IN_PROGRESS
+        self.start_time = datetime.datetime.now()
         self.save()
 
-        # todo: send broadcast notification to all players
+        # sending broadcast notification to all players
+        logger.info("Sending broadcast notification to all players...")
+        Notification(NOTIFICATION_TYPE.START_GAME, self.players).send()
+        logger.info("Broadcast notification was sent to all players.")
 
     def stop(self):
         logger.info("Game: %s with %d players is stopping...", self.id, self.name)
 
-        if self.status == self.GAME_STATUSES.FINISHED:
+        if self.status == GAME_STATUSES.FINISHED:
             raise GameAlreadyFinishedException()
 
-        self.status = self.GAME_STATUSES.FINISHED
+        if self.red_team_points >= self.points_limit or self.blue_team_points >= self.points_limit:
+            logger.info("Game was finished!")
+            if self.red_team_points >= self.points_limit:
+                logger.info("Red team win! %d : %d", self.red_team_points, self.blue_base)
+            else:
+                logger.info("Blue team win! %d : %d", self.blue_base, self.red_team_points)
+
+        self.status = GAME_STATUSES.FINISHED
         self.save()
         self.players.update(team=None)
 
-        # todo: send broadcast notification to all players
+        # sending broadcast notification to all players
+        logger.info("Sending broadcast notification to all players...")
+        Notification(NOTIFICATION_TYPE.STOP_GAME, self.players).send()
+        logger.info("Broadcast notification was sent to all players.")
 
     def _get_item(self, item_type):
         items = filter(lambda item: item.type == item_type, self.items.all())

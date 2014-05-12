@@ -190,45 +190,35 @@ Example (response of selected game)
 *response*:
 ::
 
+
     HTTP 200 OK
 
-    [
-        {
-            "type": 5,
-            "distance": 310.03541941096177,
-            "url": "http://127.0.0.1:8000/api/items/5/",
-            "location": {
-                "lat": 53.441168,
-                "lon": 14.539277
-            }
+    {
+        "game": {
+            "red_team_points": 0,
+            "blue_team_points": 1,
+            "time_to_end": 7397,
+            "status": 1
         },
-        {
-            "type": 0,
-            "distance": 80.82113754491657,
-            "url": "http://127.0.0.1:8000/api/users/3/",
-            "location": {
-                "lat": 53.43943,
-                "lon": 14.541156
+        "markers": [
+            {
+                "type": 6,
+                "distance": 317.34338081067676,
+                "url": "http://127.0.0.1:8000/api/items/4/",
+                "location": {
+                    "lat": 53.438732,
+                    "lon": 14.541759
+                }
+            },
+            {
+                "type": 5,
+                "distance": 0.8558529589657696,
+                "url": "http://127.0.0.1:8000/api/items/3/",
+                "location": {
+                    "lat": 53.441168,
+                    "lon": 14.539277
+                }
             }
-        },
-        {
-            "type": 4,
-            "distance": 0.0,
-            "url": "http://127.0.0.1:8000/api/items/2/",
-            "location": {
-                "lat": 53.438758,
-                "lon": 14.541617
-            }
-        },
-        {
-            "type": 3,
-            "distance": 310.03541941096177,
-            "url": "http://127.0.0.1:8000/api/items/1/",
-            "location": {
-                "lat": 53.441168,
-                "lon": 14.539277
-            }
-        }
-    ]
-
+        ]
+    }
 

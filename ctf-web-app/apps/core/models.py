@@ -2,7 +2,7 @@ import logging
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import AbstractUser
 from django.db import models, transaction
-from model_utils import Choices
+from apps.core.constants import CHARACTER_TYPES, DEVICE_TYPES, TEAM_TYPES
 
 logger = logging.getLogger('root')
 
@@ -87,13 +87,6 @@ class GeoModel(models.Model):
 
 
 class Character(models.Model):
-    CHARACTER_TYPES = (
-        (0, _('Private')),
-        (1, _('Medic')),
-        (2, _('Commandos')),
-        (3, _('Spy')),
-    )
-
     user = models.ForeignKey('PortalUser', related_name="characters")
     type = models.IntegerField(blank=False, choices=CHARACTER_TYPES, verbose_name=_("Type"))
     total_time = models.IntegerField(blank=False, default=0, verbose_name=_("Total time"))
@@ -109,17 +102,6 @@ class Character(models.Model):
 
 
 class PortalUser(GeoModel, AbstractUser):
-    DEVICE_TYPES = Choices(
-        (0, 'ANDROID', _("Android")),
-        (1, 'WP', _("Windows Phone")),
-        (2, 'IOS', _("iOS")),
-    )
-
-    TEAM_TYPES = Choices(
-        (0, 'RED_TEAM', _("Red team")),
-        (1, 'BLUE_TEAM', _("Blue team")),
-    )
-
     nick = models.CharField(blank=False, max_length=100, verbose_name=_("Nick"))
 
     device_type = models.IntegerField(blank=True, null=True, choices=DEVICE_TYPES, verbose_name=_("Device type"))
@@ -141,7 +123,7 @@ class PortalUser(GeoModel, AbstractUser):
         # todo in v2.0: characters
         # characters = self.characters.all()
         # if not characters:
-        #     for character_type in Character.CHARACTER_TYPES:
+        #     for character_type in CHARACTER_TYPES:
         #         character = Character(user=self, type=character_type[0])
         #         character.save()
         #         if character.type == 0:
@@ -157,7 +139,7 @@ class PortalUser(GeoModel, AbstractUser):
         try:
             logger.debug("get_device_type by value: %s (type: %s)", device_type, type(device_type))
             device_type = int(device_type)
-            return cls.DEVICE_TYPES[device_type][0]
+            return DEVICE_TYPES[device_type][0]
         except ValueError:
             return None
         except IndexError:
