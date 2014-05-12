@@ -27,22 +27,26 @@
         android:orientation="vertical"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/game_details"
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_above="@+id/button"/>
+            android:layout_above="@+id/button"
+            android:fillViewport="false">
+
+            <TextView
+                android:id="@+id/game_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_above="@+id/button"/>
+        </ScrollView>
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Join!"
             android:layout_alignParentBottom="true"
-            android:layout_alignLeft="@+id/game_details"
-            android:layout_alignStart="@+id/game_details"
+
             android:id="@+id/button"/>
 
     </RelativeLayout>
