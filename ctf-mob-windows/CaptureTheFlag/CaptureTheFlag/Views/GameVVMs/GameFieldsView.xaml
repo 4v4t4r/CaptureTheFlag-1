@@ -23,14 +23,14 @@
             <TextBox x:Name="Game_Description" IsEnabled="{Binding IsFormAccessible}" />
 
             <TextBlock x:Name="StartTimeTextBlock"/>
-            <controls:DatePicker Value="{Binding StartDate, Mode=TwoWay}" IsEnabled="{Binding IsFormAccessible}" />
-            <controls:TimePicker Value="{Binding StartDate, Mode=TwoWay}" IsEnabled="{Binding IsFormAccessible}" />
+            <controls:DatePicker Value="{Binding Path=Game.StartTime, Mode=TwoWay}" IsEnabled="{Binding IsFormAccessible}" />
+            <controls:TimePicker Value="{Binding Path=Game.StartTime, Mode=TwoWay}" IsEnabled="{Binding IsFormAccessible}" />
 
             <TextBlock x:Name="MaxPlayersTextBlock" />
             <TextBox x:Name="Game_MaxPlayers" InputScope="Number" IsEnabled="{Binding IsFormAccessible}" />
 
             <TextBlock x:Name="GameTypeTextBlock" />
-            <controls:ListPicker ItemsSource="{Binding Game.GameTypes.Keys, Mode=TwoWay}"  SelectedItem="{Binding Game.SelectedGameType, Mode=TwoWay}" IsEnabled="{Binding IsFormAccessible}" />
+            <controls:ListPicker ItemsSource="{Binding Game.Types.Keys, Mode=TwoWay}"  SelectedItem="{Binding SelectedType, Mode=TwoWay}" IsEnabled="{Binding IsFormAccessible}" />
 
             <TextBlock x:Name="VisibilityRangeTextBlock" />
             <TextBox x:Name="Game_VisibilityRange" InputScope="Number" IsEnabled="{Binding IsFormAccessible}" />

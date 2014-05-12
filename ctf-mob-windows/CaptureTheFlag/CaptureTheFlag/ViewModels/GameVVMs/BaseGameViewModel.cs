@@ -27,7 +27,7 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
 
             IsFormAccessible = true;
 
-            Game = new Game();
+            Game = new PreGame();
             //TODO: update to model probably
             StartDate = DateTime.Now.AddDays(1);
 
@@ -56,8 +56,8 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
             }
         }
 
-        private Game game;
-        public Game Game
+        private PreGame game;
+        public PreGame Game
         {
             get { return game; }
             set

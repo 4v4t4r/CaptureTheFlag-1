@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using CaptureTheFlag.Messages;
 using CaptureTheFlag.Models;
 using CaptureTheFlag.Services;
 using RestSharp;
@@ -11,25 +12,25 @@ using System.Threading.Tasks;
 
 namespace CaptureTheFlag.ViewModels.GameVVMs
 {
-    public class GameFieldsViewModel : Screen
+    public class GameFieldsViewModel : Screen, IHandle<GameModelMessage>
     {
         protected readonly INavigationService navigationService;
         protected readonly ICommunicationService communicationService;
         protected readonly IGlobalStorageService globalStorageService;
+        private readonly IEventAggregator eventAggregator;
         protected RestRequestAsyncHandle requestHandle;// TODO: implement abort
 
-        public GameFieldsViewModel(INavigationService navigationService, ICommunicationService communicationService, IGlobalStorageService globalStorageService)
+        public GameFieldsViewModel(INavigationService navigationService, ICommunicationService communicationService, IGlobalStorageService globalStorageService, IEventAggregator eventAggregator)
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             this.navigationService = navigationService;
             this.communicationService = communicationService;
             this.globalStorageService = globalStorageService;
+            this.eventAggregator = eventAggregator;
 
             IsFormAccessible = true;
 
-            Game = new Game();
-            //TODO: update to model probably
-            StartDate = DateTime.Now.AddDays(1);
+            Game = new PreGame();
 
             NameTextBlock = "Name:";
             DescriptionTextBlock = "Description:";
@@ -40,6 +41,40 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
             ActionRangeTextBlock = "Action range:";
         }
 
+        #region Message handling
+        public void Handle(GameModelMessage message)
+        {
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "");
+            switch(message.Status)
+            {
+                case GameModelMessage.STATUS.IN_STORAGE:
+                    Game = globalStorageService.Current.Games[message.GameModelKey];
+                    IsFormAccessible = true;
+                    break;
+                case GameModelMessage.STATUS.UPDATE:
+                    globalStorageService.Current.Games[Game.Url] = Game;
+                    eventAggregator.Publish(new GameModelMessage() { GameModelKey = Game.Url, Status = ModelMessage.STATUS.UPDATED });
+                    break;
+                case GameModelMessage.STATUS.SHOULD_GET:
+                    IsFormAccessible = false;
+                    break;
+            }
+        }
+        #endregion
+
+
+        protected override void OnActivate()
+        {
+            base.OnActivate();
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "");
+            eventAggregator.Subscribe(this);
+        }
+
+        protected override void OnDeactivate(bool close)
+        {
+            eventAggregator.Unsubscribe(this);
+            base.OnDeactivate(close);
+        }
 
         #region Model Properties
         private Authenticator authenticator;
@@ -56,8 +91,8 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
             }
         }
 
-        private Game game;
-        public Game Game
+        private PreGame game;
+        public PreGame Game
         {
             get { return game; }
             set
@@ -84,23 +119,16 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
             }
         }
 
-        //TODO: date time in model maybe?
-        //TODO: make aconverter
-        private DateTime startDate;
-        public DateTime StartDate
+        public string SelectedType
         {
-            get { return startDate; }
+            get
+            {
+                return Game.Types.FirstOrDefault(pair => pair.Value == Game.Type).Key;
+            }
             set
             {
-                if (startDate != value)
-                {
-                    startDate = value;
-                    if (Game != null)
-                    {
-                        Game.StartTime = startDate;
-                    }
-                    NotifyOfPropertyChange(() => StartDate);
-                }
+                Game.Type = Game.Types[value];
+                NotifyOfPropertyChange(() => SelectedType);
             }
         }
         #endregion

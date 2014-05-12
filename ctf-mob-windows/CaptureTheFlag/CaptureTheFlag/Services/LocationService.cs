@@ -57,7 +57,7 @@ namespace CaptureTheFlag.Services
             Watcher.Stop();
         }
 
-        public RestRequestAsyncHandle RegisterPositionCommunicationAction(ICommunicationService communicationService, Authenticator authenticator, Game game)
+        public RestRequestAsyncHandle RegisterPositionCommunicationAction(ICommunicationService communicationService, Authenticator authenticator, PreGame game)
         {
             RestRequestAsyncHandle requestHandle = null;
             //TODO: Response object model

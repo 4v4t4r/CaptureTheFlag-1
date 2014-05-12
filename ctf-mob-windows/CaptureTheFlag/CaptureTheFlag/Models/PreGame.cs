@@ -4,11 +4,12 @@
     using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Runtime.Serialization;
     //Reference: https://github.com/blstream/CaptureTheFlag/blob/master/ctf-web-app/docs/models.rst#model-game
 
     [DataContract]
-    public class Game : PropertyChangedBase
+    public class PreGame : PropertyChangedBase
     {
         #region Enumerated types
         //TODO: Move Dictionaries to conversion class
@@ -160,12 +161,14 @@
             {
                 if (start_time == null)
                 {
-                    //TODO: Check if it works
+                    
                     DateTime inAnHour =  DateTime.Now.AddHours(1.0);
                     start_time = inAnHour.ToString("s");
                     return inAnHour;
                 }
-                return DateTime.ParseExact(start_time, "s", null);
+                DateTime time = DateTime.Parse(start_time, new DateTimeFormatInfo().CaptureTheFlagFormatInfo(), DateTimeStyles.None);
+                //TODO: DateTime is working incorrectly
+                return time;
             }
             set
             {

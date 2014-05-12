@@ -11,9 +11,9 @@ namespace CaptureTheFlag.Services
     //Reference: http://www.matthidinger.com/archive/2011/12/04/RealWorldWPDev-Part-6-Page-Navigation-and-passing-Complex-State.aspx
     //TODO: Change/modify if approach is desirable
 
-    public class GameCache : Dictionary<string, Game>
+    public class GameCache : Dictionary<string, PreGame>
     {
-        public Game GetFromCache(string key)
+        public PreGame GetFromCache(string key)
         {
             if (ContainsKey(key))
                 return this[key];

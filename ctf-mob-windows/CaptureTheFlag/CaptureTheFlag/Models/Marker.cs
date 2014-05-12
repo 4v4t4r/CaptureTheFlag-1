@@ -17,6 +17,8 @@ namespace CaptureTheFlag.Models
         public Location location { get; set; }
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string url { get; set; }
+        [JsonProperty]
+        private double distance;
         #endregion
 
         #region Model properties
@@ -80,6 +82,20 @@ namespace CaptureTheFlag.Models
                 {
                     image = value;
                     NotifyOfPropertyChange(() => Image);
+                }
+            }
+        }
+
+        [JsonIgnore]
+        public double Distance
+        {
+            get { return distance; }
+            set
+            {
+                if (distance != value)
+                {
+                    distance = value;
+                    NotifyOfPropertyChange(() => Distance);
                 }
             }
         }

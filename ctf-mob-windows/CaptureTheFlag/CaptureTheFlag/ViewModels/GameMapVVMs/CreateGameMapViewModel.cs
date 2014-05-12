@@ -35,7 +35,7 @@ namespace CaptureTheFlag.ViewModels.GameMapVVMs
             this.globalStorageService = globalStorageService;
             this.communicationService = communicationService;
 
-            Game = new Game();
+            Game = new PreGame();
             ZoomLevel = 18.2;
             MapCenter = new GeoCoordinate(53.432806, 14.548033, 0.0);
             MapCenter.HorizontalAccuracy = 50.0;
@@ -155,7 +155,7 @@ namespace CaptureTheFlag.ViewModels.GameMapVVMs
             //blueBase.url = String.Format("http://78.133.154.39:8888/{0}/{1}", blueBase.type, blueBase.type); //TODO: Remove, temporary const
 
             Item blueBaseItem = new Item();
-            blueBaseItem.Type = Item.ITEM_TYPE.RED_BASE;
+            blueBaseItem.Type = Item.ITEM_TYPE.BLUE_BASE;
             blueBaseItem.Location = blueBase.location;
 
             var idx = Markers.ToList().FindIndex(marker => marker.type == 4);
@@ -196,8 +196,8 @@ namespace CaptureTheFlag.ViewModels.GameMapVVMs
 
         #region Properties
         #region Model properties
-        private Game game;
-        public Game Game
+        private PreGame game;
+        public PreGame Game
         {
             get { return game; }
             set
@@ -455,7 +455,7 @@ namespace CaptureTheFlag.ViewModels.GameMapVVMs
                     areaCenter = value;
                     if(Game == null)
                     {
-                        Game = new Game();
+                        Game = new PreGame();
                     }
                     if(Game.Location == null)
                     {
@@ -479,7 +479,7 @@ namespace CaptureTheFlag.ViewModels.GameMapVVMs
                     area = value;
                     if (Game == null)
                     {
-                        Game = new Game();
+                        Game = new PreGame();
                     }
                     double pixelsRadius = area.ActualWidth / 2.0;
                     Game.Radius = MarkerHelper.PixelsToMeters(pixelsRadius, MapCenter.Latitude, ZoomLevel);

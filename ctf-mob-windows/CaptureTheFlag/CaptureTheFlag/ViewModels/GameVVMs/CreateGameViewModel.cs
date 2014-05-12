@@ -26,7 +26,7 @@
 
             IsFormAccessible = true;
 
-            Game = new Game();
+            Game = new PreGame();
             Authenticator = new Authenticator();
             GameModelKey = "TemporaryGameModelKey";
 
@@ -84,37 +84,47 @@
                 if (response.StatusCode == System.Net.HttpStatusCode.Created)
                 {
                     DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "CREATED: {0}", response.Content);
-                    Game = new CommunicationService.JsondotNETDeserializer().Deserialize<Game>(response);
-                    foreach(Item item in Items)
+                    Game = new CommunicationService.JsondotNETDeserializer().Deserialize<PreGame>(response);
+                    if (Items != null)
                     {
-                        item.Game = Game.Url;
-                        response = await communicationService.CreateItemAsync(Authenticator.token, item);
-                        if (response.StatusCode == System.Net.HttpStatusCode.Created)
+                        foreach (Item item in Items)
                         {
-                            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "CREATED: {0}", response.Content);
-                            Item responseItem = new CommunicationService.JsondotNETDeserializer().Deserialize<Item>(response);
-                            Game.Items.Add(responseItem.Url);
+                            item.Game = Game.Url;
+                            response = await communicationService.CreateItemAsync(Authenticator.token, item);
+                            if (response.StatusCode == System.Net.HttpStatusCode.Created)
+                            {
+                                DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "CREATED: {0}", response.Content);
+                                Item responseItem = new CommunicationService.JsondotNETDeserializer().Deserialize<Item>(response);
+                                Game.Items.Add(responseItem.Url);
+                            }
+                            else
+                            {
+                                DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "{0}", response.StatusDescription);
+                                //TODO: new CommunicationService.JsondotNETDeserializer().Deserialize<ItemErrorType>(response);
+                                return;
+                            }
+                        }
+                        PreGame patchGame = new PreGame() { Url = Game.Url, Items = Game.Items };
+                        response = await communicationService.PatchGameAsync(Authenticator.token, patchGame);
+                        if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                        {
+                            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "{0}", response.StatusDescription);
+                            navigationService.UriFor<MainAppPivotViewModel>()
+                                .Navigate();
+                            MessageBox.Show("OK", "created", MessageBoxButton.OK);
                         }
                         else
                         {
                             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "{0}", response.StatusDescription);
-                            //TODO: new CommunicationService.JsondotNETDeserializer().Deserialize<ItemErrorType>(response);
-                            return;
+                            //TODO: new CommunicationService.JsondotNETDeserializer().Deserialize<GameErrorType>(response);
                         }
                     }
-                    Game patchGame = new Game() { Url = Game.Url, Items = Game.Items };
-                    response = await communicationService.PatchGameAsync(Authenticator.token, patchGame);
-                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    else
                     {
                         DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "{0}", response.StatusDescription);
                         navigationService.UriFor<MainAppPivotViewModel>()
                             .Navigate();
                         MessageBox.Show("OK", "created", MessageBoxButton.OK);
-                    }
-                    else
-                    {
-                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "{0}", response.StatusDescription);
-                        //TODO: new CommunicationService.JsondotNETDeserializer().Deserialize<GameErrorType>(response);
                     }
                 }
                 else
@@ -210,8 +220,8 @@
             }
         }
 
-        private Game game;
-        public Game Game
+        private PreGame game;
+        public PreGame Game
         {
             get { return game; }
             set

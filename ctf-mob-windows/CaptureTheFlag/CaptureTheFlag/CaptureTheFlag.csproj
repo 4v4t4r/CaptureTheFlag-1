@@ -95,14 +95,19 @@
     </Compile>
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Converters.cs" />
+    <Compile Include="DateTimeFormatInfoExtensions.cs" />
     <Compile Include="DebugLogger.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="MapChildControlDependency.cs" />
     <Compile Include="MarkerHelper.cs" />
+    <Compile Include="Messages\GameModelMessage.cs" />
+    <Compile Include="Messages\ModelMessage.cs" />
     <Compile Include="Models\Authenticator.cs" />
     <Compile Include="Models\Character.cs" />
-    <Compile Include="Models\Game.cs" />
+    <Compile Include="Models\PreGame.cs" />
     <Compile Include="Models\GameItem.cs" />
+    <Compile Include="Models\GameStatus.cs" />
+    <Compile Include="Models\InGame.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\LoginResponse.cs" />
@@ -137,9 +142,13 @@
     <Compile Include="ViewModels\GameVVMs\BaseGameViewModel.cs" />
     <Compile Include="ViewModels\GameVVMs\CreateGameViewModel.cs" />
     <Compile Include="ViewModels\GameVVMs\EditGameViewModel.cs" />
+    <Compile Include="ViewModels\GameVVMs\GameCreateScreenViewModel.cs" />
+    <Compile Include="ViewModels\GameVVMs\GameDetailsAppBarViewModel.cs" />
     <Compile Include="ViewModels\GameVVMs\GameDetailsScreenViewModel.cs" />
+    <Compile Include="ViewModels\GameVVMs\GameEditScreenViewModel.cs" />
     <Compile Include="ViewModels\GameVVMs\GameEditAppBarViewModel.cs" />
     <Compile Include="ViewModels\GameVVMs\GameFieldsViewModel.cs" />
+    <Compile Include="ViewModels\GameVVMs\PreGameBaseScreenViewModel.cs" />
     <Compile Include="ViewModels\GameVVMs\SearchGameViewModel.cs" />
     <Compile Include="ViewModels\GameVVMs\ShowGameViewModel.cs" />
     <Compile Include="ViewModels\GameMapVVMs\CreateGameMapViewModel.cs" />
@@ -172,8 +181,14 @@
     <Compile Include="Views\GameVVMs\EditGameView.xaml.cs">
       <DependentUpon>EditGameView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\GameVVMs\GameDetailsAppBarView.xaml.cs">
+      <DependentUpon>GameDetailsAppBarView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\GameVVMs\GameDetailsScreenView.xaml.cs">
       <DependentUpon>GameDetailsScreenView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GameVVMs\GameEditScreenView.xaml.cs">
+      <DependentUpon>GameEditScreenView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GameVVMs\GameEditAppBarView.xaml.cs">
       <DependentUpon>GameEditAppBarView.xaml</DependentUpon>
@@ -334,7 +349,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\GameVVMs\GameDetailsAppBarView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\GameVVMs\GameDetailsScreenView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GameVVMs\GameEditScreenView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

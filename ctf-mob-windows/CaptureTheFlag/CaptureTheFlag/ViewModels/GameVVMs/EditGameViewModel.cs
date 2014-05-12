@@ -133,7 +133,7 @@
             IsFormAccessible = false;
             if (Authenticator.IsValid(Authenticator))
             {
-                Game selectedFields = Game;
+                PreGame selectedFields = Game;
                 requestHandle = communicationService.UpdateGameFields(selectedFields, Authenticator.token,
                     responseGameMap =>
                     {

@@ -13,22 +13,29 @@ namespace CaptureTheFlag.Services
     public interface ICommunicationService
     {
         //TODO: new methods for check
-        Task<IRestResponse> CreateGameAsync(string token, Game game);
-        Task<IRestResponse> CreateItemAsync(string token, Item item);
 
-        Task<IRestResponse> PatchGameAsync(string token, Game game);
+        #region Item requests
+        Task<IRestResponse> CreateItemAsync(string token, Item item);
+        #endregion
+
+        #region Game requests
+        Task<IRestResponse> CreateGameAsync(string token, PreGame game);
+        Task<IRestResponse> GetGameAsync(string token, PreGame game);
+        Task<IRestResponse> DeleteGameAsync(string token, PreGame game);
+        Task<IRestResponse> PatchGameAsync(string token, PreGame game);
+        #endregion
 
         //TODO: make ICommunicationService more generic
-        RestRequestAsyncHandle GetAllGames(string token, Action<BindableCollection<Game>> successCallback, Action<ServerErrorMessage> errorCallback);
+        RestRequestAsyncHandle GetAllGames(string token, Action<BindableCollection<PreGame>> successCallback, Action<ServerErrorMessage> errorCallback);
         //RestRequestAsyncHandle GetAllUsers(string token, Action<BindableCollection<Game>> successCallback, Action<ServerErrorMessage> errorCallback);
         RestRequestAsyncHandle GetAllMaps(string token, Action<BindableCollection<GameMap>> successCallback, Action<ServerErrorMessage> errorCallback);
 
         #region Game (un)subscription 
-        RestRequestAsyncHandle AddPlayerToGame(Game game, string token, Action<HttpResponse> successCallback, Action<ServerErrorMessage> errorCallback);
-        RestRequestAsyncHandle RemovePlayerFromGame(Game game, string token, Action<HttpResponse> successCallback, Action<ServerErrorMessage> errorCallback);
+        RestRequestAsyncHandle AddPlayerToGame(PreGame game, string token, Action<HttpResponse> successCallback, Action<ServerErrorMessage> errorCallback);
+        RestRequestAsyncHandle RemovePlayerFromGame(PreGame game, string token, Action<HttpResponse> successCallback, Action<ServerErrorMessage> errorCallback);
         #endregion
 
-        RestRequestAsyncHandle RegisterPosition(Game game, GeoCoordinate coordinate, string token, Action<object> successCallback, Action<ServerErrorMessage> errorCallback);
+        RestRequestAsyncHandle RegisterPosition(PreGame game, GeoCoordinate coordinate, string token, Action<object> successCallback, Action<ServerErrorMessage> errorCallback);
         RestRequestAsyncHandle SelectCharacter(Character character, string token, Action<object> successCallback, Action<ServerErrorMessage> errorCallback);
 
         //Authorization requests
@@ -36,11 +43,11 @@ namespace CaptureTheFlag.Services
         RestRequestAsyncHandle LoginUser(User user, Action<Authenticator> successCallback, Action<ServerErrorMessage> errorCallback);
 
         //Game requests
-        RestRequestAsyncHandle CreateGame(Game game, string token, Action<Game> successCallback, Action<ServerErrorMessage> errorCallback);
-        RestRequestAsyncHandle ReadGame(Game game, string token, Action<Game> successCallback, Action<ServerErrorMessage> errorCallback);
-        RestRequestAsyncHandle UpdateGame(Game game, string token, Action<Game> successCallback, Action<ServerErrorMessage> errorCallback);
-        RestRequestAsyncHandle UpdateGameFields(Game game, string token, Action<Game> successCallback, Action<ServerErrorMessage> errorCallback);
-        RestRequestAsyncHandle DeleteGame(Game game, string token, Action<Game> successCallback, Action<ServerErrorMessage> errorCallback);
+        RestRequestAsyncHandle CreateGame(PreGame game, string token, Action<PreGame> successCallback, Action<ServerErrorMessage> errorCallback);
+        RestRequestAsyncHandle ReadGame(PreGame game, string token, Action<PreGame> successCallback, Action<ServerErrorMessage> errorCallback);
+        RestRequestAsyncHandle UpdateGame(PreGame game, string token, Action<PreGame> successCallback, Action<ServerErrorMessage> errorCallback);
+        RestRequestAsyncHandle UpdateGameFields(PreGame game, string token, Action<PreGame> successCallback, Action<ServerErrorMessage> errorCallback);
+        RestRequestAsyncHandle DeleteGame(PreGame game, string token, Action<PreGame> successCallback, Action<ServerErrorMessage> errorCallback);
         
         //Map requests
         RestRequestAsyncHandle CreateGameMap(GameMap gameMap, string token, Action<GameMap> successCallback, Action<ServerErrorMessage> errorCallback);

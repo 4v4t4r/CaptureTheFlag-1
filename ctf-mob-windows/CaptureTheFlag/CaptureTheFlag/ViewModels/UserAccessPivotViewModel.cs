@@ -43,8 +43,8 @@
 #warning temporary code region
             #region Temporary code
             Authenticator authenticator = new Authenticator();
-            authenticator.token = "05fc2e2e3fe339e98ce5635d02297a3494ed872b";
-            authenticator.user = "http://78.133.154.39:8888/api/users/4/";
+            authenticator.token = "6681fba5e2190a32d993e194ab2628ab29da7205";
+            authenticator.user = "http://78.133.154.39:8888/api/users/5/";
             globalStorageService.Current.Authenticator = authenticator;
             #endregion
 
@@ -52,7 +52,7 @@
             if (Authenticator.IsValid(authenticatorStored))
             {
                 navigationService
-                    .UriFor<GameDetailsScreenViewModel>()
+                    .UriFor<MainAppPivotViewModel>()
                     .Navigate();
                 navigationService.RemoveBackEntry();
             }

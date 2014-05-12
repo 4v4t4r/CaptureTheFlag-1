@@ -24,7 +24,7 @@
 
             IsFormAccessible = true;
 
-            Game = new Game();
+            Game = new PreGame();
             Authenticator = new Authenticator();
             //TODO: update to model probably
             StartDate = DateTime.Now.AddDays(1);
@@ -161,8 +161,8 @@
             }
         }
 
-        private Game game;
-        public Game Game
+        private PreGame game;
+        public PreGame Game
         {
             get { return game; }
             set

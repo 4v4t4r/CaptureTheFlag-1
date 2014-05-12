@@ -9,7 +9,7 @@ using System.Windows;
 
 namespace CaptureTheFlag.ViewModels.GameVVMs
 {
-    public class GameEditAppBarViewModel : Screen, IHandle<GameModelMessage>
+    public class GameDetailsAppBarViewModel : Screen, IHandle<GameModelMessage>
     {
         private readonly INavigationService navigationService;
         private readonly ICommunicationService communicationService;
@@ -17,7 +17,7 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
         private readonly IEventAggregator eventAggregator;
         private RestRequestAsyncHandle requestHandle;// TODO: implement abort
 
-        public GameEditAppBarViewModel(INavigationService navigationService, ICommunicationService communicationService, IGlobalStorageService globalStorageService, IEventAggregator eventAggregator)
+        public GameDetailsAppBarViewModel(INavigationService navigationService, ICommunicationService communicationService, IGlobalStorageService globalStorageService, IEventAggregator eventAggregator)
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "");
             this.navigationService = navigationService;
@@ -26,13 +26,14 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
             this.eventAggregator = eventAggregator;
 
             //TODO: Implement can execute for actions
-            UpdateAppBarItemText = "update";
-            UpdateIcon = new Uri("/Images/upload.png", UriKind.Relative);
+            AddUserAppBarItemText = "subscribe";
+            AddUserIcon = new Uri("/Images/add.png", UriKind.Relative);
+
+            RemoveUserAppBarItemText = "unsubscribe";
+            RemoveUserIcon = new Uri("/Images/minus.png", UriKind.Relative);
 
             StartGameAppBarItemText = "start";
             StartGameIcon = new Uri("/Images/share.png", UriKind.Relative);
-
-            DeleteAppBarMenuItemText = "delete";
 
             IsFormAccessible = true;
         }
@@ -72,7 +73,6 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
                     }
                     break;
                 case GameModelMessage.STATUS.UPDATED:
-                    PatchGameAction();
                     break;
             }
         }
@@ -102,55 +102,49 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
             }
         }
 
-        public async void DeleteAction()
+        public void AddUserAction()
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             IsFormAccessible = false;
             if (Authenticator.IsValid(Authenticator))
             {
-                IRestResponse response = await communicationService.DeleteGameAsync(Authenticator.token, new PreGame() { Url = GameModelKey });
-                if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
-                {
-                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "DELETED: {0}", response.Content);
-                    PreGame responseGame = new CommunicationService.JsondotNETDeserializer().Deserialize<PreGame>(response);
-                    globalStorageService.Current.Games.Remove(GameModelKey);
-                    eventAggregator.Publish(new GameModelMessage() { GameModelKey = GameModelKey, Status = ModelMessage.STATUS.DELETED });
-                    GameModelKey = null;
-                    if (navigationService.CanGoBack)
+                requestHandle = communicationService.AddPlayerToGame(globalStorageService.Current.Games[GameModelKey], Authenticator.token,
+                    responseData =>
                     {
-                        navigationService.GoBack();
-                        navigationService.RemoveBackEntry();
+                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
+                        IsFormAccessible = true;
+                        MessageBox.Show("OK", "added", MessageBoxButton.OK);
+                    },
+                    serverErrorMessage =>
+                    {
+                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
+                        IsFormAccessible = true;
+                        MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
                     }
-                    MessageBox.Show("OK", "deleted", MessageBoxButton.OK);
-                }
-                else
-                {
-                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "{0}", response.StatusDescription);
-                    //TODO: new CommunicationService.JsondotNETDeserializer().Deserialize<ItemErrorType>(response);
-                }
-                IsFormAccessible = true;
+                );
             }
         }
 
-        public async void PatchGameAction()
+        public void RemoveUserAction()
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             IsFormAccessible = false;
             if (Authenticator.IsValid(Authenticator))
             {
-                PreGame patchGame = globalStorageService.Current.Games[GameModelKey]; //TODO: selective fields
-                IRestResponse response = await communicationService.PatchGameAsync(Authenticator.token, patchGame);
-                if (response.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "{0}", response.StatusDescription);
-                    MessageBox.Show("OK", "updated", MessageBoxButton.OK);
-                }
-                else
-                {
-                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "{0}", response.StatusDescription);
-                    //TODO: new CommunicationService.JsondotNETDeserializer().Deserialize<GameErrorType>(response);
-                }
-                IsFormAccessible = true;
+                requestHandle = communicationService.RemovePlayerFromGame(globalStorageService.Current.Games[GameModelKey], Authenticator.token,
+                    responseData =>
+                    {
+                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
+                        MessageBox.Show("OK", "added", MessageBoxButton.OK);
+                        IsFormAccessible = true;
+                    },
+                    serverErrorMessage =>
+                    {
+                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
+                        MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
+                        IsFormAccessible = true;
+                    }
+                );
             }
         }
 
@@ -161,17 +155,11 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
                 .UriFor<GeoMapViewModel>()
                 .Navigate();
         }
-
-        public void UpdateAction()
-        {
-            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
-            eventAggregator.Publish(new GameModelMessage() { GameModelKey = GameModelKey, Status = ModelMessage.STATUS.UPDATE });
-        }
         #endregion
 
         #region Properties
         #region Model Properties
-         private Authenticator authenticator;
+        private Authenticator authenticator;
         public Authenticator Authenticator
         {
             get { return authenticator; }
@@ -201,30 +189,58 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
         #endregion
 
         #region UI Properties
-        private string deleteAppBarMenuItemText;
-        public string DeleteAppBarMenuItemText
+        private string addUserAppBarItemText;
+        public string AddUserAppBarItemText
         {
-            get { return deleteAppBarMenuItemText; }
+            get { return addUserAppBarItemText; }
             set
             {
-                if (deleteAppBarMenuItemText != value)
+                if (addUserAppBarItemText != value)
                 {
-                    deleteAppBarMenuItemText = value;
-                    NotifyOfPropertyChange(() => DeleteAppBarMenuItemText);
+                    addUserAppBarItemText = value;
+                    NotifyOfPropertyChange(() => AddUserAppBarItemText);
                 }
             }
         }
 
-        private Uri updateIcon;
-        public Uri UpdateIcon
+        private Uri addUserIcon;
+        public Uri AddUserIcon
         {
-            get { return updateIcon; }
+            get { return addUserIcon; }
             set
             {
-                if (updateIcon != value)
+                if (addUserIcon != value)
                 {
-                    updateIcon = value;
-                    NotifyOfPropertyChange(() => UpdateIcon);
+                    addUserIcon = value;
+                    NotifyOfPropertyChange(() => AddUserIcon);
+                }
+            }
+        }
+
+        private Uri removeUserIcon;
+        public Uri RemoveUserIcon
+        {
+            get { return removeUserIcon; }
+            set
+            {
+                if (removeUserIcon != value)
+                {
+                    removeUserIcon = value;
+                    NotifyOfPropertyChange(() => RemoveUserIcon);
+                }
+            }
+        }
+
+        private string removeUserAppBarItemText;
+        public string RemoveUserAppBarItemText
+        {
+            get { return removeUserAppBarItemText; }
+            set
+            {
+                if (removeUserAppBarItemText != value)
+                {
+                    removeUserAppBarItemText = value;
+                    NotifyOfPropertyChange(() => RemoveUserAppBarItemText);
                 }
             }
         }
@@ -239,20 +255,6 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
                 {
                     startGameIcon = value;
                     NotifyOfPropertyChange(() => StartGameIcon);
-                }
-            }
-        }
-
-        private string updateAppBarItemText;
-        public string UpdateAppBarItemText
-        {
-            get { return updateAppBarItemText; }
-            set
-            {
-                if (updateAppBarItemText != value)
-                {
-                    updateAppBarItemText = value;
-                    NotifyOfPropertyChange(() => UpdateAppBarItemText);
                 }
             }
         }

@@ -25,9 +25,14 @@ namespace CaptureTheFlag {
 			if (!Execute.InDesignMode)
 				container.RegisterPhoneServices(RootFrame);
 
-            container.PerRequest<GameDetailsScreenViewModel>();
-            container.PerRequest<GameFieldsViewModel>();
+            //Game view models:
+            container.PerRequest<GameEditScreenViewModel>();
             container.PerRequest<GameEditAppBarViewModel>();
+
+            container.PerRequest<GameDetailsScreenViewModel>();
+            container.PerRequest<GameDetailsAppBarViewModel>();
+
+            container.PerRequest<GameFieldsViewModel>();
             
 
             container.PerRequest<UserAccessPivotViewModel>();

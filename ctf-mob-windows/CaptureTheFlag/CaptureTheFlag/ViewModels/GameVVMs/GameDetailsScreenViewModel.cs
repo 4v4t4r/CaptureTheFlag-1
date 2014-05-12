@@ -1,16 +1,17 @@
 ﻿namespace CaptureTheFlag.ViewModels.GameVVMs
 {
     using Caliburn.Micro;
+    using CaptureTheFlag.Messages;
+    using System.Reflection;
 
-    public class GameDetailsScreenViewModel : Conductor<IScreen>.Collection.AllActive
+    public class GameDetailsScreenViewModel : PreGameBaseScreenViewModel
     {
-        private readonly GameFieldsViewModel gameFieldsViewModel;
-        private readonly GameEditAppBarViewModel gameEditAppBarViewModel;
+        private readonly GameDetailsAppBarViewModel gameDetailsAppBarViewModel;
 
-        public GameDetailsScreenViewModel(GameFieldsViewModel gameFieldsViewModel, GameEditAppBarViewModel gameEditAppBarViewModel)
+        public GameDetailsScreenViewModel(GameFieldsViewModel gameFieldsViewModel, GameDetailsAppBarViewModel gameDetailsAppBarViewModel, IEventAggregator eventAggregator)
+            : base(gameFieldsViewModel, eventAggregator) //TODO: Remove requests for GameField and EventAgregator
         {
-            this.gameFieldsViewModel = gameFieldsViewModel;
-            this.gameEditAppBarViewModel = gameEditAppBarViewModel;
+            this.gameDetailsAppBarViewModel = gameDetailsAppBarViewModel;
 
             DisplayName = "Game details";
         }
@@ -18,19 +19,20 @@
         protected override void OnInitialize()
         {
             base.OnInitialize();
-            Items.Add(gameFieldsViewModel);
-            Items.Add(gameEditAppBarViewModel);
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "");
+            Items.Add(gameDetailsAppBarViewModel);
         }
 
-        public GameFieldsViewModel GameFieldsViewModel
+        protected override void OnActivate()
         {
-            get { return gameFieldsViewModel; }
-            set { }
+            base.OnActivate();
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "");
+            base.eventAggregator.Publish(new GameModelMessage() { GameModelKey = GameModelKey, Status = ModelMessage.STATUS.SHOULD_GET });
         }
 
-        public GameEditAppBarViewModel GameEditAppBarViewModel
+        public GameDetailsAppBarViewModel GameDetailsAppBarViewModel
         {
-            get { return gameEditAppBarViewModel; }
+            get { return gameDetailsAppBarViewModel; }
             set { }
         }
     }

@@ -1,5 +1,5 @@
 ﻿<phone:PhoneApplicationPage
-    x:Class="CaptureTheFlag.Views.GameVVMs.GameDetailsScreenView"
+    x:Class="CaptureTheFlag.Views.GameVVMs.GameEditScreenView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
@@ -28,6 +28,6 @@
         </StackPanel>
 
         <game:GameFieldsView Grid.Row="1" DataContext="{Binding GameFieldsViewModel}" cal:Bind.Model="{Binding}"/>
-        <game:GameDetailsAppBarView Grid.Row="2" DataContext="{Binding GameDetailsAppBarViewModel}" cal:Bind.Model="{Binding}"/>
+        <game:GameEditAppBarView Grid.Row="2" DataContext="{Binding GameEditAppBarViewModel}" cal:Bind.Model="{Binding}"/>
     </Grid>
 </phone:PhoneApplicationPage>

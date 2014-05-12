@@ -29,7 +29,7 @@
             this.locationService = locationService;
             this.globalStorageService = globalStorageService;
 
-            Games = new BindableCollection<Game>();
+            Games = new BindableCollection<PreGame>();
             Authenticator = new Authenticator();
 
             DisplayName = "Games";
@@ -53,17 +53,17 @@
         {
             base.OnActivate();
             Authenticator = globalStorageService.Current.Authenticator;
-            if (globalStorageService.Current.Games != null && globalStorageService.Current.Games.Count > 0)
-            {
-                foreach (Game game in globalStorageService.Current.Games.Values)
-                {
-                    Games.Add(game);
-                }
-            }
-            else
-            {
+            //if (globalStorageService.Current.Games != null && globalStorageService.Current.Games.Count > 0)
+            //{
+            //    foreach (Game game in globalStorageService.Current.Games.Values)
+            //    {
+            //        Games.Add(game);
+            //    }
+            //}
+            //else
+            //{
                 ListGamesAction();
-            }
+            //}
         }
 
         protected override void OnDeactivate(bool close)
@@ -86,7 +86,7 @@
                     {
                         DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
                         Games = responseData;
-                        foreach (Game game in Games)
+                        foreach (PreGame game in Games)
                         {
                             if (!globalStorageService.Current.Games.ContainsKey(game.Url))
                             {
@@ -110,13 +110,13 @@
             {
                 if ((SelectedGame.Owner != null) && (SelectedGame.Owner == Authenticator.user))
                 {
-                    navigationService.UriFor<EditGameViewModel>()
+                    navigationService.UriFor<GameEditScreenViewModel>()
                          .WithParam(param => param.GameModelKey, SelectedGame.Url)
                          .Navigate();
                 }
                 else
                 {
-                    navigationService.UriFor<ShowGameViewModel>()
+                    navigationService.UriFor<GameDetailsScreenViewModel>()
                          .WithParam(param => param.GameModelKey, SelectedGame.Url)
                          .Navigate();
                 }
@@ -163,8 +163,8 @@
 
         #region Properties
         #region Model Properties
-        private BindableCollection<Game> games;
-        public BindableCollection<Game> Games
+        private BindableCollection<PreGame> games;
+        public BindableCollection<PreGame> Games
         {
             get { return games; }
             set
@@ -177,8 +177,8 @@
             }
         }
 
-        private Game selectedGame;
-        public Game SelectedGame
+        private PreGame selectedGame;
+        public PreGame SelectedGame
         {
             get { return selectedGame; }
             set

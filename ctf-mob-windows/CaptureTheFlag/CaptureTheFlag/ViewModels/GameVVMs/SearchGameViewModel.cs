@@ -18,7 +18,7 @@
         private readonly IFilterService filterService;
         private RestRequestAsyncHandle requestHandle; //TODO: use requestHandle to abort when neccessary
 
-        private BindableCollection<Game> allGames;
+        private BindableCollection<PreGame> allGames;
 
         public SearchGameViewModel(INavigationService navigationService, IGlobalStorageService globalStorageService, IFilterService filterService, ICommunicationService communicationService)
         {
@@ -30,7 +30,7 @@
 
             IsFormAccessible = true;
 
-            Games = new BindableCollection<Game>();
+            Games = new BindableCollection<PreGame>();
             Authenticator = new Authenticator();
 
             DisplayName = "Search games";
@@ -44,7 +44,7 @@
             Authenticator = globalStorageService.Current.Authenticator;
             if (globalStorageService.Current.Games != null && globalStorageService.Current.Games.Count > 0)
             {
-                foreach (Game game in globalStorageService.Current.Games.Values)
+                foreach (PreGame game in globalStorageService.Current.Games.Values)
                 {
                     Games.Add(game);
                 }
@@ -69,8 +69,8 @@
         {
             if (!String.IsNullOrWhiteSpace(searchTextBoxText) && !String.IsNullOrEmpty(searchTextBoxText))
             {
-                Task<BindableCollection<Game>> t = filterService.FilterCollectionAsync(allGames, () => Games[0].Name, new Regex(searchTextBoxText, RegexOptions.IgnoreCase | RegexOptions.Singleline));
-                BindableCollection<Game> g = await t;
+                Task<BindableCollection<PreGame>> t = filterService.FilterCollectionAsync(allGames, () => Games[0].Name, new Regex(searchTextBoxText, RegexOptions.IgnoreCase | RegexOptions.Singleline));
+                BindableCollection<PreGame> g = await t;
                 if (!t.IsCanceled)
                 {
                     Games = g;
@@ -116,7 +116,7 @@
                     {
                         DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
                         Games = responseData;
-                        foreach (Game game in Games)
+                        foreach (PreGame game in Games)
                         {
                             if (!globalStorageService.Current.Games.ContainsKey(game.Url))
                             {
@@ -154,8 +154,8 @@
             }
         }
 
-        private BindableCollection<Game> games;
-        public BindableCollection<Game> Games
+        private BindableCollection<PreGame> games;
+        public BindableCollection<PreGame> Games
         {
             get { return games; }
             set
@@ -168,8 +168,8 @@
             }
         }
 
-        private Game selectedGame;
-        public Game SelectedGame
+        private PreGame selectedGame;
+        public PreGame SelectedGame
         {
             get { return selectedGame; }
             set

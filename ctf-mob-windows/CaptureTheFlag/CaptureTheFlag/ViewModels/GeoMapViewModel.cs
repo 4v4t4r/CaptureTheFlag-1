@@ -31,8 +31,10 @@
             ZoomLevel = 18.2;
             MapCenter = new GeoCoordinate(53.432806, 14.548033);
             MapCenter.Altitude = 0.0;
-            Markers = MarkerHelper.makeMarkers(10);
 
+            InGame = new InGame();
+            InGame.Markers = Markers = MarkerHelper.makeMarkers(10);
+            InGame.GameStatus = new GameStatus() { BlueTeamPoints = 100, RedTeamPoints = 100, TimeToEnd = 300, Status = PreGame.STATUS.IN_PROGRESS };
 
             MapLayer MapLayer = new MapLayer();
             
@@ -90,7 +92,7 @@
         public async void UpdateMarkersAction()
         {
             GeoCoordinate position = await locationService.getCurrentGeoCoordinateAsync();
-            Game game = new Game() { Url = "http://78.133.154.39:8888/api/games/2/" };
+            PreGame game = new PreGame() { Url = "http://78.133.154.39:8888/api/games/10/" };
             if (Authenticator.IsValid(Authenticator))
             {
                 communicationService.RegisterPosition(game, position, Authenticator.token,
@@ -123,6 +125,20 @@
         public void RefreshAction()
         {
             UpdateMarkersAction();
+        }
+
+        private InGame inGame;
+        public InGame InGame
+        {
+            get { return inGame; }
+            set
+            {
+                if (inGame != value)
+                {
+                    inGame = value;
+                    NotifyOfPropertyChange(() => InGame);
+                }
+            }
         }
 
         private SolidColorBrush fill;
