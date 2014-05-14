@@ -145,6 +145,11 @@ public class Game extends AbstractObject {
         this.lastModified = lastModified;
     }
 
+    public long getGameId() {
+        String tab[] = getUrl().split("/");
+        return Long.parseLong(tab[tab.length - 1]);
+    }
+
     public enum GameStatus {
         @SerializedName("0")
         IN_PROGRESS,

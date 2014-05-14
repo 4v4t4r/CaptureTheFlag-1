@@ -9,13 +9,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 
 import com.blstream.ctfclient.R;
 import com.blstream.ctfclient.adapters.GameAdapter;
 import com.blstream.ctfclient.model.dto.Game;
+import com.blstream.ctfclient.model.dto.Location;
+import com.blstream.ctfclient.model.dto.json.RegisterPlayerPositionResponse;
 import com.blstream.ctfclient.network.requests.CTFGamesRequest;
+import com.blstream.ctfclient.network.requests.CTFRegisterPlayerPositionRequest;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
@@ -29,8 +33,9 @@ public class GamesActivity extends CTFBaseActivity implements AdapterView.OnItem
     private GridView gridView;
     private TextView mGameDetails;
     private CTFGamesRequest gamesRequest;
-
+    private Button mJoinButton;
     private List<Game> mGames;
+    private int mSelectedId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +44,27 @@ public class GamesActivity extends CTFBaseActivity implements AdapterView.OnItem
 
         gridView = (GridView) findViewById(R.id.grid_view);
         mGameDetails = (TextView) findViewById(R.id.game_details);
+        mJoinButton = (Button) findViewById(R.id.button);
+
+        mJoinButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                CTFRegisterPlayerPositionRequest ctfRegisterPlayerPositionRequest = new CTFRegisterPlayerPositionRequest(mGames.get(mSelectedId).getGameId(), new Location(53.447545f, 14.535383f));
+
+                getSpiceManager().execute(ctfRegisterPlayerPositionRequest, ctfRegisterPlayerPositionRequest.createCacheKey(), DurationInMillis.ONE_MINUTE, new RequestListener<RegisterPlayerPositionResponse>() {
+                    @Override
+                    public void onRequestFailure(SpiceException spiceException) {
+                        Log.d(TAG, "onRequestFailure " + spiceException.getLocalizedMessage());
+                    }
+
+                    @Override
+                    public void onRequestSuccess(RegisterPlayerPositionResponse response) {
+                        Log.d(TAG, "onRequestSuccess " + response.toString() + " " + response.getMarkers().size());
+                    }
+                });
+            }
+        });
     }
 
     @Override
@@ -67,10 +93,10 @@ public class GamesActivity extends CTFBaseActivity implements AdapterView.OnItem
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         mGameDetails.setText(mGames.get(position).toString());
+        mSelectedId = position;
     }
 
     /**

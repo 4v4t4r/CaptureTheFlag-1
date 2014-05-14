@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.blstream.ctfclient.CTF;
 import com.blstream.ctfclient.R;
 import com.blstream.ctfclient.model.dto.Game;
-import com.blstream.ctfclient.network.requests.CTFGameRequest;
+import com.blstream.ctfclient.network.requests.CTFCreateGameRequest;
 import com.fourmob.datetimepicker.date.DatePickerDialog;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -45,7 +45,7 @@ public class CreateGameActivity extends CTFBaseActivity implements DatePickerDia
     public static final String DATEPICKER_TAG = "datepicker";
     public static final String TIMEPICKER_TAG = "timepicker";
     private GoogleMap googleMap;
-    private CTFGameRequest gameRequest;
+    private CTFCreateGameRequest gameRequest;
 
     @InjectView(R.id.game_date_picker_button)
     Button btnSelectDate;
@@ -176,7 +176,7 @@ public class CreateGameActivity extends CTFBaseActivity implements DatePickerDia
     }
 
     private void createGame(final Game game) {
-        gameRequest = new CTFGameRequest(game);
+        gameRequest = new CTFCreateGameRequest(game);
         getSpiceManager().execute(gameRequest, gameRequest.createCacheKey(), DurationInMillis.ONE_MINUTE, new GameRequestListener());
     }
 

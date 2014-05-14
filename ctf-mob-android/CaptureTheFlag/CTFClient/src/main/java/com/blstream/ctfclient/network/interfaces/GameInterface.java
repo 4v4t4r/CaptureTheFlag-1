@@ -2,7 +2,7 @@ package com.blstream.ctfclient.network.interfaces;
 
 import com.blstream.ctfclient.model.dto.Game;
 import com.blstream.ctfclient.model.dto.Location;
-import com.blstream.ctfclient.model.dto.json.GameResponse;
+import com.blstream.ctfclient.model.dto.json.RegisterPlayerPositionResponse;
 
 import retrofit.http.Body;
 import retrofit.http.DELETE;
@@ -46,7 +46,7 @@ public interface GameInterface {
     @DELETE(URL_REQUEST + "{game_id}/player/")
     public void removePlayerFromGame(@Path("game_id") long gameId);
 
-    @PUT(URL_REQUEST + "{game_id}/location/")
-    public GameResponse registerPlayerPostion(@Path("game_id") long gameId, Location location);
+    @POST(URL_REQUEST + "{game_id}/location/")
+    public RegisterPlayerPositionResponse registerPlayerPosition(@Header("Authorization") String token, @Path("game_id") long gameId, @Body Location location);
 
 }

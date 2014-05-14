@@ -11,11 +11,11 @@ import roboguice.util.temp.Ln;
 /**
  * Created by mar on 25.04.14.
  */
-public class CTFGameRequest extends RetrofitSpiceRequest<Game, GameInterface> {
+public class CTFCreateGameRequest extends RetrofitSpiceRequest<Game, GameInterface> {
 
     private Game game;
 
-    public CTFGameRequest(Game game) {
+    public CTFCreateGameRequest(Game game) {
         super(Game.class, GameInterface.class);
         this.game = game;
     }
