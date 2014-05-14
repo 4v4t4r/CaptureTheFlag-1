@@ -36,3 +36,22 @@ C:\Users\Piotr\Documents\Visual Studio 2013\Projects\PushNotificationExample\Pus
 C:\Users\Piotr\Documents\Visual Studio 2013\Projects\PushNotificationExample\PushNotificationExample\PushNotificationWP8\obj\Debug\PushNotificationWP8.dll
 C:\Users\Piotr\Documents\Visual Studio 2013\Projects\PushNotificationExample\PushNotificationExample\PushNotificationWP8\obj\Debug\PushNotificationWP8.pdb
 C:\Users\Piotr\Documents\Visual Studio 2013\Projects\PushNotificationExample\PushNotificationExample\PushNotificationWP8\obj\Debug\XapCacheFile.xml
+C:\Users\Piotr\Documents\Git\ctf\ctf-mob-windows\PushNotificationExample\PushNotificationExample\PushNotificationWP8\Bin\Debug\Assets\ApplicationIcon.png
+C:\Users\Piotr\Documents\Git\ctf\ctf-mob-windows\PushNotificationExample\PushNotificationExample\PushNotificationWP8\Bin\Debug\Assets\Tiles\FlipCycleTileLarge.png
+C:\Users\Piotr\Documents\Git\ctf\ctf-mob-windows\PushNotificationExample\PushNotificationExample\PushNotificationWP8\Bin\Debug\Assets\Tiles\FlipCycleTileMedium.png
+C:\Users\Piotr\Documents\Git\ctf\ctf-mob-windows\PushNotificationExample\PushNotificationExample\PushNotificationWP8\Bin\Debug\Assets\Tiles\FlipCycleTileSmall.png
+C:\Users\Piotr\Documents\Git\ctf\ctf-mob-windows\PushNotificationExample\PushNotificationExample\PushNotificationWP8\Bin\Debug\Assets\Tiles\IconicTileMediumLarge.png
+C:\Users\Piotr\Documents\Git\ctf\ctf-mob-windows\PushNotificationExample\PushNotificationExample\PushNotificationWP8\Bin\Debug\Assets\Tiles\IconicTileSmall.png
+C:\Users\Piotr\Documents\Git\ctf\ctf-mob-windows\PushNotificationExample\PushNotificationExample\PushNotificationWP8\Bin\Debug\PushNotificationWP8.dll
+C:\Users\Piotr\Documents\Git\ctf\ctf-mob-windows\PushNotificationExample\PushNotificationExample\PushNotificationWP8\Bin\Debug\PushNotificationWP8.pdb
+C:\Users\Piotr\Documents\Git\ctf\ctf-mob-windows\PushNotificationExample\PushNotificationExample\PushNotificationWP8\Bin\Debug\AppManifest.xaml
+C:\Users\Piotr\Documents\Git\ctf\ctf-mob-windows\PushNotificationExample\PushNotificationExample\PushNotificationWP8\Bin\Debug\Properties\WMAppManifest.xml
+C:\Users\Piotr\Documents\Git\ctf\ctf-mob-windows\PushNotificationExample\PushNotificationExample\PushNotificationWP8\Bin\Debug\PushNotificationWP8_Debug_AnyCPU.xap
+C:\Users\Piotr\Documents\Git\ctf\ctf-mob-windows\PushNotificationExample\PushNotificationExample\PushNotificationWP8\obj\Debug\App.g.cs
+C:\Users\Piotr\Documents\Git\ctf\ctf-mob-windows\PushNotificationExample\PushNotificationExample\PushNotificationWP8\obj\Debug\MainPage.g.cs
+C:\Users\Piotr\Documents\Git\ctf\ctf-mob-windows\PushNotificationExample\PushNotificationExample\PushNotificationWP8\obj\Debug\PushNotificationWP8.g.resources
+C:\Users\Piotr\Documents\Git\ctf\ctf-mob-windows\PushNotificationExample\PushNotificationExample\PushNotificationWP8\obj\Debug\PushNotificationWP8.Resources.AppResources.resources
+C:\Users\Piotr\Documents\Git\ctf\ctf-mob-windows\PushNotificationExample\PushNotificationExample\PushNotificationWP8\obj\Debug\PushNotificationWP8.csproj.GenerateResource.Cache
+C:\Users\Piotr\Documents\Git\ctf\ctf-mob-windows\PushNotificationExample\PushNotificationExample\PushNotificationWP8\obj\Debug\PushNotificationWP8.dll
+C:\Users\Piotr\Documents\Git\ctf\ctf-mob-windows\PushNotificationExample\PushNotificationExample\PushNotificationWP8\obj\Debug\PushNotificationWP8.pdb
+C:\Users\Piotr\Documents\Git\ctf\ctf-mob-windows\PushNotificationExample\PushNotificationExample\PushNotificationWP8\obj\Debug\XapCacheFile.xml

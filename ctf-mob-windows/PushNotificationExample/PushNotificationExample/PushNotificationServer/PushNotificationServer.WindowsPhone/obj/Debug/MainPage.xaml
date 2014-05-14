@@ -12,7 +12,10 @@
         <StackPanel>
             <TextBlock FontSize="28" Text="Message to send:" Height="40" Width="350"/>
             <TextBox FontSize="72" x:Name="toastBox" Text="{Binding Path=Toast, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="150" Margin="0,9.5"/>
-            <Button x:ConnectionId='1' FontSize="28" Content="Send notification"                                   Height="150" Width="350"/>
+            <Button x:ConnectionId='1' FontSize="28" Content="Raw notification"                                   Height="100" Width="350"/>
+            <Button x:ConnectionId='2' FontSize="28" Content="WNS toast"                                        Height="100" Width="350"/>
+            <Button x:ConnectionId='3' FontSize="28" Content="WNS launch toast"                                              Height="100" Width="350"/>
+            <Button x:ConnectionId='4' FontSize="28" Content="MPNS toast"                                         Height="100" Width="350"/>
         </StackPanel>
     </Grid>
 </Page>

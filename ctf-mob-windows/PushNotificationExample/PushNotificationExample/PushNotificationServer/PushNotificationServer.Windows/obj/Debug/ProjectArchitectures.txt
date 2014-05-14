@@ -1,1 +1,0 @@
-C:\Users\Piotr\documents\visual studio 2013\Projects\PushNotificationServer\PushNotificationServer\PushNotificationServer.Windows\PushNotificationServer.Windows.csproj;neutral

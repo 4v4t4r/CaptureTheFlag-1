@@ -15,7 +15,7 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="PushNotificationServer.Windows.App">
-      <m2:VisualElements DisplayName="PushNotificationServer.Windows" Square150x150Logo="Assets\Logo.png" Square30x30Logo="Assets\SmallLogo.png" Description="PushNotificationServer.WindowsC:\Users\Piotr\Documents\Visual Studio 2013\Projects\PushNotificationServer\PushNotificationServer\PushNotificationServer.Windows\Package.appxmanifest" ForegroundText="light" BackgroundColor="#464646">
+      <m2:VisualElements DisplayName="PushNotificationServer.Windows" Square150x150Logo="Assets\Logo.png" Square30x30Logo="Assets\SmallLogo.png" Description="PushNotificationServer.WindowsC:\Users\Piotr\Documents\Visual Studio 2013\Projects\PushNotificationServer\PushNotificationServer\PushNotificationServer.Windows\Package.appxmanifest" ForegroundText="light" BackgroundColor="#464646" ToastCapable="true">
         <m2:SplashScreen Image="Assets\SplashScreen.png" />
       </m2:VisualElements>
     </Application>

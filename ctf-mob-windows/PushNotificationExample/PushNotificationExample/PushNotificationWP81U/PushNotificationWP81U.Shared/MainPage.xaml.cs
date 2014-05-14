@@ -17,13 +17,14 @@ namespace PushNotificationWP81U
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            RegisterNotificationChannel();
-        }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            pushNotificationChannel.Close();
-            base.OnNavigatedFrom(e);
+            //string msg;
+            //if (NavigationContext.QueryString.TryGetValue("JsonData", out msg))
+            //{
+            //    System.Diagnostics.Debug.WriteLine("{0}", msg);
+            //}
+
+            RegisterNotificationChannel();
         }
 
         private PushNotificationChannel pushNotificationChannel = null;
@@ -55,7 +56,7 @@ namespace PushNotificationWP81U
 
                     //...
                     ToastNotificationManager.CreateToastNotifier().Show(args.ToastNotification);
-
+                    System.Diagnostics.Debug.WriteLine(args.ToastNotification.Content);
                     break;
                 case PushNotificationType.Raw:
                     System.Diagnostics.Debug.WriteLine(args.RawNotification.Content);

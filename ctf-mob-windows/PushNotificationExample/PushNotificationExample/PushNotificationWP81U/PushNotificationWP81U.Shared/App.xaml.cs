@@ -20,6 +20,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace PushNotificationWP81U
 {
+    //Reference: http://msdn.microsoft.com/en-us/library/windows/apps/xaml/Hh868212(v=win.10).aspx
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
@@ -103,6 +104,9 @@ namespace PushNotificationWP81U
 
             // Ensure the current window is active
             Window.Current.Activate();
+
+#warning get arguments from toast here
+            System.Diagnostics.Debug.WriteLine(e.Arguments); //Arguments
         }
 
 #if WINDOWS_PHONE_APP

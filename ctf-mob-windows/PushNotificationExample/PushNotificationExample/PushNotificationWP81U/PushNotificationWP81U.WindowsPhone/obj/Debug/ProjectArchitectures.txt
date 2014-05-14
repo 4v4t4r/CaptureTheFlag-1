@@ -1,1 +1,1 @@
-C:\Users\Piotr\documents\visual studio 2013\Projects\PushNotificationWP81U\PushNotificationWP81U\PushNotificationWP81U.WindowsPhone\PushNotificationWP81U.WindowsPhone.csproj;neutral
+C:\Users\Piotr\Documents\Git\ctf\ctf-mob-windows\PushNotificationExample\PushNotificationExample\PushNotificationWP81U\PushNotificationWP81U.WindowsPhone\PushNotificationWP81U.WindowsPhone.csproj;neutral
