@@ -1,5 +1,7 @@
 package com.blstream.ctfclient.model.dto;
 
+import com.google.android.gms.maps.model.LatLng;
+
 /**
  * Created by mar on 28.04.14.
  */
@@ -35,5 +37,9 @@ public class Location {
                 "lat=" + lat +
                 ", lon=" + lon +
                 '}';
+    }
+
+    public LatLng toLatLng() {
+        return new LatLng(lat, lon);
     }
 }

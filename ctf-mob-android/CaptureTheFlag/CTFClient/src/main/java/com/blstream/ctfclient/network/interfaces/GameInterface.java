@@ -30,7 +30,7 @@ public interface GameInterface {
     public Game createGame(@Header("Authorization") String token, @Body Game game);
 
     @GET(URL_REQUEST + "{game_id}/")
-    public Game getGame(@Path("game_id") long gameId);
+    public Game getGame(@Header("Authorization") String token, @Path("game_id") long gameId);
 
     @PUT(URL_REQUEST + "{game_id}/")
     public void updateGame(@Path("game_id") long gameId, @Body Game game);

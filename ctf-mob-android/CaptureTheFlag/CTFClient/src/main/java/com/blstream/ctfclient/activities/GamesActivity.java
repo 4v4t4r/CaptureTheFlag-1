@@ -1,6 +1,7 @@
 package com.blstream.ctfclient.activities;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,12 +17,8 @@ import android.widget.TextView;
 import com.blstream.ctfclient.R;
 import com.blstream.ctfclient.adapters.GameAdapter;
 import com.blstream.ctfclient.model.dto.Game;
-import com.blstream.ctfclient.model.dto.Location;
-import com.blstream.ctfclient.model.dto.Marker;
-import com.blstream.ctfclient.model.dto.json.RegisterPlayerPositionResponse;
 import com.blstream.ctfclient.network.requests.CTFAddPlayerToGameRequest;
 import com.blstream.ctfclient.network.requests.CTFGamesRequest;
-import com.blstream.ctfclient.network.requests.CTFRegisterPlayerPositionRequest;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
@@ -33,7 +30,7 @@ import retrofit.client.Response;
 
 public class GamesActivity extends CTFBaseActivity implements AdapterView.OnItemClickListener {
     private static final String TAG = GamesActivity.class.getSimpleName();
-
+    public static final String EXTRA_GAME_ID = "EXTRA_GAME_ID";
     private GridView gridView;
     private TextView mGameDetails;
     private CTFGamesRequest gamesRequest;
@@ -55,7 +52,6 @@ public class GamesActivity extends CTFBaseActivity implements AdapterView.OnItem
             public void onClick(View v) {
                 CTFAddPlayerToGameRequest ctfAddPlayerToGameRequest = new CTFAddPlayerToGameRequest(mGames.get(mSelectedId).getGameId());
                 getSpiceManager().execute(ctfAddPlayerToGameRequest, ctfAddPlayerToGameRequest.createCacheKey(), DurationInMillis.ONE_MINUTE, new AddPlayerToGameRequestListener());
-
             }
         });
     }
@@ -141,21 +137,11 @@ public class GamesActivity extends CTFBaseActivity implements AdapterView.OnItem
 
         @Override
         public void onRequestSuccess(Response response) {
-            CTFRegisterPlayerPositionRequest ctfRegisterPlayerPositionRequest = new CTFRegisterPlayerPositionRequest(mGames.get(mSelectedId).getGameId(), new Location(53.447545f, 14.535383f));
-            getSpiceManager().execute(ctfRegisterPlayerPositionRequest, ctfRegisterPlayerPositionRequest.createCacheKey(), DurationInMillis.ONE_MINUTE, new RegisterPlayerPositionRequestListener());
+
+            Intent intent = new Intent(GamesActivity.this, MapActivity.class);
+            Game startingGame = mGames.get(mSelectedId);
+            intent.putExtra(EXTRA_GAME_ID, startingGame.getGameId());
+            startActivity(intent);
         }
     }
-
-    private class RegisterPlayerPositionRequestListener implements RequestListener<RegisterPlayerPositionResponse> {
-        @Override
-        public void onRequestFailure(SpiceException spiceException) {
-            Log.d(TAG, "onRequestFailure " + spiceException.getLocalizedMessage());
-        }
-
-        @Override
-        public void onRequestSuccess(RegisterPlayerPositionResponse response) {
-            Log.d(TAG, "onRequestSuccess " + response.toString() + " " + response.getMarkers().size());
-        }
-    }
-
 }
