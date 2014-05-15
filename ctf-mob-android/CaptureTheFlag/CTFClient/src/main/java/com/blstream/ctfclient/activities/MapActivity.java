@@ -15,8 +15,11 @@ import android.widget.Toast;
 import com.blstream.ctfclient.CTF;
 import com.blstream.ctfclient.R;
 import com.blstream.ctfclient.model.dto.Game;
+import com.blstream.ctfclient.model.dto.Location;
+import com.blstream.ctfclient.model.dto.Marker;
 import com.blstream.ctfclient.model.dto.json.RegisterPlayerPositionResponse;
 import com.blstream.ctfclient.network.requests.CTFGetGameRequest;
+import com.blstream.ctfclient.network.requests.CTFRegisterPlayerPositionRequest;
 import com.blstream.ctfclient.utils.GameBorderTask;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -48,7 +51,6 @@ public class MapActivity extends CTFBaseActivity implements GameBorderTask.OnGam
     private GoogleMap googleMap;
 
     private long mGameId;
-    private Game mGame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,12 +73,35 @@ public class MapActivity extends CTFBaseActivity implements GameBorderTask.OnGam
         @Override
         public void onRequestFailure(SpiceException spiceException) {
             Log.d(TAG, "onRequestFailure " + spiceException.getLocalizedMessage());
+
+
         }
 
         @Override
         public void onRequestSuccess(RegisterPlayerPositionResponse response) {
             Log.d(TAG, "onRequestSuccess " + response.toString() + " " + response.getMarkers().size());
 
+            for (Marker marker : response.getMarkers()) {
+                switch (marker.getType()) {
+                    case BLUE_BASE: {
+                        addMarkerToMap(marker.getLocation().toLatLng(), "Blue base", "Blue base", R.drawable.blue_base);
+                        break;
+                    }
+                    case RED_BASE: {
+                        addMarkerToMap(marker.getLocation().toLatLng(), "Red base", "Red base", R.drawable.red_base);
+                        break;
+                    }
+                    case BLUE_FLAG: {
+                        addMarkerToMap(marker.getLocation().toLatLng(), "Blue flag", "Blue flag", R.drawable.flag_blue);
+                        break;
+                    }
+                    case RED_FLAG: {
+                        addMarkerToMap(marker.getLocation().toLatLng(), "Red base", "Red base", R.drawable.flag_red);
+                        break;
+                    }
+
+                }
+            }
         }
     }
 
@@ -90,17 +115,18 @@ public class MapActivity extends CTFBaseActivity implements GameBorderTask.OnGam
         public void onRequestSuccess(Game response) {
             Log.d(TAG, "onRequestSuccess " + response.toString() + " " + response.toString());
 
-            mGame = response;
+            moveCamera(response.getLocation().toLatLng());
 
-            moveCamera(mGame.getLocation().toLatLng());
-
-            addFlagToMap(new LatLng(53.4275, 14.5518), "Our flag", "Defend your flag against the enemy.", R.drawable.flag_blue);
-            addFlagToMap(new LatLng(53.4295, 14.5538), "Their flag", "The flag of the enemy", R.drawable.flag_red);
-            addCharacter(new LatLng(53.4202, 14.5549), 200, "Rafał", "From blue team.");
-
-            GameBorderTask gameBorderTask = new GameBorderTask(mGame.getLocation().toLatLng(), mGame.getRadius(), MapActivity.this);
+            GameBorderTask gameBorderTask = new GameBorderTask(response.getLocation().toLatLng(), response.getRadius(), MapActivity.this);
             gameBorderTask.execute();
+
+            updateGameData(response.getLocation());
         }
+    }
+
+    private void updateGameData(Location userLocation) {
+        CTFRegisterPlayerPositionRequest registerPlayerPositionRequest = new CTFRegisterPlayerPositionRequest(mGameId, userLocation);
+        getSpiceManager().execute(registerPlayerPositionRequest, registerPlayerPositionRequest.createCacheKey(), DurationInMillis.ONE_MINUTE, new RegisterPlayerPositionRequestListener());
     }
 
     @Override
@@ -231,12 +257,12 @@ public class MapActivity extends CTFBaseActivity implements GameBorderTask.OnGam
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), ANIMATION_DURATION_MS, null);
     }
 
-    private void addFlagToMap(LatLng position, String name, String description, int iconID) {
+    private void addMarkerToMap(LatLng position, String name, String description, int iconID) {
         MarkerOptions myMarkerOptions = new MarkerOptions()
                 .title(name)
                 .snippet(description)
                 .position(position)
-                .anchor(0.0f, 1.0f)
+                .anchor(0.5f, 0.5f)
                 .icon(BitmapDescriptorFactory.fromResource(iconID));
         googleMap.addMarker(myMarkerOptions);
     }

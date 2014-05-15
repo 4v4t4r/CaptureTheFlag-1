@@ -1,11 +1,13 @@
 package com.blstream.ctfclient.model.dto;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by mar on 29.04.14.
  */
 public class Marker extends AbstractObject {
 
-    private int type;
+    private ItemType type;
     private float distance;
     private Location location;
 
@@ -17,11 +19,11 @@ public class Marker extends AbstractObject {
         this.location = location;
     }
 
-    public int getType() {
+    public ItemType getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(ItemType type) {
         this.type = type;
     }
 
@@ -40,5 +42,32 @@ public class Marker extends AbstractObject {
                 ", distance=" + distance +
                 ", location=" + location +
                 '}';
+    }
+
+    public enum ItemType {
+        @SerializedName("0")
+        PLAYER,
+        @SerializedName("1")
+        PLAYER_WITH_RED_FLAG,
+        @SerializedName("2")
+        PLAYER_WITH_BLUE_FLAG,
+        @SerializedName("3")
+        RED_FLAG,
+        @SerializedName("4")
+        BLUE_FLAG,
+        @SerializedName("5")
+        RED_BASE,
+        @SerializedName("6")
+        BLUE_BASE,
+        @SerializedName("7")
+        RED_BASE_WITH_FLAG,
+        @SerializedName("8")
+        BLUE_BASE_WITH_FLAG,
+        @SerializedName("9")
+        FIRST_AID_KIT,
+        @SerializedName("10")
+        PISTOL,
+        @SerializedName("11")
+        AMMO
     }
 }

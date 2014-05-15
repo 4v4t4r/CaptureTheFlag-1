@@ -32,4 +32,9 @@ public abstract class AbstractObject {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public long getId() {
+        String tab[] = getUrl().split("/");
+        return Long.parseLong(tab[tab.length - 1]);
+    }
 }

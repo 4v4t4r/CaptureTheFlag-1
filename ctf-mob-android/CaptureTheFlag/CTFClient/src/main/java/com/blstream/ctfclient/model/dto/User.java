@@ -18,13 +18,14 @@ public class User {
     @SerializedName("device_id")
     private String deviceId;
     private Location location;
-    private String[] characters;
-    @SerializedName("active_character")
-    private String activeCharacter;
+    private TeamType team;
+    @SerializedName("current_game_id")
+    private int currentGameId;
 
     public String getUrl() {
         return url;
     }
+
 
     public void setUrl(String url) {
         this.url = url;
@@ -86,20 +87,20 @@ public class User {
         this.location = location;
     }
 
-    public String[] getCharacters() {
-        return characters;
+    public TeamType getTeam() {
+        return team;
     }
 
-    public void setCharacters(String[] characters) {
-        this.characters = characters;
+    public void setTeam(TeamType team) {
+        this.team = team;
     }
 
-    public String getActiveCharacter() {
-        return activeCharacter;
+    public int getCurrentGameId() {
+        return currentGameId;
     }
 
-    public void setActiveCharacter(String activeCharacter) {
-        this.activeCharacter = activeCharacter;
+    public void setCurrentGameId(int currentGameId) {
+        this.currentGameId = currentGameId;
     }
 
     public enum DeviceType {
@@ -109,5 +110,12 @@ public class User {
         WP,
         @SerializedName("2")
         IOS
+    }
+
+    public enum TeamType {
+        @SerializedName("0")
+        RED_TEAM,
+        @SerializedName("1")
+        BLUE_TEAM
     }
 }
