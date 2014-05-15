@@ -6,7 +6,6 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -18,6 +17,7 @@ import android.widget.Toast;
 
 import com.blstream.ctfclient.CTF;
 import com.blstream.ctfclient.R;
+import com.blstream.ctfclient.utils.GameBorderTask;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -29,33 +29,20 @@ import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.maps.android.SphericalUtil;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Rafał Zadrożny on 1/27/14.
  */
-public class MapActivity extends CTFBaseActivity {
+public class MapActivity extends CTFBaseActivity implements GameBorderTask.OnGameBorderTaskListener {
 
     private static final float DEGREES_OF_TILT = 30.0f;
     private static final int ANIMATION_DURATION_MS = 1000;
+    private static float CURRENT_ZOOM = 17;
     private final int RQS_GooglePlayServices = 1;
-    public static float currentZoom = 17;
     private GoogleMap googleMap;
     private LatLng centerPoint;
-    private Polygon polygon;
-    private List<LatLng> hole = null;
-    private List<LatLng> border = null;
+
     private boolean mapCreated = false;
     private int gameMapRadius;
 
@@ -88,9 +75,6 @@ public class MapActivity extends CTFBaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.menu_legalnotices:
                 String licenseInfo = GooglePlayServicesUtil.getOpenSourceSoftwareLicenseInfo(
@@ -149,8 +133,10 @@ public class MapActivity extends CTFBaseActivity {
             addFlagToMap(new LatLng(53.4295, 14.5538), "Their flag", "The flag of the enemy", R.drawable.flag_red);
             addCharacter(new LatLng(53.4202, 14.5549), 200, "Rafał", "From blue team.");
             gameMapRadius = 1000;
-            setGameMapBorders(gameMapRadius);
-            googleMap.setOnCameraChangeListener(new GameCameraChangeListener());
+
+            GameBorderTask gameBorderTask = new GameBorderTask(centerPoint, gameMapRadius, this);
+            gameBorderTask.execute();
+
         } catch (Exception e) {
             Log.d(CTF.TAG, "Exception", e);
             return false;
@@ -168,132 +154,12 @@ public class MapActivity extends CTFBaseActivity {
                 builder.append("&destination=");
                 builder.append("53.4295").append(",").append("14.5538");
                 builder.append("&sensor=false&mode=walking");
-//                StringRequest stringRequest = new StringRequest(Request.Method.GET, builder.toString(), new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String returnValue) {
-//                        drawPolyline(returnValue);
-//                    }
-//                }, new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError volleyError) {
-//                        Log.e(CTF.TAG, "ERROR", volleyError.getCause());
-//                    }
-//                });
-//                CTF.getInstance().addToRequestQueue(stringRequest);
             }
         });
     }
 
-    private void drawPolyline(String returnValue) {
-        try {
-            JSONObject result = new JSONObject(returnValue);
-            JSONArray routes = null;
-
-            routes = result.getJSONArray("routes");
-
-            long distanceForSegment = routes.getJSONObject(0).getJSONArray("legs").getJSONObject(0).getJSONObject("distance").getInt("value");
-
-            JSONArray steps = routes.getJSONObject(0).getJSONArray("legs")
-                    .getJSONObject(0).getJSONArray("steps");
-
-            List<LatLng> lines = new ArrayList<LatLng>();
-
-            for (int i = 0; i < steps.length(); i++) {
-                String polyline = steps.getJSONObject(i).getJSONObject("polyline").getString("points");
-
-                for (LatLng p : decodePolyline(polyline)) {
-                    lines.add(p);
-                }
-            }
-            Polyline polylineToAdd = googleMap.addPolyline(new PolylineOptions().addAll(lines).width(3).color(Color.RED));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private List<LatLng> decodePolyline(String encoded) {
-        List<LatLng> poly = new ArrayList<LatLng>();
-
-        int index = 0, len = encoded.length();
-        int lat = 0, lng = 0;
-
-        while (index < len) {
-            int b, shift = 0, result = 0;
-            do {
-                b = encoded.charAt(index++) - 63;
-                result |= (b & 0x1f) << shift;
-                shift += 5;
-            } while (b >= 0x20);
-            int dlat = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
-            lat += dlat;
-
-            shift = 0;
-            result = 0;
-            do {
-                b = encoded.charAt(index++) - 63;
-                result |= (b & 0x1f) << shift;
-                shift += 5;
-            } while (b >= 0x20);
-            int dlng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
-            lng += dlng;
-
-            LatLng p = new LatLng((double) lat / 1E5, (double) lng / 1E5);
-            poly.add(p);
-        }
-        return poly;
-    }
-
     private void setCenterPointOfMap(LatLng latLng) {
         this.centerPoint = latLng;
-    }
-
-    private void setGameMapBorders(final int distance) {
-
-        new AsyncTask<Void, Void, Void>() {
-
-            @Override
-            protected Void doInBackground(Void... voids) {
-                if (hole == null || border == null) {
-                    hole = new ArrayList<>();
-                    border = new ArrayList<>();
-                    int degree = 0;
-                    for (int i = 0; i < 360; i++) {
-                        degree = i;
-                        if (degree == 360) {
-                            hole.add(hole.get(0));
-                        } else {
-                            hole.add(SphericalUtil.computeOffset(centerPoint, distance, degree));
-                        }
-                    }
-                    degree = 0;
-                    for (int i = 0; i < 360; i++) {
-                        degree = i;
-                        if (degree == 360) {
-                            border.add(border.get(0));
-                        } else {
-                            border.add(SphericalUtil.computeOffset(centerPoint, distance * 10, degree));
-                        }
-                    }
-                }
-                return (null);
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                if (polygon != null) {
-                    polygon.remove();
-                    polygon = null;
-                }
-                polygon = googleMap.addPolygon(new PolygonOptions()
-                        .addAll(border)
-                        .addHole(hole)
-                        .fillColor(R.color.transparent_black)
-                        .strokeColor(R.color.transparent_black)
-                        .strokeWidth(8.0f)
-                        .visible(true));
-            }
-        }.execute();
-
     }
 
     private void addCharacter(LatLng position, final int rangeOfVisibility, String name, String description) {
@@ -331,7 +197,7 @@ public class MapActivity extends CTFBaseActivity {
     private void moveCamera(LatLng latLng) {
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(latLng)
-                .zoom(currentZoom)
+                .zoom(CURRENT_ZOOM)
                 .tilt(DEGREES_OF_TILT)
                 .bearing(googleMap.getCameraPosition().bearing)
                 .build();
@@ -349,15 +215,8 @@ public class MapActivity extends CTFBaseActivity {
         googleMap.addMarker(myMarkerOptions);
     }
 
-    class GameCameraChangeListener implements GoogleMap.OnCameraChangeListener {
-        @Override
-        public void onCameraChange(CameraPosition cameraPosition) {
-
-            if (cameraPosition.zoom != currentZoom) {
-                setGameMapBorders(gameMapRadius);
-            }
-            currentZoom = cameraPosition.zoom;
-        }
+    @Override
+    public void onGameBorderTaskEnd(PolygonOptions border) {
+        googleMap.addPolygon(border);
     }
-
 }
