@@ -33,5 +33,12 @@ public class Marker extends AbstractObject {
         this.distance = distance;
     }
 
-
+    @Override
+    public String toString() {
+        return "Marker{" +
+                "type=" + type +
+                ", distance=" + distance +
+                ", location=" + location +
+                '}';
+    }
 }

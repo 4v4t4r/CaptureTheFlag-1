@@ -17,7 +17,9 @@ import com.blstream.ctfclient.R;
 import com.blstream.ctfclient.adapters.GameAdapter;
 import com.blstream.ctfclient.model.dto.Game;
 import com.blstream.ctfclient.model.dto.Location;
+import com.blstream.ctfclient.model.dto.Marker;
 import com.blstream.ctfclient.model.dto.json.RegisterPlayerPositionResponse;
+import com.blstream.ctfclient.network.requests.CTFAddPlayerToGameRequest;
 import com.blstream.ctfclient.network.requests.CTFGamesRequest;
 import com.blstream.ctfclient.network.requests.CTFRegisterPlayerPositionRequest;
 import com.octo.android.robospice.persistence.DurationInMillis;
@@ -26,6 +28,8 @@ import com.octo.android.robospice.request.listener.RequestListener;
 
 import java.util.Arrays;
 import java.util.List;
+
+import retrofit.client.Response;
 
 public class GamesActivity extends CTFBaseActivity implements AdapterView.OnItemClickListener {
     private static final String TAG = GamesActivity.class.getSimpleName();
@@ -49,20 +53,9 @@ public class GamesActivity extends CTFBaseActivity implements AdapterView.OnItem
         mJoinButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                CTFAddPlayerToGameRequest ctfAddPlayerToGameRequest = new CTFAddPlayerToGameRequest(mGames.get(mSelectedId).getGameId());
+                getSpiceManager().execute(ctfAddPlayerToGameRequest, ctfAddPlayerToGameRequest.createCacheKey(), DurationInMillis.ONE_MINUTE, new AddPlayerToGameRequestListener());
 
-                CTFRegisterPlayerPositionRequest ctfRegisterPlayerPositionRequest = new CTFRegisterPlayerPositionRequest(mGames.get(mSelectedId).getGameId(), new Location(53.447545f, 14.535383f));
-
-                getSpiceManager().execute(ctfRegisterPlayerPositionRequest, ctfRegisterPlayerPositionRequest.createCacheKey(), DurationInMillis.ONE_MINUTE, new RequestListener<RegisterPlayerPositionResponse>() {
-                    @Override
-                    public void onRequestFailure(SpiceException spiceException) {
-                        Log.d(TAG, "onRequestFailure " + spiceException.getLocalizedMessage());
-                    }
-
-                    @Override
-                    public void onRequestSuccess(RegisterPlayerPositionResponse response) {
-                        Log.d(TAG, "onRequestSuccess " + response.toString() + " " + response.getMarkers().size());
-                    }
-                });
             }
         });
     }
@@ -139,4 +132,30 @@ public class GamesActivity extends CTFBaseActivity implements AdapterView.OnItem
             }
         }
     }
+
+    private class AddPlayerToGameRequestListener implements RequestListener<Response> {
+        @Override
+        public void onRequestFailure(SpiceException spiceException) {
+            Log.e(TAG, "Error", spiceException);
+        }
+
+        @Override
+        public void onRequestSuccess(Response response) {
+            CTFRegisterPlayerPositionRequest ctfRegisterPlayerPositionRequest = new CTFRegisterPlayerPositionRequest(mGames.get(mSelectedId).getGameId(), new Location(53.447545f, 14.535383f));
+            getSpiceManager().execute(ctfRegisterPlayerPositionRequest, ctfRegisterPlayerPositionRequest.createCacheKey(), DurationInMillis.ONE_MINUTE, new RegisterPlayerPositionRequestListener());
+        }
+    }
+
+    private class RegisterPlayerPositionRequestListener implements RequestListener<RegisterPlayerPositionResponse> {
+        @Override
+        public void onRequestFailure(SpiceException spiceException) {
+            Log.d(TAG, "onRequestFailure " + spiceException.getLocalizedMessage());
+        }
+
+        @Override
+        public void onRequestSuccess(RegisterPlayerPositionResponse response) {
+            Log.d(TAG, "onRequestSuccess " + response.toString() + " " + response.getMarkers().size());
+        }
+    }
+
 }

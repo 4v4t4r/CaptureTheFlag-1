@@ -28,4 +28,12 @@ public class Location {
     public void setLon(float lon) {
         this.lon = lon;
     }
+
+    @Override
+    public String toString() {
+        return "Location{" +
+                "lat=" + lat +
+                ", lon=" + lon +
+                '}';
+    }
 }

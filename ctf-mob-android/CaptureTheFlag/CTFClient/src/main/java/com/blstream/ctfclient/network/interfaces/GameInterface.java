@@ -4,6 +4,7 @@ import com.blstream.ctfclient.model.dto.Game;
 import com.blstream.ctfclient.model.dto.Location;
 import com.blstream.ctfclient.model.dto.json.RegisterPlayerPositionResponse;
 
+import retrofit.client.Response;
 import retrofit.http.Body;
 import retrofit.http.DELETE;
 import retrofit.http.GET;
@@ -41,7 +42,7 @@ public interface GameInterface {
     public void deleteGame(@Path("game_id") long gameId);
 
     @POST(URL_REQUEST + "{game_id}/player/")
-    public void addPlayerToGame(@Path("game_id") long gameId);
+    public Response addPlayerToGame(@Header("Authorization") String token, @Path("game_id") long gameId);
 
     @DELETE(URL_REQUEST + "{game_id}/player/")
     public void removePlayerFromGame(@Path("game_id") long gameId);
