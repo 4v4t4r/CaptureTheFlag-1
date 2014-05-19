@@ -12,15 +12,15 @@ using System.Threading.Tasks;
 
 namespace CaptureTheFlag.ViewModels.GameVVMs
 {
-    public class GameFieldsViewModel : Screen, IHandle<GameModelMessage>
+    public class GameFieldsViewModel : Screen,  IHandle<PreGame>, IHandle<PublishModelRequest<PreGame>>
     {
         protected readonly INavigationService navigationService;
-        protected readonly ICommunicationService communicationService;
-        protected readonly IGlobalStorageService globalStorageService;
+        protected readonly CommunicationService communicationService;
+        protected readonly GlobalStorageService globalStorageService;
         private readonly IEventAggregator eventAggregator;
         protected RestRequestAsyncHandle requestHandle;// TODO: implement abort
 
-        public GameFieldsViewModel(INavigationService navigationService, ICommunicationService communicationService, IGlobalStorageService globalStorageService, IEventAggregator eventAggregator)
+        public GameFieldsViewModel(INavigationService navigationService, CommunicationService communicationService, GlobalStorageService globalStorageService, IEventAggregator eventAggregator)
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             this.navigationService = navigationService;
@@ -42,27 +42,40 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
         }
 
         #region Message handling
-        public void Handle(GameModelMessage message)
+        //public void Handle(GameModelMessage message)
+        //{
+        //    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "");
+        //    switch(message.Status)
+        //    {
+        //        case GameModelMessage.STATUS.IN_STORAGE:
+        //            Game = globalStorageService.Current.Games[message.GameModelKey];
+        //            IsFormAccessible = true;
+        //            break;
+        //        case GameModelMessage.STATUS.UPDATE:
+        //            globalStorageService.Current.Games[Game.Url] = Game;
+        //            eventAggregator.Publish(new GameModelMessage() { GameModelKey = Game.Url, Status = ModelMessage.STATUS.UPDATED });
+        //            break;
+        //        case GameModelMessage.STATUS.SHOULD_GET:
+        //            IsFormAccessible = false;
+        //            break;
+        //    }
+        //}
+
+        public void Handle(PreGame message)
         {
-            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "");
-            switch(message.Status)
-            {
-                case GameModelMessage.STATUS.IN_STORAGE:
-                    Game = globalStorageService.Current.Games[message.GameModelKey];
-                    IsFormAccessible = true;
-                    break;
-                case GameModelMessage.STATUS.UPDATE:
-                    globalStorageService.Current.Games[Game.Url] = Game;
-                    eventAggregator.Publish(new GameModelMessage() { GameModelKey = Game.Url, Status = ModelMessage.STATUS.UPDATED });
-                    break;
-                case GameModelMessage.STATUS.SHOULD_GET:
-                    IsFormAccessible = false;
-                    break;
-            }
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
+            Game = message;
+        }
+
+        public void Handle(PublishModelRequest<PreGame> message)
+        {
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
+            PublishModelResponse<PreGame> response = new PublishModelResponse<PreGame>(message, Game);
+            eventAggregator.Publish(response);
         }
         #endregion
 
-
+        #region ViewModel states
         protected override void OnActivate()
         {
             base.OnActivate();
@@ -72,9 +85,12 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
 
         protected override void OnDeactivate(bool close)
         {
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "");
+            globalStorageService.Current.Games[Game.Url] = Game;
             eventAggregator.Unsubscribe(this);
             base.OnDeactivate(close);
         }
+        #endregion
 
         #region Model Properties
         private Authenticator authenticator;
@@ -246,5 +262,7 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
             }
         }
         #endregion
+
+
     }
 }

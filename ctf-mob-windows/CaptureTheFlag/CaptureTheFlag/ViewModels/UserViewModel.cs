@@ -16,11 +16,11 @@ namespace CaptureTheFlag.ViewModels
     public class UserViewModel : Screen
     {
         private readonly INavigationService navigationService;
-        private readonly ICommunicationService communicationService;
-        private readonly IGlobalStorageService globalStorageService;
+        private readonly CommunicationService communicationService;
+        private readonly GlobalStorageService globalStorageService;
         private RestRequestAsyncHandle requestHandle;// TODO: implement abort
 
-        public UserViewModel(INavigationService navigationService, ICommunicationService communicationService, IGlobalStorageService globalStorageService)
+        public UserViewModel(INavigationService navigationService, CommunicationService communicationService, GlobalStorageService globalStorageService)
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             this.navigationService = navigationService;

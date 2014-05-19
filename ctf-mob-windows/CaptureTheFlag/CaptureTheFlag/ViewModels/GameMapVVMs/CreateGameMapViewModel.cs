@@ -23,11 +23,11 @@ namespace CaptureTheFlag.ViewModels.GameMapVVMs
     public class CreateGameMapViewModel : Screen
     {
         private readonly INavigationService navigationService;
-        private readonly ILocationService locationService;
-        private readonly IGlobalStorageService globalStorageService;
-        private readonly ICommunicationService communicationService;
+        private readonly LocationService locationService;
+        private readonly GlobalStorageService globalStorageService;
+        private readonly CommunicationService communicationService;
 
-        public CreateGameMapViewModel(INavigationService navigationService, ILocationService locationService, IGlobalStorageService globalStorageService, ICommunicationService communicationService)
+        public CreateGameMapViewModel(INavigationService navigationService, LocationService locationService, GlobalStorageService globalStorageService, CommunicationService communicationService)
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             this.navigationService = navigationService;

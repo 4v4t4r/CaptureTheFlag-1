@@ -13,14 +13,14 @@
     public class SearchGameViewModel : Screen
     {
         private readonly INavigationService navigationService;
-        private readonly IGlobalStorageService globalStorageService;
-        private readonly ICommunicationService communicationService;
-        private readonly IFilterService filterService;
+        private readonly GlobalStorageService globalStorageService;
+        private readonly CommunicationService communicationService;
+        private readonly FilterService filterService;
         private RestRequestAsyncHandle requestHandle; //TODO: use requestHandle to abort when neccessary
 
         private BindableCollection<PreGame> allGames;
 
-        public SearchGameViewModel(INavigationService navigationService, IGlobalStorageService globalStorageService, IFilterService filterService, ICommunicationService communicationService)
+        public SearchGameViewModel(INavigationService navigationService, GlobalStorageService globalStorageService, FilterService filterService, CommunicationService communicationService)
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             this.navigationService = navigationService;
@@ -89,15 +89,15 @@
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             if (SelectedGame != null && Authenticator.IsValid(Authenticator))
             {
-                if (SelectedGame.Url == Authenticator.user)
+                if (SelectedGame.Owner == Authenticator.user)
                 {
-                    navigationService.UriFor<EditGameViewModel>()
+                    navigationService.UriFor<GameEditScreenViewModel>()
                          .WithParam(param => param.GameModelKey, SelectedGame.Url)
                          .Navigate();
                 }
                 else
                 {
-                    navigationService.UriFor<ShowGameViewModel>()
+                    navigationService.UriFor<GameDetailsScreenViewModel>()
                          .WithParam(param => param.GameModelKey, SelectedGame.Url)
                          .Navigate();
                 }

@@ -25,7 +25,11 @@ namespace CaptureTheFlag {
 			if (!Execute.InDesignMode)
 				container.RegisterPhoneServices(RootFrame);
 
-            //Game view models:
+            //Pre Game view models:
+            container.PerRequest<ListGamesViewModel>();
+            container.PerRequest<CreateGameViewModel>();
+            container.PerRequest<SearchGameViewModel>();
+
             container.PerRequest<GameEditScreenViewModel>();
             container.PerRequest<GameEditAppBarViewModel>();
 
@@ -33,39 +37,33 @@ namespace CaptureTheFlag {
             container.PerRequest<GameDetailsAppBarViewModel>();
 
             container.PerRequest<GameFieldsViewModel>();
-            
 
+            container.PerRequest<GamesListViewModel>();
+            container.PerRequest<GamesListScreenViewModel>();
+            container.PerRequest<GamesListAppBarViewModel>();
+            
+            
+            //User authentication view models
             container.PerRequest<UserAccessPivotViewModel>();
             container.PerRequest<UserLoginViewModel>();
             container.PerRequest<UserRegistrationViewModel>();
 
+            //Game Map view models:
+            container.PerRequest<CreateGameMapViewModel>();
+
+            container.PerRequest<InGameMapViewModel>();
+
+            //Other view models:
             container.PerRequest<MainAppPivotViewModel>();
-
-            container.PerRequest<GeoMapViewModel>();
-
             container.PerRequest<GameItemViewModel>();
             container.PerRequest<CharacterViewModel>();
             container.PerRequest<UserViewModel>();
 
-            //Game Map view models:
-            container.PerRequest<CreateGameMapViewModel>();
-            container.PerRequest<SearchGameMapViewModel>();
-            container.PerRequest<ListGameMapsViewModel>();
-            container.PerRequest<ShowGameMapViewModel>();
-            container.PerRequest<EditGameMapViewModel>();
-            
-            //Pre Game view models:
-            container.PerRequest<ListGamesViewModel>();
-            container.PerRequest<CreateGameViewModel>();
-            container.PerRequest<EditGameViewModel>();
-            container.PerRequest<ShowGameViewModel>();
-            container.PerRequest<SearchGameViewModel>();
-
             //Services:
-            container.PerRequest<IFilterService, FilterService>();
-            container.PerRequest<ICommunicationService, CommunicationService>();
-            container.PerRequest<ILocationService, LocationService>();
-            container.Singleton<IGlobalStorageService, GlobalStorageService>();
+            container.PerRequest<FilterService>();
+            container.PerRequest<CommunicationService>();
+            container.PerRequest<LocationService>();
+            container.Singleton<GlobalStorageService>();
 
 			AddCustomConventions();
 		}

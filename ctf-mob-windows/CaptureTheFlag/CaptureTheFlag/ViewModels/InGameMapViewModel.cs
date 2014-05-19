@@ -5,6 +5,7 @@
     using CaptureTheFlag.Services;
     using Microsoft.Phone.Maps.Controls;
     using Microsoft.Phone.Maps.Toolkit;
+    using RestSharp;
     using System;
     using System.Device.Location;
     using System.Reflection;
@@ -13,13 +14,13 @@
     using System.Windows.Media;
     using System.Windows.Shapes;
     using Windows.Devices.Geolocation;
-    public class GeoMapViewModel : Screen
+    public class InGameMapViewModel : Screen
     {
-        private readonly ICommunicationService communicationService;
-        private readonly ILocationService locationService;
-        private readonly IGlobalStorageService globalStorageService;
+        private readonly CommunicationService communicationService;
+        private readonly LocationService locationService;
+        private readonly GlobalStorageService globalStorageService;
 
-        public GeoMapViewModel(ILocationService locationService, ICommunicationService communicationService, IGlobalStorageService globalStorageService)
+        public InGameMapViewModel(LocationService locationService, CommunicationService communicationService, GlobalStorageService globalStorageService)
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             this.communicationService = communicationService;
@@ -29,12 +30,14 @@
 
             
             ZoomLevel = 18.2;
-            MapCenter = new GeoCoordinate(53.432806, 14.548033);
-            MapCenter.Altitude = 0.0;
+            //MapCenter = new GeoCoordinate(53.432806, 14.548033);
+            GameMapCenter = new GeoCoordinate(53.438732, 14.541759, 0.0);
+            GeoMapCenter =  new GeoCoordinate(53.438732, 14.541759, 0.0);
 
             InGame = new InGame();
-            InGame.Markers = Markers = MarkerHelper.makeMarkers(10);
-            InGame.GameStatus = new GameStatus() { BlueTeamPoints = 100, RedTeamPoints = 100, TimeToEnd = 300, Status = PreGame.STATUS.IN_PROGRESS };
+            Markers = new BindableCollection<Marker>();
+            //InGame.Markers = Markers = MarkerHelper.makeMarkers(10);
+            //InGame.GameStatus = new GameStatus() { BlueTeamPoints = 100, RedTeamPoints = 100, TimeToEnd = 300, Status = PreGame.STATUS.IN_PROGRESS };
 
             MapLayer MapLayer = new MapLayer();
             
@@ -51,7 +54,7 @@
             Fill = fillSolidColorBrush;
             MapOverlay overlay = new MapOverlay();
             overlay.Content = Area;
-            overlay.GeoCoordinate = MapCenter;
+            overlay.GeoCoordinate = GameMapCenter;
             overlay.PositionOrigin = new Point(0.5, 0.5);
             MapLayer.Add(overlay);
             MapLayers = new BindableCollection<MapLayer>();
@@ -71,10 +74,6 @@
             //Area.StrokeThickness = 2;
             //borderSolidColorBrush.Color = Colors.Black;
             //Area.Stroke = borderSolidColorBrush;
-
-            Map = new Map();
-            Map.ZoomLevel = ZoomLevel;
-            Map.Center = MapCenter;
             
             RefreshAppBarItemText = "refresh";
             RefreshIcon = new Uri("/Images/refresh.png", UriKind.Relative);
@@ -89,24 +88,49 @@
         }
         #endregion
 
+        private static bool isWorking;
         public async void UpdateMarkersAction()
         {
-            GeoCoordinate position = await locationService.getCurrentGeoCoordinateAsync();
-            PreGame game = new PreGame() { Url = "http://78.133.154.39:8888/api/games/10/" };
-            if (Authenticator.IsValid(Authenticator))
+            //for (int i = 0; i < 30; ++i)
+            //{
+            if(isWorking)
             {
-                communicationService.RegisterPosition(game, position, Authenticator.token,
-                    responseMarkers =>
+                isWorking = false;
+            }
+            else
+            {
+                isWorking = true;
+            }
+
+            while (isWorking)
+            {
+                DateTime startTime = DateTime.Now;
+                PlayersPosition = await locationService.getCurrentGeoCoordinateAsync();
+                TimeSpan diff = DateTime.Now.Subtract(startTime);
+                DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Got location in: {0}s{1}ms", diff.Seconds, diff.Milliseconds);
+                //position.Latitude = 53.438732;
+                //position.Longitude = 14.541759;
+                PreGame game = new PreGame() { Url = GameModelKey };
+                if (Authenticator.IsValid(Authenticator))
+                {
+                    IRestResponse response = await communicationService.RegisterPlayersPositionAsync(Authenticator.token, game, PlayersPosition);
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
                     {
-                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful marker response: {0}", responseMarkers);
-                        MoveAndShowMarkers();
-                    },
-                    serverErrorMessage =>
-                    {
-                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed marker response: {0}", serverErrorMessage);
-                        MoveAndShowMarkers();
+                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "READ: {0}", response.Content);
+
+                            InGame = new CommunicationService.JsondotNETDeserializer().Deserialize<InGame>(response);
+
+                        Markers = InGame.Markers;
+                        
                     }
-                );
+                    else
+                    {
+                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "{0}", response.StatusDescription);
+                        //TODO: new CommunicationService.JsondotNETDeserializer().Deserialize<ItemErrorType>(response);
+                    }
+                }
+                //    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "End of loop: {0}", i);
+                //}
             }
         }
 
@@ -176,34 +200,9 @@
             }
         }
 
-        private Map map;
-        public Map Map
-        {
-            get { return map; }
-            set
-            {
-                if (map != value)
-                {
-                    map = value;
-                    NotifyOfPropertyChange(() => Map);
-                }
-            }
-        }
-
-        private BindableCollection<Pushpin> pins;
-        public BindableCollection<Pushpin> Pins
-        {
-            get { return pins; }
-            set
-            {
-                if (pins != value)
-                {
-                    pins = value;
-                    NotifyOfPropertyChange(() => Pins);
-                }
-            }
-        }
-
+        //IMPORTANT: System.InvalidOperationException: Items must be empty before using Items Source
+        //To bypass exception, set a property and add or remove elements.
+        //ItemSource cannot be set to new instances (i.e. when deserializing a collection in model)
         private BindableCollection<Marker> markers;
         public BindableCollection<Marker> Markers
         {
@@ -212,22 +211,73 @@
             {
                 if (markers != value)
                 {
-                    markers = value;
+                    if (markers == null)
+                    {
+                        markers = value;
+                    }
+                    else
+                    {
+                        markers.Clear();
+                        markers.AddRange(value);
+                    }
                     NotifyOfPropertyChange(() => Markers);
                 }
             }
         }
 
-        private GeoCoordinate mapCenter;
-        public GeoCoordinate MapCenter
+
+        private string gameModelKey;
+        public string GameModelKey
         {
-            get { return mapCenter; }
+            get { return gameModelKey; }
             set
             {
-                if (mapCenter != value)
+                if (gameModelKey != value)
                 {
-                    mapCenter = value;
-                    NotifyOfPropertyChange(() => MapCenter);
+                    gameModelKey = value;
+                    NotifyOfPropertyChange(() => GameModelKey);
+                }
+            }
+        }
+
+        private GeoCoordinate gameMapCenter;
+        public GeoCoordinate GameMapCenter
+        {
+            get { return gameMapCenter; }
+            set
+            {
+                if (gameMapCenter != value)
+                {
+                    gameMapCenter = value;
+                    NotifyOfPropertyChange(() => GameMapCenter);
+                }
+            }
+        }
+
+        private GeoCoordinate geoMapCenter;
+        public GeoCoordinate GeoMapCenter
+        {
+            get { return geoMapCenter; }
+            set
+            {
+                if (geoMapCenter != value)
+                {
+                    geoMapCenter = value;
+                    NotifyOfPropertyChange(() => GeoMapCenter);
+                }
+            }
+        }
+
+        private GeoCoordinate playersPosition;
+        public GeoCoordinate PlayersPosition
+        {
+            get { return playersPosition; }
+            set
+            {
+                if (playersPosition != value)
+                {
+                    playersPosition = value;
+                    NotifyOfPropertyChange(() => PlayersPosition);
                 }
             }
         }
@@ -288,8 +338,8 @@
                     zoomLevel = value;
                     if (Area != null)
                     {
-                        Area.Height = MarkerHelper.MetersToPixels(150, Map.Center.Latitude, ZoomLevel); //TODO: Calculate from Map radius
-                        Area.Width = MarkerHelper.MetersToPixels(150, Map.Center.Latitude, ZoomLevel); //TODO: Calculate from Map radius
+                        Area.Height = MarkerHelper.MetersToPixels(150, GeoMapCenter.Latitude, ZoomLevel); //TODO: Calculate from Map radius
+                        Area.Width = MarkerHelper.MetersToPixels(150, GeoMapCenter.Latitude, ZoomLevel); //TODO: Calculate from Map radius
                     }
                     NotifyOfPropertyChange(() => ZoomLevel);
                 }

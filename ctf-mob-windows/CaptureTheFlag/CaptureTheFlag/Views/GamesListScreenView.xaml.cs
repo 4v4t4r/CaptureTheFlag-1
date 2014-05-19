@@ -10,16 +10,11 @@ using Microsoft.Phone.Shell;
 
 namespace CaptureTheFlag.Views
 {
-    public partial class GeoMapView : PhoneApplicationPage
+    public partial class GamesListScreenView : PhoneApplicationPage
     {
-        public GeoMapView()
+        public GamesListScreenView()
         {
             InitializeComponent();
-        }
-
-        private void Map_ZoomLevelChanged(object sender, Microsoft.Phone.Maps.Controls.MapZoomLevelChangedEventArgs e)
-        {
-
         }
     }
 }

@@ -94,14 +94,18 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="AppBootstrapper.cs" />
-    <Compile Include="Converters.cs" />
-    <Compile Include="DateTimeFormatInfoExtensions.cs" />
-    <Compile Include="DebugLogger.cs" />
+    <Compile Include="Helpers\Converters.cs" />
+    <Compile Include="Helpers\DateTimeFormatInfoExtensions.cs" />
+    <Compile Include="Helpers\DebugLogger.cs" />
     <Compile Include="LocalizedStrings.cs" />
-    <Compile Include="MapChildControlDependency.cs" />
-    <Compile Include="MarkerHelper.cs" />
+    <Compile Include="Helpers\MapChildControlDependency.cs" />
+    <Compile Include="Helpers\MarkerHelper.cs" />
+    <Compile Include="Messages\AppActionMessage.cs" />
     <Compile Include="Messages\GameModelMessage.cs" />
     <Compile Include="Messages\ModelMessage.cs" />
+    <Compile Include="Messages\PublishModelBase.cs" />
+    <Compile Include="Messages\PublishModelRequest.cs" />
+    <Compile Include="Messages\PublishModelResponse.cs" />
     <Compile Include="Models\Authenticator.cs" />
     <Compile Include="Models\Character.cs" />
     <Compile Include="Models\PreGame.cs" />
@@ -122,26 +126,20 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="RestClientExtensions.cs" />
+    <Compile Include="Helpers\RestClientExtensions.cs" />
     <Compile Include="Services\CommunicationService.cs" />
     <Compile Include="Services\GlobalStorageService.cs" />
-    <Compile Include="Services\ICommunicationService.cs" />
-    <Compile Include="Services\IFilterService.cs" />
-    <Compile Include="Services\IGlobalStorageService.cs" />
-    <Compile Include="Services\ILocationService.cs" />
-    <Compile Include="Services\IPushNotificationService.cs" />
     <Compile Include="Services\LocationService.cs" />
     <Compile Include="Services\FilterService.cs" />
     <Compile Include="Services\PushNotificationService.cs" />
-    <Compile Include="UpdateSourceOnTextChangedBehavior .cs" />
+    <Compile Include="Helpers\UpdateSourceOnTextChangedBehavior .cs" />
     <Compile Include="ViewModels\CharacterViewModel.cs" />
-    <Compile Include="ViewModels\GameMapVVMs\EditGameMapViewModel.cs" />
-    <Compile Include="ViewModels\GameMapVVMs\ListGameMapsViewModel.cs" />
-    <Compile Include="ViewModels\GameMapVVMs\SearchGameMapViewModel.cs" />
-    <Compile Include="ViewModels\GameMapVVMs\ShowGameMapViewModel.cs" />
+    <Compile Include="ViewModels\GamesListAppBarViewModel.cs" />
+    <Compile Include="ViewModels\GamesListScreenViewModel.cs" />
+    <Compile Include="ViewModels\GamesListViewModel.cs" />
     <Compile Include="ViewModels\GameVVMs\BaseGameViewModel.cs" />
     <Compile Include="ViewModels\GameVVMs\CreateGameViewModel.cs" />
-    <Compile Include="ViewModels\GameVVMs\EditGameViewModel.cs" />
+    <Compile Include="ViewModels\GameVVMs\GameCreateAppBarViewModel.cs" />
     <Compile Include="ViewModels\GameVVMs\GameCreateScreenViewModel.cs" />
     <Compile Include="ViewModels\GameVVMs\GameDetailsAppBarViewModel.cs" />
     <Compile Include="ViewModels\GameVVMs\GameDetailsScreenViewModel.cs" />
@@ -150,11 +148,10 @@
     <Compile Include="ViewModels\GameVVMs\GameFieldsViewModel.cs" />
     <Compile Include="ViewModels\GameVVMs\PreGameBaseScreenViewModel.cs" />
     <Compile Include="ViewModels\GameVVMs\SearchGameViewModel.cs" />
-    <Compile Include="ViewModels\GameVVMs\ShowGameViewModel.cs" />
     <Compile Include="ViewModels\GameMapVVMs\CreateGameMapViewModel.cs" />
     <Compile Include="ViewModels\GameItemViewModel.cs" />
     <Compile Include="ViewModels\GameVVMs\ListGamesViewModel.cs" />
-    <Compile Include="ViewModels\GeoMapViewModel.cs" />
+    <Compile Include="ViewModels\InGameMapViewModel.cs" />
     <Compile Include="ViewModels\MainAppPivotViewModel.cs" />
     <Compile Include="ViewModels\UserAccessPivotViewModel.cs" />
     <Compile Include="ViewModels\UserLoginViewModel.cs" />
@@ -163,17 +160,11 @@
     <Compile Include="Views\CharacterView.xaml.cs">
       <DependentUpon>CharacterView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\GameMapVVMs\EditGameMapView.xaml.cs">
-      <DependentUpon>EditGameMapView.xaml</DependentUpon>
+    <Compile Include="Views\GamesListScreenView.xaml.cs">
+      <DependentUpon>GamesListScreenView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\GameMapVVMs\ListGameMapsView.xaml.cs">
-      <DependentUpon>ListGameMapsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\GameMapVVMs\SearchGameMapView.xaml.cs">
-      <DependentUpon>SearchGameMapView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\GameMapVVMs\ShowGameMapView.xaml.cs">
-      <DependentUpon>ShowGameMapView.xaml</DependentUpon>
+    <Compile Include="Views\GamesListView.xaml.cs">
+      <DependentUpon>GamesListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GameVVMs\CreateGameView.xaml.cs">
       <DependentUpon>CreateGameView.xaml</DependentUpon>
@@ -196,6 +187,9 @@
     <Compile Include="Views\GameVVMs\GameFieldsView.xaml.cs">
       <DependentUpon>GameFieldsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\GamesListAppBarView.xaml.cs">
+      <DependentUpon>GamesListAppBarView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\GameVVMs\SearchGameView.xaml.cs">
       <DependentUpon>SearchGameView.xaml</DependentUpon>
     </Compile>
@@ -211,8 +205,8 @@
     <Compile Include="Views\GameVVMs\ListGamesView.xaml.cs">
       <DependentUpon>ListGamesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\GeoMapView.xaml.cs">
-      <DependentUpon>GeoMapView.xaml</DependentUpon>
+    <Compile Include="Views\InGameMapView.xaml.cs">
+      <DependentUpon>InGameMapView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainAppPivotView.xaml.cs">
       <DependentUpon>MainAppPivotView.xaml</DependentUpon>
@@ -325,19 +319,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\GameMapVVMs\EditGameMapView.xaml">
+    <Page Include="Views\GamesListScreenView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\GameMapVVMs\ListGameMapsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\GameMapVVMs\SearchGameMapView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\GameMapVVMs\ShowGameMapView.xaml">
+    <Page Include="Views\GamesListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -369,6 +355,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\GamesListAppBarView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\GameVVMs\SearchGameView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -389,7 +379,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\GeoMapView.xaml">
+    <Page Include="Views\InGameMapView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

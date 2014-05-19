@@ -1,38 +1,36 @@
-﻿namespace CaptureTheFlag.ViewModels.GameVVMs
-{
-    using Caliburn.Micro;
-    using CaptureTheFlag.Models;
-    using CaptureTheFlag.Services;
-    using Microsoft.Phone.Notification;
-    using RestSharp;
-    using System;
-    using System.Device.Location;
-    using System.IO;
-    using System.Linq;
-    using System.Reflection;
-    using System.Windows;
-    using System.Windows.Threading;
+﻿using Caliburn.Micro;
+using CaptureTheFlag.Messages;
+using CaptureTheFlag.Models;
+using CaptureTheFlag.Services;
+using CaptureTheFlag.ViewModels.GameVVMs;
+using RestSharp;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
 
-    public class ListGamesViewModel : Screen
+namespace CaptureTheFlag.ViewModels
+{
+    public class GamesListAppBarViewModel : Screen, IHandle<PreGame> //TODO: RequestAction with Tap, Click ect. param
     {
         private readonly INavigationService navigationService;
+        private readonly IEventAggregator eventAggregator;
         private readonly CommunicationService communicationService;
-        private readonly LocationService locationService; //TODO: move
         private readonly GlobalStorageService globalStorageService;
         private RestRequestAsyncHandle requestHandle;// TODO: implement abort
 
-        public ListGamesViewModel(INavigationService navigationService, CommunicationService communicationService, GlobalStorageService globalStorageService, LocationService locationService)
+        public GamesListAppBarViewModel(INavigationService navigationService, CommunicationService communicationService, GlobalStorageService globalStorageService, IEventAggregator eventAggregator)
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             this.navigationService = navigationService;
             this.communicationService = communicationService;
-            this.locationService = locationService;
             this.globalStorageService = globalStorageService;
+            this.eventAggregator = eventAggregator;
 
-            Games = new BindableCollection<PreGame>();
             Authenticator = new Authenticator();
-
-            DisplayName = "Games";
 
             FindAppBarItemText = "find";
             FindIcon = new Uri("/Images/feature.search.png", UriKind.Relative);
@@ -48,10 +46,18 @@
             IsFormAccessible = true;
         }
 
+
+        public void Handle(PreGame message)
+        {
+            SelectedGame = message;
+            ReadGameAction();
+        }
+
         #region Screen states
         protected override void OnActivate()
         {
             base.OnActivate();
+            eventAggregator.Subscribe(this);
             Authenticator = globalStorageService.Current.Authenticator;
             //if (globalStorageService.Current.Games != null && globalStorageService.Current.Games.Count > 0)
             //{
@@ -62,46 +68,41 @@
             //}
             //else
             //{
-                ListGamesAction();
+            ListGamesAction();
             //}
         }
 
         protected override void OnDeactivate(bool close)
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
-            Games.Clear();
+            //Games.Clear();
+            eventAggregator.Unsubscribe(this);
             base.OnDeactivate(close);
         }
         #endregion
 
         #region Actions
-        public void ListGamesAction()
+        public async void ListGamesAction()
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             IsFormAccessible = false;
             if (Authenticator.IsValid(Authenticator))
             {
-                requestHandle = communicationService.GetAllGames(Authenticator.token,
-                    responseData =>
-                    {
-                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Successful create callback");
-                        Games = responseData;
-                        foreach (PreGame game in Games)
-                        {
-                            if (!globalStorageService.Current.Games.ContainsKey(game.Url))
-                            {
-                                globalStorageService.Current.Games[game.Url] = game;
-                            }
-                        }
-                        IsFormAccessible = true;
-                    },
-                    serverErrorMessage =>
-                    {
-                        DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "Failed create callback");
-                        MessageBox.Show(serverErrorMessage.Code.ToString(), serverErrorMessage.Message, MessageBoxButton.OK);
-                        IsFormAccessible = true;
-                    }
-                );
+
+                IRestResponse response = await communicationService.GetAllGamesAsync(Authenticator.token);
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "READ: {0}", response.Content);
+                    BindableCollection<PreGame> responseListGames = new CommunicationService.JsondotNETDeserializer().Deserialize<BindableCollection<PreGame>>(response);
+                    //globalStorageService.Current.GamesList = responseListGames;
+                    eventAggregator.Publish(responseListGames);
+                }
+                else
+                {
+                    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "{0}", response.StatusDescription);
+                    //TODO: new CommunicationService.JsondotNETDeserializer().Deserialize<ItemErrorType>(response);
+                }
+                IsFormAccessible = true;
             }
         }
         public void ReadGameAction()
@@ -124,6 +125,12 @@
             }
         }
 
+        public void RefreshGameAction()
+        {
+            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
+            ListGamesAction();
+        }
+
         public void FindGameAction()
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
@@ -135,18 +142,6 @@
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             navigationService.UriFor<CreateGameViewModel>().Navigate();
         }
-
-        public void RefreshGameAction()
-        {
-            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
-            ListGamesAction();
-        }
-
-        //public void CharactersAction()
-        //{
-        //    DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
-        //    navigationService.UriFor<CharacterViewModel>().Navigate();
-        //}
 
         public void ProfileAction()
         {

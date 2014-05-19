@@ -4,7 +4,7 @@ using System.IO;
 using System.Windows;
 namespace CaptureTheFlag.Services
 {
-    public class PushNotificationService : IPushNotificationService
+    public class PushNotificationService
     {
         private HttpNotificationChannel pushChannel = null;
 

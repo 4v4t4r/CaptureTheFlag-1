@@ -20,7 +20,7 @@ using RestSharpEx;
 
 namespace CaptureTheFlag.Services
 {
-    public class CommunicationService : ICommunicationService
+    public class CommunicationService
     {
         //TODO: Do the same for Serialization
         //TODO: Move to own file
@@ -31,7 +31,7 @@ namespace CaptureTheFlag.Services
             {
                 try
                 {
-                    return JsonConvert.DeserializeObject<T>(response.Content);
+                    return JsonConvert.DeserializeObject<T>(response.Content, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
                 }
                 catch(Exception)
                 {
@@ -89,7 +89,7 @@ namespace CaptureTheFlag.Services
             return client.ExecuteTaskAsync(request);
         }
 
-        private Task<IRestResponse> GetAsync<T>(string token, string url, T model)
+        private Task<IRestResponse> GetAsync<T>(string token, string url)
         {
             RestRequest request = new RestRequest(url, Method.GET);
             request.AddHeader("Accept", "application/json");
@@ -100,7 +100,12 @@ namespace CaptureTheFlag.Services
 
         public Task<IRestResponse> GetGameAsync(string token, PreGame game)
         {
-            return GetAsync<PreGame>(token, new Uri(game.Url).PathAndQuery, game);
+            return GetAsync<PreGame>(token, new Uri(game.Url).PathAndQuery);
+        }
+
+        public Task<IRestResponse> GetAllGamesAsync(string token)
+        {
+            return GetAsync<BindableCollection<PreGame>>(token, "/api/games/");
         }
 
         public Task<IRestResponse> DeleteGameAsync(string token, PreGame game)
@@ -121,6 +126,11 @@ namespace CaptureTheFlag.Services
         public Task<IRestResponse> PatchGameAsync(string token, PreGame game)
         {
             return PatchAsync<PreGame>(token, new Uri(game.Url).PathAndQuery, game);
+        }
+
+        public Task<IRestResponse> RegisterPlayersPositionAsync(string token, PreGame preGame, GeoCoordinate loaction)
+        {
+            return PostAsync<object>(token, new Uri(preGame.Url).PathAndQuery + "location/", new { lat = loaction.Latitude, lon = loaction.Longitude });
         }
 
         //TODO: reimplement if needed

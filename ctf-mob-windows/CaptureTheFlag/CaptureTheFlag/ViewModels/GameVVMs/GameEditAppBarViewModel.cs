@@ -5,19 +5,20 @@ using CaptureTheFlag.Services;
 using RestSharp;
 using System;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace CaptureTheFlag.ViewModels.GameVVMs
 {
-    public class GameEditAppBarViewModel : Screen, IHandle<GameModelMessage>
+    public class GameEditAppBarViewModel : Screen, IHandle<PublishModelResponse<PreGame>>
     {
         private readonly INavigationService navigationService;
-        private readonly ICommunicationService communicationService;
-        private readonly IGlobalStorageService globalStorageService;
+        private readonly CommunicationService communicationService;
+        private readonly GlobalStorageService globalStorageService;
         private readonly IEventAggregator eventAggregator;
         private RestRequestAsyncHandle requestHandle;// TODO: implement abort
 
-        public GameEditAppBarViewModel(INavigationService navigationService, ICommunicationService communicationService, IGlobalStorageService globalStorageService, IEventAggregator eventAggregator)
+        public GameEditAppBarViewModel(INavigationService navigationService, CommunicationService communicationService, GlobalStorageService globalStorageService, IEventAggregator eventAggregator)
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "");
             this.navigationService = navigationService;
@@ -44,6 +45,7 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
             base.OnActivate();
             eventAggregator.Subscribe(this);
             Authenticator = globalStorageService.Current.Authenticator;
+            ReadAction();
         }
 
         protected override void OnDeactivate(bool close)
@@ -55,43 +57,54 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
         #endregion
 
         #region Message handling
-        public void Handle(GameModelMessage message)
+        public void Handle(PublishModelResponse<PreGame> message)
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
-            GameModelKey = message.GameModelKey;
-            switch (message.Status)
+            if (message.SenderId == this.GetHashCode())
             {
-                case GameModelMessage.STATUS.SHOULD_GET:
-                    if (!String.IsNullOrEmpty(GameModelKey) && !globalStorageService.Current.Games.ContainsKey(GameModelKey))
-                    {
-                        ReadAction();
-                    }
-                    else
-                    {
-                        eventAggregator.Publish(new GameModelMessage() { GameModelKey = GameModelKey, Status = ModelMessage.STATUS.IN_STORAGE });
-                    }
-                    break;
-                case GameModelMessage.STATUS.UPDATED:
-                    PatchGameAction();
-                    break;
+                message.Action(message.Model);
             }
         }
         #endregion
 
         #region Actions
-        public async void ReadAction()
+        public void ReadAction()
+        {
+            PublishModelRequest<PreGame> message = new PublishModelRequest<PreGame>(this, this.GetPreGame);
+            eventAggregator.Publish(message);
+        }
+
+        public void DeleteAction()
+        {
+            PublishModelRequest<PreGame> message = new PublishModelRequest<PreGame>(this, this.DeletePreGame);
+            eventAggregator.Publish(message);
+        }
+
+        public void UpdateAction()
+        {
+            PublishModelRequest<PreGame> message = new PublishModelRequest<PreGame>(this, this.PatchPreGame);
+            eventAggregator.Publish(message);
+        }
+
+        public void StartGameAction()
+        {
+            PublishModelRequest<PreGame> message = new PublishModelRequest<PreGame>(this, this.StartGame);
+            eventAggregator.Publish(message);
+        }
+
+
+        public async void GetPreGame(PreGame game)
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             IsFormAccessible = false;
             if (Authenticator.IsValid(Authenticator))
             {
-                IRestResponse response = await communicationService.GetGameAsync(Authenticator.token, new PreGame() { Url = GameModelKey });
+                IRestResponse response = await communicationService.GetGameAsync(Authenticator.token, game);
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "READ: {0}", response.Content);
                     PreGame responseGame = new CommunicationService.JsondotNETDeserializer().Deserialize<PreGame>(response);
-                    globalStorageService.Current.Games[responseGame.Url] = responseGame;
-                    eventAggregator.Publish(new GameModelMessage() { GameModelKey = responseGame.Url, Status = ModelMessage.STATUS.IN_STORAGE });
+                    eventAggregator.Publish(responseGame);
                 }
                 else
                 {
@@ -102,20 +115,17 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
             }
         }
 
-        public async void DeleteAction()
+        public async void DeletePreGame(PreGame game)
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             IsFormAccessible = false;
             if (Authenticator.IsValid(Authenticator))
             {
-                IRestResponse response = await communicationService.DeleteGameAsync(Authenticator.token, new PreGame() { Url = GameModelKey });
+                IRestResponse response = await communicationService.DeleteGameAsync(Authenticator.token, game);
                 if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
                 {
                     DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "DELETED: {0}", response.Content);
                     PreGame responseGame = new CommunicationService.JsondotNETDeserializer().Deserialize<PreGame>(response);
-                    globalStorageService.Current.Games.Remove(GameModelKey);
-                    eventAggregator.Publish(new GameModelMessage() { GameModelKey = GameModelKey, Status = ModelMessage.STATUS.DELETED });
-                    GameModelKey = null;
                     if (navigationService.CanGoBack)
                     {
                         navigationService.GoBack();
@@ -132,17 +142,18 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
             }
         }
 
-        public async void PatchGameAction()
+        public async void PatchPreGame(PreGame game)
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             IsFormAccessible = false;
             if (Authenticator.IsValid(Authenticator))
             {
-                PreGame patchGame = globalStorageService.Current.Games[GameModelKey]; //TODO: selective fields
-                IRestResponse response = await communicationService.PatchGameAsync(Authenticator.token, patchGame);
+                IRestResponse response = await communicationService.PatchGameAsync(Authenticator.token, game);
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "{0}", response.StatusDescription);
+                    PreGame responseGame = new CommunicationService.JsondotNETDeserializer().Deserialize<PreGame>(response);
+                    eventAggregator.Publish(responseGame); //Not necessary?
                     MessageBox.Show("OK", "updated", MessageBoxButton.OK);
                 }
                 else
@@ -154,18 +165,13 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
             }
         }
 
-        public void StartGameAction()
+        public void StartGame(PreGame game)
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             navigationService
-                .UriFor<GeoMapViewModel>()
+                .UriFor<InGameMapViewModel>()
+                .WithParam(param => param.GameModelKey, game.Url)
                 .Navigate();
-        }
-
-        public void UpdateAction()
-        {
-            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
-            eventAggregator.Publish(new GameModelMessage() { GameModelKey = GameModelKey, Status = ModelMessage.STATUS.UPDATE });
         }
         #endregion
 
@@ -181,20 +187,6 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
                 {
                     authenticator = value;
                     NotifyOfPropertyChange(() => Authenticator);
-                }
-            }
-        }
-
-        private string gameModelKey;
-        public string GameModelKey
-        {
-            get { return gameModelKey; }
-            set
-            {
-                if (gameModelKey != value)
-                {
-                    gameModelKey = value;
-                    NotifyOfPropertyChange(() => GameModelKey);
                 }
             }
         }

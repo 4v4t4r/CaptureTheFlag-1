@@ -1,0 +1,33 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="CaptureTheFlag.Views.GameVVMs.GameCreateScreenView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:game="clr-namespace:CaptureTheFlag.Views.GameVVMs"
+    xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True">
+
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="12,17,0,28">
+            <TextBlock Text="CAPTURE THE FLAG" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <TextBlock x:Name="DisplayName" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle2Style}"/>
+        </StackPanel>
+
+        <game:GameFieldsView Grid.Row="1" DataContext="{Binding GameFieldsViewModel}" cal:Bind.Model="{Binding}"/>
+        <game:GameCreateAppBarView Grid.Row="2" DataContext="{Binding GameCreateAppBarViewModel}" cal:Bind.Model="{Binding}"/>
+    </Grid>
+</phone:PhoneApplicationPage>

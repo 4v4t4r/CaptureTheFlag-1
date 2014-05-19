@@ -2,6 +2,7 @@
 {
     using Caliburn.Micro;
     using CaptureTheFlag.Messages;
+    using CaptureTheFlag.Models;
     using System.Reflection;
 
     public class GameEditScreenViewModel : PreGameBaseScreenViewModel
@@ -22,13 +23,7 @@
             base.OnInitialize();
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "");
             Items.Add(gameEditAppBarViewModel);
-        }
-
-        protected override void OnActivate()
-        {
-            base.OnActivate();
-            DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "");
-            eventAggregator.Publish(new GameModelMessage() { GameModelKey = GameModelKey, Status = ModelMessage.STATUS.SHOULD_GET });
+            GameFieldsViewModel.Game.Url = GameModelKey;
         }
 
         public GameEditAppBarViewModel GameEditAppBarViewModel

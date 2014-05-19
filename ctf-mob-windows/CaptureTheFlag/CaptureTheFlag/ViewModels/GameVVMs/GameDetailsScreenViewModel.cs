@@ -21,13 +21,15 @@
             base.OnInitialize();
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "");
             Items.Add(gameDetailsAppBarViewModel);
+
+            
         }
 
         protected override void OnActivate()
         {
             base.OnActivate();
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "");
-            base.eventAggregator.Publish(new GameModelMessage() { GameModelKey = GameModelKey, Status = ModelMessage.STATUS.SHOULD_GET });
+            //base.eventAggregator.Publish(new GameModelMessage() { GameModelKey = GameModelKey, Status = ModelMessage.STATUS.SHOULD_GET });
         }
 
         public GameDetailsAppBarViewModel GameDetailsAppBarViewModel

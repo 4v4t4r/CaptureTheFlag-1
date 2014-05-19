@@ -15,9 +15,9 @@ namespace CaptureTheFlag.ViewModels
     {
         private readonly INavigationService navigationService;
         private readonly IEventAggregator eventAggregator;
-        private readonly ICommunicationService communicationService;
+        private readonly CommunicationService communicationService;
 
-        public GameItemViewModel(INavigationService navigationService, IEventAggregator eventAggregator, ILocationService locationService, ICommunicationService communicationService)
+        public GameItemViewModel(INavigationService navigationService, IEventAggregator eventAggregator, LocationService locationService, CommunicationService communicationService)
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             this.navigationService = navigationService;

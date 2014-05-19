@@ -14,10 +14,10 @@
         private readonly UserRegistrationViewModel userRegistrationViewModel;
         private readonly IEventAggregator eventAggregator;
         private readonly INavigationService navigationService;
-        private readonly IGlobalStorageService globalStorageService;
+        private readonly GlobalStorageService globalStorageService;
         ICollection<IScreen> allItems;
 
-        public UserAccessPivotViewModel(IEventAggregator eventAggregator, UserLoginViewModel userLoginModelView, UserRegistrationViewModel userRegistrationViewModel, INavigationService navigationService, IGlobalStorageService globalStorageService)
+        public UserAccessPivotViewModel(IEventAggregator eventAggregator, UserLoginViewModel userLoginModelView, UserRegistrationViewModel userRegistrationViewModel, INavigationService navigationService, GlobalStorageService globalStorageService)
         {
             this.eventAggregator = eventAggregator;
             this.navigationService = navigationService;
@@ -52,7 +52,7 @@
             if (Authenticator.IsValid(authenticatorStored))
             {
                 navigationService
-                    .UriFor<MainAppPivotViewModel>()
+                    .UriFor<GamesListScreenViewModel>()
                     .Navigate();
                 navigationService.RemoveBackEntry();
             }

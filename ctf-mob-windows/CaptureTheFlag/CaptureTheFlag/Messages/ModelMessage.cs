@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Caliburn.Micro;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,9 @@ namespace CaptureTheFlag.Messages
             DELETED = 3,
             UPDATED = 4
         }
+
+        public BindableCollection<string> keys;
+
 
         private STATUS status;
         public STATUS Status

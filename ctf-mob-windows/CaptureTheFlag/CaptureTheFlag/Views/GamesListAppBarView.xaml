@@ -1,0 +1,50 @@
+﻿<UserControl
+    x:Class="CaptureTheFlag.Views.GamesListAppBarView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+    xmlns:bab="clr-namespace:Caliburn.Micro.BindableAppBar;assembly=Caliburn.Micro.BindableAppBar"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True">
+
+    <bab:BindableAppBar>
+        <bab:BindableAppBarButton x:Name="FindGameAction"
+                                  Text="{Binding FindAppBarItemText}"
+                                  IconUri="{Binding FindIcon}"
+                                  IsEnabled="{Binding IsFormAccessible}"
+                                      />
+
+        <bab:BindableAppBarButton x:Name="CreateGameAction"
+                                  Text="{Binding CreateAppBarItemText}"
+                                  IconUri="{Binding CreateIcon}"
+                                  IsEnabled="{Binding IsFormAccessible}"
+                                      />
+
+        <bab:BindableAppBarButton x:Name="RefreshGameAction"
+                                  Text="{Binding RefreshAppBarItemText}"
+                                  IconUri="{Binding RefreshIcon}"
+                                  IsEnabled="{Binding IsFormAccessible}"
+                                      />
+
+        <!--<bab:BindableAppBarMenuItem x:Name="CharactersAction"
+                                        Text="{Binding CharactersAppBarMenuItemText}"
+                                        IsEnabled="{Binding IsFormAccessible}"
+                                        />-->
+        <bab:BindableAppBarMenuItem x:Name="ProfileAction"
+                                        Text="{Binding ProfileAppBarMenuItemText}"
+                                        IsEnabled="{Binding IsFormAccessible}"
+                                        />
+        <bab:BindableAppBarMenuItem x:Name="SettingsAction"
+                                        Text="{Binding SettingsAppBarMenuItemText}"
+                                        IsEnabled="{Binding IsFormAccessible}"
+                                        />
+    </bab:BindableAppBar>
+</UserControl>

@@ -13,11 +13,11 @@
     public class CreateGameViewModel : Screen
     {
         private readonly INavigationService navigationService;
-        private readonly ICommunicationService communicationService;
-        private readonly IGlobalStorageService globalStorageService;
+        private readonly CommunicationService communicationService;
+        private readonly GlobalStorageService globalStorageService;
         private RestRequestAsyncHandle requestHandle;// TODO: implement abort
 
-        public CreateGameViewModel(INavigationService navigationService, ICommunicationService communicationService, IGlobalStorageService globalStorageService)
+        public CreateGameViewModel(INavigationService navigationService, CommunicationService communicationService, GlobalStorageService globalStorageService)
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "");
             this.navigationService = navigationService;
@@ -104,7 +104,9 @@
                                 return;
                             }
                         }
-                        PreGame patchGame = new PreGame() { Url = Game.Url, Items = Game.Items };
+                        BindableCollection<string> players = new BindableCollection<string>();
+                        players.Add(Authenticator.user);
+                        PreGame patchGame = new PreGame() { Url = Game.Url, Items = Game.Items, Players = players };
                         response = await communicationService.PatchGameAsync(Authenticator.token, patchGame);
                         if (response.StatusCode == System.Net.HttpStatusCode.OK)
                         {

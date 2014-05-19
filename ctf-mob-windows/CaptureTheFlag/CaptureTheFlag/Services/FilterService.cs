@@ -15,7 +15,7 @@ using Windows.System.Threading;
 
 namespace CaptureTheFlag.Services
 {
-    public class FilterService : IFilterService //TODO: Refactor, check for errors, nulls in property
+    public class FilterService //TODO: Refactor, check for errors, nulls in property
     {
         public CancellationTokenSource cancelSource;
         public Task<BindableCollection<T>> FilterCollectionAsync<T>(BindableCollection<T> sourceCollection, Expression<Func<string>> property, Regex regex)

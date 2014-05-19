@@ -25,10 +25,14 @@ namespace CaptureTheFlag.Models
         public GeoCoordinate Position { 
             get
             {
-                return new GeoCoordinate(location.Latitude, location.Longitude);
+                return new GeoCoordinate(location.Latitude, location.Longitude, 0.0);
             }
             set
             {
+                if(location == null)
+                {
+                    location = new Location();
+                }
                 location.Latitude = value.Latitude;
                 location.Longitude = value.Longitude;
                 NotifyOfPropertyChange(() => Position);

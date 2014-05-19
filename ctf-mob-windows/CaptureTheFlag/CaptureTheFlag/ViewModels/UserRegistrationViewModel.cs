@@ -11,12 +11,12 @@
     public class UserRegistrationViewModel : Screen
     {
         private readonly INavigationService navigationService;
-        private readonly ICommunicationService communicationService;
+        private readonly CommunicationService communicationService;
         private readonly IEventAggregator eventAggregator;
-        private readonly IGlobalStorageService globalStorageService;
+        private readonly GlobalStorageService globalStorageService;
         private RestRequestAsyncHandle requestHandle; ///TODO: Use requestHandle to abort when neccessary
 
-        public UserRegistrationViewModel(INavigationService navigationService, ICommunicationService communicationService, IEventAggregator eventAggregator, IGlobalStorageService globalStorageService)
+        public UserRegistrationViewModel(INavigationService navigationService, CommunicationService communicationService, IEventAggregator eventAggregator, GlobalStorageService globalStorageService)
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             this.navigationService = navigationService;

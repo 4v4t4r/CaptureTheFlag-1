@@ -1,5 +1,5 @@
 ﻿<phone:PhoneApplicationPage
-    x:Class="CaptureTheFlag.Views.GeoMapView"
+    x:Class="CaptureTheFlag.Views.InGameMapView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
@@ -19,9 +19,39 @@
     shell:SystemTray.IsVisible="True">
 
     <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="150"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
 
-        <maps:Map ZoomLevel="{Binding ZoomLevel, Mode=TwoWay}"
-                  Center="{Binding Path=Map.Center, Mode=TwoWay}"
+            <StackPanel Grid.Column="1">
+                <TextBlock FontSize="37" x:Name="InGame_GameStatus_Status" />
+                <TextBlock FontSize="37" x:Name="InGame_GameStatus_TimeToEnd" />
+            </StackPanel>
+            
+            <StackPanel Grid.Column="0">
+                <TextBlock x:Name="RedTeamScoreText" Text="RedTeamScore"/>
+                <TextBlock FontSize="54" TextAlignment="Center" x:Name="InGame_GameStatus_RedTeamPoints" />
+            </StackPanel>
+
+            <StackPanel Grid.Column="2">
+                <TextBlock x:Name="BlueTeamScoreTextBlockText" Text="BlueTeamScore"/>
+                <TextBlock FontSize="54" TextAlignment="Center" x:Name="InGame_GameStatus_BlueTeamPoints" />
+            </StackPanel>
+        </Grid>
+        
+        
+        <maps:Map Grid.Row="1"
+                  ZoomLevel="{Binding ZoomLevel, Mode=TwoWay}"
+                  Center="{Binding GeoMapCenter, Mode=TwoWay}"
                   dp:MapChildControlDependency.ItemsSource="{Binding Path=Markers, Mode=TwoWay}"
                   >
             
@@ -32,30 +62,30 @@
                             <maptk:MapChildControl GeoCoordinate="{Binding Position}" Visibility="Visible" PositionOrigin="0.5, 0.5">
                                 <maptk:MapChildControl.Content>
                                     <Border  BorderBrush="#FF0000" BorderThickness="5">
-                                    <Grid>
-                                        <Image Grid.Column="0" Grid.Row="0" Height="{Binding Path=Image.Height}" Width="{Binding Path=Image.Width}" Source="{Binding Path=Image.Source}" Canvas.ZIndex="100"/>
-                                        <Ellipse Grid.Column="0" Grid.Row="0" Height="75" Width="75" Fill="Blue" Opacity="0.5"  Canvas.ZIndex="99"/>
-                                        <Ellipse Grid.Column="0" Grid.Row="0" Height="150" Width="150" Fill="Green" Opacity="0.5"  Canvas.ZIndex="98"/>
-                                    </Grid>
-                                        </Border>
+                                        <Grid>
+                                            <Image Grid.Column="0" Grid.Row="0" Height="{Binding Path=Image.Height}" Width="{Binding Path=Image.Width}" Source="{Binding Path=Image.Source}" Canvas.ZIndex="100"/>
+                                            <!--<Ellipse Grid.Column="0" Grid.Row="0" Height="75" Width="75" Fill="Blue" Opacity="0.5"  Canvas.ZIndex="99"/>
+                                            <Ellipse Grid.Column="0" Grid.Row="0" Height="150" Width="150" Fill="Green" Opacity="0.5"  Canvas.ZIndex="98"/>-->
+                                        </Grid>
+                                    </Border>
                                 </maptk:MapChildControl.Content>
                             </maptk:MapChildControl>
                         </DataTemplate>
                     </maptk:MapItemsControl.ItemTemplate>
                 </maptk:MapItemsControl>
 
-                <maptk:MapChildControl PositionOrigin="0.5,0.5" GeoCoordinate="{Binding MapCenter}" Visibility="Visible">
+                <maptk:MapChildControl PositionOrigin="0.5,0.5" GeoCoordinate="{Binding GameMapCenter}" Visibility="Visible">
                     <maptk:MapChildControl.Content>
                         <Ellipse Height="{Binding Path=Area.Height}" Width="{Binding Path=Area.Width}" Fill="{Binding Path=Area.Fill}" Opacity="{Binding Path=Area.Opacity}"/>  
                     </maptk:MapChildControl.Content>
                 </maptk:MapChildControl>
 
-                <maptk:UserLocationMarker GeoCoordinate="{Binding MapCenter, Mode=TwoWay}" Visibility="Visible"/>
+                <maptk:UserLocationMarker GeoCoordinate="{Binding PlayersPosition, Mode=TwoWay}" Visibility="Visible"/>
             </maptk:MapExtensions.Children>
 
         </maps:Map>
 
-        <bab:BindableAppBar>
+        <bab:BindableAppBar Grid.Row="2">
             <bab:BindableAppBarButton x:Name="RefreshAction"
                                   Text="{Binding RefreshAppBarItemText}"
                                   IconUri="{Binding RefreshIcon}"

@@ -14,11 +14,11 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
     public class BaseGameViewModel : Screen
     {
         protected readonly INavigationService navigationService;
-        protected readonly ICommunicationService communicationService;
-        protected readonly IGlobalStorageService globalStorageService;
+        protected readonly CommunicationService communicationService;
+        protected readonly GlobalStorageService globalStorageService;
         protected RestRequestAsyncHandle requestHandle;// TODO: implement abort
 
-        public BaseGameViewModel(INavigationService navigationService, ICommunicationService communicationService, IGlobalStorageService globalStorageService)
+        public BaseGameViewModel(INavigationService navigationService, CommunicationService communicationService, GlobalStorageService globalStorageService)
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             this.navigationService = navigationService;

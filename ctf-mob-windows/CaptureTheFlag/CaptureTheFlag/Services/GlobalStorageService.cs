@@ -44,7 +44,7 @@ namespace CaptureTheFlag.Services
         }
     }
 
-    public class GlobalStorageService : IGlobalStorageService
+    public class GlobalStorageService
     {
         private GlobalStorageService _current;
         public GlobalStorageService Current
@@ -109,6 +109,19 @@ namespace CaptureTheFlag.Services
                 if (items != value)
                 {
                     items = value;
+                }
+            }
+        }
+
+        private BindableCollection<PreGame> gamesList;
+        public BindableCollection<PreGame> GamesList
+        {
+            get { return gamesList; }
+            set
+            {
+                if (gamesList != value)
+                {
+                    gamesList = value;
                 }
             }
         }

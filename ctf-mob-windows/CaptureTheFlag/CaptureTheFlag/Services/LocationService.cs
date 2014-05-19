@@ -11,33 +11,59 @@ using Windows.Devices.Geolocation;
 
 namespace CaptureTheFlag.Services
 {
-    public class LocationService : ILocationService
+    public class LocationService
     {
 
-        public async Task<Geoposition> getCurrentLocationAsync()
+        public async Task<GeoCoordinate> getCurrentLocationAsync()
         {
             Geolocator geolocator = new Geolocator();
-            geolocator.DesiredAccuracyInMeters = 50;
+            geolocator.DesiredAccuracyInMeters = 1;
             Geoposition geoposition = await geolocator.GetGeopositionAsync(
                 maximumAge: TimeSpan.FromMinutes(5),
                 timeout: TimeSpan.FromSeconds(10)
                 );
-            return geoposition;
+            return ConvertGeocoordinate(geoposition.Coordinate);
         }
 
         public Task<GeoCoordinate> getCurrentGeoCoordinateAsync()
         {
+            if (Watcher == null)
+            {
+                Watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.High);
+                Watcher.Start();
+            }
+            if ( !(Watcher.Permission == GeoPositionPermission.Granted) )
+            {
+                System.Diagnostics.Debug.WriteLine("Permission denied for location");
+            }
+            switch (Watcher.Status)
+            {
+                case GeoPositionStatus.Initializing:
+                    System.Diagnostics.Debug.WriteLine("Working on location fix");
+                    break;
+
+                case GeoPositionStatus.Ready:
+                    System.Diagnostics.Debug.WriteLine("Have location");
+                    break;
+
+                case GeoPositionStatus.NoData:
+                    System.Diagnostics.Debug.WriteLine("No data");
+                    break;
+
+                case GeoPositionStatus.Disabled:
+                    System.Diagnostics.Debug.WriteLine("Disabled");
+                    break;
+            }
             return Task<GeoCoordinate>.Run(() =>
                 {
-                    Watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.High);
-                    Watcher.Start();
+                    
                     GeoCoordinate location = Watcher.Position.Location;
-                    Watcher.Stop();
+                    //Watcher.Stop();
                     return location;
                 });
         }
 
-        private GeoCoordinateWatcher watcher;
+        private static GeoCoordinateWatcher watcher;
         public GeoCoordinateWatcher Watcher
         {
             get { return watcher; }
@@ -57,7 +83,7 @@ namespace CaptureTheFlag.Services
             Watcher.Stop();
         }
 
-        public RestRequestAsyncHandle RegisterPositionCommunicationAction(ICommunicationService communicationService, Authenticator authenticator, PreGame game)
+        public RestRequestAsyncHandle RegisterPositionCommunicationAction(CommunicationService communicationService, Authenticator authenticator, PreGame game)
         {
             RestRequestAsyncHandle requestHandle = null;
             //TODO: Response object model

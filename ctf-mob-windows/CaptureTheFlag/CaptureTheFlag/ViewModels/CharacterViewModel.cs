@@ -16,9 +16,9 @@ namespace CaptureTheFlag.ViewModels
     {
         private readonly INavigationService navigationService;
         private readonly IEventAggregator eventAggregator;
-        private readonly ICommunicationService communicationService;
+        private readonly CommunicationService communicationService;
 
-        public CharacterViewModel(INavigationService navigationService, IEventAggregator eventAggregator, ICommunicationService communicationService)
+        public CharacterViewModel(INavigationService navigationService, IEventAggregator eventAggregator, CommunicationService communicationService)
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             this.navigationService = navigationService;
@@ -50,7 +50,7 @@ namespace CaptureTheFlag.ViewModels
             base.OnActivate();
             eventAggregator.Subscribe(this);
             Character.url = CharacterModelKey;
-            Authenticator = IoC.Get<IGlobalStorageService>().Current.Authenticator;
+            Authenticator = IoC.Get<GlobalStorageService>().Current.Authenticator;
             ReadAction();
             //Character = IoC.Get<GlobalStorageService>().Current.Characters[CharacterModelKey];
         }

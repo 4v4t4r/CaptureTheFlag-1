@@ -12,12 +12,12 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
     public class GameDetailsAppBarViewModel : Screen, IHandle<GameModelMessage>
     {
         private readonly INavigationService navigationService;
-        private readonly ICommunicationService communicationService;
-        private readonly IGlobalStorageService globalStorageService;
+        private readonly CommunicationService communicationService;
+        private readonly GlobalStorageService globalStorageService;
         private readonly IEventAggregator eventAggregator;
         private RestRequestAsyncHandle requestHandle;// TODO: implement abort
 
-        public GameDetailsAppBarViewModel(INavigationService navigationService, ICommunicationService communicationService, IGlobalStorageService globalStorageService, IEventAggregator eventAggregator)
+        public GameDetailsAppBarViewModel(INavigationService navigationService, CommunicationService communicationService, GlobalStorageService globalStorageService, IEventAggregator eventAggregator)
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod(), "");
             this.navigationService = navigationService;
@@ -152,7 +152,8 @@ namespace CaptureTheFlag.ViewModels.GameVVMs
         {
             DebugLogger.WriteLine(this.GetType(), MethodBase.GetCurrentMethod());
             navigationService
-                .UriFor<GeoMapViewModel>()
+                .UriFor<InGameMapViewModel>()
+                .WithParam(param => param.GameModelKey, GameModelKey)
                 .Navigate();
         }
         #endregion

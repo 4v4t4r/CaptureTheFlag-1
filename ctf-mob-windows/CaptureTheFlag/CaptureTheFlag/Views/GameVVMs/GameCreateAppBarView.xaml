@@ -1,0 +1,29 @@
+﻿<UserControl
+    x:Class="CaptureTheFlag.Views.GameVVMs.GameCreateAppBarView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+    xmlns:bab="clr-namespace:Caliburn.Micro.BindableAppBar;assembly=Caliburn.Micro.BindableAppBar"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True">
+
+    <bab:BindableAppBar>
+        <bab:BindableAppBarButton x:Name="CreateAction"
+                                      Text="{Binding CreateAppBarItemText}"
+                                      IconUri="{Binding CreateIcon}"
+                                      IsEnabled="{Binding IsFormAccessible}" />
+
+        <bab:BindableAppBarButton x:Name="GameMapAction"
+                                  Text="{Binding GameMapAppBarItemText}"
+                                  IconUri="{Binding GameMapIcon}"
+                                  IsEnabled="{Binding IsFormAccessible}" />
+    </bab:BindableAppBar>
+</UserControl>
