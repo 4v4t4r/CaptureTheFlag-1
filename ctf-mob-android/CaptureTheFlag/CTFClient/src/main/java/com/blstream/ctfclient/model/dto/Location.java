@@ -36,7 +36,15 @@ public class Location {
         return "Location{" +
                 "lat=" + lat +
                 ", lon=" + lon +
-                '}';
+                '}' + toLatLng().toString();
+    }
+
+    public void addToLat(float val) {
+        lat += val;
+    }
+
+    public void addToLon(float val) {
+        lon += val;
     }
 
     public LatLng toLatLng() {

@@ -50,7 +50,7 @@ public class GamesActivity extends CTFBaseActivity implements AdapterView.OnItem
         mJoinButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CTFAddPlayerToGameRequest ctfAddPlayerToGameRequest = new CTFAddPlayerToGameRequest(mGames.get(mSelectedId).getGameId());
+                CTFAddPlayerToGameRequest ctfAddPlayerToGameRequest = new CTFAddPlayerToGameRequest(mGames.get(mSelectedId).getId());
                 getSpiceManager().execute(ctfAddPlayerToGameRequest, ctfAddPlayerToGameRequest.createCacheKey(), DurationInMillis.ONE_MINUTE, new AddPlayerToGameRequestListener());
             }
         });
@@ -140,7 +140,7 @@ public class GamesActivity extends CTFBaseActivity implements AdapterView.OnItem
 
             Intent intent = new Intent(GamesActivity.this, MapActivity.class);
             Game startingGame = mGames.get(mSelectedId);
-            intent.putExtra(EXTRA_GAME_ID, startingGame.getGameId());
+            intent.putExtra(EXTRA_GAME_ID, startingGame.getId());
             startActivity(intent);
         }
     }
