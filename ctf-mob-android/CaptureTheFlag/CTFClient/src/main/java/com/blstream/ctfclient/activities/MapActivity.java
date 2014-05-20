@@ -5,8 +5,6 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,9 +16,12 @@ import android.widget.Toast;
 import com.blstream.ctfclient.CTF;
 import com.blstream.ctfclient.R;
 import com.blstream.ctfclient.model.dto.Game;
+import com.blstream.ctfclient.model.dto.Location;
 import com.blstream.ctfclient.model.dto.Marker;
+import com.blstream.ctfclient.model.dto.User;
 import com.blstream.ctfclient.model.dto.json.RegisterPlayerPositionResponse;
 import com.blstream.ctfclient.network.requests.CTFGetGameRequest;
+import com.blstream.ctfclient.network.requests.CTFGetUserRequest;
 import com.blstream.ctfclient.network.requests.CTFRegisterPlayerPositionRequest;
 import com.blstream.ctfclient.utils.GameBorderTask;
 import com.blstream.ctfclient.utils.UserLocationSimulation;
@@ -31,7 +32,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -39,6 +39,9 @@ import com.google.android.gms.maps.model.PolygonOptions;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Rafał Zadrożny on 1/27/14.
@@ -54,12 +57,11 @@ public class MapActivity extends CTFBaseActivity implements GameBorderTask.OnGam
 
     private GoogleMap mGoogleMap;
     private float mVisibilityRange;
+    private float mActionRange;
     private long mGameId;
-    private Handler mHandler;
-
-    private Circle mCharacterCircle;
+    private ArrayList<com.google.android.gms.maps.model.Marker> mMarkers;
+    private HashMap<String, Integer> mIdToTeamColor;
     private com.google.android.gms.maps.model.Marker mCharacter;
-
     private TextView mGameInfo;
 
     @Override
@@ -78,9 +80,10 @@ public class MapActivity extends CTFBaseActivity implements GameBorderTask.OnGam
             finish();
         }
 
-
         mGameInfo = (TextView) findViewById(R.id.gameInfo);
-        mHandler = new Handler(Looper.getMainLooper());
+
+        mMarkers = new ArrayList<>();
+        mIdToTeamColor = new HashMap<>();
     }
 
     private class RegisterPlayerPositionRequestListener implements RequestListener<RegisterPlayerPositionResponse> {
@@ -94,6 +97,12 @@ public class MapActivity extends CTFBaseActivity implements GameBorderTask.OnGam
             Log.d(TAG, "onRequestSuccess " + response.toString() + " " + response.getMarkers().size());
 
             mGameInfo.setText(response.getGameSummary().toString());
+
+            for (com.google.android.gms.maps.model.Marker marker : mMarkers) {
+                marker.remove();
+            }
+
+            mMarkers.clear();
 
             for (Marker marker : response.getMarkers()) {
                 switch (marker.getType()) {
@@ -114,24 +123,49 @@ public class MapActivity extends CTFBaseActivity implements GameBorderTask.OnGam
                         break;
                     }
                     case PLAYER: {
-                        addCharacter(marker.getLocation().toLatLng(), mVisibilityRange, "Me", "Me", R.drawable.character);
+
+                        long id = marker.getId();
+
+                        if (mIdToTeamColor.containsKey(marker.getUrl())) {
+                            addCharacter(marker.getLocation().toLatLng(), mVisibilityRange, "Me", "Me", mIdToTeamColor.get(marker.getUrl()));
+                        } else {
+                            CTFGetUserRequest getUserRequest = new CTFGetUserRequest(id);
+                            getSpiceManager().execute(getUserRequest, getUserRequest.createCacheKey(), DurationInMillis.ONE_MINUTE, new GetUserRequestListener());
+                        }
+
                         break;
                     }
                 }
-
-                mHandler.removeCallbacksAndMessages(null);
-                mHandler.postDelayed(updateGameRunnable, 1000);
             }
         }
     }
 
-    private final Runnable updateGameRunnable = new Runnable() {
+    private class GetUserRequestListener implements RequestListener<User> {
+
         @Override
-        public void run() {
-            updateGameData();
-            mHandler.postDelayed(this, 1000);
+        public void onRequestFailure(SpiceException spiceException) {
+            Log.d(TAG, "onRequestFailure " + spiceException.getLocalizedMessage());
         }
-    };
+
+        @Override
+        public void onRequestSuccess(User user) {
+            Log.d(TAG, "onRequestSuccess " + user.toString());
+
+            int drawableId = -1;
+            switch (user.getTeam()) {
+                case BLUE_TEAM: {
+                    drawableId = R.drawable.soldier_blue;
+                }
+                break;
+                case RED_TEAM: {
+                    drawableId = R.drawable.soldier_red;
+                }
+                break;
+            }
+
+            mIdToTeamColor.put(user.getUrl(), drawableId);
+        }
+    }
 
     private class GetGameRequestListener implements RequestListener<Game> {
         @Override
@@ -151,6 +185,7 @@ public class MapActivity extends CTFBaseActivity implements GameBorderTask.OnGam
             mUserLocationSimulation = new UserLocationSimulation(response.getLocation());
 
             mVisibilityRange = response.getVisibilityRange();
+            mActionRange = response.getActionRange();
 
             updateGameData();
         }
@@ -159,7 +194,7 @@ public class MapActivity extends CTFBaseActivity implements GameBorderTask.OnGam
     private void updateGameData() {
         mUserLocationSimulation.moveRandom();
 
-        addCharacter(mUserLocationSimulation.getLocation().toLatLng(), mVisibilityRange, "Me", "Me", R.drawable.bubble_orange);
+        addMe(mUserLocationSimulation.getLocation().toLatLng(), mVisibilityRange, "Me", "Me", R.drawable.bubble_orange);
         CTFRegisterPlayerPositionRequest registerPlayerPositionRequest = new CTFRegisterPlayerPositionRequest(mGameId, mUserLocationSimulation.getLocation());
         getSpiceManager().execute(registerPlayerPositionRequest, registerPlayerPositionRequest.createCacheKey(), DurationInMillis.ONE_MINUTE, new RegisterPlayerPositionRequestListener());
     }
@@ -193,6 +228,7 @@ public class MapActivity extends CTFBaseActivity implements GameBorderTask.OnGam
         try {
             if (status != ConnectionResult.SUCCESS) {
                 GooglePlayServicesUtil.getErrorDialog(status, this, RQS_GooglePlayServices).show();
+
             }
         } catch (Exception e) {
             Log.e("Error: GooglePlayServiceUtil: ", "", e);
@@ -223,6 +259,16 @@ public class MapActivity extends CTFBaseActivity implements GameBorderTask.OnGam
             mGoogleMap.getUiSettings().setRotateGesturesEnabled(true);
             mGoogleMap.getUiSettings().setMyLocationButtonEnabled(false);
             mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+            mGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                @Override
+                public void onMapClick(LatLng latLng) {
+
+                    addMe(latLng, mActionRange, "Me", "Me", R.drawable.bubble_orange);
+
+                    CTFRegisterPlayerPositionRequest registerPlayerPositionRequest = new CTFRegisterPlayerPositionRequest(mGameId, new Location(latLng));
+                    getSpiceManager().execute(registerPlayerPositionRequest, registerPlayerPositionRequest.createCacheKey(), DurationInMillis.ONE_MINUTE, new RegisterPlayerPositionRequestListener());
+                }
+            });
 
             CTFGetGameRequest ctfGetGameRequest = new CTFGetGameRequest(mGameId);
             getSpiceManager().execute(ctfGetGameRequest, ctfGetGameRequest.createCacheKey(), DurationInMillis.ONE_MINUTE, new GetGameRequestListener());
@@ -248,14 +294,9 @@ public class MapActivity extends CTFBaseActivity implements GameBorderTask.OnGam
         });
     }
 
-    private void addCharacter(LatLng position, final float rangeOfVisibility, String name, String description, int id) {
-
+    private void addMe(LatLng position, final float rangeOfVisibility, String name, String description, int id) {
         if (mCharacter != null) {
             mCharacter.remove();
-        }
-
-        if (mCharacterCircle != null) {
-            mCharacterCircle.remove();
         }
 
         MarkerOptions characterMarkerOptions = new MarkerOptions()
@@ -267,7 +308,26 @@ public class MapActivity extends CTFBaseActivity implements GameBorderTask.OnGam
                 .icon(BitmapDescriptorFactory.fromResource(id));
 
         mCharacter = mGoogleMap.addMarker(characterMarkerOptions);
-        mCharacterCircle = mGoogleMap.addCircle(new CircleOptions()
+        mGoogleMap.addCircle(new CircleOptions()
+                .center(position)
+                .strokeWidth(4f)
+                .strokeColor(Color.BLUE)
+                .visible(true)
+                .radius(rangeOfVisibility));
+    }
+
+    private void addCharacter(LatLng position, final float rangeOfVisibility, String name, String description, int id) {
+
+        MarkerOptions characterMarkerOptions = new MarkerOptions()
+                .title(name)
+                .snippet(description)
+                .position(position)
+                .anchor(0.5f, 0.5f)
+                .flat(false)
+                .icon(BitmapDescriptorFactory.fromResource(id));
+        mMarkers.add(mGoogleMap.addMarker(characterMarkerOptions));
+
+        mGoogleMap.addCircle(new CircleOptions()
                 .center(position)
                 .strokeWidth(4f)
                 .strokeColor(Color.BLUE)
@@ -309,7 +369,7 @@ public class MapActivity extends CTFBaseActivity implements GameBorderTask.OnGam
                 .position(position)
                 .anchor(0.5f, 0.5f)
                 .icon(BitmapDescriptorFactory.fromResource(iconID));
-        mGoogleMap.addMarker(myMarkerOptions);
+        mMarkers.add(mGoogleMap.addMarker(myMarkerOptions));
     }
 
     public float getZoomLevel(int radius) {

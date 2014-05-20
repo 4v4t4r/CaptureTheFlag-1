@@ -118,4 +118,20 @@ public class User {
         @SerializedName("1")
         BLUE_TEAM
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "url='" + url + '\'' +
+                ", userName='" + userName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", nick='" + nick + '\'' +
+                ", deviceType=" + deviceType +
+                ", deviceId='" + deviceId + '\'' +
+                ", location=" + location +
+                ", team=" + team +
+                ", currentGameId=" + currentGameId +
+                '}';
+    }
 }
