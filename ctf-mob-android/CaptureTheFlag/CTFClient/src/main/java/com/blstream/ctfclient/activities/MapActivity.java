@@ -24,7 +24,6 @@ import com.blstream.ctfclient.network.requests.CTFGetGameRequest;
 import com.blstream.ctfclient.network.requests.CTFGetUserRequest;
 import com.blstream.ctfclient.network.requests.CTFRegisterPlayerPositionRequest;
 import com.blstream.ctfclient.utils.GameBorderTask;
-import com.blstream.ctfclient.utils.UserLocationSimulation;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -49,7 +48,6 @@ import java.util.HashMap;
 public class MapActivity extends CTFBaseActivity implements GameBorderTask.OnGameBorderTaskListener {
 
     private static final String TAG = MapActivity.class.getSimpleName();
-    private UserLocationSimulation mUserLocationSimulation;
 
     private static final float DEGREES_OF_TILT = 30.0f;
     private static final int ANIMATION_DURATION_MS = 1000;
@@ -182,21 +180,9 @@ public class MapActivity extends CTFBaseActivity implements GameBorderTask.OnGam
             GameBorderTask gameBorderTask = new GameBorderTask(response.getLocation().toLatLng(), response.getRadius(), MapActivity.this);
             gameBorderTask.execute();
 
-            mUserLocationSimulation = new UserLocationSimulation(response.getLocation());
-
             mVisibilityRange = response.getVisibilityRange();
             mActionRange = response.getActionRange();
-
-            updateGameData();
         }
-    }
-
-    private void updateGameData() {
-        mUserLocationSimulation.moveRandom();
-
-        addMe(mUserLocationSimulation.getLocation().toLatLng(), mVisibilityRange, "Me", "Me", R.drawable.bubble_orange);
-        CTFRegisterPlayerPositionRequest registerPlayerPositionRequest = new CTFRegisterPlayerPositionRequest(mGameId, mUserLocationSimulation.getLocation());
-        getSpiceManager().execute(registerPlayerPositionRequest, registerPlayerPositionRequest.createCacheKey(), DurationInMillis.ONE_MINUTE, new RegisterPlayerPositionRequestListener());
     }
 
     @Override

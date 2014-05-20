@@ -39,7 +39,7 @@ public interface GameInterface {
     public void updateFieldInGame(@Path("game_id") long gameId, @Body Game game);
 
     @DELETE(URL_REQUEST + "{game_id}/")
-    public void deleteGame(@Path("game_id") long gameId);
+    public Response deleteGame(@Header("Authorization") String token, @Path("game_id") long gameId);
 
     @POST(URL_REQUEST + "{game_id}/player/")
     public Response addPlayerToGame(@Header("Authorization") String token, @Path("game_id") long gameId);

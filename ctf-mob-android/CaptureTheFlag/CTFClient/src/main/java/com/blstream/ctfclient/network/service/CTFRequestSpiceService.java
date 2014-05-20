@@ -5,6 +5,7 @@ import com.blstream.ctfclient.network.interfaces.GameInterface;
 import com.blstream.ctfclient.network.interfaces.GamesInterface;
 import com.blstream.ctfclient.network.interfaces.RegisterInterface;
 import com.blstream.ctfclient.network.interfaces.TokenInterface;
+import com.blstream.ctfclient.network.interfaces.UserInterface;
 import com.octo.android.robospice.retrofit.RetrofitGsonSpiceService;
 
 /**
@@ -23,6 +24,7 @@ public class CTFRequestSpiceService extends RetrofitGsonSpiceService {
         addRetrofitInterface(TokenInterface.class);
         addRetrofitInterface(GameInterface.class);
         addRetrofitInterface(GamesInterface.class);
+        addRetrofitInterface(UserInterface.class);
     }
 
     @Override

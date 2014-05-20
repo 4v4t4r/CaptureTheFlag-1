@@ -18,6 +18,7 @@ import com.blstream.ctfclient.R;
 import com.blstream.ctfclient.adapters.GameAdapter;
 import com.blstream.ctfclient.model.dto.Game;
 import com.blstream.ctfclient.network.requests.CTFAddPlayerToGameRequest;
+import com.blstream.ctfclient.network.requests.CTFDeleteGameRequest;
 import com.blstream.ctfclient.network.requests.CTFGamesRequest;
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
@@ -35,6 +36,7 @@ public class GamesActivity extends CTFBaseActivity implements AdapterView.OnItem
     private TextView mGameDetails;
     private CTFGamesRequest gamesRequest;
     private Button mJoinButton;
+    private Button mDeleteButton;
     private List<Game> mGames;
     private int mSelectedId;
 
@@ -45,13 +47,33 @@ public class GamesActivity extends CTFBaseActivity implements AdapterView.OnItem
 
         gridView = (GridView) findViewById(R.id.grid_view);
         mGameDetails = (TextView) findViewById(R.id.game_details);
-        mJoinButton = (Button) findViewById(R.id.button);
+        mJoinButton = (Button) findViewById(R.id.joinGame);
+        mDeleteButton = (Button) findViewById(R.id.deleteGame);
 
         mJoinButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CTFAddPlayerToGameRequest ctfAddPlayerToGameRequest = new CTFAddPlayerToGameRequest(mGames.get(mSelectedId).getId());
                 getSpiceManager().execute(ctfAddPlayerToGameRequest, ctfAddPlayerToGameRequest.createCacheKey(), DurationInMillis.ONE_MINUTE, new AddPlayerToGameRequestListener());
+            }
+        });
+
+        mDeleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CTFDeleteGameRequest ctfDeleteGameRequest = new CTFDeleteGameRequest(mGames.get(mSelectedId).getId());
+                getSpiceManager().execute(ctfDeleteGameRequest, ctfDeleteGameRequest.createCacheKey(), DurationInMillis.ONE_MINUTE, new RequestListener<Response>() {
+                    @Override
+                    public void onRequestFailure(SpiceException spiceException) {
+                        Log.e(TAG, "Error", spiceException);
+                    }
+
+                    @Override
+                    public void onRequestSuccess(Response response) {
+                        Log.d(TAG, "onRequestSuccess " + response.getStatus());
+                        getSpiceManager().execute(gamesRequest, gamesRequest.createCacheKey(), DurationInMillis.ONE_MINUTE, new GamesRequestListener());
+                    }
+                });
             }
         });
     }
