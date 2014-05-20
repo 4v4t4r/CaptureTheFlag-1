@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="transparent_black">#99000000</color>
-    <color name="transparent_blue">#440000ff</color>
+    <color name="theme_color">#f00</color>
+    <color name="transparent_theme_color">#44ff0000</color>
 </resources>

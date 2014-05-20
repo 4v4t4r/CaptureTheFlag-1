@@ -13,7 +13,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/transparent_blue"
+        android:background="@color/transparent_theme_color"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:gravity="center"
         android:id="@+id/textView"

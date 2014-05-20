@@ -17,7 +17,9 @@
         android:text="get direction to the flag"/>
 
     <TextView
-        android:id="@+id/distance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:id="@+id/gameInfo"
+        android:gravity="center"
+        android:background="@color/transparent_theme_color"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"/>
 </RelativeLayout>

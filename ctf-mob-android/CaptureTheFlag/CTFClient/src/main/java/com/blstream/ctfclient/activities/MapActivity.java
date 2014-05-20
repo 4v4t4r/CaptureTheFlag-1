@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blstream.ctfclient.CTF;
@@ -49,7 +50,6 @@ public class MapActivity extends CTFBaseActivity implements GameBorderTask.OnGam
 
     private static final float DEGREES_OF_TILT = 30.0f;
     private static final int ANIMATION_DURATION_MS = 1000;
-    private static float CURRENT_ZOOM = 17;
     private final int RQS_GooglePlayServices = 1;
 
     private GoogleMap mGoogleMap;
@@ -59,6 +59,8 @@ public class MapActivity extends CTFBaseActivity implements GameBorderTask.OnGam
 
     private Circle mCharacterCircle;
     private com.google.android.gms.maps.model.Marker mCharacter;
+
+    private TextView mGameInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +78,8 @@ public class MapActivity extends CTFBaseActivity implements GameBorderTask.OnGam
             finish();
         }
 
+
+        mGameInfo = (TextView) findViewById(R.id.gameInfo);
         mHandler = new Handler(Looper.getMainLooper());
     }
 
@@ -89,6 +93,7 @@ public class MapActivity extends CTFBaseActivity implements GameBorderTask.OnGam
         public void onRequestSuccess(RegisterPlayerPositionResponse response) {
             Log.d(TAG, "onRequestSuccess " + response.toString() + " " + response.getMarkers().size());
 
+            mGameInfo.setText(response.getGameSummary().toString());
 
             for (Marker marker : response.getMarkers()) {
                 switch (marker.getType()) {
@@ -138,7 +143,7 @@ public class MapActivity extends CTFBaseActivity implements GameBorderTask.OnGam
         public void onRequestSuccess(Game response) {
             Log.d(TAG, "onRequestSuccess " + response.toString() + " " + response.toString());
 
-            moveCamera(response.getLocation().toLatLng());
+            moveCamera(response.getLocation().toLatLng(), response.getRadius());
 
             GameBorderTask gameBorderTask = new GameBorderTask(response.getLocation().toLatLng(), response.getRadius(), MapActivity.this);
             gameBorderTask.execute();
@@ -286,10 +291,10 @@ public class MapActivity extends CTFBaseActivity implements GameBorderTask.OnGam
         vAnimator.start();*/
     }
 
-    private void moveCamera(LatLng latLng) {
+    private void moveCamera(LatLng latLng, int radius) {
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(latLng)
-                .zoom(CURRENT_ZOOM)
+                .zoom(getZoomLevel(radius))
                 .tilt(DEGREES_OF_TILT)
                 .bearing(mGoogleMap.getCameraPosition().bearing)
                 .build();
@@ -305,6 +310,12 @@ public class MapActivity extends CTFBaseActivity implements GameBorderTask.OnGam
                 .anchor(0.5f, 0.5f)
                 .icon(BitmapDescriptorFactory.fromResource(iconID));
         mGoogleMap.addMarker(myMarkerOptions);
+    }
+
+    public float getZoomLevel(int radius) {
+        double scale = radius / 280.0;
+        float zoomLevel = (float) (17 - Math.log(scale) / Math.log(2));
+        return zoomLevel;
     }
 
     @Override

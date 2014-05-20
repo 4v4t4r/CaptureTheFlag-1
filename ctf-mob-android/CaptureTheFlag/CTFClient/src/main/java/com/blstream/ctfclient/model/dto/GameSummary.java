@@ -18,31 +18,25 @@ public class GameSummary {
         return timeToEnd;
     }
 
-    public void setTimeToEnd(String timeToEnd) {
-        this.timeToEnd = timeToEnd;
-    }
-
     public int getRedTeamPoints() {
         return redTeamPoints;
-    }
-
-    public void setRedTeamPoints(int redTeamPoints) {
-        this.redTeamPoints = redTeamPoints;
     }
 
     public int getBlueTeamPoints() {
         return blueTeamPoints;
     }
 
-    public void setBlueTeamPoints(int blueTeamPoints) {
-        this.blueTeamPoints = blueTeamPoints;
-    }
-
     public int getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    @Override
+    public String toString() {
+        return "GameSummary{" +
+                "redTeamPoints=" + redTeamPoints +
+                ", blueTeamPoints=" + blueTeamPoints +
+                ", status=" + status +
+                ", timeToEnd='" + timeToEnd + '\'' +
+                '}';
     }
 }

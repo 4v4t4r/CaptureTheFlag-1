@@ -19,7 +19,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="5dp"
-        android:background="@color/blue"></View>
+        android:background="@color/theme_color"></View>
 
     <RelativeLayout
         android:layout_weight="1"

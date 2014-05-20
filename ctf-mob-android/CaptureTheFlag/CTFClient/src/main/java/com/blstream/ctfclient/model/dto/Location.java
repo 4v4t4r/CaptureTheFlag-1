@@ -15,6 +15,11 @@ public class Location {
         this.lon = lon;
     }
 
+    public Location(LatLng latLng) {
+        this.lat = (float) latLng.latitude;
+        this.lon = (float) latLng.longitude;
+    }
+
     public float getLat() {
         return lat;
     }
