@@ -3,6 +3,7 @@ package com.blstream.ctfclient.activities;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -34,14 +35,16 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Stack;
 import java.util.TimeZone;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-public class CreateGameActivity extends CTFBaseActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+public class CreateGameActivity extends CTFBaseActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, GoogleMap.OnMapClickListener, GoogleMap.OnMarkerDragListener {
     public static final String DATEPICKER_TAG = "datepicker";
     public static final String TIMEPICKER_TAG = "timepicker";
     private GoogleMap googleMap;
@@ -72,6 +75,12 @@ public class CreateGameActivity extends CTFBaseActivity implements DatePickerDia
     static final int DATE_DIALOG_ID = 0;
     static final int TIME_DIALOG_ID = 1;
 
+    Circle mRadiusCircle;
+    Stack<TempMapItem> mItemsToAdd;
+
+    HashMap<MapItemType, Marker> mMapItemTypeToMarker;
+    HashMap<String, MapItemType> mMarkerIdToType;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,50 +92,137 @@ public class CreateGameActivity extends CTFBaseActivity implements DatePickerDia
         calendar.setTimeZone(TimeZone.getDefault());
         SimpleDateFormat isoFormat = new SimpleDateFormat(CTF.DATE_FORMAT, Locale.getDefault());
 
+        mMapItemTypeToMarker = new HashMap<>();
+        mMarkerIdToType = new HashMap<>();
+
+        fillItemsList();
+
         if (googleMap == null) {
             FragmentManager fragmentManager = getFragmentManager();
             Fragment fragment = fragmentManager.findFragmentById(R.id.map);
             googleMap = ((MapFragment) fragment).getMap();
-            googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                @Override
-                public void onMapClick(LatLng latLng) {
-                    Toast.makeText(getApplicationContext(), "Click: " + latLng.latitude + " " + latLng.longitude, Toast.LENGTH_SHORT).show();
-
-                    addFlagToMap(latLng, "Our flag", "Defend your flag against the enemy.", R.drawable.flag_blue);
-
-                    Circle circle = googleMap.addCircle(new CircleOptions()
-                            .center(latLng)
-                            .radius(10000)
-                            .strokeColor(Color.RED)
-                            .fillColor(Color.BLUE));
-                }
-            });
-
-
-            googleMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
-                @Override
-                public void onMarkerDragStart(Marker marker) {
-                }
-
-                @Override
-                public void onMarkerDrag(Marker marker) {
-                }
-
-                @Override
-                public void onMarkerDragEnd(Marker marker) {
-                }
-            });
+            googleMap.setOnMapClickListener(this);
+            googleMap.setOnMarkerDragListener(this);
         }
     }
 
-    private void addFlagToMap(LatLng position, String name, String description, int iconID) {
+    private void fillItemsList() {
+        mItemsToAdd = new Stack<>();
+        mItemsToAdd.push(new TempMapItem(MapItemType.RED_BASE, "red_base", "red_base", R.drawable.red_base));
+        mItemsToAdd.push(new TempMapItem(MapItemType.BLUE_BASE, "blue_base", "blue_base", R.drawable.blue_base));
+        mItemsToAdd.push(new TempMapItem(MapItemType.RADIUS_POINT, "Radius", "Radius", R.drawable.bubble_purple));
+        mItemsToAdd.push(new TempMapItem(MapItemType.GAME_LOCATION, "Center point", "CenterPoint", R.drawable.bubble_blue));
+    }
+
+    private void drawRadiusCircle(Marker marker) {
+
+        if (!mMarkerIdToType.get(marker.getId()).equals(MapItemType.RADIUS_POINT)) {
+            return;
+        }
+
+        if (mRadiusCircle != null) {
+            mRadiusCircle.remove();
+        }
+
+        Marker gameCenter = mMapItemTypeToMarker.get(MapItemType.GAME_LOCATION);
+        float radius = calculateDistanceBetweenMarkers(gameCenter, marker);
+
+        mRadiusCircle = googleMap.addCircle(new CircleOptions()
+                .center(gameCenter.getPosition())
+                .radius(radius)
+                .strokeWidth(2)
+                .strokeColor(Color.GRAY));
+    }
+
+    private float calculateDistanceBetweenMarkers(Marker from, Marker to) {
+        LatLng center = from.getPosition();
+        Location fromLocation = new Location("");
+        fromLocation.setLongitude(center.longitude);
+        fromLocation.setLatitude(center.latitude);
+
+        LatLng radius = to.getPosition();
+        Location toLocation = new Location("");
+        toLocation.setLongitude(radius.longitude);
+        toLocation.setLatitude(radius.latitude);
+        return fromLocation.distanceTo(toLocation);
+    }
+
+    @Override
+    public void onMapClick(LatLng latLng) {
+        if (!mItemsToAdd.isEmpty()) {
+            TempMapItem itemToAdd = mItemsToAdd.pop();
+
+            Marker newMarker = addMarkerToMap(latLng, itemToAdd);
+
+            mMapItemTypeToMarker.put(itemToAdd.getMapItemType(), newMarker);
+            mMarkerIdToType.put(newMarker.getId(), itemToAdd.getMapItemType());
+
+            drawRadiusCircle(newMarker);
+        }
+    }
+
+    @Override
+    public void onMarkerDragStart(Marker marker) {
+        marker.hideInfoWindow();
+        drawRadiusCircle(marker);
+    }
+
+    @Override
+    public void onMarkerDrag(Marker marker) {
+        drawRadiusCircle(marker);
+    }
+
+    @Override
+    public void onMarkerDragEnd(Marker marker) {
+    }
+
+    enum MapItemType {
+        GAME_LOCATION,
+        RADIUS_POINT,
+        BLUE_BASE,
+        RED_BASE
+    }
+
+    private class TempMapItem {
+
+        private int mIcon;
+        private String mDescription;
+        private String mName;
+        private MapItemType mMapItemType;
+
+        public TempMapItem(MapItemType mapItem, String name, String description, int icon) {
+            this.mMapItemType = mapItem;
+            this.mDescription = description;
+            this.mName = name;
+            this.mIcon = icon;
+        }
+
+        public int getIcon() {
+            return mIcon;
+        }
+
+        public String getDescription() {
+            return mDescription;
+        }
+
+        public String getName() {
+            return mName;
+        }
+
+        public MapItemType getMapItemType() {
+            return mMapItemType;
+        }
+    }
+
+    private Marker addMarkerToMap(LatLng position, TempMapItem mapItem) {
         MarkerOptions myMarkerOptions = new MarkerOptions()
-                .title(name)
-                .snippet(description)
+                .title(mapItem.getName())
+                .snippet(mapItem.getDescription())
                 .position(position)
-                .anchor(0.0f, 1.0f)
-                .icon(BitmapDescriptorFactory.fromResource(iconID));
-        googleMap.addMarker(myMarkerOptions);
+                .anchor(0.5f, 0.5f)
+                .draggable(true)
+                .icon(BitmapDescriptorFactory.fromResource(mapItem.getIcon()));
+        return googleMap.addMarker(myMarkerOptions);
     }
 
     private void initView(Bundle savedInstanceState) {
@@ -161,6 +257,11 @@ public class CreateGameActivity extends CTFBaseActivity implements DatePickerDia
     @OnClick(R.id.game_create_button)
     public void onCreateGameButtonClick() {
 
+        if (!mItemsToAdd.isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Add all markers to map!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         Game game = new Game();
         game.setName(gameNameEditText.getText().toString());
         game.setDescription(gameDescriptionEditText.getText().toString());
@@ -171,6 +272,9 @@ public class CreateGameActivity extends CTFBaseActivity implements DatePickerDia
         game.setMaxPlayers(Integer.valueOf(maxPlayerEditText.getText().toString()));
         game.setVisibilityRange(Integer.valueOf(gameVisibilityRangeEditText.getText().toString()));
         game.setActionRange(Integer.valueOf(gameActionRangeEditText.getText().toString()));
+
+        game.setRadius((int) calculateDistanceBetweenMarkers(mMapItemTypeToMarker.get(MapItemType.GAME_LOCATION), mMapItemTypeToMarker.get(MapItemType.RADIUS_POINT)));
+        game.setLocation(new com.blstream.ctfclient.model.dto.Location(mMapItemTypeToMarker.get(MapItemType.GAME_LOCATION).getPosition()));
 
         createGame(game);
     }
@@ -206,8 +310,8 @@ public class CreateGameActivity extends CTFBaseActivity implements DatePickerDia
                 calendar.set(Calendar.MINUTE, minute);
                 break;
         }
-        selectedStartDateTextView.setText(isoFormat.format(calendar.getTime()));
 
+        selectedStartDateTextView.setText(isoFormat.format(calendar.getTime()));
     }
 
     @Override
@@ -219,7 +323,6 @@ public class CreateGameActivity extends CTFBaseActivity implements DatePickerDia
     public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
         updateSelectedStartDate(TIME_DIALOG_ID, 0, 0, 0, hourOfDay, minute);
     }
-
 
     private class GameRequestListener implements RequestListener<Game> {
         @Override
