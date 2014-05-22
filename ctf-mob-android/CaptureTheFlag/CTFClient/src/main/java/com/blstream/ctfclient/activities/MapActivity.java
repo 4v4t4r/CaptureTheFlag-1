@@ -17,7 +17,7 @@ import com.blstream.ctfclient.CTF;
 import com.blstream.ctfclient.R;
 import com.blstream.ctfclient.model.dto.Game;
 import com.blstream.ctfclient.model.dto.Location;
-import com.blstream.ctfclient.model.dto.Marker;
+import com.blstream.ctfclient.model.dto.Item;
 import com.blstream.ctfclient.model.dto.User;
 import com.blstream.ctfclient.model.dto.json.RegisterPlayerPositionResponse;
 import com.blstream.ctfclient.network.requests.CTFGetGameRequest;
@@ -92,7 +92,7 @@ public class MapActivity extends CTFBaseActivity implements GameBorderTask.OnGam
 
         @Override
         public void onRequestSuccess(RegisterPlayerPositionResponse response) {
-            Log.d(TAG, "onRequestSuccess " + response.toString() + " " + response.getMarkers().size());
+            Log.d(TAG, "onRequestSuccess " + response.toString() + " " + response.getItems().size());
 
             mGameInfo.setText(response.getGameSummary().toString());
 
@@ -102,30 +102,30 @@ public class MapActivity extends CTFBaseActivity implements GameBorderTask.OnGam
 
             mMarkers.clear();
 
-            for (Marker marker : response.getMarkers()) {
-                switch (marker.getType()) {
+            for (Item item : response.getItems()) {
+                switch (item.getType()) {
                     case BLUE_BASE: {
-                        addMarkerToMap(marker.getLocation().toLatLng(), "Blue base", "Blue base", R.drawable.blue_base);
+                        addMarkerToMap(item.getLocation().toLatLng(), "Blue base", "Blue base", R.drawable.blue_base);
                         break;
                     }
                     case RED_BASE: {
-                        addMarkerToMap(marker.getLocation().toLatLng(), "Red base", "Red base", R.drawable.red_base);
+                        addMarkerToMap(item.getLocation().toLatLng(), "Red base", "Red base", R.drawable.red_base);
                         break;
                     }
                     case BLUE_FLAG: {
-                        addMarkerToMap(marker.getLocation().toLatLng(), "Blue flag", "Blue flag", R.drawable.flag_blue);
+                        addMarkerToMap(item.getLocation().toLatLng(), "Blue flag", "Blue flag", R.drawable.flag_blue);
                         break;
                     }
                     case RED_FLAG: {
-                        addMarkerToMap(marker.getLocation().toLatLng(), "Red flag", "Red flag", R.drawable.flag_red);
+                        addMarkerToMap(item.getLocation().toLatLng(), "Red flag", "Red flag", R.drawable.flag_red);
                         break;
                     }
                     case PLAYER: {
 
-                        long id = marker.getId();
+                        long id = item.getId();
 
-                        if (mIdToTeamColor.containsKey(marker.getUrl())) {
-                            addCharacter(marker.getLocation().toLatLng(), mVisibilityRange, "Me", "Me", mIdToTeamColor.get(marker.getUrl()));
+                        if (mIdToTeamColor.containsKey(item.getUrl())) {
+                            addCharacter(item.getLocation().toLatLng(), mVisibilityRange, "Me", "Me", mIdToTeamColor.get(item.getUrl()));
                         } else {
                             CTFGetUserRequest getUserRequest = new CTFGetUserRequest(id);
                             getSpiceManager().execute(getUserRequest, getUserRequest.createCacheKey(), DurationInMillis.ONE_MINUTE, new GetUserRequestListener());

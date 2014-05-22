@@ -5,11 +5,12 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by mar on 29.04.14.
  */
-public class Marker extends AbstractObject {
+public class Item extends AbstractObject {
 
     private ItemType type;
     private float distance;
     private Location location;
+    private String game;
 
     public Location getLocation() {
         return location;
@@ -35,9 +36,17 @@ public class Marker extends AbstractObject {
         this.distance = distance;
     }
 
+    public String getGame() {
+        return game;
+    }
+
+    public void setGame(String game) {
+        this.game = game;
+    }
+
     @Override
     public String toString() {
-        return "Marker{" +
+        return "Item{" +
                 "type=" + type +
                 ", distance=" + distance +
                 ", location=" + location +

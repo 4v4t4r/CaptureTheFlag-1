@@ -1,7 +1,7 @@
 package com.blstream.ctfclient.model.dto.json;
 
 import com.blstream.ctfclient.model.dto.GameSummary;
-import com.blstream.ctfclient.model.dto.Marker;
+import com.blstream.ctfclient.model.dto.Item;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -13,18 +13,18 @@ public class RegisterPlayerPositionResponse {
 
     @SerializedName("game")
     private GameSummary game;
-    private List<Marker> markers;
+    private List<Item> items;
 
     public GameSummary getGameSummary() {
         return game;
     }
 
-    public List<Marker> getMarkers() {
-        return markers;
+    public List<Item> getItems() {
+        return items;
     }
 
-    public void setMarkers(List<Marker> markers) {
-        this.markers = markers;
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
 
     public void setGameSummary(GameSummary game) {

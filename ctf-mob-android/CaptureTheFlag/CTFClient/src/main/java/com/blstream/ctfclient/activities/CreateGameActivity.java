@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,7 +16,9 @@ import android.widget.Toast;
 import com.blstream.ctfclient.CTF;
 import com.blstream.ctfclient.R;
 import com.blstream.ctfclient.model.dto.Game;
+import com.blstream.ctfclient.model.dto.Item;
 import com.blstream.ctfclient.network.requests.CTFCreateGameRequest;
+import com.blstream.ctfclient.network.requests.CTFCreateItemRequest;
 import com.fourmob.datetimepicker.date.DatePickerDialog;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -47,6 +50,9 @@ import butterknife.OnClick;
 public class CreateGameActivity extends CTFBaseActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, GoogleMap.OnMapClickListener, GoogleMap.OnMarkerDragListener {
     public static final String DATEPICKER_TAG = "datepicker";
     public static final String TIMEPICKER_TAG = "timepicker";
+
+    private static final String TAG = CreateGameActivity.class.getSimpleName();
+
     private GoogleMap googleMap;
     private CTFCreateGameRequest gameRequest;
 
@@ -284,6 +290,61 @@ public class CreateGameActivity extends CTFBaseActivity implements DatePickerDia
         getSpiceManager().execute(gameRequest, gameRequest.createCacheKey(), DurationInMillis.ONE_MINUTE, new GameRequestListener());
     }
 
+    private void addRedBase(String url) {
+        Item item = new Item();
+        item.setLocation(new com.blstream.ctfclient.model.dto.Location(mMapItemTypeToMarker.get(MapItemType.RED_BASE).getPosition()));
+        item.setType(Item.ItemType.RED_BASE);
+        item.setGame(url);
+        item.setName("RED_BASE");
+
+        sendItem(item);
+    }
+
+    private void addRedFlag(String url) {
+        Item item = new Item();
+        item.setLocation(new com.blstream.ctfclient.model.dto.Location(mMapItemTypeToMarker.get(MapItemType.RED_BASE).getPosition()));
+        item.setType(Item.ItemType.RED_FLAG);
+        item.setGame(url);
+        item.setName("RED_FLAG");
+
+        sendItem(item);
+    }
+
+    private void addBlueBase(String url) {
+        Item item = new Item();
+        item.setLocation(new com.blstream.ctfclient.model.dto.Location(mMapItemTypeToMarker.get(MapItemType.BLUE_BASE).getPosition()));
+        item.setType(Item.ItemType.BLUE_BASE);
+        item.setGame(url);
+        item.setName("BLUE_BASE");
+
+        sendItem(item);
+    }
+
+    private void addBlueFlag(String url) {
+        Item item = new Item();
+        item.setLocation(new com.blstream.ctfclient.model.dto.Location(mMapItemTypeToMarker.get(MapItemType.BLUE_BASE).getPosition()));
+        item.setType(Item.ItemType.BLUE_FLAG);
+        item.setGame(url);
+        item.setName("BLUE_FLAG");
+
+        sendItem(item);
+    }
+
+    private void sendItem(Item item) {
+        CTFCreateItemRequest ctfCreateItemRequest = new CTFCreateItemRequest(item);
+        getSpiceManager().execute(ctfCreateItemRequest, ctfCreateItemRequest.createCacheKey(), DurationInMillis.ONE_MINUTE, new RequestListener<Item>() {
+            @Override
+            public void onRequestFailure(SpiceException spiceException) {
+                Log.d(TAG, "onRequestFailure " + spiceException.getLocalizedMessage());
+            }
+
+            @Override
+            public void onRequestSuccess(Item item) {
+                Log.d(TAG, "onRequestSuccess " + item.getUrl());
+            }
+        });
+    }
+
     private void updateSelectedStartDate(int dialogType, int year, int month, int day, int hour, int minute) {
         Calendar calendar = GregorianCalendar.getInstance();
         calendar.setTimeZone(TimeZone.getDefault());
@@ -327,12 +388,18 @@ public class CreateGameActivity extends CTFBaseActivity implements DatePickerDia
     private class GameRequestListener implements RequestListener<Game> {
         @Override
         public void onRequestFailure(SpiceException spiceException) {
-            Toast.makeText(getApplicationContext(), spiceException.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "GameRequestListener.onRequestFailure " + spiceException.getLocalizedMessage());
         }
 
         @Override
         public void onRequestSuccess(Game game) {
-            Toast.makeText(getApplicationContext(), "GameRequestListener success", Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "GameRequestListener.onRequestSuccess " + game.getUrl());
+            addBlueBase(game.getUrl());
+            addBlueFlag(game.getUrl());
+
+            addRedBase(game.getUrl());
+            addRedFlag(game.getUrl());
+
             finish();
         }
     }
