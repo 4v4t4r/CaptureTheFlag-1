@@ -76,6 +76,8 @@
             android:id="@+id/max_players_edit_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:digits="0123456789"
+            android:inputType="numberDecimal"
             android:hint="Enter number of max players"/>
 
         <TextView
@@ -110,6 +112,8 @@
             android:id="@+id/game_visibility_range_edit_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:digits="0123456789"
             android:hint="Enter visibility range"/>
 
         <TextView
@@ -121,6 +125,8 @@
         <EditText
             android:id="@+id/game_action_range_edit_text"
             android:layout_width="wrap_content"
+            android:inputType="numberDecimal"
+            android:digits="0123456789"
             android:layout_height="wrap_content"
             android:hint="Enter action range"/>
 

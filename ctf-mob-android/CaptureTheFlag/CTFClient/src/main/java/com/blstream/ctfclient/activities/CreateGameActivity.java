@@ -263,26 +263,57 @@ public class CreateGameActivity extends CTFBaseActivity implements DatePickerDia
     @OnClick(R.id.game_create_button)
     public void onCreateGameButtonClick() {
 
+        if (isFormValid()) {
+            Game game = new Game();
+            game.setName(gameNameEditText.getText().toString());
+            game.setDescription(gameDescriptionEditText.getText().toString());
+            game.setStartTime(selectedStartDateTextView.getText().toString());
+            game.setStatus(((Game.GameStatus) gameStatusSpinner.getSelectedItem()));
+            game.setType((Game.GameType) gameTypeSpiner.getSelectedItem());
+
+            game.setMaxPlayers(Integer.valueOf(maxPlayerEditText.getText().toString()));
+            game.setVisibilityRange(Integer.valueOf(gameVisibilityRangeEditText.getText().toString()));
+            game.setActionRange(Integer.valueOf(gameActionRangeEditText.getText().toString()));
+
+            game.setRadius((int) calculateDistanceBetweenMarkers(mMapItemTypeToMarker.get(MapItemType.GAME_LOCATION), mMapItemTypeToMarker.get(MapItemType.RADIUS_POINT)));
+            game.setLocation(new com.blstream.ctfclient.model.dto.Location(mMapItemTypeToMarker.get(MapItemType.GAME_LOCATION).getPosition()));
+
+            createGame(game);
+        }
+    }
+
+    private boolean isFormValid() {
         if (!mItemsToAdd.isEmpty()) {
             Toast.makeText(getApplicationContext(), "Add all markers to map!", Toast.LENGTH_LONG).show();
-            return;
+            return false;
         }
 
-        Game game = new Game();
-        game.setName(gameNameEditText.getText().toString());
-        game.setDescription(gameDescriptionEditText.getText().toString());
-        game.setStartTime(selectedStartDateTextView.getText().toString());
-        game.setStatus(((Game.GameStatus) gameStatusSpinner.getSelectedItem()));
-        game.setType((Game.GameType) gameTypeSpiner.getSelectedItem());
+        if (gameNameEditText.getText().toString().trim().isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Add game name!", Toast.LENGTH_LONG).show();
+            return false;
+        }
 
-        game.setMaxPlayers(Integer.valueOf(maxPlayerEditText.getText().toString()));
-        game.setVisibilityRange(Integer.valueOf(gameVisibilityRangeEditText.getText().toString()));
-        game.setActionRange(Integer.valueOf(gameActionRangeEditText.getText().toString()));
+        if (gameDescriptionEditText.getText().toString().trim().isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Add game description!", Toast.LENGTH_LONG).show();
+            return false;
+        }
 
-        game.setRadius((int) calculateDistanceBetweenMarkers(mMapItemTypeToMarker.get(MapItemType.GAME_LOCATION), mMapItemTypeToMarker.get(MapItemType.RADIUS_POINT)));
-        game.setLocation(new com.blstream.ctfclient.model.dto.Location(mMapItemTypeToMarker.get(MapItemType.GAME_LOCATION).getPosition()));
+        if (maxPlayerEditText.getText().toString().trim().isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Set max players count!", Toast.LENGTH_LONG).show();
+            return false;
+        }
 
-        createGame(game);
+        if (gameVisibilityRangeEditText.getText().toString().trim().isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Set visibility range!", Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        if (gameActionRangeEditText.getText().toString().trim().isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Set action range!", Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        return true;
     }
 
     private void createGame(final Game game) {
