@@ -12,15 +12,15 @@ import com.blstream.ctfclient.activities.MainActivity;
 
 public class SharedPreferencesUtils {
 
-    private static final String TAG =SharedPreferencesUtils.class.getSimpleName();
+    private static final String TAG = SharedPreferencesUtils.class.getSimpleName();
 
     private static final String FACEBOOK_TOKEN = "com.blstream.ctfclient.utils.facebook.token";
     private static final String TOKEN = "com.blstream.ctfclient.utils.api.token";
+    private static final String USER_NAME = "com.blstream.ctfclient.utils.api.username";
 
     //CGM
-    private static final String CGM_REG_ID = "com.blstream.ctfclient.utils.cgm.registration_id";
+    private static final String GCM_REG_ID = "com.blstream.ctfclient.utils.cgm.registration_id";
     private static final String PROPERTY_APP_VERSION = "com.blstream.ctfclient.utils.cgm.app.version";
-
 
 
     public static String getFaceBookToken(Context ctx) {
@@ -57,7 +57,7 @@ public class SharedPreferencesUtils {
 //        editor.commit();
 //    }
 
-    public static void clearToken(Context ctx){
+    public static void clearToken(Context ctx) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         prefs.edit().remove(TOKEN).apply();
     }
@@ -68,6 +68,23 @@ public class SharedPreferencesUtils {
         editor.putString(TOKEN, apiToken);
         editor.commit();
 
+    }
+
+    public static String getUserName(Context ctx) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        return prefs.getString(USER_NAME, null);
+    }
+
+    public static void clearUserName(Context ctx) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        prefs.edit().remove(USER_NAME).apply();
+    }
+
+    public static void setUserName(Context ctx, String apiToken) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(USER_NAME, apiToken);
+        editor.commit();
     }
 
     public static String getToken(Context ctx) {
@@ -84,25 +101,26 @@ public class SharedPreferencesUtils {
         return context.getSharedPreferences(MainActivity.class.getSimpleName(),
                 Context.MODE_PRIVATE);
     }
+
     /**
      * Set the registration ID for application on GCM service.
      */
-    public static void setDeviceId(Context context, String newRegistrationId ) {
+    public static void setDeviceId(Context context, String newRegistrationId) {
         final SharedPreferences prefs = getGCMPreferences(context);
-        prefs.edit().putString(CGM_REG_ID, newRegistrationId).commit();
+        prefs.edit().putString(GCM_REG_ID, newRegistrationId).commit();
     }
 
     /**
      * Gets the current registration ID for application on GCM service.
-     * <p>
+     * <p/>
      * If result is empty, the app needs to register.
      *
      * @return registration ID, or empty string if there is no existing
-     *         registration ID.
+     * registration ID.
      */
     public static String getDeviceId(Context context) {
         final SharedPreferences prefs = getGCMPreferences(context);
-        String registrationId = prefs.getString(CGM_REG_ID, "");
+        String registrationId = prefs.getString(GCM_REG_ID, "");
         if (registrationId.isEmpty()) {
             Log.i(TAG, "Registration not found.");
             return "";

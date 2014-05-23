@@ -92,6 +92,7 @@ public class MapActivity extends CTFBaseActivity implements GameBorderTask.OnGam
 
         @Override
         public void onRequestSuccess(RegisterPlayerPositionResponse response) {
+            //FIXME NPE
             Log.d(TAG, "onRequestSuccess " + response.toString() + " " + response.getItems().size());
 
             mGameInfo.setText(response.getGameSummary().toString());

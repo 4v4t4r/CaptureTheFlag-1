@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.blstream.ctfclient.CTF;
 import com.blstream.ctfclient.R;
@@ -78,6 +79,8 @@ public class UsersFragment extends Fragment {
                 clearToken();
             }
         });
+
+        ((TextView) rootView.findViewById(R.id.users)).setText(SharedPreferencesUtils.getUserName(rootView.getContext()) + " " + SharedPreferencesUtils.getToken(rootView.getContext()));
 
         rootView.findViewById(R.id.logout_btn).setOnClickListener(btnLogoutListener);
         return rootView;

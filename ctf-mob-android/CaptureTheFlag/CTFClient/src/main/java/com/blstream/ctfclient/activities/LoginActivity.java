@@ -162,6 +162,9 @@ public class LoginActivity extends CTFBaseActivity {
 
     private void loginUser(User user) {
         tokenRequest = new CTFTokenRequest(user);
+
+        SharedPreferencesUtils.setUserName(getApplicationContext(), user.getUserName());
+
         getSpiceManager().execute(tokenRequest, tokenRequest.createCacheKey(), DurationInMillis.ONE_MINUTE, new TokenRequestListener());
     }
 
@@ -209,7 +212,6 @@ public class LoginActivity extends CTFBaseActivity {
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-
     private void clearForm() {
         findViewById(R.id.sign_in_button).setEnabled(true);
         ((EditText) findViewById(R.id.password)).setText("");
@@ -233,6 +235,7 @@ public class LoginActivity extends CTFBaseActivity {
             findViewById(R.id.sign_in_button).setEnabled(true);
 
             Toast.makeText(getApplicationContext(), spiceException.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            SharedPreferencesUtils.clearUserName(getApplicationContext());
             showProgress(false);
         }
 
