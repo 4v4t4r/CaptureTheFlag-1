@@ -1,121 +1,86 @@
 package com.blstream.ctfclient.service;
 
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
-import android.location.LocationManager;
+import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.util.Log;
+import android.text.format.DateUtils;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesClient;
+import com.google.android.gms.location.LocationClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
 
-public class LocationService extends Service {
-    private static final String TAG = LocationService.class.getCanonicalName();
-    // @Inject
-    LocationManager locationManager;
-//    @Inject Bus bus;
+public class LocationService extends Service implements GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnectionFailedListener, LocationListener {
 
-    private static final int LOCATION_INTERVAL = 1000;
-    private static final float LOCATION_DISTANCE = 5f;
+    private static final int UPDATE_INTERVAL_IN_SECONDS = 5;
+    private static final int FASTEST_INTERVAL_IN_SECONDS = 1;
 
-    private class LocationListener implements android.location.LocationListener {
-        Location lastLocation;
+    private static final long UPDATE_INTERVAL = DateUtils.SECOND_IN_MILLIS * UPDATE_INTERVAL_IN_SECONDS;
+    private static final long FASTEST_INTERVAL = DateUtils.SECOND_IN_MILLIS * FASTEST_INTERVAL_IN_SECONDS;
 
-        public LocationListener(String provider) {
-            Log.e(TAG, "LocationListener " + provider);
-            lastLocation = new Location(provider);
-        }
+    private LocationClient mLocationClient;
 
-        @Override
-        public void onLocationChanged(Location location) {
-            Log.e(TAG, "onLocationChanged: " + location);
-            lastLocation.set(location);
-//            bus.post(new PositionEvent(new LatLng(location.getLatitude(), location.getLongitude())));
-        }
+    private final IBinder mBinder = new LocalBinder();
 
+    private CTFLocationInterface mCtfLocationInterface;
 
+    public interface CTFLocationInterface {
+        public void onLocationUpdate(Location location);
 
-        @Override
-        public void onProviderDisabled(String provider) {
-            Log.e(TAG, "onProviderDisabled: " + provider);
-        }
+        public void onServiceDisconnected();
 
-        @Override
-        public void onProviderEnabled(String provider) {
-            Log.e(TAG, "onProviderEnabled: " + provider);
-        }
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-            Log.e(TAG, "onStatusChanged: " + provider);
-        }
+        public void onLocationServiceError();
 
     }
 
-    LocationListener[] locationListeners = new LocationListener[]{
-            new LocationListener(LocationManager.GPS_PROVIDER),
-            new LocationListener(LocationManager.NETWORK_PROVIDER)
-    };
-
-    @Override
-    public IBinder onBind(Intent arg0) {
-        return null;
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.e(TAG, "onStartCommand");
-        super.onStartCommand(intent, flags, startId);
-        return START_STICKY;
-    }
-
-    @Override
-    public void onCreate() {
-        Log.e(TAG, "onCreate");
-        initializeLocationManager();
-
-        try {
-            locationManager.requestLocationUpdates(
-                    LocationManager.NETWORK_PROVIDER, LOCATION_INTERVAL, LOCATION_DISTANCE,
-                    locationListeners[1]);
-        } catch (SecurityException ex) {
-            Log.i(TAG, "fail to request location update, ignore", ex);
-        } catch (IllegalArgumentException ex) {
-            Log.d(TAG, "network provider does not exist, " + ex.getMessage());
-        }
-
-        try {
-            locationManager.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER, LOCATION_INTERVAL, LOCATION_DISTANCE,
-                    locationListeners[0]);
-        } catch (SecurityException ex) {
-            Log.i(TAG, "fail to request location update, ignore", ex);
-        } catch (IllegalArgumentException ex) {
-            Log.d(TAG, "gps provider does not exist " + ex.getMessage());
+    public class LocalBinder extends Binder {
+        public LocationService getService(CTFLocationInterface ctfLocationInterface) {
+            mCtfLocationInterface = ctfLocationInterface;
+            return LocationService.this;
         }
     }
 
     @Override
-    public void onDestroy() {
-        Log.e(TAG, "onDestroy");
-        super.onDestroy();
-        if (locationManager != null) {
-            for (int i = 0; i < locationListeners.length; i++) {
-                try {
-                    locationManager.removeUpdates(locationListeners[i]);
-                } catch (Exception ex) {
-                    Log.i(TAG, "fail to remove location listners, ignore", ex);
-                }
-            }
-        }
+    public boolean onUnbind(Intent intent) {
+        mCtfLocationInterface = null;
+        mLocationClient.disconnect();
+        return super.onUnbind(intent);
     }
 
-    private void initializeLocationManager() {
-        Log.e(TAG, "initializeLocationManager");
-        if (locationManager == null) {
-            locationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
-        }
+    @Override
+    public IBinder onBind(Intent intent) {
+        mLocationClient = new LocationClient(this, this, this);
+        mLocationClient.connect();
+        return mBinder;
     }
 
+    @Override
+    public void onConnected(Bundle bundle) {
+
+        LocationRequest locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(UPDATE_INTERVAL);
+        locationRequest.setFastestInterval(FASTEST_INTERVAL);
+
+        mLocationClient.requestLocationUpdates(locationRequest, this);
+    }
+
+    @Override
+    public void onDisconnected() {
+        mCtfLocationInterface.onServiceDisconnected();
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        mCtfLocationInterface.onLocationServiceError();
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        mCtfLocationInterface.onLocationUpdate(location);
+    }
 }
