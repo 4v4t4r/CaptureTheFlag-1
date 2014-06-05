@@ -3,8 +3,13 @@ package com.blstream.ctfclient.activities;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,13 +21,14 @@ import android.widget.Toast;
 import com.blstream.ctfclient.CTF;
 import com.blstream.ctfclient.R;
 import com.blstream.ctfclient.model.dto.Game;
-import com.blstream.ctfclient.model.dto.Location;
 import com.blstream.ctfclient.model.dto.Item;
+import com.blstream.ctfclient.model.dto.Location;
 import com.blstream.ctfclient.model.dto.User;
 import com.blstream.ctfclient.model.dto.json.RegisterPlayerPositionResponse;
 import com.blstream.ctfclient.network.requests.CTFGetGameRequest;
 import com.blstream.ctfclient.network.requests.CTFGetUserRequest;
 import com.blstream.ctfclient.network.requests.CTFRegisterPlayerPositionRequest;
+import com.blstream.ctfclient.service.LocationService;
 import com.blstream.ctfclient.utils.GameBorderTask;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -45,7 +51,7 @@ import java.util.HashMap;
 /**
  * Created by Rafał Zadrożny on 1/27/14.
  */
-public class MapActivity extends CTFBaseActivity implements GameBorderTask.OnGameBorderTaskListener {
+public class MapActivity extends CTFBaseActivity implements GameBorderTask.OnGameBorderTaskListener, LocationService.CTFLocationInterface {
 
     private static final String TAG = MapActivity.class.getSimpleName();
 
@@ -61,6 +67,8 @@ public class MapActivity extends CTFBaseActivity implements GameBorderTask.OnGam
     private HashMap<String, Integer> mIdToTeamColor;
     private com.google.android.gms.maps.model.Marker mCharacter;
     private TextView mGameInfo;
+
+    private LocationService mLocationService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,19 +90,72 @@ public class MapActivity extends CTFBaseActivity implements GameBorderTask.OnGam
 
         mMarkers = new ArrayList<>();
         mIdToTeamColor = new HashMap<>();
+
+        mLocationService = new LocationService();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Intent intent = new Intent(this, LocationService.class);
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+    }
+
+    private ServiceConnection mConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName className, IBinder service) {
+            LocationService.LocalBinder binder = (LocationService.LocalBinder) service;
+            binder.getService(MapActivity.this);
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+
+        }
+    };
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unbindService(mConnection);
+    }
+
+    @Override
+    public void onLocationUpdate(android.location.Location location) {
+        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+
+        addMe(latLng, mActionRange, "Me", "Me", R.drawable.bubble_orange);
+        CTFRegisterPlayerPositionRequest registerPlayerPositionRequest = new CTFRegisterPlayerPositionRequest(mGameId, new Location(location));
+        getSpiceManager().execute(registerPlayerPositionRequest, registerPlayerPositionRequest.createCacheKey(), DurationInMillis.ONE_MINUTE, new RegisterPlayerPositionRequestListener());
+    }
+
+    @Override
+    public void onServiceDisconnected() {
+
+    }
+
+    @Override
+    public void onLocationServiceError() {
+
     }
 
     private class RegisterPlayerPositionRequestListener implements RequestListener<RegisterPlayerPositionResponse> {
         @Override
         public void onRequestFailure(SpiceException spiceException) {
-            Log.d(TAG, "onRequestFailure " + spiceException.getLocalizedMessage());
+            Log.e(TAG, "onRequestFailure " + spiceException.getLocalizedMessage());
         }
 
         @Override
         public void onRequestSuccess(RegisterPlayerPositionResponse response) {
-            Log.d(TAG, "onRequestSuccess " + response.toString() + " " + response.getItems().size());
 
             mGameInfo.setText(response.getGameSummary().toString());
+
+            if (response.getItems() == null) {
+                return;
+            }
+
+            Log.d(TAG, "onRequestSuccess " + response.toString() + " " + response.getItems().size());
 
             for (com.google.android.gms.maps.model.Marker marker : mMarkers) {
                 marker.remove();
@@ -142,7 +203,7 @@ public class MapActivity extends CTFBaseActivity implements GameBorderTask.OnGam
 
         @Override
         public void onRequestFailure(SpiceException spiceException) {
-            Log.d(TAG, "onRequestFailure " + spiceException.getLocalizedMessage());
+            Log.e(TAG, "onRequestFailure " + spiceException.getLocalizedMessage());
         }
 
         @Override
@@ -168,12 +229,12 @@ public class MapActivity extends CTFBaseActivity implements GameBorderTask.OnGam
     private class GetGameRequestListener implements RequestListener<Game> {
         @Override
         public void onRequestFailure(SpiceException spiceException) {
-            Log.d(TAG, "onRequestFailure " + spiceException.getLocalizedMessage());
+            Log.e(TAG, "onRequestFailure " + spiceException.getLocalizedMessage());
         }
 
         @Override
         public void onRequestSuccess(Game response) {
-            Log.d(TAG, "onRequestSuccess " + response.toString() + " " + response.toString());
+            Log.d(TAG, "onRequestSuccess " + response.toString());
 
             moveCamera(response.getLocation().toLatLng(), response.getRadius());
 
@@ -214,7 +275,6 @@ public class MapActivity extends CTFBaseActivity implements GameBorderTask.OnGam
         try {
             if (status != ConnectionResult.SUCCESS) {
                 GooglePlayServicesUtil.getErrorDialog(status, this, RQS_GooglePlayServices).show();
-
             }
         } catch (Exception e) {
             Log.e("Error: GooglePlayServiceUtil: ", "", e);
@@ -236,28 +296,30 @@ public class MapActivity extends CTFBaseActivity implements GameBorderTask.OnGam
                 if (mGoogleMap == null) {
                     return false;
                 }
+
+                mGoogleMap.setMyLocationEnabled(true);
+                mGoogleMap.setBuildingsEnabled(true);
+                mGoogleMap.setMyLocationEnabled(false);
+                mGoogleMap.getUiSettings().setCompassEnabled(false);
+                mGoogleMap.getUiSettings().setZoomControlsEnabled(false);
+                mGoogleMap.getUiSettings().setZoomGesturesEnabled(true);
+                mGoogleMap.getUiSettings().setRotateGesturesEnabled(true);
+                mGoogleMap.getUiSettings().setMyLocationButtonEnabled(false);
+                mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                mGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                    @Override
+                    public void onMapClick(LatLng latLng) {
+
+                        addMe(latLng, mActionRange, "Me", "Me", R.drawable.bubble_orange);
+
+                        CTFRegisterPlayerPositionRequest registerPlayerPositionRequest = new CTFRegisterPlayerPositionRequest(mGameId, new Location(latLng));
+                        getSpiceManager().execute(registerPlayerPositionRequest, registerPlayerPositionRequest.createCacheKey(), DurationInMillis.ONE_MINUTE, new RegisterPlayerPositionRequestListener());
+                    }
+                });
+
+                CTFGetGameRequest ctfGetGameRequest = new CTFGetGameRequest(mGameId);
+                getSpiceManager().execute(ctfGetGameRequest, ctfGetGameRequest.createCacheKey(), DurationInMillis.ONE_MINUTE, new GetGameRequestListener());
             }
-            mGoogleMap.setMyLocationEnabled(true);
-            mGoogleMap.setBuildingsEnabled(true);
-            mGoogleMap.getUiSettings().setCompassEnabled(false);
-            mGoogleMap.getUiSettings().setZoomControlsEnabled(false);
-            mGoogleMap.getUiSettings().setZoomGesturesEnabled(true);
-            mGoogleMap.getUiSettings().setRotateGesturesEnabled(true);
-            mGoogleMap.getUiSettings().setMyLocationButtonEnabled(false);
-            mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-            mGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                @Override
-                public void onMapClick(LatLng latLng) {
-
-                    addMe(latLng, mActionRange, "Me", "Me", R.drawable.bubble_orange);
-
-                    CTFRegisterPlayerPositionRequest registerPlayerPositionRequest = new CTFRegisterPlayerPositionRequest(mGameId, new Location(latLng));
-                    getSpiceManager().execute(registerPlayerPositionRequest, registerPlayerPositionRequest.createCacheKey(), DurationInMillis.ONE_MINUTE, new RegisterPlayerPositionRequestListener());
-                }
-            });
-
-            CTFGetGameRequest ctfGetGameRequest = new CTFGetGameRequest(mGameId);
-            getSpiceManager().execute(ctfGetGameRequest, ctfGetGameRequest.createCacheKey(), DurationInMillis.ONE_MINUTE, new GetGameRequestListener());
 
         } catch (Exception e) {
             Log.d(CTF.TAG, "Exception", e);

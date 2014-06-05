@@ -7,8 +7,8 @@ import com.google.android.gms.maps.model.LatLng;
  */
 public class Location {
 
-    private float lat;
-    private float lon;
+    private double lat;
+    private double lon;
 
     public Location(float lat, float lon) {
         this.lat = lat;
@@ -16,11 +16,16 @@ public class Location {
     }
 
     public Location(LatLng latLng) {
-        this.lat = (float) latLng.latitude;
-        this.lon = (float) latLng.longitude;
+        this.lat = latLng.latitude;
+        this.lon = latLng.longitude;
     }
 
-    public float getLat() {
+    public Location(android.location.Location location) {
+        this.lat = location.getLatitude();
+        this.lon = location.getLongitude();
+    }
+
+    public double getLat() {
         return lat;
     }
 
@@ -28,7 +33,7 @@ public class Location {
         this.lat = lat;
     }
 
-    public float getLon() {
+    public double getLon() {
         return lon;
     }
 
@@ -42,14 +47,6 @@ public class Location {
                 "lat=" + lat +
                 ", lon=" + lon +
                 '}' + toLatLng().toString();
-    }
-
-    public void addToLat(float val) {
-        lat += val;
-    }
-
-    public void addToLon(float val) {
-        lon += val;
     }
 
     public LatLng toLatLng() {

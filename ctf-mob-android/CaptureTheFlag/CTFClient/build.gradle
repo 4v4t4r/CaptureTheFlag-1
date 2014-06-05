@@ -75,7 +75,7 @@ dependencies {
     compile 'com.google.maps.android:android-maps-utils:0.3'
     compile 'com.octo.android.robospice:robospice-retrofit:1.4.9'
     compile 'com.google.code.gson:gson:2.2.4'
-    compile 'com.google.android.gms:play-services:4.0.30'
+    compile 'com.google.android.gms:play-services:4.3.23'
     compile group:'com.squareup.picasso', name:'picasso', version:'2.2.0'
     compile 'com.jakewharton:butterknife:5.0.0'
     compile 'com.github.flavienlaurent.datetimepicker:library:0.0.1'

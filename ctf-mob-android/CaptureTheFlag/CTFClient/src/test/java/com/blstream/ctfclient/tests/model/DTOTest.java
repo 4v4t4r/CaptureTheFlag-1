@@ -1,7 +1,6 @@
 package com.blstream.ctfclient.tests.model;
 
 import com.blstream.ctfclient.RobolectricGradleTestRunner;
-import com.blstream.ctfclient.model.dto.Character;
 import com.blstream.ctfclient.model.dto.User;
 import com.blstream.ctfclient.model.enums.CharacterType;
 import com.google.gson.Gson;
@@ -44,8 +43,7 @@ public class DTOTest {
         Gson gson = new GsonBuilder().create();
         String json = gson.toJson(user);
 
-        String message = new StringBuilder("Is JSON: ").append(json).append("\n, but should be : ").append(expectedResult)
-                .toString();
+        String message = new StringBuilder("Is JSON: ").append(json).append("\n, but should be : ").append(expectedResult).toString();
         assertTrue(message, expectedResult.equals(json));
     }
 

@@ -23,10 +23,16 @@ public class SplashActivity extends CTFBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-
         InitGCMUtils.initGCM(getApplicationContext());
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
 
         final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressbar);
+        progressBar.setProgress(0);
+
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -34,7 +40,7 @@ public class SplashActivity extends CTFBaseActivity {
                 startActivity(myIntent);
                 finish();
             }
-        },SPLASH_TIMER);
+        }, SPLASH_TIMER);
 
         mHandler.postDelayed(new Runnable() {
             @Override
@@ -43,17 +49,17 @@ public class SplashActivity extends CTFBaseActivity {
                 mHandler.postDelayed(this, SPLASH_UPDATE);
             }
         }, SPLASH_UPDATE);
-
     }
 
     private String getToken() {
         return SharedPreferencesUtils.getToken(getApplicationContext());
     }
-    @Override
-    protected void onPause() {
-        super.onPause();
 
-        if(mHandler != null){
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if (mHandler != null) {
             mHandler.removeCallbacks(null);
             mHandler.removeCallbacksAndMessages(null);
         }

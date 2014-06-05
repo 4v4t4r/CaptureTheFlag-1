@@ -13,6 +13,8 @@ public class RegisterPlayerPositionResponse {
 
     @SerializedName("game")
     private GameSummary game;
+
+    @SerializedName("markers")
     private List<Item> items;
 
     public GameSummary getGameSummary() {
@@ -29,5 +31,13 @@ public class RegisterPlayerPositionResponse {
 
     public void setGameSummary(GameSummary game) {
         this.game = game;
+    }
+
+    @Override
+    public String toString() {
+        return "RegisterPlayerPositionResponse{" +
+                "game=" + ((game == null) ? "null" : game.toString()) +
+                ", items=" + ((items == null) ? "null" : items.toString()) +
+                '}';
     }
 }
